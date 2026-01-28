@@ -314,7 +314,7 @@
                 <input id="custDepartment" class="form-input" placeholder="Department">
             </div>
             <div class="form-group">
-                <input id="custEmail" type="email" class="form-input" placeholder="Email Address">
+                <input id="custEmail" type="email" class="form-input" placeholder="Email Address *">
                 <input id="custPhone" class="form-input" placeholder="Contact Number *">
             </div>
             <div class="form-group">
@@ -818,7 +818,7 @@
             const delivery = document.getElementById("custDelivery").value.trim();
             const customRequest = document.getElementById("customRequest")?.value.trim() || "";
 
-            if (email && !/^\S+@\S+\.\S+$/.test(email)) { alert("Please enter a valid email address"); return; }
+            if (!email || !/^\S+@\S+\.\S+$/.test(email)) { alert("Please enter a valid email address (*)"); return; }
             if (!customerName || !tin || !phone || !delivery) { alert("Please fill all required fields (*)"); return; }
 
             // START PROGRESS ANIMATION
@@ -1170,6 +1170,3 @@
 </body>
 
 </html>
-
-
-
