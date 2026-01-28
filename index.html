@@ -39,6 +39,10 @@
             <button class="nav-btn" onclick="showPage('page-download', this)">
                 <img src="https://drive.google.com/thumbnail?id=1qp4Goakfs4cN_614-ZGCKi0hjQ7Q9ajC"> List
             </button>
+            <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"
+                style="font-size:1.2rem; padding:0 10px;" title="Toggle Theme">
+                ☀️
+            </button>
         </div>
     </nav>
 
@@ -378,7 +382,7 @@
     <!-- SCRIPT (PRESERVED LOGIC) -->
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbyV43iGrh0OW0n9an3sHU-SEQDQ7H9UckVgqeihNg8Emuy4rxpUzgThjprINjcC4JMw6Q/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbx3FaomIjKGcS_Kmtqlqsy2TVZGEjKw9tGrTOnclQWUhhvf3t9T3k1Vi_J9dA62KOflsg/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -817,15 +821,48 @@
             if (email && !/^\S+@\S+\.\S+$/.test(email)) { alert("Please enter a valid email address"); return; }
             if (!customerName || !tin || !phone || !delivery) { alert("Please fill all required fields (*)"); return; }
 
-            // Show loading
+            // START PROGRESS ANIMATION
+            const overlay = document.getElementById("progressOverlay");
+            const fill = document.getElementById("progressFill");
+            const pContent = document.getElementById("progressContent");
+            const sContent = document.getElementById("successContent");
+
+            overlay.style.display = "flex";
+            pContent.style.display = "block";
+            sContent.style.display = "none";
+            fill.style.width = "0%";
+
+            // Simulate progress up to 90%
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress < 90) {
+                    progress += Math.random() * 10;
+                    fill.style.width = progress + "%";
+                }
+            }, 300);
+
             google.script.run
                 .withSuccessHandler((orderNo) => {
-                    saveLastOrder(Object.values(cart), { orderNo: orderNo, department: department });
-                    alert("✅ Order confirmed successfully!");
-                    cart = {};
-                    renderCart();
-                    closeCustomerModal();
-                    toggleCart();
+                    clearInterval(interval);
+                    fill.style.width = "100%";
+
+                    setTimeout(() => {
+                        // Switch to success
+                        pContent.style.display = "none";
+                        sContent.style.display = "block";
+
+                        saveLastOrder(Object.values(cart), { orderNo: orderNo, department: department });
+                        cart = {};
+                        renderCart();
+                        closeCustomerModal();
+
+                        // Close overlay after success message
+                        setTimeout(() => {
+                            overlay.style.display = "none";
+                            toggleCart(); // Re-open or close cart as needed
+                        }, 2500);
+
+                    }, 600);
                 })
                 .placeOrder({
                     customerName, department, email, tin, vrn, phone, delivery, customRequest,
@@ -889,7 +926,29 @@
             setView(saved);
             showPage("page-home");
             startNewArrivalScroll();
+
+            // Theme Init
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.body.setAttribute("data-theme", "dark");
+                const btn = document.getElementById("themeToggleBtn");
+                if (btn) btn.innerText = "🌙";
+            }
         });
+
+        function toggleTheme() {
+            const current = document.body.getAttribute("data-theme");
+            const btn = document.getElementById("themeToggleBtn");
+            if (current === "dark") {
+                document.body.removeAttribute("data-theme");
+                localStorage.setItem("theme", "light");
+                btn.innerText = "☀️";
+            } else {
+                document.body.setAttribute("data-theme", "dark");
+                localStorage.setItem("theme", "dark");
+                btn.innerText = "🌙";
+            }
+        }
 
         function openStockUpload() { document.getElementById("stockFile").click(); }
 
@@ -1083,7 +1142,31 @@
         });
 
     </script>
+    <!-- PROGRESS OVERLAY -->
+    <div id="progressOverlay" class="progress-overlay">
+        <div class="progress-card">
+            <div id="progressContent">
+                <div class="progress-title">Processing Order...</div>
+                <div class="progress-desc">Please wait while we confirm your items.</div>
+                <div class="progress-track">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- Success State -->
+            <div id="successContent" style="display:none;">
+                <div class="success-icon-container" style="display:block;">
+                    <div class="checkmark-circle">
+                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="progress-title" style="color:var(--primary);">Order Confirmed!</div>
+                <div class="progress-desc">Thank you for shopping with us.</div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
-
