@@ -430,7 +430,8 @@
         }
 
         let priceMap = {};
-        let cards = [], cart = {};
+        let allProducts = []; // Stores data instead of DOM
+        let cart = {};
         let newArrivalScrollTimer = null;
         let isNewArrivalScrolling = true;
 
@@ -532,14 +533,12 @@
 
         function buildCards(data) {
             priceMap = {};
-            const c = document.getElementById("cards");
-            const dropdown = document.getElementById("catDropdown"); // Custom Dropdown
+            allProducts = []; // Clear current list
+            const dropdown = document.getElementById("catDropdown");
             const cats = new Set();
-            c.innerHTML = "";
 
-            // Setup Dropdown with "All"
+            // Reset Dropdown
             dropdown.innerHTML = '';
-
             const allItem = document.createElement("div");
             allItem.className = "dropdown-item selected";
             allItem.textContent = "All Categories";
@@ -550,71 +549,42 @@
             if (newArrivalsBox) newArrivalsBox.innerHTML = "";
 
             data.forEach(r => {
-                // r index: 0=barcode, 1=cat, 2=name, 3=code, 4=pack, 5=price, 8=img, 9=new
-                const isNew = String(r[9]).toUpperCase() === "YES";
-                const imgUrl = r[8];
+                // r: [0:barcode, 1:cat, 2:name, 3:code, 4:pack, 5:price, 8:img, 9:new]
+                const item = {
+                    barcode: r[0],
+                    cat: r[1],
+                    name: r[2],
+                    code: r[3],
+                    pack: r[4],
+                    price: Number(r[5]),
+                    img: r[8],
+                    isNew: String(r[9]).toUpperCase() === "YES",
+                    // Pre-compute search string for speed
+                    searchStr: (r[2] + " " + r[0] + " " + r[3]).toLowerCase()
+                };
 
-                // Process New Arrivals
-                if (isNew && imgUrl && newArrivalsBox) {
+                priceMap[item.barcode] = item;
+                cats.add(item.cat);
+                allProducts.push(item);
+
+                // Process New Arrivals (Visuals only, kept separate)
+                if (item.isNew && item.img && newArrivalsBox) {
                     const promo = document.createElement("div");
-                    promo.style.minWidth = "160px";
                     promo.className = "product-card";
+                    promo.style.minWidth = "160px";
                     promo.style.padding = "10px";
                     promo.innerHTML = `
-        <img src="${imgUrl}" style="width:100%; height:100px; object-fit:contain; cursor:zoom-in;" onclick="openImageViewer('${imgUrl}')">
-        <div class="card-title" style="font-size:0.9rem; margin-top:5px;">${r[2]}</div>
-        <div style="font-size:0.8rem; color:#666; margin-bottom:4px;">Pack: ${r[4]}</div>
-        <div class="price-tag" style="font-size:0.9rem;">TZS ${Number(r[5]).toLocaleString()}</div>
-        <button class="btn-primary" style="width:100%; margin-top:5px; font-size:0.8rem; padding:5px;" onclick="quickAddNew('${r[0]}')">Add</button>
-      `;
+                        <img src="${item.img}" style="width:100%; height:100px; object-fit:contain; cursor:zoom-in;" onclick="openImageViewer('${item.img}')">
+                        <div class="card-title" style="font-size:0.9rem; margin-top:5px;">${item.name}</div>
+                        <div style="font-size:0.8rem; color:#666; margin-bottom:4px;">Pack: ${item.pack}</div>
+                        <div class="price-tag" style="font-size:0.9rem;">TZS ${item.price.toLocaleString()}</div>
+                        <button class="btn-primary" style="width:100%; margin-top:5px; font-size:0.8rem; padding:5px;" onclick="quickAddNew('${item.barcode}')">Add</button>
+                    `;
                     newArrivalsBox.appendChild(promo);
                 }
-
-                priceMap[r[0]] = { barcode: r[0], name: r[2], pack: r[4], price: Number(r[5]) };
-                cats.add(r[1]);
-
-                // Main Card
-                const d = document.createElement("div");
-                d.className = "product-card";
-                d.dataset.category = r[1].toLowerCase(); // important for filtering
-
-                // Using Data attributes for easy JS access
-                d.innerHTML = `
-      <div class="card-header">
-        <div class="card-title">${r[2]}</div>
-        <div class="card-meta">
-          <span class="card-pack">${r[4]}</span>
-          <span class="card-code">#${r[3]}</span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="price-tag">TZS ${Number(r[5]).toLocaleString()}</div>
-        <div class="add-controls">
-           <input class="qty qty-input" type="number" min="1" value="1">
-           <button class="add-btn add-btn-mini">＋</button>
-        </div>
-      </div>`;
-
-                c.appendChild(d);
-
-                // Cache data for faster filtering
-                cards.push({
-                    el: d,
-                    cat: r[1].toLowerCase(),
-                    text: (r[2] + " " + r[0]).toLowerCase()
-                });
-
-                d.querySelector(".add-btn").onclick = () => {
-                    const q = Number(d.querySelector(".qty").value);
-                    const bc = r[0];
-                    if (cart[bc]) cart[bc].qty += q;
-                    else cart[bc] = { name: r[2], pack: r[4], barcode: bc, price: Number(r[5]), qty: q };
-                    triggerCartAnimation();
-                    renderCart();
-                };
             });
 
-            // Populate Dropdown Items
+            // Populate Dropdown
             cats.forEach(v => {
                 const item = document.createElement("div");
                 item.className = "dropdown-item";
@@ -624,6 +594,7 @@
             });
 
             renderQuickAdd();
+            renderGrid(); // Initial Render
         }
 
         // New Category Selection Logic
@@ -658,35 +629,83 @@
             }
 
             toggleCategoryMenu(); // Close menu
-            applyFilters(); // Centralized Logic
+            renderGrid(); // Centralized Logic
         }
 
-        function applyFilters() {
+        /* Render Grid (Virtualization) */
+        function renderGrid() {
+            const cardsEl = document.getElementById("cards");
             const activeItem = document.querySelector('.dropdown-item.selected');
-            // If no item is selected (shouldn't happen), default to "" (All)
-            // Safety check: ensure we handle textContent safely
             let cat = "";
-            if (activeItem) {
-                const text = activeItem.textContent;
-                if (text !== "All Categories") {
-                    cat = text.toLowerCase();
-                }
+            if (activeItem && activeItem.textContent !== "All Categories") {
+                cat = activeItem.textContent.toLowerCase();
             }
 
-            const search = document.getElementById("search").value.toLowerCase();
+            const search = document.getElementById("search").value.toLowerCase().trim();
 
-            // Use cached data for performance
-            cards.forEach(item => {
-                const matchesCat = cat === "" || item.cat === cat;
-                const matchesSearch = item.text.includes(search);
-
-                // Toggle display on the cached DOM element
-                if (matchesCat && matchesSearch) {
-                    item.el.style.display = "flex";
-                } else {
-                    item.el.style.display = "none";
-                }
+            // 1. Filter
+            const filtered = allProducts.filter(item => {
+                const matchesCat = cat === "" || item.cat.toLowerCase() === cat;
+                const matchesSearch = search === "" || item.searchStr.includes(search);
+                return matchesCat && matchesSearch;
             });
+
+            // 2. Slice (Max 50 items for speed)
+            const MAX_ITEMS = 50;
+            const slices = filtered.slice(0, MAX_ITEMS);
+
+            // 3. Construct String
+            const html = slices.map(item => `
+                <div class="product-card" data-category="${item.cat.toLowerCase()}">
+                    <div class="card-header">
+                        <div class="card-title">${item.name}</div>
+                        <div class="card-meta">
+                            <span class="card-pack">${item.pack}</span>
+                            <span class="card-code">#${item.code}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="price-tag">TZS ${item.price.toLocaleString()}</div>
+                        <div class="add-controls">
+                            <input class="qty qty-input" type="number" min="1" value="1" id="qty_${item.barcode}">
+                            <button class="add-btn add-btn-mini" onclick="addToCartFromGrid('${item.barcode}', 'qty_${item.barcode}', this)">＋</button>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+
+            cardsEl.innerHTML = html;
+
+            // 4. Show "More results" indicator if needed
+            if (filtered.length > MAX_ITEMS) {
+                cardsEl.innerHTML += `
+                    <div style="grid-column:1/-1; text-align:center; padding:2rem; color:#999;">
+                        Showing top ${MAX_ITEMS} of ${filtered.length} results. Refine search to see more.
+                    </div>
+                `;
+            } else if (filtered.length === 0) {
+                cardsEl.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem;">No products found.</div>`;
+            }
+        }
+
+        // Optimized Add to Cart
+        function addToCartFromGrid(barcode, inputId, btn) {
+            const qtyInput = document.getElementById(inputId);
+            const qty = Number(qtyInput.value) || 1;
+            const item = priceMap[barcode];
+
+            if (cart[barcode]) cart[barcode].qty += qty;
+            else cart[barcode] = { ...item, qty: qty }; // Spread item to copy props
+
+            triggerCartAnimation();
+            renderCart();
+
+            // Visual Feedback
+            const original = btn.innerHTML;
+            btn.innerHTML = "✓";
+            setTimeout(() => {
+                btn.innerHTML = original;
+            }, 1000);
         }
 
         function debounce(func, wait) {
@@ -697,7 +716,7 @@
             };
         }
 
-        const debouncedSearch = debounce(applyFilters, 300);
+        const debouncedSearch = debounce(renderGrid, 300);
 
         function triggerCartAnimation() {
             const btn = document.getElementById("cartTrigger");
@@ -1066,6 +1085,4 @@
     </script>
 </body>
 
-
 </html>
-
