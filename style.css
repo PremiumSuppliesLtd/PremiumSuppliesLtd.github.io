@@ -25,6 +25,158 @@
     --font-sans: 'Inter', sans-serif;
 }
 
+[data-theme="dark"] {
+    --bg-body-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --bg-nav-gradient: linear-gradient(to right, #022c22, #064e3b);
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-light: #e2e8f0;
+    --text-muted: #94a3b8;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+
+    /* Dark Theme Specials */
+    --accent: #f59e0b;
+
+}
+
+/* Adjustments for Dark Theme Components */
+[data-theme="dark"] .product-card {
+    border-color: #334155;
+    background: #1e293b;
+}
+
+[data-theme="dark"] .card-header {
+    background: linear-gradient(to bottom right, #334155, #1e293b);
+    border-bottom-color: #475569;
+}
+
+[data-theme="dark"] .card-title {
+    color: #fdba74;
+    /* Lighter Orange */
+}
+
+[data-theme="dark"] .filter-bar,
+[data-theme="dark"] .cart-footer,
+[data-theme="dark"] .cart-item {
+    background: #1e293b;
+    border-color: #334155;
+    color: var(--text-main);
+}
+
+[data-theme="dark"] .search-input,
+[data-theme="dark"] .category-select,
+[data-theme="dark"] .toggle-btn {
+    background: #334155;
+    border-color: #475569;
+    color: white;
+}
+
+[data-theme="dark"] .modal-content {
+    background: #1e293b;
+    border-color: #334155;
+    color: white;
+}
+
+[data-theme="dark"] .form-input {
+    background: #334155;
+    border-color: #475569;
+    color: white;
+}
+
+[data-theme="dark"] .add-controls,
+[data-theme="dark"] .item-info small {
+    background: #334155;
+    border-color: #475569;
+}
+
+[data-theme="dark"] .qty-input {
+    color: white;
+}
+
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4 {
+    color: var(--text-main) !important;
+}
+
+
+
+[data-theme="dark"] .card-footer {
+    background: transparent;
+}
+
+[data-theme="dark"] #quickAddPanel h4,
+[data-theme="dark"] .process-card h2,
+[data-theme="dark"] .process-card h4 {
+    color: var(--accent) !important;
+}
+
+/* Frequent Items Buttons */
+[data-theme="dark"] #quickAddItems .btn-secondary {
+    background: #334155;
+    color: var(--text-main);
+    border: 1px solid #475569;
+}
+
+[data-theme="dark"] #quickAddItems .btn-secondary:hover {
+    background: #475569;
+}
+
+[data-theme="dark"] .cat-trigger {
+    background: var(--bg-card);
+    color: var(--text-main);
+    border-color: #475569;
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--text-main);
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] .dropdown-item:hover,
+[data-theme="dark"] .dropdown-item.selected {
+    background: #334155;
+    color: white;
+}
+
+[data-theme="dark"] .panel-btn {
+    background: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border-color: #475569 !important;
+}
+
+[data-theme="dark"] .panel-btn.active {
+    background: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+}
+
+[data-theme="dark"] #draftMenu {
+    background: var(--bg-card);
+    border-color: #475569;
+}
+
+[data-theme="dark"] #draftMenu .nav-btn {
+    color: var(--text-main);
+}
+
+[data-theme="dark"] #draftMenu .nav-btn:hover {
+    background: #334155;
+}
+
+[data-theme="dark"] .search-input {
+    background: #0f172a;
+    border-color: #334155;
+    color: white;
+}
+
+[data-theme="dark"] .filter-scroll-container {
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -243,20 +395,26 @@ textarea {
 }
 
 /* ::::: CONTROLS & FILTERS ::::: */
-.filter-bar {
-    background: linear-gradient(to right, #ffffff, #f0fdf4);
-    padding: 1rem;
+/* Sticky Wrapper */
+.filter-scroll-container {
     position: sticky;
-    top: 70px;
-    /* Adjusted for taller nav */
-    z-index: 90;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    top: 62px;
+    z-index: 900;
+    width: 100%;
+    background: linear-gradient(to right, #ffffff, #f0fdf4);
+    /* Match background */
+}
+
+.filter-bar {
+    background: transparent;
+    /* Move background to wrapper for seamless look */
+    padding: 1rem;
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
     align-items: center;
     border-bottom: 1px solid #d1fae5;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0;
     margin-bottom: 1rem;
 }
 
@@ -835,6 +993,7 @@ textarea {
 
     /* Scrollable wrapper for the grid */
     .filter-scroll-container {
+        top: 0;
         overflow-x: auto;
         width: 100%;
         scrollbar-width: none;
@@ -979,4 +1138,243 @@ textarea {
 
 .pop-anim {
     animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ::::: PROGRESS OVERLAY ::::: */
+.progress-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.progress-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.progress-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+.progress-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.progress-track {
+    width: 100%;
+    height: 12px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    width: 0%;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(5, 150, 105, 0.3);
+}
+
+/* Success Animation */
+.success-icon-container {
+    display: none;
+    /* Hidden by default */
+    margin-bottom: 1rem;
+}
+
+.checkmark-circle {
+    width: 80px;
+    height: 80px;
+    background: #d1fae5;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
+    animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.checkmark {
+    width: 40px;
+    height: 40px;
+    stroke: var(--primary);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: drawCheck 0.6s ease forwards 0.2s;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+    }
+
+    80% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes drawCheck {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ::::: DARK THEME EXTENSIONS ::::: */
+/* Dark Theme Cart Panel */
+[data-theme="dark"] .cart-sidebar {
+    background: var(--bg-card) !important;
+    border-left: 1px solid #334155;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .cart-header {
+    background: linear-gradient(to right, #022c22, #064e3b);
+    border-bottom: 1px solid #334155;
+}
+
+[data-theme="dark"] .cart-footer {
+    background: var(--bg-card);
+    border-top: 1px solid #334155;
+}
+
+[data-theme="dark"] .cart-item {
+    background: #1e293b;
+    /* Match card bg */
+    border-color: #334155;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .item-info strong {
+    color: #e2e8f0;
+    /* Light text for item name */
+}
+
+[data-theme="dark"] .item-info small {
+    background: #0f172a;
+    /* Darker bg for details */
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .qty-controls {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+[data-theme="dark"] .qty-btn {
+    background: #334155;
+    color: white;
+}
+
+[data-theme="dark"] .total-row {
+    color: var(--accent);
+    /* Pop text for total */
+}
+
+/* Fix Draft/List Visibility */
+[data-theme="dark"] ul li,
+[data-theme="dark"] ol li {
+    color: var(--text-main);
+}
+
+/* ::::: FINAL DARK THEME POLISH ::::: */
+/* Draft Menu - Orange Buttons */
+[data-theme="dark"] #draftMenu .nav-btn {
+    color: var(--accent) !important;
+}
+
+/* Cancel / Secondary Buttons - Visible Text */
+[data-theme="dark"] .btn-secondary {
+    background: #475569;
+    color: white !important;
+    border: 1px solid #64748b;
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+    background: #334155;
+}
+
+/* Close Buttons (Generic & Specific) */
+[data-theme="dark"] .close-cart,
+[data-theme="dark"] .modal-content button[onclick*="close"],
+[data-theme="dark"] #imageViewer button {
+    color: white !important;
+}
+
+/* Last Orders Modal - Premium Look */
+[data-theme="dark"] #lastOrdersModal .modal-content {
+    background: var(--bg-card);
+    /* Dark Slate */
+    border: 1px solid #334155;
+}
+
+[data-theme="dark"] #lastOrdersModal h3 {
+    color: var(--accent) !important;
+    border-bottom: 2px solid var(--primary-dark);
+}
+
+[data-theme="dark"] #lastOrdersList .process-card {
+    background: #334155;
+    border: 1px solid #475569;
+    color: var(--text-main);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] #lastOrdersList .process-card div {
+    color: var(--text-light) !important;
+}
+
+
+/* Eco Page - Round Images in Dark Theme */
+[data-theme="dark"] #page-new .product-card img {
+    border-radius: 50%;
+    background: white;
+    /* Ensure contrast */
+    padding: 5px;
+    height: 100px;
+    width: 100px;
+    /* Force spread to circle */
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
