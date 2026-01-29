@@ -397,16 +397,24 @@
     </div>
 
     <!-- Smart Suggestion Modal -->
+    <!-- Smart Suggestion Modal -->
     <div id="suggestionModal" class="modal" style="z-index:9990;">
         <div class="modal-content">
             <h3 id="suggestionTitle">💡 Quick Reorder?</h3>
-            <p id="suggestionText" style="color:#666; font-size:0.9rem; margin-bottom:1rem;"></p>
+            <!-- Removed fixed color #666, used class or inherit -->
+            <p id="suggestionText" style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;"></p>
+
+            <!-- Use a class-like background via variable or simple style that works in dark mode -->
             <div id="suggestionDetail"
-                style="background:#f9fafb; padding:10px; border-radius:8px; margin-bottom:1rem; font-size:0.85rem;">
+                style="background:rgba(128,128,128,0.1); padding:10px; border-radius:8px; margin-bottom:1rem; font-size:0.85rem;">
             </div>
 
-            <div class="modal-actions">
+            <div class="modal-actions" style="flex-wrap:wrap; gap:10px;">
                 <button class="btn-secondary" onclick="closeSuggestionModal()">Cancel</button>
+                <!-- Secondary Action (e.g. Switch to Old Item) -->
+                <button class="btn-primary" id="suggestionSecondaryBtn"
+                    style="display:none; background:var(--accent); border-color:var(--accent);">Switch</button>
+                <!-- Primary Action (e.g. Continue with New Item) -->
                 <button class="btn-primary" id="suggestionConfirmBtn">Add Item</button>
             </div>
         </div>
@@ -420,7 +428,7 @@
     <!-- SCRIPT (PRESERVED LOGIC) -->
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbzU0k84Jtup0lKhWeXY9HG8_kmz-VToCpDmwWJ7iSBL8PeFuizDK5o9r3GpbWBFbWLVhw/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzonA_jrX1HPpcyX2CGE20UkgQh7zCavk4FmDX2lTxLtWRitIVgO9Idc4Xl_A9Z3bb8UA/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -833,28 +841,36 @@
             // Check History
             const exactMatch = historyMap[barcode];
 
-            // 1. Exact Match Reorder
+            // 1. Exact Match Reorder (Quantity difference check?)
+            // Only show if the quantity is DIFFERENT from what they are adding, or just as a helpful reminder?
+            // User wants to "select the last option" -> Implies they might have selected a default 1, but used to buy 5.
             if (exactMatch) {
-                // If they are ordering same item, just hint the last qty if different?
-                // Or just show a toast?
-                // User Request: "show last purchased order qty... easy for my client to make order fast"
-
-                // Let's show modal if it's been a while, or maybe always for confirmation?
-                // To be less annoying, let's only interrupt if there is insightful info.
-                // BUT user said "it should show... so restart the same quantity"
-
-                showSuggestionModal(
-                    "🔁 Reorder Item",
-                    `Last ordered: <strong>${exactMatch.qty}</strong> on ${new Date(exactMatch.date).toLocaleDateString()}`,
-                    `You are adding: <strong>${item.name}</strong> (Qty: ${qty})`,
-                    () => {
-                        // On confirm: Add to cart
-                        addToCartFinal(barcode, qty);
-                        successCb();
-                        closeSuggestionModal();
-                    }
-                );
-                return;
+                const lastQty = Number(exactMatch.qty);
+                if (lastQty !== qty) {
+                    showSuggestionModal(
+                        "🔁 Reorder Same Qty?",
+                        `Last ordered: <strong>${lastQty}</strong> on ${new Date(exactMatch.date).toLocaleDateString()}`,
+                        `You chose: <strong>${item.name}</strong> (Qty: ${qty})`,
+                        () => {
+                            // Confirm: Add what I chose (New Qty)
+                            addToCartFinal(barcode, qty);
+                            successCb();
+                            closeSuggestionModal();
+                        },
+                        "Use Current Qty (" + qty + ")",
+                        // Secondary: Add Last Qty
+                        () => {
+                            addToCartFinal(barcode, lastQty);
+                            alert("Added " + lastQty + " items!"); // minor feedback
+                            closeSuggestionModal();
+                        },
+                        "Use Last Qty (" + lastQty + ")"
+                    );
+                    return;
+                }
+                // If qty matches, just add silent? Or still confirm? 
+                // Let's silent add if date is recent? 
+                // User instruction suggests they value this feature. Let's assume silent if strictly identical, else notify.
             }
 
             // 2. Category Match (Brand Switch?)
@@ -876,7 +892,14 @@
                             successCb();
                             closeSuggestionModal();
                         },
-                        "Continue with New Item"
+                        "Continue with " + item.name,
+                        // Secondary: Switch to Old Item
+                        () => {
+                            addToCartFinal(lastSimilar.barcode, lastSimilar.qty);
+                            alert("Switched to " + lastSimilar.name + " (" + lastSimilar.qty + ")");
+                            closeSuggestionModal();
+                        },
+                        "Switch to " + lastSimilar.name
                     );
                     return;
                 }
@@ -896,13 +919,25 @@
             renderCart();
         }
 
-        function showSuggestionModal(title, text, detail, confirmAction, confirmText = "Add Item") {
+        function showSuggestionModal(title, text, detail, confirmAction, confirmText = "Add Item", secondaryAction = null, secondaryText = "") {
             document.getElementById("suggestionTitle").innerText = title;
             document.getElementById("suggestionText").innerHTML = text;
             document.getElementById("suggestionDetail").innerHTML = detail;
+
+            // Primary
             const btn = document.getElementById("suggestionConfirmBtn");
             btn.innerText = confirmText;
-            btn.onclick = confirmAction; // Bind new action
+            btn.onclick = confirmAction;
+
+            // Secondary
+            const secBtn = document.getElementById("suggestionSecondaryBtn");
+            if (secondaryAction) {
+                secBtn.style.display = "inline-block";
+                secBtn.innerText = secondaryText;
+                secBtn.onclick = secondaryAction;
+            } else {
+                secBtn.style.display = "none";
+            }
 
             document.getElementById("suggestionModal").style.display = "flex";
         }
