@@ -396,6 +396,22 @@
             style="position:absolute; top:20px; right:20px; background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
     </div>
 
+    <!-- Smart Suggestion Modal -->
+    <div id="suggestionModal" class="modal" style="z-index:9990;">
+        <div class="modal-content">
+            <h3 id="suggestionTitle">💡 Quick Reorder?</h3>
+            <p id="suggestionText" style="color:#666; font-size:0.9rem; margin-bottom:1rem;"></p>
+            <div id="suggestionDetail"
+                style="background:#f9fafb; padding:10px; border-radius:8px; margin-bottom:1rem; font-size:0.85rem;">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeSuggestionModal()">Cancel</button>
+                <button class="btn-primary" id="suggestionConfirmBtn">Add Item</button>
+            </div>
+        </div>
+    </div>
+
     <a href="https://wa.me/255753300000" target="_blank"
         style="position:fixed; bottom:90px; right:20px; background:#25d366; color:white; width:50px; height:50px; border-radius:50%; display:flex; justify-content:center; align-items:center; box-shadow:0 4px 10px rgba(0,0,0,0.2); font-size:1.5rem; text-decoration:none; z-index:800; transition:transform 0.2s;">
         💬
@@ -404,7 +420,7 @@
     <!-- SCRIPT (PRESERVED LOGIC) -->
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbxIrwxIoI-tYikWaGwdNpcVpyFe8fOQy5Nt7DYsna8JnNUlx1cgCMLMGy_azDNuUn-XZA/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzU0k84Jtup0lKhWeXY9HG8_kmz-VToCpDmwWJ7iSBL8PeFuizDK5o9r3GpbWBFbWLVhw/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -448,6 +464,17 @@
             }
         };
 
+        /* API ACTIONS */
+        // Explicitly exposing this to call it cleanly
+        const Api = {
+            getLastPurchases: (email) => {
+                fetch(API_URL + "?action=getLastPurchases&email=" + encodeURIComponent(email))
+                    .then(r => r.json()).then(d => {
+                        if (d.result) processHistory(d.result);
+                    });
+            }
+        };
+
         // Fetch Metadata (Download URL)
         // Only run if API_URL is set (simple check)
         if (API_URL && !API_URL.includes("REPLACE")) {
@@ -460,6 +487,9 @@
         let priceMap = {};
         let allProducts = []; // Stores data instead of DOM
         let cart = {};
+        let lastPurchases = []; // Array of {date, barcode, name, cat, qty}
+        let historyMap = {}; // barcode -> latest entry
+        let catHistoryMap = {}; // cat -> [entries]
         let newArrivalScrollTimer = null;
         let isNewArrivalScrolling = true;
 
@@ -468,6 +498,7 @@
         updateLoginUI(storedEmail);
 
         google.script.run.withSuccessHandler(buildCards).getPriceList(storedEmail || "");
+        if (storedEmail) Api.getLastPurchases(storedEmail);
         renderQuickAdd();
 
         /* LOGIN / ACCESS CONTROL */
@@ -490,11 +521,13 @@
             // Show loading state if desired, or just refresh
             document.getElementById("cards").innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem;">Updating prices...</div>';
             google.script.run.withSuccessHandler(buildCards).getPriceList(email);
+            Api.getLastPurchases(email);
         }
 
         function logout() {
             if (!confirm("Are you sure you want to logout? Prices will be hidden.")) return;
             localStorage.removeItem("userEmail");
+            lastPurchases = []; historyMap = {}; catHistoryMap = {}; // Clear history
             updateLoginUI(null);
 
             // Refetch Data without email (masked)
@@ -774,24 +807,127 @@
             }
         }
 
-        // Optimized Add to Cart
         function addToCartFromGrid(barcode, inputId, btn) {
             const qtyInput = document.getElementById(inputId);
             const qty = Number(qtyInput.value) || 1;
-            const item = priceMap[barcode];
+            smartAddToCart(barcode, qty, () => {
+                // Visual Feedback callback
+                const original = btn.innerHTML;
+                btn.innerHTML = "✓";
+                setTimeout(() => { btn.innerHTML = original; }, 1000);
+            });
+        }
 
+        // Wrapper for New Arrivals too
+        function quickAddNew(barcode) {
+            smartAddToCart(barcode, 1, () => {
+                alert("Item added to cart!");
+            });
+        }
+
+        // CORE SMART LOGIC
+        function smartAddToCart(barcode, qty, successCb) {
+            const item = priceMap[barcode];
+            if (!item) return;
+
+            // Check History
+            const exactMatch = historyMap[barcode];
+
+            // 1. Exact Match Reorder
+            if (exactMatch) {
+                // If they are ordering same item, just hint the last qty if different?
+                // Or just show a toast?
+                // User Request: "show last purchased order qty... easy for my client to make order fast"
+
+                // Let's show modal if it's been a while, or maybe always for confirmation?
+                // To be less annoying, let's only interrupt if there is insightful info.
+                // BUT user said "it should show... so restart the same quantity"
+
+                showSuggestionModal(
+                    "🔁 Reorder Item",
+                    `Last ordered: <strong>${exactMatch.qty}</strong> on ${new Date(exactMatch.date).toLocaleDateString()}`,
+                    `You are adding: <strong>${item.name}</strong> (Qty: ${qty})`,
+                    () => {
+                        // On confirm: Add to cart
+                        addToCartFinal(barcode, qty);
+                        successCb();
+                        closeSuggestionModal();
+                    }
+                );
+                return;
+            }
+
+            // 2. Category Match (Brand Switch?)
+            // Only if no exact match, check if they bought other items in this category
+            const catItems = catHistoryMap[item.cat];
+            if (catItems && catItems.length > 0) {
+                // Find most recent distinct item in this category
+                // Sort by date desc
+                catItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+                const lastSimilar = catItems[0];
+
+                if (lastSimilar.barcode !== barcode) {
+                    showSuggestionModal(
+                        "🥣 Similar Item Found",
+                        `Last time you bought: <br><strong>${lastSimilar.name}</strong><br>Qty: ${lastSimilar.qty} (${new Date(lastSimilar.date).toLocaleDateString()})`,
+                        `You are now choosing <strong>${item.name}</strong>. Switch?`,
+                        () => {
+                            addToCartFinal(barcode, qty); // Confirm adding the NEW item (ignoring suggestion)
+                            successCb();
+                            closeSuggestionModal();
+                        },
+                        "Continue with New Item"
+                    );
+                    return;
+                }
+            }
+
+            // No history -> Just add
+            addToCartFinal(barcode, qty);
+            successCb();
+        }
+
+        function addToCartFinal(barcode, qty) {
+            const item = priceMap[barcode];
             if (cart[barcode]) cart[barcode].qty += qty;
             else cart[barcode] = { ...item, qty: qty }; // Spread item to copy props
 
             triggerCartAnimation();
             renderCart();
+        }
 
-            // Visual Feedback
-            const original = btn.innerHTML;
-            btn.innerHTML = "✓";
-            setTimeout(() => {
-                btn.innerHTML = original;
-            }, 1000);
+        function showSuggestionModal(title, text, detail, confirmAction, confirmText = "Add Item") {
+            document.getElementById("suggestionTitle").innerText = title;
+            document.getElementById("suggestionText").innerHTML = text;
+            document.getElementById("suggestionDetail").innerHTML = detail;
+            const btn = document.getElementById("suggestionConfirmBtn");
+            btn.innerText = confirmText;
+            btn.onclick = confirmAction; // Bind new action
+
+            document.getElementById("suggestionModal").style.display = "flex";
+        }
+
+        function closeSuggestionModal() {
+            document.getElementById("suggestionModal").style.display = "none";
+        }
+
+        function processHistory(data) {
+            lastPurchases = data;
+            historyMap = {};
+            catHistoryMap = {};
+
+            data.forEach(d => {
+                // Keep latest per barcode
+                if (!historyMap[d.barcode] || new Date(d.date) > new Date(historyMap[d.barcode].date)) {
+                    historyMap[d.barcode] = d;
+                }
+
+                // Group by cat
+                if (d.cat) {
+                    if (!catHistoryMap[d.cat]) catHistoryMap[d.cat] = [];
+                    catHistoryMap[d.cat].push(d);
+                }
+            });
         }
 
         function debounce(func, wait) {
