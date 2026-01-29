@@ -428,7 +428,7 @@
     <!-- SCRIPT (PRESERVED LOGIC) -->
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycby0GJbEvkQMTl6fyenTaLxdFr8Vy6FIzEMCHzD4I_MLbjGIO_z-3u1xezor07ORZGtJzA/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxnVciuFQNWjOdW_fQAVy_TSzkhEfoxpYO8_p9e96D_BlvlB3JtB_U0vPnTGOJFdZjNDA/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -485,12 +485,12 @@
 
         // Fetch Metadata (Download URL)
         // Only run if API_URL is set (simple check)
-        // if (API_URL && !API_URL.includes("REPLACE")) {
-        //     fetch(API_URL + "?action=getMetadata")
-        //         .then(r => r.json())
-        //         .then(d => { if (d.result) downloadUrl = d.result.downloadUrl; })
-        //         .catch(e => console.log("Metadata error", e));
-        // }
+        if (API_URL && !API_URL.includes("REPLACE")) {
+            fetch(API_URL + "?action=getMetadata")
+                .then(r => r.json())
+                .then(d => { if (d.result) downloadUrl = d.result.downloadUrl; })
+                .catch(e => console.log("Metadata error", e));
+        }
 
         let priceMap = {};
         let allProducts = []; // Stores data instead of DOM
@@ -553,46 +553,6 @@
                 loginBtn.style.display = "inline-flex";
                 logoutBtn.style.display = "none";
             }
-        }
-
-        function downloadExcel() {
-            const btn = document.querySelector("#page-download button");
-            if (btn) {
-                var originalText = btn.innerText;
-                btn.innerText = "⏳ Generating...";
-                btn.disabled = true;
-            }
-
-            fetch(API_URL + "?action=downloadPriceList")
-                .then(r => r.json())
-                .then(data => {
-                    if (data.result && data.result.base64) {
-                        const byteCharacters = atob(data.result.base64);
-                        const byteNumbers = new Array(byteCharacters.length);
-                        for (let i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([byteArray], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-                        const link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = data.result.fileName || "PriceList.xlsx";
-                        link.click();
-                    } else {
-                        alert("Error generating file: " + (data.error || "Unknown"));
-                    }
-                })
-                .catch(e => alert("Network error: " + e))
-                .finally(() => {
-                    if (btn) {
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                    }
-                });
-        }
-        function downloadDraftExcel() {
-            // Basic implementation for draft excel
-            alert("Draft feature uses CSV export. Implemented locally.");
         }
 
         function reorderLastOrder() {
@@ -1456,11 +1416,10 @@
                     </div>
                 </div>
                 <div class="progress-title" style="color:var(--primary);">Order Confirmed!</div>
-                <div class="progress-desc">Thank you for ordering with us.</div>
+                <div class="progress-desc">Thank you for ordering😊 with us.</div>
             </div>
         </div>
     </div>
 </body>
 
 </html>
-
