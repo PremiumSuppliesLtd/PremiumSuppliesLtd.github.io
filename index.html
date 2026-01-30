@@ -497,7 +497,7 @@
         let cart = {};
         let lastPurchases = []; // Array of {date, barcode, name, cat, qty}
         let historyMap = {}; // barcode -> latest entry
-        let catHistoryMap = {}; // cat -> [entries]
+        let baseNameMap = {}; // baseName -> [entries]
         let newArrivalScrollTimer = null;
         let isNewArrivalScrolling = true;
 
@@ -535,7 +535,7 @@
         function logout() {
             if (!confirm("Are you sure you want to logout? Prices will be hidden.")) return;
             localStorage.removeItem("userEmail");
-            lastPurchases = []; historyMap = {}; catHistoryMap = {}; // Clear history
+            lastPurchases = []; historyMap = {}; baseNameMap = {}; // Clear history
             updateLoginUI(null);
 
             // Refetch Data without email (masked)
@@ -873,14 +873,17 @@
                 // User instruction suggests they value this feature. Let's assume silent if strictly identical, else notify.
             }
 
-            // 2. Category Match (Brand Switch?)
-            // Only if no exact match, check if they bought other items in this category
-            const catItems = catHistoryMap[item.cat];
-            if (catItems && catItems.length > 0) {
-                // Find most recent distinct item in this category
+            // 2. Base Name Match (Brand Switch?)
+            // Check if they bought other items with same first 2 words
+            const words = item.name.trim().split(/\s+/);
+            const baseName = words.length >= 2 ? (words[0] + " " + words[1]).toLowerCase() : item.name.toLowerCase();
+
+            const similarItems = baseNameMap[baseName];
+            if (similarItems && similarItems.length > 0) {
+                // Find most recent distinct item with same base name
                 // Sort by date desc
-                catItems.sort((a, b) => new Date(b.date) - new Date(a.date));
-                const lastSimilar = catItems[0];
+                similarItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+                const lastSimilar = similarItems[0];
 
                 if (lastSimilar.barcode !== barcode) {
                     showSuggestionModal(
@@ -949,7 +952,7 @@
         function processHistory(data) {
             lastPurchases = data;
             historyMap = {};
-            catHistoryMap = {};
+            baseNameMap = {};
 
             data.forEach(d => {
                 // Keep latest per barcode
@@ -957,10 +960,13 @@
                     historyMap[d.barcode] = d;
                 }
 
-                // Group by cat
-                if (d.cat) {
-                    if (!catHistoryMap[d.cat]) catHistoryMap[d.cat] = [];
-                    catHistoryMap[d.cat].push(d);
+                // Group by base name (first 2 words)
+                if (d.name) {
+                    const words = d.name.trim().split(/\s+/);
+                    const baseName = words.length >= 2 ? (words[0] + " " + words[1]).toLowerCase() : d.name.toLowerCase();
+
+                    if (!baseNameMap[baseName]) baseNameMap[baseName] = [];
+                    baseNameMap[baseName].push(d);
                 }
             });
         }
@@ -1416,7 +1422,7 @@
                     </div>
                 </div>
                 <div class="progress-title" style="color:var(--primary);">Order Confirmed!</div>
-                <div class="progress-desc">Thank you for ordering😊 with us.</div>
+                <div class="progress-desc">Thank you for shopping with us.</div>
             </div>
         </div>
     </div>
