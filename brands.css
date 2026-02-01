@@ -1,0 +1,154 @@
+/* Brands Page Scrollytelling Styles */
+
+/* Base container for the scrollable area */
+#page-brands {
+  position: relative;
+  width: 100%;
+  background-color: #ECECEC; /* Fog color matching images */
+  color: #1a1a1a;
+  padding: 0;
+  margin: 0;
+  overflow: visible; /* Ensure scrolling works if this is the scroll container */
+}
+
+/* The long scroll container */
+.brands-scroll-container {
+  height: 400vh; /* 4x viewport height for scroll length */
+  position: relative;
+}
+
+/* Sticky Canvas Container */
+.brands-sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The Canvas itself */
+#brands-canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  /* Contain fit logic handles rendering size, but CSS prevents overflow */
+}
+
+/* Loading Overlay */
+#brands-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ECECEC;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  transition: opacity 0.5s ease-out;
+}
+
+#brands-loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #1a1a1a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.loader-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.05em;
+}
+
+/* Text Overlays */
+.brands-overlays {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Let clicks pass through to potential controls if any */
+}
+
+.brand-section {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.brand-section.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Alignment Classes */
+.align-center {
+  align-items: center;
+  text-align: center;
+}
+
+.align-left {
+  align-items: flex-start;
+  text-align: left;
+  padding-left: 10%;
+}
+
+.align-right {
+  align-items: flex-end;
+  text-align: right;
+  padding-right: 10%;
+}
+
+/* Typography */
+.brand-heading {
+  font-family: 'Inter', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: rgba(0, 0, 0, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.brand-subtext {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0;
+}
+
+@media (max-width: 768px) {
+  .brand-heading {
+    font-size: 2rem;
+  }
+  .brand-subtext {
+    font-size: 1rem;
+  }
+  .align-left, .align-right {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
