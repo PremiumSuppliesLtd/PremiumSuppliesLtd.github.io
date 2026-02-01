@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="brands.css">
 </head>
 
 <body>
@@ -38,6 +39,9 @@
             </button>
             <button class="nav-btn" onclick="showPage('page-download', this)">
                 <img src="https://drive.google.com/thumbnail?id=1qp4Goakfs4cN_614-ZGCKi0hjQ7Q9ajC"> List
+            </button>
+            <button class="nav-btn" onclick="openBrandsPage(this)">
+                <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7"> Brands
             </button>
             <button class="nav-btn" onclick="openLoginModal()" id="loginBtn">
                 🔐 Login
@@ -256,6 +260,50 @@
         </div>
     </div>
 
+    <!-- PAGE: BRANDS (Scrollytelling) -->
+    <div id="page-brands" class="page" style="display:none;">
+        <div id="brands-scroll-container" class="brands-scroll-container">
+            <div class="brands-sticky">
+                <canvas id="brands-canvas"></canvas>
+
+                <!-- Loading State -->
+                <div id="brands-loader">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-text">Loading WpDev sequence...</div>
+                </div>
+
+                <!-- Text Overlays -->
+                <div class="brands-overlays">
+                    <!-- 0% - Centered -->
+                    <div id="overlay-1" class="brand-section align-center active">
+                        <h2 class="brand-heading">Premium Supplies Ltd.</h2>
+                        <p class="brand-subtext">Quality Products.</p>
+                    </div>
+
+                    <!-- 25% - Left -->
+                    <div id="overlay-2" class="brand-section align-left">
+                        <h2 class="brand-heading">FRIUTVILLE,FROSTI,NUZIWA.</h2>
+                        <p class="brand-subtext">Enjoy every drop of Fruitville,Frosti.</p>
+                        <p class="brand-subtext">Nuziwa plant based nutrition drinks.</p>
+                    </div>
+
+                    <!-- 60% - Right -->
+                    <div id="overlay-3" class="brand-section align-right">
+                        <h2 class="brand-heading">KERICHO GOLD,ZESTA.</h2>
+                        <p class="brand-subtext">Kericho GOLD is a matter of Good Taste.</p>
+                        <p class="brand-subtext">Zesta is Besta.</p>
+                    </div>
+
+                    <!-- 90% - Centered CTA -->
+                    <div id="overlay-4" class="brand-section align-center">
+                        <h2 class="brand-heading">Available Now.</h2>
+                        <p class="brand-subtext">Order Now.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- ::::: CART SLIDE-OUT ::::: -->
     <div id="cartTrigger" class="cart-trigger" onclick="toggleCart()">
@@ -426,6 +474,7 @@
     </a>
 
     <!-- SCRIPT (PRESERVED LOGIC) -->
+    <script src="brands.js"></script>
     <script>
         // CONFIG
         const API_URL = "https://script.google.com/macros/s/AKfycbxnVciuFQNWjOdW_fQAVy_TSzkhEfoxpYO8_p9e96D_BlvlB3JtB_U0vPnTGOJFdZjNDA/exec";
