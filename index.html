@@ -262,42 +262,163 @@
 
     <!-- PAGE: BRANDS (Scrollytelling) -->
     <div id="page-brands" class="page" style="display:none;">
-        <div id="brands-scroll-container" class="brands-scroll-container">
+        <!-- SEQUENCE 1: FV MANGO -->
+        <div id="container-fv" class="brands-scroll-container">
             <div class="brands-sticky">
-                <canvas id="brands-canvas"></canvas>
+                <canvas id="canvas-fv" class="brands-canvas"></canvas>
 
                 <!-- Loading State -->
-                <div id="brands-loader">
+                <div id="loader-fv" class="brands-loader">
                     <div class="loader-spinner"></div>
-                    <div class="loader-text">Loading WpDev sequence...</div>
+                    <div class="loader-text">Loading FV Mango sequence...</div>
                 </div>
 
                 <!-- Text Overlays -->
                 <div class="brands-overlays">
                     <!-- 0% - Centered -->
-                    <div id="overlay-1" class="brand-section align-center active">
+                    <div id="fv-overlay-1" class="brand-section align-center active">
                         <h2 class="brand-heading">Premium Supplies Ltd.</h2>
                         <p class="brand-subtext">Quality Products.</p>
                     </div>
 
                     <!-- 25% - Left -->
-                    <div id="overlay-2" class="brand-section align-left">
+                    <div id="fv-overlay-2" class="brand-section align-left">
                         <h2 class="brand-heading">FRIUTVILLE,FROSTI,NUZIWA.</h2>
                         <p class="brand-subtext">Enjoy every drop of Fruitville,Frosti.</p>
                         <p class="brand-subtext">Nuziwa plant based nutrition drinks.</p>
                     </div>
 
                     <!-- 60% - Right -->
-                    <div id="overlay-3" class="brand-section align-right">
+                    <div id="fv-overlay-3" class="brand-section align-right">
                         <h2 class="brand-heading">KERICHO GOLD,ZESTA.</h2>
                         <p class="brand-subtext">Kericho GOLD is a matter of Good Taste.</p>
                         <p class="brand-subtext">Zesta is Besta.</p>
                     </div>
 
                     <!-- 90% - Centered CTA -->
-                    <div id="overlay-4" class="brand-section align-center">
+                    <div id="fv-overlay-4" class="brand-section align-center">
                         <h2 class="brand-heading">Available Now.</h2>
                         <p class="brand-subtext">Order Now.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEQUENCE 2: FROSTI BERRIES -->
+        <div id="container-frosti" class="brands-scroll-container">
+            <div class="brands-sticky">
+                <canvas id="canvas-frosti" class="brands-canvas"></canvas>
+
+                <!-- Loading State -->
+                <div id="loader-frosti" class="brands-loader">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-text">Loading Frosti Berries sequence...</div>
+                </div>
+
+                <!-- Text Overlays -->
+                <div class="brands-overlays">
+                    <!-- 0% -->
+                    <div id="frosti-overlay-1" class="brand-section align-center active">
+                        <h2 class="brand-heading">Frosti Berries</h2>
+                        <p class="brand-subtext">Bursting with Flavor.</p>
+                    </div>
+
+                    <!-- 30% -->
+                    <div id="frosti-overlay-2" class="brand-section align-left">
+                        <h2 class="brand-heading">Pure Refreshment</h2>
+                        <p class="brand-subtext">Made from the finest berries.</p>
+                    </div>
+
+                    <!-- 60% -->
+                    <div id="frosti-overlay-3" class="brand-section align-right">
+                        <h2 class="brand-heading">Icy Cool</h2>
+                        <p class="brand-subtext">Perfect for any occasion.</p>
+                    </div>
+
+                    <!-- 90% -->
+                    <div id="frosti-overlay-4" class="brand-section align-center">
+                        <h2 class="brand-heading">Try It Today</h2>
+                        <p class="brand-subtext">Available.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEQUENCE 3: NUZIWA ALMOND -->
+        <div id="container-nuziwa" class="brands-scroll-container">
+            <div class="brands-sticky">
+                <canvas id="canvas-nuziwa" class="brands-canvas"></canvas>
+
+                <!-- Loading State -->
+                <div id="loader-nuziwa" class="brands-loader">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-text">Loading Nuziwa Almond sequence...</div>
+                </div>
+
+                <!-- Text Overlays -->
+                <div class="brands-overlays">
+                    <!-- 0% -->
+                    <div id="nuziwa-overlay-1" class="brand-section align-center active">
+                        <h2 class="brand-heading">Nuziwa Almond</h2>
+                        <p class="brand-subtext">Plant-Based Nutrition.</p>
+                    </div>
+
+                    <!-- 30% -->
+                    <div id="nuziwa-overlay-2" class="brand-section align-left">
+                        <h2 class="brand-heading">Naturally Delicious</h2>
+                        <p class="brand-subtext">Rich & Creamy Almond Milk.</p>
+                    </div>
+
+                    <!-- 60% -->
+                    <div id="nuziwa-overlay-3" class="brand-section align-right">
+                        <h2 class="brand-heading">Healthy Choice</h2>
+                        <p class="brand-subtext">Vegan, Dairy-Free & Wholesome.</p>
+                    </div>
+
+                    <!-- 90% -->
+                    <div id="nuziwa-overlay-4" class="brand-section align-center">
+                        <h2 class="brand-heading">Nourish Yourself</h2>
+                        <p class="brand-subtext">Taste the Goodness.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEQUENCE 4: KERICHO GOLD -->
+        <div id="container-kericho" class="brands-scroll-container">
+            <div class="brands-sticky">
+                <canvas id="canvas-kericho" class="brands-canvas"></canvas>
+
+                <!-- Loading State -->
+                <div id="loader-kericho" class="brands-loader">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-text">Loading Kericho Gold sequence...</div>
+                </div>
+
+                <!-- Text Overlays -->
+                <div class="brands-overlays">
+                    <!-- 0% -->
+                    <div id="kericho-overlay-1" class="brand-section align-center active">
+                        <h2 class="brand-heading">Kericho Gold</h2>
+                        <p class="brand-subtext">A Matter of Good Taste.</p>
+                    </div>
+
+                    <!-- 30% -->
+                    <div id="kericho-overlay-2" class="brand-section align-left">
+                        <h2 class="brand-heading">Premium Quality</h2>
+                        <p class="brand-subtext">Finest tea blends.</p>
+                    </div>
+
+                    <!-- 60% -->
+                    <div id="kericho-overlay-3" class="brand-section align-right">
+                        <h2 class="brand-heading">Pure Indulgence</h2>
+                        <p class="brand-subtext">Savor every sip.</p>
+                    </div>
+
+                    <!-- 90% -->
+                    <div id="kericho-overlay-4" class="brand-section align-center">
+                        <h2 class="brand-heading">Discover the Taste</h2>
+                        <p class="brand-subtext">Experience luxury.</p>
                     </div>
                 </div>
             </div>
@@ -477,7 +598,7 @@
     <script src="brands.js"></script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbyqFuZbVGJwU7VZX1Iw-PgqgLK-zzZ8iqZtIWY6fL6_-EyWRFnOiGC8waMIVgMeEkUJTg/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxnVciuFQNWjOdW_fQAVy_TSzkhEfoxpYO8_p9e96D_BlvlB3JtB_U0vPnTGOJFdZjNDA/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -1478,5 +1599,3 @@
 </body>
 
 </html>
-
-
