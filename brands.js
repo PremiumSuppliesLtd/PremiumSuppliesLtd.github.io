@@ -1,107 +1,190 @@
 /**
- * Brands Page Scrollytelling Logic
+ * Brands Page Scrollytelling Logic (Multi-Sequence Support)
  */
 
-const brandsConfig = {
-    frameCount: 192,
-    images: [],
-    loadedCount: 0,
-    currentFrame: 0,
-    canvas: null,
-    ctx: null,
-    scrollContainer: null,
-    sectionHeight: 0, // Height of the scroll container
-    imagesPath: "FV MANGO Sequence/", // Adjust path based on actual location relative to index.html
-    imagePrefix: "", // Using numbered files directly 00001.jpg
-    imageSuffix: ".jpg",
-    isLoaded: false
-};
+const brandSequences = [
+    {
+        id: 'fv',
+        containerId: 'container-fv',
+        canvasId: 'canvas-fv',
+        loaderId: 'loader-fv',
+        frameCount: 192,
+        imagesPath: "FV MANGO Sequence/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'fv-overlay-1', start: 0, end: 0.2 },
+            { id: 'fv-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'fv-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'fv-overlay-4', start: 0.85, end: 1.0 } // 1.0 implies until end or next
+        ]
+    },
+    {
+        id: 'frosti',
+        containerId: 'container-frosti',
+        canvasId: 'canvas-frosti',
+        loaderId: 'loader-frosti',
+        frameCount: 192,
+        imagesPath: "Frosti Berries/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'frosti-overlay-1', start: 0, end: 0.2 },
+            { id: 'frosti-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'frosti-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'frosti-overlay-4', start: 0.85, end: 1.0 }
+        ]
+    },
+    {
+        id: 'nuziwa',
+        containerId: 'container-nuziwa',
+        canvasId: 'canvas-nuziwa',
+        loaderId: 'loader-nuziwa',
+        frameCount: 192,
+        imagesPath: "Nuziwa Almond/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'nuziwa-overlay-1', start: 0, end: 0.2 },
+            { id: 'nuziwa-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'nuziwa-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'nuziwa-overlay-4', start: 0.85, end: 1.0 }
+        ]
+    },
+    {
+        id: 'kericho',
+        containerId: 'container-kericho',
+        canvasId: 'canvas-kericho',
+        loaderId: 'loader-kericho',
+        frameCount: 192,
+        imagesPath: "Kericho Gold/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'kericho-overlay-1', start: 0, end: 0.2 },
+            { id: 'kericho-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'kericho-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'kericho-overlay-4', start: 0.85, end: 1.0 }
+        ]
+    }
+];
 
 // Initialize the Brands page
 function initBrandsPage() {
-    brandsConfig.canvas = document.getElementById('brands-canvas');
-    if (!brandsConfig.canvas) {
-        console.error("Brands canvas not found!");
-        return;
-    }
-    brandsConfig.ctx = brandsConfig.canvas.getContext('2d');
-    brandsConfig.scrollContainer = document.getElementById('brands-scroll-container');
+    brandSequences.forEach(seq => {
+        seq.canvas = document.getElementById(seq.canvasId);
+        seq.container = document.getElementById(seq.containerId);
+
+        if (!seq.canvas || !seq.container) {
+            console.error(`Elements not found for sequence: ${seq.id}`);
+            return;
+        }
+
+        seq.ctx = seq.canvas.getContext('2d');
+
+        // Start Loading Images
+        preloadImages(seq);
+    });
 
     // Set initial canvas size
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Start Loading Images
-    preloadImages();
-
     // Bind Scroll Event
-    // We attach to window because the main page body scrolls
     window.addEventListener('scroll', handleScroll);
 }
 
-function preloadImages() {
-    const loaderText = document.querySelector('.loader-text');
+function preloadImages(seq) {
+    const loaderText = document.querySelector(`#${seq.loaderId} .loader-text`);
 
-    for (let i = 1; i <= brandsConfig.frameCount; i++) {
+    for (let i = 1; i <= seq.frameCount; i++) {
         const img = new Image();
-        // Pad number with zeros to 5 digits (e.g. 00001)
         const frameNum = String(i).padStart(5, '0');
-        img.src = `${brandsConfig.imagesPath}${frameNum}${brandsConfig.imageSuffix}`;
+        img.src = `${seq.imagesPath}${frameNum}${seq.imageSuffix}`;
 
         img.onload = () => {
-            brandsConfig.loadedCount++;
+            seq.loadedCount++;
             if (loaderText) {
-                const pct = Math.round((brandsConfig.loadedCount / brandsConfig.frameCount) * 100);
-                loaderText.textContent = `Loading WpDev sequence... ${pct}%`;
+                const pct = Math.round((seq.loadedCount / seq.frameCount) * 100);
+                loaderText.textContent = `Loading... ${pct}%`;
             }
-            if (brandsConfig.loadedCount === brandsConfig.frameCount) {
-                finishLoading();
+            if (seq.loadedCount === seq.frameCount) {
+                finishLoading(seq);
             }
         };
 
         img.onerror = () => {
-            console.error(`Failed to load frame ${i}`);
-            // Still count it as loaded to avoid blocking
-            brandsConfig.loadedCount++;
-            if (brandsConfig.loadedCount === brandsConfig.frameCount) {
-                finishLoading();
+            console.error(`Failed to load frame ${i} for ${seq.id}`);
+            seq.loadedCount++;
+            if (seq.loadedCount === seq.frameCount) {
+                finishLoading(seq);
             }
         };
 
-        brandsConfig.images.push(img);
+        seq.images.push(img);
     }
 }
 
-function finishLoading() {
-    brandsConfig.isLoaded = true;
-    const loader = document.getElementById('brands-loader');
+function finishLoading(seq) {
+    seq.isLoaded = true;
+    const loader = document.getElementById(seq.loaderId);
     if (loader) loader.classList.add('hidden');
 
     // Initial draw
-    requestAnimationFrame(() => drawFrame(0));
+    requestAnimationFrame(() => drawFrame(seq, 0));
 }
 
 function resizeCanvas() {
-    if (!brandsConfig.canvas) return;
+    brandSequences.forEach(seq => {
+        if (!seq.canvas) return;
 
-    // Fill the viewport
-    brandsConfig.canvas.width = window.innerWidth * window.devicePixelRatio;
-    brandsConfig.canvas.height = window.innerHeight * window.devicePixelRatio;
+        // Fill the viewport
+        seq.canvas.width = window.innerWidth * window.devicePixelRatio;
+        seq.canvas.height = window.innerHeight * window.devicePixelRatio;
 
-    // Force redraw
-    if (brandsConfig.isLoaded) {
-        drawFrame(brandsConfig.currentFrame);
-    }
+        // Force redraw if loaded
+        if (seq.isLoaded) {
+            drawFrame(seq, seq.currentFrame);
+        }
+    });
 }
 
-function drawFrame(index) {
-    if (index < 0 || index >= brandsConfig.frameCount) return;
+function drawFrame(seq, index) {
+    if (index < 0 || index >= seq.frameCount) return;
 
-    const img = brandsConfig.images[index];
+    const img = seq.images[index];
     if (!img) return;
 
-    const canvas = brandsConfig.canvas;
-    const ctx = brandsConfig.ctx;
+    const canvas = seq.canvas;
+    const ctx = seq.ctx;
     const w = canvas.width;
     const h = canvas.height;
 
@@ -126,54 +209,60 @@ function drawFrame(index) {
     }
 
     ctx.clearRect(0, 0, w, h);
-    // ctx.imageSmoothingEnabled = true; // Default is usually true
-    // ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
 }
 
 function handleScroll() {
-    if (!brandsConfig.isLoaded) return;
-
     // Only process if Brands page is visible
     const page = document.getElementById('page-brands');
     if (page.style.display === 'none') return;
 
-    const container = brandsConfig.scrollContainer;
-    if (!container) return;
+    brandSequences.forEach(seq => {
+        if (!seq.isLoaded || !seq.container) return;
 
-    // Calculate progress relative to the container in the document
-    const rect = container.getBoundingClientRect();
-    const scrollTop = -rect.top; // How far we've scrolled into the container
-    const scrollHeight = rect.height - window.innerHeight; // Total scrollable distance
+        const rect = seq.container.getBoundingClientRect();
+        const scrollTop = -rect.top; // How far we've scrolled into the container
+        const scrollHeight = rect.height - window.innerHeight; // Total scrollable distance
 
-    if (scrollHeight <= 0) return;
+        // If untracked or totally out of view logic can be added here, 
+        // but for continuous scrolling we just check bounds:
 
-    let progress = scrollTop / scrollHeight;
-    progress = Math.max(0, Math.min(1, progress)); // Clamp 0 to 1
+        // Simple Viewport Check: Is any part of the container actionable?
+        // We only animate if we are actively scrolling INSIDE this container
+        // But we must clamp 0 or 1 if we are above or below to ensure it finishes or sits at start
 
-    // Map to frame
-    const frameIndex = Math.floor(progress * (brandsConfig.frameCount - 1));
+        if (scrollTop < -window.innerHeight || scrollTop > scrollHeight + window.innerHeight) {
+            // Far out of view, maybe skip drawing? 
+            // For now, we process to ensure state is correct (e.g. if we scrolled fast past it)
+        }
 
-    if (frameIndex !== brandsConfig.currentFrame) {
-        brandsConfig.currentFrame = frameIndex;
-        requestAnimationFrame(() => drawFrame(frameIndex));
-    }
+        let progress = scrollTop / scrollHeight;
+        progress = Math.max(0, Math.min(1, progress)); // Clamp 0 to 1
 
-    updateOverlays(progress);
+        const frameIndex = Math.floor(progress * (seq.frameCount - 1));
+
+        if (frameIndex !== seq.currentFrame) {
+            seq.currentFrame = frameIndex;
+            requestAnimationFrame(() => drawFrame(seq, frameIndex));
+        }
+
+        updateOverlays(seq, progress);
+    });
 }
 
-function updateOverlays(progress) {
-    // 0% - Title
-    toggleOverlay('overlay-1', progress >= 0 && progress < 0.2);
+function updateOverlays(seq, progress) {
+    seq.overlays.forEach(overlay => {
+        const isActive = progress >= overlay.start && progress < overlay.end;
 
-    // 25% - Precision
-    toggleOverlay('overlay-2', progress >= 0.2 && progress < 0.5);
-
-    // 60% - Layered
-    toggleOverlay('overlay-3', progress >= 0.5 && progress < 0.85);
-
-    // 90% - Scroll back
-    toggleOverlay('overlay-4', progress >= 0.85);
+        // Special case for last item to stay active until very end if desired, 
+        // or strictly follow ranges. The config uses 0.85 to 1.0.
+        // If we want the last one to persist:
+        if (overlay.end === 1.0 && progress >= overlay.start) {
+            toggleOverlay(overlay.id, true);
+        } else {
+            toggleOverlay(overlay.id, isActive);
+        }
+    });
 }
 
 function toggleOverlay(id, isActive) {
@@ -187,12 +276,9 @@ function toggleOverlay(id, isActive) {
     }
 }
 
-// Hook into existing navigation
-// Note: We need to make sure initBrandsPage is called when needed or just once on load.
-// We'll expose it globally so the main script can call it if needed, or we just run it.
+// Global Init
 window.initBrandsPage = initBrandsPage;
 
-// Since resources are heavy, we might want to lazy init when the page is first shown
 let brandsInitialized = false;
 function loadBrandsIfNeeded() {
     if (!brandsInitialized) {
