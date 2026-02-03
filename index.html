@@ -532,16 +532,35 @@
 
     <!-- Login Modal -->
     <div id="loginModal" class="modal">
-        <div class="modal-content" style="text-align:center;">
-            <h3>🔐 Access Prices</h3>
-            <p style="color:#666; font-size:0.9rem;">Enter your email to view product prices.</p>
-            <div class="form-group" style="margin-top:20px;">
-                <input id="loginEmail" type="email" class="form-input" placeholder="name@example.com"
-                    style="width:100%;">
+        <div class="modal-content" style="text-align:center; max-width: 320px;">
+            <h3>🔐 Security Check</h3>
+            <p style="color:#666; font-size:0.9rem; margin-bottom: 20px;">
+                Enter your email. Use the code sent to your inbox to view prices.
+            </p>
+
+            <!-- Step 1: Email -->
+            <div id="loginStep1">
+                <div class="form-group">
+                    <input id="loginEmail" type="email" class="form-input" placeholder="name@company.com"
+                        style="width:100%; text-align: center;">
+                </div>
+                <div class="modal-actions" style="justify-content:center; margin-top:20px;">
+                    <button class="btn-secondary" onclick="closeLoginModal()">Cancel</button>
+                    <button class="btn-primary" onclick="requestLoginCode()" id="otpBtn">Get Code</button>
+                </div>
             </div>
-            <div class="modal-actions" style="justify-content:center; margin-top:20px;">
-                <button class="btn-secondary" onclick="closeLoginModal()">Cancel</button>
-                <button class="btn-primary" onclick="handleLogin()">Access</button>
+
+            <!-- Step 2: OTP -->
+            <div id="loginStep2" style="display:none;">
+                <p style="font-size:0.8rem; color:green;">Code sent! Check your inbox.</p>
+                <div class="form-group">
+                    <input id="loginOtp" type="number" class="form-input" placeholder="123456"
+                        style="width:100%; text-align: center; letter-spacing: 5px; font-size: 1.2rem;">
+                </div>
+                <div class="modal-actions" style="justify-content:center; margin-top:20px;">
+                    <button class="btn-secondary" onclick="backToEmail()">Back</button>
+                    <button class="btn-primary" onclick="completeLogin()" id="verifyBtn">Verify</button>
+                </div>
             </div>
         </div>
     </div>
@@ -598,7 +617,7 @@
     <script src="brands.js"></script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbyN7B8_ZdwMrFLv7qiu9e_PT_QzG_GpQfDv2qhKrZSrt-G9Kiqn_tsxkqU40zQ5P57yZg/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzn1_68Oyfy4XfYBpgNfIGU3XlVPFDDZKoJhL9_0R4rmRC4ojFpHkrZH4rUeKIZPuWYrQ/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -607,9 +626,9 @@
                 run: {
                     withSuccessHandler: function (successCb) {
                         return {
-                            getPriceList: function (email) {
-                                // Include email in parameters if provided
-                                const url = API_URL + "?action=getPriceList" + (email ? "&email=" + encodeURIComponent(email) : "");
+                            getPriceList: function (token) {
+                                // Pass token instead of email
+                                const url = API_URL + "?action=getPriceList" + (token ? "&token=" + encodeURIComponent(token) : "");
                                 fetch(url)
                                     .then(r => r.json())
                                     .then(d => {
@@ -633,6 +652,24 @@
                                     .then(d => {
                                         if (d.result) successCb(d.result);
                                         else alert("Error: " + (d.error || "Unknown error"));
+                                    })
+                                    .catch(e => alert("Network Error: " + e));
+                            },
+                            requestOtp: function (email) {
+                                fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "requestOtp", data: { email } }) })
+                                    .then(r => r.json())
+                                    .then(d => {
+                                        if (d.result && d.result.success) successCb(d.result);
+                                        else alert("Error: " + (d.error || "Unknown error")); // Basic error handling
+                                    })
+                                    .catch(e => alert("Network Error: " + e));
+                            },
+                            verifyOtp: function (email, code) {
+                                fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "verifyOtp", data: { email, code } }) })
+                                    .then(r => r.json())
+                                    .then(d => {
+                                        if (d.result) successCb(d.result); // Pass entire result object
+                                        else alert("Error: " + (d.error || "Login Failed"));
                                     })
                                     .catch(e => alert("Network Error: " + e));
                             }
@@ -672,39 +709,100 @@
         let isNewArrivalScrolling = true;
 
         // Actual Logic
-        const storedEmail = localStorage.getItem("userEmail");
-        updateLoginUI(storedEmail);
+        const storedToken = localStorage.getItem("authToken");
+        const storedEmail = localStorage.getItem("userEmail"); // Keep for display/history logic
 
-        google.script.run.withSuccessHandler(buildCards).getPriceList(storedEmail || "");
-        if (storedEmail) Api.getLastPurchases(storedEmail);
+        updateLoginUI(storedToken);
+
+        // Load prices with token
+        if (storedToken) {
+            document.getElementById("cards").innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem;">Verifying session...</div>';
+            google.script.run.withSuccessHandler(buildCards).getPriceList(storedToken);
+            if (storedEmail) Api.getLastPurchases(storedEmail);
+        } else {
+            // Load public (masked) prices
+            google.script.run.withSuccessHandler(buildCards).getPriceList("");
+        }
+
         renderQuickAdd();
 
         /* LOGIN / ACCESS CONTROL */
-        function openLoginModal() { document.getElementById("loginModal").style.display = "flex"; document.getElementById("loginEmail").focus(); }
+        function openLoginModal() {
+            document.getElementById("loginModal").style.display = "flex";
+            document.getElementById("loginStep1").style.display = "block";
+            document.getElementById("loginStep2").style.display = "none";
+            document.getElementById("loginEmail").focus();
+        }
         function closeLoginModal() { document.getElementById("loginModal").style.display = "none"; }
 
-        function handleLogin() {
+        function backToEmail() {
+            document.getElementById("loginStep1").style.display = "block";
+            document.getElementById("loginStep2").style.display = "none";
+        }
+
+        function requestLoginCode() {
             const emailInput = document.getElementById("loginEmail");
+            const btn = document.getElementById("otpBtn");
             const email = emailInput.value.trim().toLowerCase();
 
-            if (!email) { alert("Please enter a valid email."); return; }
-            if (!email.includes("@")) { alert("Invalid email format."); return; }
+            if (!email || !email.includes("@")) { alert("Invalid email"); return; }
 
-            // Save locally
-            localStorage.setItem("userEmail", email);
-            updateLoginUI(email);
-            closeLoginModal();
+            btn.innerText = "Sending...";
+            btn.disabled = true;
 
-            // Refetch Data with email
-            // Show loading state if desired, or just refresh
-            document.getElementById("cards").innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem;">Updating prices...</div>';
-            google.script.run.withSuccessHandler(buildCards).getPriceList(email);
-            Api.getLastPurchases(email);
+            google.script.run.withSuccessHandler((res) => {
+                btn.innerText = "Get Code";
+                btn.disabled = false;
+                if (res.success) {
+                    // Show Step 2
+                    document.getElementById("loginStep1").style.display = "none";
+                    document.getElementById("loginStep2").style.display = "block";
+                    document.getElementById("loginOtp").value = "";
+                    document.getElementById("loginOtp").focus();
+                }
+            }).requestOtp(email);
         }
+
+        function completeLogin() {
+            const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+            const code = document.getElementById("loginOtp").value.trim();
+            const btn = document.getElementById("verifyBtn");
+
+            if (code.length < 4) { alert("Invalid code"); return; }
+
+            btn.innerText = "Verifying...";
+            btn.disabled = true;
+
+            google.script.run.withSuccessHandler((res) => {
+                btn.innerText = "Verify";
+                btn.disabled = false;
+
+                if (res.success && res.token) {
+                    // Success!
+                    localStorage.setItem("authToken", res.token);
+                    localStorage.setItem("userEmail", email);
+
+                    updateLoginUI(res.token);
+                    closeLoginModal();
+
+                    // Refresh Data
+                    document.getElementById("cards").innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem;">Updating prices...</div>';
+                    google.script.run.withSuccessHandler(buildCards).getPriceList(res.token);
+                    Api.getLastPurchases(email);
+                } else {
+                    alert("Verification failed. Check code.");
+                }
+            }).verifyOtp(email, code);
+        }
+
+        // Removed old handleLogin function since we split it
+
 
         function logout() {
             if (!confirm("Are you sure you want to logout? Prices will be hidden.")) return;
             localStorage.removeItem("userEmail");
+            localStorage.removeItem("authToken"); // Remove token
+
             lastPurchases = []; historyMap = {}; baseNameMap = {}; // Clear history
             updateLoginUI(null);
 
@@ -713,10 +811,11 @@
             google.script.run.withSuccessHandler(buildCards).getPriceList("");
         }
 
-        function updateLoginUI(email) {
+        // Modified to check for TOKEN existence not just email
+        function updateLoginUI(token) {
             const loginBtn = document.getElementById("loginBtn");
             const logoutBtn = document.getElementById("logoutBtn");
-            if (email) {
+            if (token) {
                 loginBtn.style.display = "none";
                 logoutBtn.style.display = "inline-flex";
             } else {
@@ -1599,4 +1698,3 @@
 </body>
 
 </html>
-
