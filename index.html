@@ -37,9 +37,11 @@
             <button class="nav-btn" onclick="showPage('page-new', this)">
                 <img src="https://drive.google.com/thumbnail?id=1zmftlvW426-bQWW3Yd6raiQyHwQ2tuoz"> Eco
             </button>
+            <!-- HIDDEN DOWNLOAD PAGE
             <button class="nav-btn" onclick="showPage('page-download', this)">
                 <img src="https://drive.google.com/thumbnail?id=1qp4Goakfs4cN_614-ZGCKi0hjQ7Q9ajC"> List
             </button>
+            -->
             <button class="nav-btn" onclick="openBrandsPage(this)">
                 <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7"> Brands
             </button>
@@ -498,8 +500,19 @@
             </div>
             <textarea id="custDelivery" class="form-input" style="min-height:80px"
                 placeholder="Delivery Instructions *"></textarea>
-            <textarea id="customRequest" class="form-input" style="min-height:80px; margin-top:1rem;"
-                placeholder="Special Requests / Items not in list..."></textarea>
+
+            <!-- Special Items Section -->
+            <div style="margin-top:1rem; border-top:1px solid #eee; padding-top:1rem;">
+                <h4 style="margin:0 0 0.5rem 0; font-size:1rem;">Special Requests / Non-List Items</h4>
+                <div id="specialItemsList" style="margin-bottom:0.5rem;">
+                    <!-- Rows will be added here -->
+                </div>
+                <button class="btn-secondary" onclick="addSpecialItemRow()"
+                    style="width:100%; padding:0.5rem; font-size:0.9rem;">+ Add Item</button>
+            </div>
+
+            <textarea id="customRequest" class="form-input" style="min-height:60px; margin-top:1rem;"
+                placeholder="Additional Notes..."></textarea>
 
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeCustomerModal()">Cancel</button>
@@ -617,7 +630,7 @@
     <script src="brands.js"></script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbzmOtJLZC-GsGDg6s_n-QdnEHFht_oH56teyjR--_dK3eNJShH7gqtaUJQszK6qEStHJw/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbyyhil2kWpb-X-PeeTPbiLAlFso8NcXuKt8lGn56pC77sPckWXCINwaCKlfY87Kyi8JQg/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -1336,6 +1349,26 @@
         }
         function closeCustomerModal() { document.getElementById("customerModal").style.display = "none"; }
 
+        // Initialize Special Items
+        let specialItems = [];
+
+        function addSpecialItemRow() {
+            const container = document.getElementById("specialItemsList");
+            const div = document.createElement("div");
+            div.className = "special-item-row";
+            div.style.display = "flex";
+            div.style.gap = "5px";
+            div.style.marginBottom = "5px";
+
+            div.innerHTML = `
+                <input placeholder="Item Name" class="form-input" style="flex:2; padding:5px;" name="si_name">
+                <input placeholder="Size/Pack" class="form-input" style="flex:1; padding:5px;" name="si_pack">
+                <input type="number" placeholder="Qty" class="form-input" style="width:60px; padding:5px;" name="si_qty">
+                <button style="border:none; background:none; color:red; cursor:pointer;" onclick="this.parentElement.remove()">✕</button>
+            `;
+            container.appendChild(div);
+        }
+
         function submitCustomerOrder() {
             const customerName = document.getElementById("custName").value.trim();
             const department = document.getElementById("custDepartment").value.trim();
@@ -1348,6 +1381,23 @@
 
             if (!email || !/^\S+@\S+\.\S+$/.test(email)) { alert("Please enter a valid email address (*)"); return; }
             if (!customerName || !tin || !phone || !delivery) { alert("Please fill all required fields (*)"); return; }
+
+            // Gather Special Items
+            const specialItemsData = [];
+            document.querySelectorAll("#specialItemsList .special-item-row").forEach(row => {
+                const inputs = row.querySelectorAll("input");
+                const sName = inputs[0].value.trim();
+                const sPack = inputs[1].value.trim();
+                const sQty = inputs[2].value.trim();
+
+                if (sName && sQty) {
+                    specialItemsData.push({
+                        name: sName,
+                        pack: sPack || "-",
+                        qty: sQty
+                    });
+                }
+            });
 
             // START PROGRESS ANIMATION
             const overlay = document.getElementById("progressOverlay");
@@ -1384,6 +1434,10 @@
                         renderCart();
                         closeCustomerModal();
 
+                        // Clear inputs
+                        document.getElementById("specialItemsList").innerHTML = "";
+                        document.getElementById("customRequest").value = "";
+
                         // Close overlay after success message
                         setTimeout(() => {
                             overlay.style.display = "none";
@@ -1394,7 +1448,8 @@
                 })
                 .placeOrder({
                     customerName, department, email, tin, vrn, phone, delivery, customRequest,
-                    items: Object.values(cart)
+                    items: Object.values(cart),
+                    specialItems: specialItemsData
                 });
         }
 
@@ -1698,4 +1753,3 @@
 </body>
 
 </html>
-
