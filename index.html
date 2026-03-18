@@ -838,6 +838,9 @@
         }
 
         function reorderLastOrder() {
+            const isLoggedIn = !!localStorage.getItem("authToken");
+            if (!isLoggedIn) { alert("Please login to reorder items."); return; }
+            
             const saved = localStorage.getItem("lastOrder");
             if (!saved) { alert("❌ No previous order found"); return; }
             try {
@@ -853,9 +856,16 @@
         }
 
         function showLast5Orders() {
-            const orders = getLastOrders();
+            const isLoggedIn = !!localStorage.getItem("authToken");
             const container = document.getElementById("lastOrdersList");
             container.innerHTML = "";
+            if (!isLoggedIn) {
+                container.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Please login to view history.</p>";
+                document.getElementById("lastOrdersModal").style.display = "flex";
+                return;
+            }
+
+            const orders = getLastOrders();
             if (!orders.length) {
                 container.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>No previous orders found.</p>";
                 document.getElementById("lastOrdersModal").style.display = "flex";
@@ -896,6 +906,13 @@
         function renderQuickAdd() {
             const panel = document.getElementById("quickAddPanel");
             const box = document.getElementById("quickAddItems");
+            const isLoggedIn = !!localStorage.getItem("authToken");
+
+            if (!isLoggedIn) {
+                panel.style.display = "none";
+                return;
+            }
+
             const items = getFrequentItems();
             if (!items.length) { panel.style.display = "none"; return; }
             panel.style.display = "block";
@@ -944,7 +961,21 @@
             dropdown.appendChild(allItem);
 
             const newArrivalsBox = document.getElementById("newArrivals");
-            if (newArrivalsBox) newArrivalsBox.innerHTML = "";
+            const isLoggedIn = !!localStorage.getItem("authToken");
+            if (newArrivalsBox) {
+                newArrivalsBox.innerHTML = "";
+                if (!isLoggedIn) {
+                    newArrivalsBox.innerHTML = `<div style="text-align:center; padding: 2rem; width: 100%;">
+                        <p style="color:var(--text-muted); margin-bottom: 1rem;">Please login to view our available Eco-Friendly products.</p>
+                        <button class="btn-primary" onclick="openLoginModal()">Login Now</button>
+                    </div>`;
+                    const scrollToggleBtn = document.getElementById('scrollToggleBtn');
+                    if(scrollToggleBtn) scrollToggleBtn.style.display = 'none';
+                } else {
+                    const scrollToggleBtn = document.getElementById('scrollToggleBtn');
+                    if(scrollToggleBtn) scrollToggleBtn.style.display = 'inline-block';
+                }
+            }
 
             data.forEach(r => {
                 // r: [0:barcode, 1:cat, 2:name, 3:code, 4:pack, 5:price, 8:img, 9:new]
@@ -966,20 +997,19 @@
                 allProducts.push(item);
 
                 // Process New Arrivals (Visuals only, kept separate)
-                if (item.isNew && item.img && newArrivalsBox) {
+                if (item.isNew && item.img && newArrivalsBox && isLoggedIn) {
                     const promo = document.createElement("div");
                     promo.className = "product-card";
                     promo.style.minWidth = "160px";
                     promo.style.padding = "10px";
-                    const priceDisplay = item.price > 0 ? `TZS ${item.price.toLocaleString()}` : `<span style="color:#999;font-size:0.8rem;">Login to view</span>`;
-                    const disabledAttr = item.price > 0 ? '' : 'disabled style="background:#ccc; cursor:not-allowed;"';
+                    const priceDisplay = `TZS ${item.price.toLocaleString()}`;
 
                     promo.innerHTML = `
                         <img src="${item.img}" style="width:100%; height:100px; object-fit:contain; cursor:zoom-in;" onclick="openImageViewer('${item.img}')">
                         <div class="card-title" style="font-size:0.9rem; margin-top:5px;">${item.name}</div>
                         <div style="font-size:0.8rem; color:#666; margin-bottom:4px;">Pack: ${item.pack}</div>
                         <div class="price-tag" style="font-size:0.9rem;">${priceDisplay}</div>
-                        <button class="btn-primary" style="width:100%; margin-top:5px; font-size:0.8rem; padding:5px;" onclick="quickAddNew('${item.barcode}')" ${disabledAttr}>Add</button>
+                        <button class="btn-primary" style="width:100%; margin-top:5px; font-size:0.8rem; padding:5px;" onclick="quickAddNew('${item.barcode}')">Add</button>
                     `;
                     newArrivalsBox.appendChild(promo);
                 }
@@ -1036,6 +1066,16 @@
         /* Render Grid (Virtualization) */
         function renderGrid() {
             const cardsEl = document.getElementById("cards");
+            const isLoggedIn = !!localStorage.getItem("authToken");
+            
+            if (!isLoggedIn) {
+                cardsEl.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding: 4rem 2rem;">
+                    <p style="color:var(--text-muted); margin-bottom: 1.5rem; font-size:1.1rem;">Please login to view our available products and prices.</p>
+                    <button class="btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;" onclick="openLoginModal()">Login Now</button>
+                </div>`;
+                return;
+            }
+
             const activeItem = document.querySelector('.dropdown-item.selected');
             let cat = "";
             if (activeItem && activeItem.textContent !== "All Categories") {
@@ -1058,24 +1098,27 @@
             // 3. Construct String
             const html = slices.map(item => {
 
-                const priceDisplay = item.price > 0 ? `TZS ${item.price.toLocaleString()}` : `<span style="color:#999; font-size:0.8rem;">Login to view price</span>`;
-                const addBtnHtml = item.price > 0
+                const priceDisplay = isLoggedIn ? `TZS ${item.price.toLocaleString()}` : `<span style="color:#999; font-size:0.8rem;">Login to view price</span>`;
+                const nameDisplay = isLoggedIn ? item.name : `<span style="color:#999; font-size:0.8rem;">Login to view item name</span>`;
+                const packDisplay = isLoggedIn ? item.pack : `<span style="color:#999; font-size:0.8rem;">Login to view pack</span>`;
+                
+                const addBtnHtml = isLoggedIn
                     ? `<button class="add-btn add-btn-mini" onclick="addToCartFromGrid('${item.barcode}', 'qty_${item.barcode}', this)">＋</button>`
                     : `<button class="add-btn add-btn-mini" style="background:#ccc; cursor:not-allowed;" onclick="openLoginModal()">🔒</button>`;
 
                 return `
                 <div class="product-card" data-category="${item.cat.toLowerCase()}">
                     <div class="card-header">
-                        <div class="card-title">${item.name}</div>
+                        <div class="card-title">${nameDisplay}</div>
                         <div class="card-meta">
-                            <span class="card-pack">${item.pack}</span>
+                            <span class="card-pack">${packDisplay}</span>
                             <span class="card-code">#${item.code}</span>
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="price-tag">${priceDisplay}</div>
                         <div class="add-controls">
-                            <input class="qty qty-input" type="number" min="1" value="1" id="qty_${item.barcode}" ${item.price > 0 ? '' : 'disabled'}>
+                            <input class="qty qty-input" type="number" min="1" value="1" id="qty_${item.barcode}" ${isLoggedIn ? '' : 'disabled'}>
                             ${addBtnHtml}
                         </div>
                     </div>
@@ -1746,13 +1789,10 @@
                     </div>
                 </div>
                 <div class="progress-title" style="color:var(--primary);">Order Confirmed!</div>
-                <div class="progress-desc">Thank you for placing your order with us.</div>
+                <div class="progress-desc">Thank you for shopping with us.</div>
             </div>
         </div>
     </div>
 </body>
 
 </html>
-
-
-
