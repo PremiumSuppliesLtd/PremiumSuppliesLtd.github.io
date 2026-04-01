@@ -28,7 +28,8 @@
             <button class="nav-btn" onclick="showPage('page-pricelist', this)">
                 <img src="https://drive.google.com/thumbnail?id=1-dDiSkCab99SHWNdCo9-gNQ_HXY0DeEd"> Order
             </button>
-            <button class="nav-btn predict-nav-btn" onclick="showPredictionModal()" id="predictBtn" style="display:none;" title="AI-Powered Smart Order">
+            <button class="nav-btn predict-nav-btn" onclick="showPredictionModal()" id="predictBtn"
+                style="display:none;" title="AI-Powered Smart Order">
                 😊 AI Order <span class="predict-pulse" id="predictPulse"></span>
             </button>
             <button class="nav-btn" onclick="showPage('page-orders', this)">
@@ -649,7 +650,8 @@
                 <span class="missed-added-counter" id="missedAddedCounter"></span>
                 <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
                     <button class="missed-skip-btn" onclick="skipMissedItems()">Skip & Checkout →</button>
-                    <button class="missed-add-all-btn" id="missedAddAllBtn" onclick="addAllMissedItems()">⚡ Add All Suggested</button>
+                    <button class="missed-add-all-btn" id="missedAddAllBtn" onclick="addAllMissedItems()">⚡ Add All
+                        Suggested</button>
                 </div>
             </div>
         </div>
@@ -694,7 +696,7 @@
     <script src="brands.js"></script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbyk2M8qb_KX8v1QoZCc8--U5iI1ixceFODK7dbD29FFxxYWkx6CISR6GsUfvhJkSlQVKw/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbz6ngrXkslqhd-JBHoFiHCIye-jZp1oU5UWTr9MqHddt3A4j_5xc3xJrHmfMrI6slYFaw/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -779,9 +781,10 @@
         let priceMap = {};
         let allProducts = []; // Stores data instead of DOM
         let cart = {};
-        let lastPurchases = []; // Array of {date, barcode, name, cat, qty}
+        let lastPurchases = []; // Array of {date, barcode, name, cat, pack, qty}
         let historyMap = {}; // barcode -> latest entry
         let baseNameMap = {}; // baseName -> [entries]
+        let namePackMap = {}; // 'name|pack' lowercase -> current price list item
         let newArrivalScrollTimer = null;
         let isNewArrivalScrolling = true;
 
@@ -904,7 +907,7 @@
         function reorderLastOrder() {
             const isLoggedIn = !!localStorage.getItem("authToken");
             if (!isLoggedIn) { alert("Please login to reorder items."); return; }
-            
+
             const saved = localStorage.getItem("lastOrder");
             if (!saved) { alert("❌ No previous order found"); return; }
             try {
@@ -1012,6 +1015,7 @@
 
         function buildCards(data) {
             priceMap = {};
+            namePackMap = {};
             allProducts = []; // Clear current list
             const dropdown = document.getElementById("catDropdown");
             const cats = new Set();
@@ -1034,10 +1038,10 @@
                         <button class="btn-primary" onclick="openLoginModal()">Login Now</button>
                     </div>`;
                     const scrollToggleBtn = document.getElementById('scrollToggleBtn');
-                    if(scrollToggleBtn) scrollToggleBtn.style.display = 'none';
+                    if (scrollToggleBtn) scrollToggleBtn.style.display = 'none';
                 } else {
                     const scrollToggleBtn = document.getElementById('scrollToggleBtn');
-                    if(scrollToggleBtn) scrollToggleBtn.style.display = 'inline-block';
+                    if (scrollToggleBtn) scrollToggleBtn.style.display = 'inline-block';
                 }
             }
 
@@ -1057,6 +1061,8 @@
                 };
 
                 priceMap[item.barcode] = item;
+                const npKey = (item.name + '|' + item.pack).toLowerCase().trim();
+                if (!namePackMap[npKey]) namePackMap[npKey] = item;
                 cats.add(item.cat);
                 allProducts.push(item);
 
@@ -1132,7 +1138,7 @@
         function renderGrid() {
             const cardsEl = document.getElementById("cards");
             const isLoggedIn = !!localStorage.getItem("authToken");
-            
+
             if (!isLoggedIn) {
                 cardsEl.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding: 4rem 2rem;">
                     <p style="color:var(--text-muted); margin-bottom: 1.5rem; font-size:1.1rem;">Please login to view our available products and prices.</p>
@@ -1166,7 +1172,7 @@
                 const priceDisplay = isLoggedIn ? `TZS ${item.price.toLocaleString()}` : `<span style="color:#999; font-size:0.8rem;">Login to view price</span>`;
                 const nameDisplay = isLoggedIn ? item.name : `<span style="color:#999; font-size:0.8rem;">Login to view item name</span>`;
                 const packDisplay = isLoggedIn ? item.pack : `<span style="color:#999; font-size:0.8rem;">Login to view pack</span>`;
-                
+
                 const addBtnHtml = isLoggedIn
                     ? `<button class="add-btn add-btn-mini" onclick="addToCartFromGrid('${item.barcode}', 'qty_${item.barcode}', this)">＋</button>`
                     : `<button class="add-btn add-btn-mini" style="background:#ccc; cursor:not-allowed;" onclick="openLoginModal()">🔒</button>`;
@@ -1439,14 +1445,14 @@
 
         function openCheckout() {
             if (!Object.keys(cart).length) return alert("Cart empty");
-            
+
             // Check for missed items before showing checkout
             const missed = analyzeMissedItems();
             if (missed.length > 0) {
                 renderMissedItemsModal(missed);
                 return; // Stop here, user will proceed from modal
             }
-            
+
             // No missed items, go straight to checkout
             showCheckoutSummary();
         }
@@ -1463,18 +1469,64 @@
             document.getElementById("checkoutModal").style.display = 'flex';
         }
 
+        /* ===== NAME+PACK MATCHING HELPER ===== */
+        function findCurrentItemByNamePack(historyName, historyPack) {
+            if (!historyName) return null;
+            const hName = String(historyName).toLowerCase().trim();
+            const hPack = String(historyPack || '').toLowerCase().trim();
+
+            // 1. Exact name+pack match
+            const exactKey = hName + '|' + hPack;
+            if (namePackMap[exactKey]) return namePackMap[exactKey];
+
+            // 2. Same name, any pack
+            for (const key in namePackMap) {
+                if (key.split('|')[0] === hName) return namePackMap[key];
+            }
+
+            // 3. Similar name by word overlap (NOT by category)
+            const histWords = hName.split(/\s+/).filter(w => w.length > 1);
+            if (histWords.length === 0) return null;
+
+            let bestMatch = null;
+            let bestScore = 0;
+
+            allProducts.forEach(product => {
+                const pName = product.name.toLowerCase().trim();
+                const pPack = product.pack ? product.pack.toLowerCase().trim() : '';
+                const prodWords = pName.split(/\s+/).filter(w => w.length > 1);
+
+                const matchCount = histWords.filter(hw => prodWords.some(pw => pw === hw)).length;
+                const overlapRatio = matchCount / Math.max(histWords.length, prodWords.length, 1);
+
+                if (matchCount < 2 && overlapRatio < 0.6) return;
+
+                let score = overlapRatio;
+                if (hPack && pPack === hPack) score += 0.3;
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = product;
+                }
+            });
+
+            return bestMatch;
+        }
+
         /* ===== MISSED ITEMS ANALYSIS ENGINE ===== */
         function analyzeMissedItems() {
             if (!lastPurchases || lastPurchases.length === 0) return [];
-            
-            // Build frequency map from history
-            const freqMap = {}; // barcode -> { count, totalQty, lastDate, name, cat, pack }
+
+            // Build frequency map using NAME+PACK as key (not barcode/serial)
+            const freqMap = {};
             lastPurchases.forEach(entry => {
-                const bc = String(entry.barcode);
-                if (!freqMap[bc]) {
-                    freqMap[bc] = {
-                        barcode: bc,
-                        name: entry.name,
+                const npKey = (String(entry.name || '') + '|' + String(entry.pack || '')).toLowerCase().trim();
+                if (!npKey || npKey === '|') return;
+
+                if (!freqMap[npKey]) {
+                    freqMap[npKey] = {
+                        histName: entry.name,
+                        histPack: entry.pack || '',
                         cat: entry.cat || 'Other',
                         count: 0,
                         totalQty: 0,
@@ -1482,47 +1534,46 @@
                         dates: new Set()
                     };
                 }
-                freqMap[bc].count++;
-                freqMap[bc].totalQty += Number(entry.qty) || 0;
-                
+                freqMap[npKey].count++;
+                freqMap[npKey].totalQty += Number(entry.qty) || 0;
+
                 const entryDate = new Date(entry.date);
-                if (!freqMap[bc].lastDate || entryDate > freqMap[bc].lastDate) {
-                    freqMap[bc].lastDate = entryDate;
+                if (!freqMap[npKey].lastDate || entryDate > freqMap[npKey].lastDate) {
+                    freqMap[npKey].lastDate = entryDate;
                 }
-                
-                // Track unique order dates to count orders (not just line items)
                 const dateKey = entryDate.toISOString().split('T')[0];
-                freqMap[bc].dates.add(dateKey);
+                freqMap[npKey].dates.add(dateKey);
             });
-            
-            // Count total unique order dates for this customer
+
             const allOrderDates = new Set();
             lastPurchases.forEach(entry => {
                 const d = new Date(entry.date).toISOString().split('T')[0];
                 allOrderDates.add(d);
             });
             const totalOrders = allOrderDates.size;
-            
-            // Filter: items NOT in current cart AND ordered at least 2 times
+
             const missed = [];
-            for (const bc in freqMap) {
-                if (cart[bc]) continue; // Already in cart, skip
-                
-                const item = freqMap[bc];
+            const seenBarcodes = new Set();
+            for (const npKey in freqMap) {
+                const item = freqMap[npKey];
                 const uniqueAppearances = item.dates.size;
-                
-                // Show any item ordered at least once before
                 if (uniqueAppearances < 1) continue;
-                
-                // Must exist in current price list
-                const currentItem = priceMap[bc];
+
+                // Find matching item in current price list by name+pack
+                const currentItem = findCurrentItemByNamePack(item.histName, item.histPack);
                 if (!currentItem) continue;
-                
+
+                // Deduplicate: multiple history entries may resolve to same current product
+                if (seenBarcodes.has(currentItem.barcode)) continue;
+                seenBarcodes.add(currentItem.barcode);
+
+                if (cart[currentItem.barcode]) continue;
+
                 const avgQty = Math.max(1, Math.round(item.totalQty / uniqueAppearances));
                 const orderRate = Math.round((uniqueAppearances / totalOrders) * 100);
-                
+
                 missed.push({
-                    barcode: bc,
+                    barcode: currentItem.barcode,
                     name: currentItem.name,
                     pack: currentItem.pack,
                     price: currentItem.price,
@@ -1534,14 +1585,12 @@
                     totalOrders: totalOrders
                 });
             }
-            
-            // Sort by frequency (most ordered first), then by recency
+
             missed.sort((a, b) => {
                 if (b.frequency !== a.frequency) return b.frequency - a.frequency;
                 return b.lastDate - a.lastDate;
             });
-            
-            // Return top 20 most relevant missed items
+
             return missed.slice(0, 20);
         }
 
@@ -1551,12 +1600,12 @@
         function renderMissedItemsModal(missedItems) {
             currentMissedItems = missedItems;
             missedItemsAddedCount = 0;
-            
+
             // Stats
             const totalMissed = missedItems.length;
             const categories = new Set(missedItems.map(i => i.cat));
             const avgRate = Math.round(missedItems.reduce((s, i) => s + i.orderRate, 0) / totalMissed);
-            
+
             const statsHtml = `
                 <div class="missed-stat-badge">
                     <span class="missed-stat-icon">📦</span>
@@ -1581,7 +1630,7 @@
                 </div>
             `;
             document.getElementById('missedStatsStrip').innerHTML = statsHtml;
-            
+
             // Group by category
             const grouped = {};
             missedItems.forEach(item => {
@@ -1589,17 +1638,17 @@
                 if (!grouped[cat]) grouped[cat] = [];
                 grouped[cat].push(item);
             });
-            
+
             // Render items
             let bodyHtml = '';
             for (const cat in grouped) {
                 bodyHtml += `<div class="missed-category-group">`;
                 bodyHtml += `<div class="missed-category-label">${cat} (${grouped[cat].length})</div>`;
-                
+
                 grouped[cat].forEach(item => {
                     const lastDateStr = item.lastDate ? item.lastDate.toLocaleDateString() : 'N/A';
                     const priceStr = item.price ? item.price.toLocaleString() : '—';
-                    
+
                     bodyHtml += `
                         <div class="missed-item-card" id="missed-card-${item.barcode}">
                             <div class="missed-item-freq" title="Ordered ${item.frequency} times">${item.frequency}×</div>
@@ -1620,13 +1669,13 @@
                         </div>
                     `;
                 });
-                
+
                 bodyHtml += `</div>`;
             }
-            
+
             document.getElementById('missedItemsBody').innerHTML = bodyHtml;
             updateMissedCounter();
-            
+
             // Show modal
             document.getElementById('missedItemsModal').style.display = 'flex';
         }
@@ -1636,15 +1685,15 @@
             const qty = Number(qtyInput?.value) || 1;
             const card = document.getElementById('missed-card-' + barcode);
             const btn = document.getElementById('missed-btn-' + barcode);
-            
+
             // Add to cart
             addToCartFinal(barcode, qty);
-            
+
             // Visual feedback
             if (card) card.classList.add('added');
             if (btn) btn.disabled = true;
             if (qtyInput) qtyInput.disabled = true;
-            
+
             missedItemsAddedCount++;
             updateMissedCounter();
             triggerCartAnimation();
@@ -1656,7 +1705,7 @@
                     const qtyInput = document.getElementById('missed-qty-' + item.barcode);
                     const qty = Number(qtyInput?.value) || item.avgQty;
                     addToCartFinal(item.barcode, qty);
-                    
+
                     const card = document.getElementById('missed-card-' + item.barcode);
                     const btn = document.getElementById('missed-btn-' + item.barcode);
                     if (card) card.classList.add('added');
@@ -1664,11 +1713,11 @@
                     if (qtyInput) qtyInput.disabled = true;
                 }
             });
-            
+
             missedItemsAddedCount = currentMissedItems.length;
             updateMissedCounter();
             triggerCartAnimation();
-            
+
             // Auto-proceed after a short delay
             setTimeout(() => {
                 closeMissedItemsModal();
@@ -2116,16 +2165,18 @@
             const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             const preferredDay = dayNames[dayCounts.indexOf(Math.max(...dayCounts))];
 
-            // 5. Build suggested items
+            // 5. Build suggested items using NAME+PACK as key (not barcode/serial)
             const itemFreq = {};
             const totalOrders = orderDates.length;
 
             lastPurchases.forEach(entry => {
-                const bc = String(entry.barcode);
-                if (!itemFreq[bc]) {
-                    itemFreq[bc] = {
-                        barcode: bc,
-                        name: entry.name,
+                const npKey = (String(entry.name || '') + '|' + String(entry.pack || '')).toLowerCase().trim();
+                if (!npKey || npKey === '|') return;
+
+                if (!itemFreq[npKey]) {
+                    itemFreq[npKey] = {
+                        histName: entry.name,
+                        histPack: entry.pack || '',
                         cat: entry.cat || 'Other',
                         totalQty: 0,
                         orderDates: new Set(),
@@ -2134,27 +2185,34 @@
                     };
                 }
                 const qty = Number(entry.qty) || 0;
-                itemFreq[bc].totalQty += qty;
+                itemFreq[npKey].totalQty += qty;
                 const entryDate = new Date(entry.date);
-                itemFreq[bc].orderDates.add(entryDate.toISOString().split('T')[0]);
-                if (!itemFreq[bc].lastDate || entryDate > itemFreq[bc].lastDate) {
-                    itemFreq[bc].lastDate = entryDate;
-                    itemFreq[bc].lastQty = qty;
+                itemFreq[npKey].orderDates.add(entryDate.toISOString().split('T')[0]);
+                if (!itemFreq[npKey].lastDate || entryDate > itemFreq[npKey].lastDate) {
+                    itemFreq[npKey].lastDate = entryDate;
+                    itemFreq[npKey].lastQty = qty;
                 }
             });
 
             const suggestedItems = [];
-            for (const bc in itemFreq) {
-                const item = itemFreq[bc];
-                const currentProduct = priceMap[bc];
-                if (!currentProduct) continue; // Not in current price list
+            const seenBarcodes = new Set();
+            for (const npKey in itemFreq) {
+                const item = itemFreq[npKey];
+
+                // Find matching item in current price list by name+pack
+                const currentProduct = findCurrentItemByNamePack(item.histName, item.histPack);
+                if (!currentProduct) continue;
+
+                // Deduplicate
+                if (seenBarcodes.has(currentProduct.barcode)) continue;
+                seenBarcodes.add(currentProduct.barcode);
 
                 const appearances = item.orderDates.size;
                 const avgQty = Math.max(1, Math.round(item.totalQty / appearances));
                 const confidence = Math.min(100, Math.round((appearances / totalOrders) * 100));
 
                 suggestedItems.push({
-                    barcode: bc,
+                    barcode: currentProduct.barcode,
                     name: currentProduct.name,
                     pack: currentProduct.pack,
                     price: currentProduct.price,
