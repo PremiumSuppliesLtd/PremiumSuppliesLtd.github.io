@@ -55,6 +55,9 @@
             <button class="nav-btn" onclick="logout()" id="logoutBtn" style="display:none; color: #ef4444;">
                 🔓 Logout
             </button>
+            <button class="nav-btn" onclick="showPage('page-admin-bp', this)" id="adminBpBtn" style="display:none;">
+                📊 Insights
+            </button>
             <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"
                 style="font-size:1.2rem; padding:0 10px;" title="Toggle Theme">
                 ☀️
@@ -431,6 +434,88 @@
         </div>
     </div>
 
+    <!-- PAGE: ADMIN BUYING PATTERNS -->
+    <div id="page-admin-bp" class="page bp-page" style="display:none;">
+        <!-- Hero -->
+        <div class="bp-hero">
+            <div class="bp-hero-badge">🔒 Admin Only</div>
+            <h1 class="bp-hero-title">Buying Patterns Intelligence</h1>
+            <p class="bp-hero-subtitle">Keyword-based analysis of client purchasing behaviour & stopped items detection
+            </p>
+        </div>
+
+        <!-- Controls -->
+        <div class="bp-controls">
+            <select class="bp-select" id="bpClientFilter" onchange="bpRenderAll()">
+                <option value="all">All Clients</option>
+            </select>
+            <div class="bp-tab-bar">
+                <button class="bp-tab active" onclick="bpSwitchTab('patterns', this)">📈 Patterns</button>
+                <button class="bp-tab" onclick="bpSwitchTab('stopped', this)">🚫 Stopped Buying</button>
+                <button class="bp-tab" onclick="bpSwitchTab('clients', this)">👥 Clients</button>
+            </div>
+            <button class="bp-refresh-btn" id="bpRefreshBtn" onclick="bpLoadData()">
+                <span class="bp-refresh-icon">🔄</span> Refresh
+            </button>
+        </div>
+
+        <!-- KPIs -->
+        <div class="bp-kpi-strip" id="bpKpiStrip">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Content -->
+        <div class="bp-content">
+            <!-- Tab 1: Patterns -->
+            <div class="bp-section active" id="bpSectionPatterns">
+                <div class="bp-time-filter-bar" id="bpTimeFilter">
+                    <button class="bp-time-btn active" onclick="bpSetTimeRange('all', this)">All Time</button>
+                    <button class="bp-time-btn" onclick="bpSetTimeRange(90, this)">Last 90 Days</button>
+                    <button class="bp-time-btn" onclick="bpSetTimeRange(60, this)">Last 60 Days</button>
+                    <button class="bp-time-btn" onclick="bpSetTimeRange(30, this)">Last 30 Days</button>
+                </div>
+                <div class="bp-table-container">
+                    <div class="bp-table-header">
+                        <div class="bp-table-title">📊 Item Buying Patterns <span class="bp-table-count"
+                                id="bpPatternCount">0</span></div>
+                        <input class="bp-search-input" id="bpPatternSearch"
+                            placeholder="🔍 Search by keyword or item..." oninput="bpRenderPatterns()">
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="bp-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="bpSortPatterns('keywords')">Keywords</th>
+                                    <th onclick="bpSortPatterns('clients')">Clients</th>
+                                    <th onclick="bpSortPatterns('orders')">Total Orders</th>
+                                    <th onclick="bpSortPatterns('qty')">Total Qty</th>
+                                    <th onclick="bpSortPatterns('lastDate')">Last Ordered</th>
+                                    <th onclick="bpSortPatterns('status')">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bpPatternBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="bp-pagination" id="bpPatternPagination"></div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Stopped Buying -->
+            <div class="bp-section" id="bpSectionStopped">
+                <div class="bp-time-filter-bar">
+                    <button class="bp-time-btn" onclick="bpSetStoppedThreshold(30, this)">30+ days</button>
+                    <button class="bp-time-btn active" onclick="bpSetStoppedThreshold(60, this)">60+ days</button>
+                    <button class="bp-time-btn" onclick="bpSetStoppedThreshold(90, this)">90+ days</button>
+                </div>
+                <div id="bpStoppedContent"></div>
+            </div>
+
+            <!-- Tab 3: Clients -->
+            <div class="bp-section" id="bpSectionClients">
+                <div id="bpClientsContent"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- ::::: CART SLIDE-OUT ::::: -->
     <div id="cartTrigger" class="cart-trigger" onclick="toggleCart()">
@@ -696,7 +781,7 @@
     <script src="brands.js"></script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbz6ngrXkslqhd-JBHoFiHCIye-jZp1oU5UWTr9MqHddt3A4j_5xc3xJrHmfMrI6slYFaw/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwvESdCOg8spXuyhwjTMEECxlV5LeVSqNDusT3m4NaFhKNIg0LWhwoyt6-pwI6bQf3T/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -766,6 +851,15 @@
                     .then(r => r.json()).then(d => {
                         if (d.result) { processHistory(d.result); setTimeout(checkPrediction, 800); }
                     });
+            },
+            getAllBuyingPatterns: (token) => {
+                return fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'getAllBuyingPatterns', data: { token } })
+                }).then(r => r.json()).then(d => {
+                    if (d.result) return d.result;
+                    throw new Error(d.error || 'Failed to load data');
+                });
             }
         };
 
@@ -893,14 +987,24 @@
 
         // Modified to check for TOKEN existence not just email
         function updateLoginUI(token) {
+            const ADMIN_EMAIL = 'kinpatel1983@gmail.com';
             const loginBtn = document.getElementById("loginBtn");
             const logoutBtn = document.getElementById("logoutBtn");
+            const adminBtn = document.getElementById("adminBpBtn");
+            const email = (localStorage.getItem("userEmail") || '').toLowerCase().trim();
             if (token) {
                 loginBtn.style.display = "none";
                 logoutBtn.style.display = "inline-flex";
+                // Show admin button only for admin email
+                if (email === ADMIN_EMAIL) {
+                    adminBtn.style.display = 'inline-flex';
+                } else {
+                    adminBtn.style.display = 'none';
+                }
             } else {
                 loginBtn.style.display = "inline-flex";
                 logoutBtn.style.display = "none";
+                adminBtn.style.display = 'none';
             }
         }
 
@@ -1475,42 +1579,36 @@
             const hName = String(historyName).toLowerCase().trim();
             const hPack = String(historyPack || '').toLowerCase().trim();
 
-            // 1. Exact name+pack match
             const exactKey = hName + '|' + hPack;
             if (namePackMap[exactKey]) return namePackMap[exactKey];
 
-            // 2. Same name, any pack
             for (const key in namePackMap) {
                 if (key.split('|')[0] === hName) return namePackMap[key];
             }
+            return null; // Only exact matches
+        }
 
-            // 3. Similar name by word overlap (NOT by category)
-            const histWords = hName.split(/\s+/).filter(w => w.length > 1);
-            if (histWords.length === 0) return null;
+        function getCategoryAlternatives(histName, cat) {
+            if (!cat) return [];
+            const hNameLower = String(histName).trim().toLowerCase();
+            const hFirstWord = hNameLower.split(/\s+/)[0];
 
-            let bestMatch = null;
-            let bestScore = 0;
+            let alts = allProducts.filter(p => p.cat && p.cat.toLowerCase() === cat.toLowerCase());
 
-            allProducts.forEach(product => {
-                const pName = product.name.toLowerCase().trim();
-                const pPack = product.pack ? product.pack.toLowerCase().trim() : '';
-                const prodWords = pName.split(/\s+/).filter(w => w.length > 1);
+            alts.sort((a, b) => {
+                const aNameLower = a.name.trim().toLowerCase();
+                const bNameLower = b.name.trim().toLowerCase();
+                const aFirst = aNameLower.split(/\s+/)[0];
+                const bFirst = bNameLower.split(/\s+/)[0];
 
-                const matchCount = histWords.filter(hw => prodWords.some(pw => pw === hw)).length;
-                const overlapRatio = matchCount / Math.max(histWords.length, prodWords.length, 1);
+                const aMatch = (aFirst === hFirstWord) ? 1 : 0;
+                const bMatch = (bFirst === hFirstWord) ? 1 : 0;
 
-                if (matchCount < 2 && overlapRatio < 0.6) return;
-
-                let score = overlapRatio;
-                if (hPack && pPack === hPack) score += 0.3;
-
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestMatch = product;
-                }
+                if (aMatch !== bMatch) return bMatch - aMatch; // 1 (match) comes before 0
+                return aNameLower.localeCompare(bNameLower); // Alphabetical fallback
             });
 
-            return bestMatch;
+            return alts;
         }
 
         /* ===== MISSED ITEMS ANALYSIS ENGINE ===== */
@@ -1561,29 +1659,49 @@
 
                 // Find matching item in current price list by name+pack
                 const currentItem = findCurrentItemByNamePack(item.histName, item.histPack);
-                if (!currentItem) continue;
+                if (currentItem) {
+                    // Deduplicate
+                    if (seenBarcodes.has(currentItem.barcode)) continue;
+                    seenBarcodes.add(currentItem.barcode);
+                    if (cart[currentItem.barcode]) continue;
 
-                // Deduplicate: multiple history entries may resolve to same current product
-                if (seenBarcodes.has(currentItem.barcode)) continue;
-                seenBarcodes.add(currentItem.barcode);
+                    const avgQty = Math.max(1, Math.round(item.totalQty / uniqueAppearances));
+                    const orderRate = Math.round((uniqueAppearances / totalOrders) * 100);
 
-                if (cart[currentItem.barcode]) continue;
+                    missed.push({
+                        isMissing: false,
+                        barcode: currentItem.barcode,
+                        name: currentItem.name,
+                        pack: currentItem.pack,
+                        price: currentItem.price,
+                        cat: item.cat || currentItem.cat || 'Other',
+                        frequency: uniqueAppearances,
+                        orderRate: orderRate,
+                        avgQty: avgQty,
+                        lastDate: item.lastDate,
+                        totalOrders: totalOrders
+                    });
+                } else {
+                    // Fetch alternatives
+                    const alts = getCategoryAlternatives(item.histName, item.cat);
+                    if (alts.length === 0) continue;
 
-                const avgQty = Math.max(1, Math.round(item.totalQty / uniqueAppearances));
-                const orderRate = Math.round((uniqueAppearances / totalOrders) * 100);
+                    const avgQty = Math.max(1, Math.round(item.totalQty / uniqueAppearances));
+                    const orderRate = Math.round((uniqueAppearances / totalOrders) * 100);
+                    const tempId = 'miss_' + npKey.replace(/[^a-z0-9]/g, '');
 
-                missed.push({
-                    barcode: currentItem.barcode,
-                    name: currentItem.name,
-                    pack: currentItem.pack,
-                    price: currentItem.price,
-                    cat: item.cat || currentItem.cat || 'Other',
-                    frequency: uniqueAppearances,
-                    orderRate: orderRate,
-                    avgQty: avgQty,
-                    lastDate: item.lastDate,
-                    totalOrders: totalOrders
-                });
+                    missed.push({
+                        isMissing: true,
+                        tempId: tempId,
+                        originalName: item.histName,
+                        cat: item.cat || 'Other',
+                        frequency: uniqueAppearances,
+                        orderRate: orderRate,
+                        avgQty: avgQty,
+                        lastDate: item.lastDate,
+                        alts: alts
+                    });
+                }
             }
 
             missed.sort((a, b) => {
@@ -1647,27 +1765,61 @@
 
                 grouped[cat].forEach(item => {
                     const lastDateStr = item.lastDate ? item.lastDate.toLocaleDateString() : 'N/A';
-                    const priceStr = item.price ? item.price.toLocaleString() : '—';
 
-                    bodyHtml += `
-                        <div class="missed-item-card" id="missed-card-${item.barcode}">
-                            <div class="missed-item-freq" title="Ordered ${item.frequency} times">${item.frequency}×</div>
-                            <div class="missed-item-info">
-                                <div class="missed-item-name" title="${item.name}">${item.name}</div>
-                                <div class="missed-item-meta">
-                                    <span>📦 ${item.pack}</span>
-                                    <span>📅 ${lastDateStr}</span>
-                                    <span>💰 ${priceStr}</span>
+                    if (item.isMissing) {
+                        let optionsHtml = `<option value="">-- Select Alternative --</option>`;
+                        item.alts.forEach(alt => {
+                            optionsHtml += `<option value="${alt.barcode}">[${alt.pack}] ${alt.name} - TZS ${alt.price.toLocaleString()}</option>`;
+                        });
+
+                        bodyHtml += `
+                            <div class="missed-item-card missing-mode" id="missed-card-${item.tempId}" style="border-left: 3px solid #f59e0b;">
+                                <div class="missed-item-freq" title="Ordered ${item.frequency} times">${item.frequency}×</div>
+                                <div class="missed-item-info">
+                                    <div class="missed-item-name" style="color:#ef4444; font-size: 0.85rem;">⚠️ Out of Stock: ${item.originalName}</div>
+                                    <div style="margin-top:4px;">
+                                        <select class="form-input" id="missed-alt-sel-${item.tempId}" style="width:100%; padding: 4px; font-size: 0.8rem;" onchange="updateMissingItemPrice('${item.tempId}')">
+                                            ${optionsHtml}
+                                        </select>
+                                    </div>
+                                    <div style="margin-top: 6px;">
+                                        <button onclick="moveToSpecialRequest('${item.originalName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', '${(item.originalPack || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'missed-qty-${item.tempId}', 'missed-card-${item.tempId}')" style="background:none; border:none; color:#3b82f6; font-size:0.75rem; text-decoration:underline; font-weight:600; cursor:pointer; padding:0; text-align:left;">➔ Move to Special Request</button>
+                                    </div>
+                                    <div class="missed-item-meta" style="margin-top: 4px;">
+                                        <span>📅 ${lastDateStr}</span>
+                                        <span id="missed-alt-price-${item.tempId}" style="color:var(--primary); font-weight:bold;"></span>
+                                    </div>
+                                </div>
+                                <div class="missed-item-actions">
+                                    <input type="number" class="missed-qty-input" id="missed-qty-${item.tempId}" 
+                                        value="${item.avgQty}" min="1" title="Suggested qty">
+                                    <button class="missed-add-btn" id="missed-btn-${item.tempId}" 
+                                        onclick="addMissingMissedItem('${item.tempId}')" title="Add Alternative to cart">＋</button>
                                 </div>
                             </div>
-                            <div class="missed-item-actions">
-                                <input type="number" class="missed-qty-input" id="missed-qty-${item.barcode}" 
-                                    value="${item.avgQty}" min="1" title="Suggested qty based on your history">
-                                <button class="missed-add-btn" id="missed-btn-${item.barcode}" 
-                                    onclick="addMissedItem('${item.barcode}')" title="Add to cart">＋</button>
+                        `;
+                    } else {
+                        const priceStr = item.price ? item.price.toLocaleString() : '—';
+                        bodyHtml += `
+                            <div class="missed-item-card" id="missed-card-${item.barcode}">
+                                <div class="missed-item-freq" title="Ordered ${item.frequency} times">${item.frequency}×</div>
+                                <div class="missed-item-info">
+                                    <div class="missed-item-name" title="${item.name}">${item.name}</div>
+                                    <div class="missed-item-meta">
+                                        <span>📦 ${item.pack}</span>
+                                        <span>📅 ${lastDateStr}</span>
+                                        <span>💰 ${priceStr}</span>
+                                    </div>
+                                </div>
+                                <div class="missed-item-actions">
+                                    <input type="number" class="missed-qty-input" id="missed-qty-${item.barcode}" 
+                                        value="${item.avgQty}" min="1" title="Suggested qty based on your history">
+                                    <button class="missed-add-btn" id="missed-btn-${item.barcode}" 
+                                        onclick="addMissedItem('${item.barcode}')" title="Add to cart">＋</button>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    }
                 });
 
                 bodyHtml += `</div>`;
@@ -1699,9 +1851,56 @@
             triggerCartAnimation();
         }
 
+        function updateMissingItemPrice(tempId) {
+            const sel = document.getElementById('missed-alt-sel-' + tempId);
+            const priceEl = document.getElementById('missed-alt-price-' + tempId);
+            if (!sel.value) { priceEl.innerText = ''; return; }
+            const item = priceMap[sel.value];
+            if (item) priceEl.innerText = '💰 TZS ' + item.price.toLocaleString();
+        }
+
+        function addMissingMissedItem(tempId) {
+            const sel = document.getElementById('missed-alt-sel-' + tempId);
+            const barcode = sel.value;
+            if (!barcode) { alert("Please select an alternative item first."); return; }
+
+            const qtyInput = document.getElementById('missed-qty-' + tempId);
+            const qty = Number(qtyInput?.value) || 1;
+            const card = document.getElementById('missed-card-' + tempId);
+            const btn = document.getElementById('missed-btn-' + tempId);
+
+            addToCartFinal(barcode, qty);
+
+            if (card) card.classList.add('added');
+            if (btn) btn.disabled = true;
+            if (qtyInput) qtyInput.disabled = true;
+            if (sel) sel.disabled = true;
+
+            missedItemsAddedCount++;
+            updateMissedCounter();
+            triggerCartAnimation();
+        }
+
         function addAllMissedItems() {
             currentMissedItems.forEach(item => {
-                if (!cart[item.barcode]) {
+                if (item.isMissing) {
+                    const sel = document.getElementById('missed-alt-sel-' + item.tempId);
+                    if (sel && sel.value) {
+                        const barcode = sel.value;
+                        if (!cart[barcode]) {
+                            const qtyInput = document.getElementById('missed-qty-' + item.tempId);
+                            const qty = Number(qtyInput?.value) || item.avgQty;
+                            addToCartFinal(barcode, qty);
+
+                            const card = document.getElementById('missed-card-' + item.tempId);
+                            const btn = document.getElementById('missed-btn-' + item.tempId);
+                            if (card) card.classList.add('added');
+                            if (btn) btn.disabled = true;
+                            if (qtyInput) qtyInput.disabled = true;
+                            sel.disabled = true;
+                        }
+                    }
+                } else if (!cart[item.barcode]) {
                     const qtyInput = document.getElementById('missed-qty-' + item.barcode);
                     const qty = Number(qtyInput?.value) || item.avgQty;
                     addToCartFinal(item.barcode, qty);
@@ -1714,7 +1913,7 @@
                 }
             });
 
-            missedItemsAddedCount = currentMissedItems.length;
+            missedItemsAddedCount = document.querySelectorAll('.missed-item-card.added').length;
             updateMissedCounter();
             triggerCartAnimation();
 
@@ -1770,6 +1969,59 @@
                 <button style="border:none; background:none; color:red; cursor:pointer;" onclick="this.parentElement.remove()">✕</button>
             `;
             container.appendChild(div);
+        }
+
+        // Feature: Move Missing Items to Special Request
+        function moveToSpecialRequest(name, pack, qtyInputId, cardId) {
+            const qtyInput = document.getElementById(qtyInputId);
+            const qty = qtyInput ? (Number(qtyInput.value) || 1) : 1;
+
+            const container = document.getElementById("specialItemsList");
+            const div = document.createElement("div");
+            div.className = "special-item-row";
+            div.style.display = "flex";
+            div.style.gap = "5px";
+            div.style.marginBottom = "5px";
+
+            const safeName = name.replace(/"/g, '&quot;');
+            const safePack = (pack || '').replace(/"/g, '&quot;');
+
+            div.innerHTML = `
+                <input placeholder="Item Name" class="form-input" style="flex:2; padding:5px;" name="si_name" value="${safeName}">
+                <input placeholder="Size/Pack" class="form-input" style="flex:1; padding:5px;" name="si_pack" value="${safePack}">
+                <input type="number" placeholder="Qty" class="form-input" style="width:60px; padding:5px;" name="si_qty" value="${qty}">
+                <button style="border:none; background:none; color:red; cursor:pointer;" onclick="this.parentElement.remove()">✕</button>
+            `;
+            container.appendChild(div);
+
+            const card = document.getElementById(cardId);
+            if (card) {
+                card.classList.add('added');
+
+                if (qtyInput) qtyInput.disabled = true;
+                const sel = card.querySelector('select');
+                if (sel) sel.disabled = true;
+
+                const btns = card.querySelectorAll('button');
+                btns.forEach(b => b.disabled = true);
+
+                if (cardId.startsWith('predict-')) {
+                    card.classList.add('removed');
+                    setTimeout(() => updatePredictTotal(), 300);
+                } else if (cardId.startsWith('missed-')) {
+                    card.classList.add('removed');
+                }
+            }
+
+            const toast = document.createElement('div');
+            toast.innerText = "✓ Moved to Special Requests";
+            toast.style.cssText = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#064e3b; color:#fff; padding:10px 20px; border-radius:20px; z-index:9999; font-size:0.9rem; font-weight:600; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: popIn 0.3s ease-out;";
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
         }
 
         function submitCustomerOrder() {
@@ -2201,27 +2453,49 @@
 
                 // Find matching item in current price list by name+pack
                 const currentProduct = findCurrentItemByNamePack(item.histName, item.histPack);
-                if (!currentProduct) continue;
+                if (currentProduct) {
+                    // Deduplicate
+                    if (seenBarcodes.has(currentProduct.barcode)) continue;
+                    seenBarcodes.add(currentProduct.barcode);
 
-                // Deduplicate
-                if (seenBarcodes.has(currentProduct.barcode)) continue;
-                seenBarcodes.add(currentProduct.barcode);
+                    const appearances = item.orderDates.size;
+                    const avgQty = Math.max(1, Math.round(item.totalQty / appearances));
+                    const confidence = Math.min(100, Math.round((appearances / totalOrders) * 100));
 
-                const appearances = item.orderDates.size;
-                const avgQty = Math.max(1, Math.round(item.totalQty / appearances));
-                const confidence = Math.min(100, Math.round((appearances / totalOrders) * 100));
+                    suggestedItems.push({
+                        isMissing: false,
+                        barcode: currentProduct.barcode,
+                        name: currentProduct.name,
+                        pack: currentProduct.pack,
+                        price: currentProduct.price,
+                        cat: item.cat || currentProduct.cat || 'Other',
+                        avgQty: avgQty,
+                        lastQty: item.lastQty,
+                        confidence: confidence,
+                        appearances: appearances
+                    });
+                } else {
+                    const alts = getCategoryAlternatives(item.histName, item.cat);
+                    if (alts.length === 0) continue;
 
-                suggestedItems.push({
-                    barcode: currentProduct.barcode,
-                    name: currentProduct.name,
-                    pack: currentProduct.pack,
-                    price: currentProduct.price,
-                    cat: item.cat || currentProduct.cat || 'Other',
-                    avgQty: avgQty,
-                    lastQty: item.lastQty,
-                    confidence: confidence,
-                    appearances: appearances
-                });
+                    const appearances = item.orderDates.size;
+                    const avgQty = Math.max(1, Math.round(item.totalQty / appearances));
+                    const confidence = Math.min(100, Math.round((appearances / totalOrders) * 100));
+                    const tempId = 'predict_' + npKey.replace(/[^a-z0-9]/g, '');
+
+                    suggestedItems.push({
+                        isMissing: true,
+                        tempId: tempId,
+                        originalName: item.histName,
+                        originalPack: item.histPack,
+                        cat: item.cat || 'Other',
+                        avgQty: avgQty,
+                        lastQty: item.lastQty,
+                        confidence: confidence,
+                        appearances: appearances,
+                        alts: alts
+                    });
+                }
             }
 
             // Sort by confidence descending, then by appearances
@@ -2372,30 +2646,63 @@
                     const confColor = confClass === 'high' ? '#22c55e' : confClass === 'medium' ? '#f59e0b' : '#94a3b8';
                     const delay = Math.min(itemIndex * 0.05, 1); // Stagger animation, max 1s
 
-                    bodyHtml += `
-                        <div class="predict-item-card" id="predict-card-${item.barcode}" style="animation-delay:${delay}s">
-                            <div class="predict-confidence ${confClass}" title="Ordered in ${item.confidence}% of your orders">
-                                ${item.confidence}%
-                            </div>
-                            <div class="predict-item-info">
-                                <div class="predict-item-name" title="${item.name}">${item.name}</div>
-                                <div class="predict-item-meta">
-                                    <span>📦 ${item.pack}</span>
-                                    <span>💰 ${item.price.toLocaleString()}</span>
-                                    <span>📊 ${item.appearances}× ordered</span>
+                    if (item.isMissing) {
+                        let optionsHtml = `<option value="">-- Select Alternative --</option>`;
+                        item.alts.forEach(alt => {
+                            optionsHtml += `<option value="${alt.barcode}">[${alt.pack}] ${alt.name} - TZS ${alt.price.toLocaleString()}</option>`;
+                        });
+
+                        bodyHtml += `
+                            <div class="predict-item-card missing-mode" id="predict-card-${item.tempId}" style="animation-delay:${delay}s; border-left: 3px solid #f59e0b;">
+                                <div class="predict-confidence medium" title="History item missing from price list">⚠️</div>
+                                <div class="predict-item-info">
+                                    <div class="predict-item-name" style="color:#ef4444; font-size: 0.85rem;">⚠️ Out of Stock: ${item.originalName}</div>
+                                    <div style="margin-top:4px;">
+                                        <select class="form-input" id="predict-alt-sel-${item.tempId}" style="width:100%; padding: 4px; font-size: 0.8rem;" onchange="updatePredictTotal(); updatePredictMissingPrice('${item.tempId}')">
+                                            ${optionsHtml}
+                                        </select>
+                                    </div>
+                                    <div style="margin-top: 6px;">
+                                        <button onclick="moveToSpecialRequest('${item.originalName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', '${(item.originalPack || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'predict-qty-${item.tempId}', 'predict-card-${item.tempId}')" style="background:none; border:none; color:#3b82f6; font-size:0.75rem; text-decoration:underline; font-weight:600; cursor:pointer; padding:0; text-align:left;">➔ Move to Special Request</button>
+                                    </div>
+                                    <div class="predict-item-meta" style="margin-top: 4px;">
+                                        <span id="predict-alt-price-${item.tempId}" style="color:var(--primary); font-weight:bold;"></span>
+                                        <span>📊 ${item.appearances}× ordered</span>
+                                    </div>
                                 </div>
-                                <div class="predict-conf-bar">
-                                    <div class="predict-conf-fill" style="width:${item.confidence}%; background:${confColor};"></div>
+                                <div class="predict-item-actions">
+                                    <input type="number" class="predict-qty-input" id="predict-qty-${item.tempId}"
+                                        value="${item.avgQty}" min="1" onchange="updatePredictTotal()" title="Suggested Qty">
+                                    <button class="predict-remove-btn" onclick="removePredictItem('${item.tempId}')" title="Remove">✕</button>
                                 </div>
                             </div>
-                            <div class="predict-item-actions">
-                                <input type="number" class="predict-qty-input" id="predict-qty-${item.barcode}"
-                                    value="${item.avgQty}" min="1" onchange="updatePredictTotal()"
-                                    title="Avg: ${item.avgQty} | Last: ${item.lastQty}">
-                                <button class="predict-remove-btn" onclick="removePredictItem('${item.barcode}')" title="Remove">✕</button>
+                        `;
+                    } else {
+                        bodyHtml += `
+                            <div class="predict-item-card" id="predict-card-${item.barcode}" style="animation-delay:${delay}s">
+                                <div class="predict-confidence ${confClass}" title="Ordered in ${item.confidence}% of your orders">
+                                    ${item.confidence}%
+                                </div>
+                                <div class="predict-item-info">
+                                    <div class="predict-item-name" title="${item.name}">${item.name}</div>
+                                    <div class="predict-item-meta">
+                                        <span>📦 ${item.pack}</span>
+                                        <span>💰 ${item.price.toLocaleString()}</span>
+                                        <span>📊 ${item.appearances}× ordered</span>
+                                    </div>
+                                    <div class="predict-conf-bar">
+                                        <div class="predict-conf-fill" style="width:${item.confidence}%; background:${confColor};"></div>
+                                    </div>
+                                </div>
+                                <div class="predict-item-actions">
+                                    <input type="number" class="predict-qty-input" id="predict-qty-${item.barcode}"
+                                        value="${item.avgQty}" min="1" onchange="updatePredictTotal()"
+                                        title="Avg: ${item.avgQty} | Last: ${item.lastQty}">
+                                    <button class="predict-remove-btn" onclick="removePredictItem('${item.barcode}')" title="Remove">✕</button>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    }
                     itemIndex++;
                 });
 
@@ -2416,11 +2723,21 @@
             let count = 0;
 
             predictionData.suggestedItems.forEach(item => {
-                const card = document.getElementById('predict-card-' + item.barcode);
+                const itemId = item.isMissing ? item.tempId : item.barcode;
+                const card = document.getElementById('predict-card-' + itemId);
                 if (card && !card.classList.contains('removed')) {
-                    const qty = Number(document.getElementById('predict-qty-' + item.barcode)?.value) || 0;
-                    total += qty * item.price;
-                    count++;
+                    if (item.isMissing) {
+                        const sel = document.getElementById('predict-alt-sel-' + item.tempId);
+                        if (sel && sel.value) {
+                            const pItem = priceMap[sel.value];
+                            const qty = Number(document.getElementById('predict-qty-' + item.tempId)?.value) || 0;
+                            if (pItem) { total += qty * pItem.price; count++; }
+                        }
+                    } else {
+                        const qty = Number(document.getElementById('predict-qty-' + item.barcode)?.value) || 0;
+                        total += qty * item.price;
+                        count++;
+                    }
                 }
             });
 
@@ -2436,26 +2753,53 @@
             }
         }
 
+        function updatePredictMissingPrice(tempId) {
+            const sel = document.getElementById('predict-alt-sel-' + tempId);
+            const priceEl = document.getElementById('predict-alt-price-' + tempId);
+            if (!sel || !priceEl) return;
+            if (!sel.value) { priceEl.innerText = ''; return; }
+            const pItem = priceMap[sel.value];
+            if (pItem) priceEl.innerText = '💰 TZS ' + pItem.price.toLocaleString();
+        }
+
         function loadPredictionToCart() {
             if (!predictionData) return;
 
             let addedCount = 0;
             predictionData.suggestedItems.forEach(item => {
-                const card = document.getElementById('predict-card-' + item.barcode);
+                const itemId = item.isMissing ? item.tempId : item.barcode;
+                const card = document.getElementById('predict-card-' + itemId);
                 if (card && !card.classList.contains('removed')) {
-                    const qty = Number(document.getElementById('predict-qty-' + item.barcode)?.value) || item.avgQty;
+                    const qty = Number(document.getElementById('predict-qty-' + itemId)?.value) || item.avgQty;
 
-                    // Replace or add to cart
-                    cart[item.barcode] = {
-                        barcode: item.barcode,
-                        name: item.name,
-                        pack: item.pack,
-                        price: item.price,
-                        qty: qty
-                    };
-
-                    if (card) card.classList.add('loaded');
-                    addedCount++;
+                    if (item.isMissing) {
+                        const sel = document.getElementById('predict-alt-sel-' + item.tempId);
+                        if (sel && sel.value) {
+                            const selItem = priceMap[sel.value];
+                            if (selItem) {
+                                cart[selItem.barcode] = {
+                                    barcode: selItem.barcode,
+                                    name: selItem.name,
+                                    pack: selItem.pack,
+                                    price: selItem.price,
+                                    qty: qty
+                                };
+                                card.classList.add('loaded');
+                                addedCount++;
+                            }
+                        }
+                    } else {
+                        // Replace or add to cart
+                        cart[item.barcode] = {
+                            barcode: item.barcode,
+                            name: item.name,
+                            pack: item.pack,
+                            price: item.price,
+                            qty: qty
+                        };
+                        card.classList.add('loaded');
+                        addedCount++;
+                    }
                 }
             });
 
@@ -2481,6 +2825,627 @@
         document.querySelectorAll(".modal").forEach(m => m.onclick = (e) => {
             if (e.target === m) m.style.display = "none";
         });
+
+        /* ========================================
+           ADMIN: BUYING PATTERNS INTELLIGENCE
+           ======================================== */
+
+        let bpRawData = null; // { orders: [], clients: [] }
+        let bpProcessedPatterns = [];
+        let bpProcessedStopped = [];
+        let bpTimeRange = 'all'; // 'all' | 30 | 60 | 90
+        let bpStoppedThreshold = 60; // days
+        let bpPatternSort = { key: 'orders', dir: -1 };
+        let bpPatternPage = 0;
+        const BP_PAGE_SIZE = 25;
+
+        // Stop-words to exclude from keywords (generic, uninformative words)
+        const BP_STOP_WORDS = new Set([
+            // Sizes, packs, measurements
+            'g', 'gm', 'gms', 'gram', 'grams', 'kg', 'kgs', 'ml', 'mls', 'ltr', 'ltrs', 'liter', 'litre',
+            'liters', 'litres', 'oz', 'pc', 'pcs', 'piece', 'pieces', 'pack', 'packs', 'pkt', 'pkts', 'packet',
+            'box', 'boxes', 'ctn', 'ctns', 'carton', 'cartons', 'can', 'cans', 'tin', 'tins', 'bottle',
+            'bottles', 'btl', 'jar', 'jars', 'bag', 'bags', 'sachet', 'sachets', 'roll', 'rolls',
+            'single', 'double', 'triple', 'pair', 'set', 'each', 'per', 'unit', 'units',
+            // Numbers & sizes
+            'small', 'medium', 'large', 'xl', 'xxl', 'mini', 'big', 'extra',
+            // Generic fillers
+            'of', 'the', 'a', 'an', 'in', 'with', 'and', 'or', 'for', 'to', 'from', 'by',
+            'no', 'yes', 'new', 'old', 'x', 'size', 'type', 'grade', 'quality',
+            // Category words (too broad)
+            'food', 'drink', 'item', 'product', 'brand', 'flavor', 'flavour', 'style', 'variety',
+            'premium', 'regular', 'standard', 'classic', 'original', 'special'
+        ]);
+
+        /**
+         * Extract meaningful keywords from an item name.
+         * Strips out numbers, sizes, pack info, brands etc. to get the core product identifier.
+         */
+        function bpExtractKeywords(name) {
+            if (!name) return [];
+            const cleaned = String(name).toLowerCase()
+                .replace(/[^a-z\s]/g, ' ')  // remove non-alpha 
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            const words = cleaned.split(' ').filter(w => {
+                if (w.length < 2) return false;
+                if (BP_STOP_WORDS.has(w)) return false;
+                // Remove pure numbers or number-like tokens
+                if (/^\d+$/.test(w)) return false;
+                return true;
+            });
+
+            // As requested: Match first two words only so brand/variant doesn't cause mismatch
+            return [...new Set(words)].slice(0, 2); // Keep only first two keywords
+        }
+
+        /**
+         * Generate a keyword fingerprint (sorted keywords joined)
+         * This groups items that share the same core keywords
+         */
+        function bpKeywordFingerprint(keywords) {
+            return keywords.slice().sort().join(' ');
+        }
+
+        /** Load data from API */
+        function bpLoadData() {
+            const token = localStorage.getItem('authToken');
+            if (!token) { alert('Please login first.'); return; }
+
+            const btn = document.getElementById('bpRefreshBtn');
+            btn.classList.add('loading');
+
+            // Show skeleton
+            document.getElementById('bpKpiStrip').innerHTML =
+                '<div class="bp-skeleton" style="grid-column:1/-1;height:80px;"></div>';
+            document.getElementById('bpPatternBody').innerHTML =
+                '<tr><td colspan="6"><div class="bp-skeleton" style="height:200px;"></div></td></tr>';
+
+            Api.getAllBuyingPatterns(token)
+                .then(data => {
+                    bpRawData = data;
+                    bpPopulateClientFilter();
+                    bpRenderAll();
+                    btn.classList.remove('loading');
+                })
+                .catch(err => {
+                    btn.classList.remove('loading');
+                    alert('Error: ' + err.message);
+                });
+        }
+
+        /** Populate client dropdown */
+        function bpPopulateClientFilter() {
+            const sel = document.getElementById('bpClientFilter');
+            sel.innerHTML = '<option value="all">All Clients</option>';
+            if (!bpRawData) return;
+
+            bpRawData.clients.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+            bpRawData.clients.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.email;
+                opt.textContent = c.name + ' (' + c.email + ')';
+                sel.appendChild(opt);
+            });
+        }
+
+        /** Master render function */
+        function bpRenderAll() {
+            if (!bpRawData) return;
+
+            const clientFilter = document.getElementById('bpClientFilter').value;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            // Filter orders by client and time range
+            let orders = bpRawData.orders.filter(o => {
+                if (clientFilter !== 'all' && String(o.email).toLowerCase() !== clientFilter) return false;
+                if (bpTimeRange !== 'all') {
+                    const d = new Date(o.date);
+                    const daysDiff = (today - d) / (1000 * 60 * 60 * 24);
+                    if (daysDiff > bpTimeRange) return false;
+                }
+                return true;
+            });
+
+            // Process patterns using keyword grouping
+            bpProcessPatterns(orders, today);
+            bpRenderKpis(orders, today);
+            bpRenderPatterns();
+            bpRenderStopped(today, clientFilter);
+            bpRenderClients(today);
+        }
+
+        /** Process orders into keyword-grouped patterns */
+        function bpProcessPatterns(orders, today) {
+            const keywordMap = {}; // fingerprint -> pattern data
+
+            orders.forEach(o => {
+                const keywords = bpExtractKeywords(o.name);
+                if (keywords.length === 0) return;
+
+                const fp = bpKeywordFingerprint(keywords);
+                const orderDate = new Date(o.date);
+
+                if (!keywordMap[fp]) {
+                    keywordMap[fp] = {
+                        keywords: keywords,
+                        fingerprint: fp,
+                        items: new Set(),      // unique full item names
+                        clients: new Set(),    // unique client emails
+                        totalOrders: 0,
+                        totalQty: 0,
+                        lastDate: null,
+                        firstDate: null,
+                        orderDates: new Set()
+                    };
+                }
+
+                const p = keywordMap[fp];
+                p.items.add(o.name);
+                if (o.email) p.clients.add(String(o.email).toLowerCase());
+                p.totalOrders++;
+                p.totalQty += Number(o.qty) || 0;
+                const dateKey = orderDate.toISOString().split('T')[0];
+                p.orderDates.add(dateKey);
+
+                if (!p.lastDate || orderDate > p.lastDate) p.lastDate = orderDate;
+                if (!p.firstDate || orderDate < p.firstDate) p.firstDate = orderDate;
+            });
+
+            // Convert to array & compute status
+            bpProcessedPatterns = Object.values(keywordMap).map(p => {
+                const daysSinceLast = p.lastDate ? Math.round((today - p.lastDate) / (1000 * 60 * 60 * 24)) : 999;
+                let status = 'active';
+                if (daysSinceLast > 90) status = 'stopped';
+                else if (daysSinceLast > 45) status = 'at-risk';
+
+                return {
+                    ...p,
+                    items: [...p.items],
+                    clients: [...p.clients],
+                    clientCount: p.clients.size,
+                    uniqueOrderDays: p.orderDates.size,
+                    daysSinceLast,
+                    status
+                };
+            });
+
+            // Sort
+            bpApplySort();
+        }
+
+        /** Apply current sort to patterns */
+        function bpApplySort() {
+            const { key, dir } = bpPatternSort;
+            bpProcessedPatterns.sort((a, b) => {
+                let va, vb;
+                switch (key) {
+                    case 'keywords': va = a.fingerprint; vb = b.fingerprint; return va.localeCompare(vb) * dir;
+                    case 'clients': va = a.clientCount; vb = b.clientCount; break;
+                    case 'orders': va = a.totalOrders; vb = b.totalOrders; break;
+                    case 'qty': va = a.totalQty; vb = b.totalQty; break;
+                    case 'lastDate': va = a.lastDate ? a.lastDate.getTime() : 0; vb = b.lastDate ? b.lastDate.getTime() : 0; break;
+                    case 'status':
+                        const order = { stopped: 0, 'at-risk': 1, active: 2 };
+                        va = order[a.status]; vb = order[b.status]; break;
+                    default: va = a.totalOrders; vb = b.totalOrders;
+                }
+                return (va - vb) * dir;
+            });
+        }
+
+        /** Render KPI cards */
+        function bpRenderKpis(orders, today) {
+            const strip = document.getElementById('bpKpiStrip');
+            if (!orders.length) {
+                strip.innerHTML = '';
+                return;
+            }
+
+            const uniqueItems = new Set(orders.map(o => bpKeywordFingerprint(bpExtractKeywords(o.name)))).size;
+            const uniqueClients = new Set(orders.map(o => String(o.email).toLowerCase())).size;
+            const totalQty = orders.reduce((s, o) => s + (Number(o.qty) || 0), 0);
+
+            // Count stopped 
+            const stoppedCount = bpProcessedPatterns.filter(p => p.status === 'stopped').length;
+            const atRiskCount = bpProcessedPatterns.filter(p => p.status === 'at-risk').length;
+
+            strip.innerHTML = `
+                <div class="bp-kpi-card">
+                    <div class="bp-kpi-icon indigo">📦</div>
+                    <div>
+                        <div class="bp-kpi-value">${uniqueItems.toLocaleString()}</div>
+                        <div class="bp-kpi-label">Unique Item Keywords</div>
+                    </div>
+                </div>
+                <div class="bp-kpi-card">
+                    <div class="bp-kpi-icon emerald">👥</div>
+                    <div>
+                        <div class="bp-kpi-value">${uniqueClients}</div>
+                        <div class="bp-kpi-label">Active Clients</div>
+                    </div>
+                </div>
+                <div class="bp-kpi-card">
+                    <div class="bp-kpi-icon sky">📊</div>
+                    <div>
+                        <div class="bp-kpi-value">${totalQty.toLocaleString()}</div>
+                        <div class="bp-kpi-label">Total Qty Ordered</div>
+                    </div>
+                </div>
+                <div class="bp-kpi-card">
+                    <div class="bp-kpi-icon amber">⚠️</div>
+                    <div>
+                        <div class="bp-kpi-value" id="bpKpiAtRiskCount">-</div>
+                        <div class="bp-kpi-label">At-Risk Client Items</div>
+                    </div>
+                </div>
+                <div class="bp-kpi-card">
+                    <div class="bp-kpi-icon rose">🚫</div>
+                    <div>
+                        <div class="bp-kpi-value" id="bpKpiStoppedCount">-</div>
+                        <div class="bp-kpi-label">Stopped Client Items</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /** Render patterns table */
+        function bpRenderPatterns() {
+            const tbody = document.getElementById('bpPatternBody');
+            const searchTxt = (document.getElementById('bpPatternSearch')?.value || '').toLowerCase().trim();
+
+            let filtered = bpProcessedPatterns;
+            if (searchTxt) {
+                filtered = filtered.filter(p =>
+                    p.fingerprint.includes(searchTxt) ||
+                    p.items.some(i => i.toLowerCase().includes(searchTxt))
+                );
+            }
+
+            // Update count
+            document.getElementById('bpPatternCount').textContent = filtered.length + ' items';
+
+            if (!filtered.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="bp-no-results">No matching patterns found.</td></tr>';
+                document.getElementById('bpPatternPagination').innerHTML = '';
+                return;
+            }
+
+            // Pagination
+            const totalPages = Math.ceil(filtered.length / BP_PAGE_SIZE);
+            if (bpPatternPage >= totalPages) bpPatternPage = totalPages - 1;
+            const start = bpPatternPage * BP_PAGE_SIZE;
+            const pageItems = filtered.slice(start, start + BP_PAGE_SIZE);
+            const maxOrders = Math.max(...filtered.map(p => p.totalOrders), 1);
+
+            let html = '';
+            pageItems.forEach((p, i) => {
+                const lastDateStr = p.lastDate ? p.lastDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }) : '—';
+                const pct = Math.round((p.totalOrders / maxOrders) * 100);
+                const barClass = pct >= 60 ? 'high' : pct >= 30 ? 'medium' : 'low';
+                const statusClass = p.status;
+                const statusLabel = p.status === 'active' ? '✅ Active' : p.status === 'at-risk' ? '⚠️ At Risk' : '🚫 Stopped';
+                const delay = Math.min(i * 0.03, 0.5);
+
+                html += `<tr style="animation-delay:${delay}s">
+                    <td class="bp-keyword-cell">
+                        ${p.keywords.map(k => `<span class="bp-keyword-tag">${k}</span>`).join('')}
+                    </td>
+                    <td>${p.clientCount}</td>
+                    <td>
+                        <strong>${p.totalOrders}</strong>
+                        <div class="bp-freq-bar"><div class="bp-freq-fill ${barClass}" style="width:${pct}%"></div></div>
+                    </td>
+                    <td>${p.totalQty.toLocaleString()}</td>
+                    <td>
+                        <div>${lastDateStr}</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">${p.daysSinceLast}d ago</div>
+                    </td>
+                    <td><span class="bp-status-badge ${statusClass}">${statusLabel}</span></td>
+                </tr>`;
+            });
+
+            tbody.innerHTML = html;
+
+            // Pagination controls
+            let pagHtml = '';
+            for (let i = 0; i < totalPages; i++) {
+                pagHtml += `<button class="bp-page-btn ${i === bpPatternPage ? 'active' : ''}" 
+                    onclick="bpGoToPage(${i})">${i + 1}</button>`;
+            }
+            document.getElementById('bpPatternPagination').innerHTML = pagHtml;
+        }
+
+        /** Render stopped buying report */
+        function bpRenderStopped(today, clientFilter) {
+            if (!bpRawData) return;
+            const container = document.getElementById('bpStoppedContent');
+            today = today || new Date();
+
+            // For each client, find keywords they used to buy but haven't bought recently 
+            const clientsToCheck = clientFilter !== 'all'
+                ? bpRawData.clients.filter(c => c.email === clientFilter)
+                : bpRawData.clients;
+
+            const stoppedByClient = [];
+            
+            let totalStoppedItems = 0;
+            let totalAtRiskItems = 0;
+
+            clientsToCheck.forEach(client => {
+                const clientOrders = bpRawData.orders.filter(o =>
+                    String(o.email).toLowerCase() === client.email.toLowerCase()
+                );
+                if (clientOrders.length === 0) return;
+
+                // Group by keyword fingerprint for this client
+                const kwMap = {};
+                clientOrders.forEach(o => {
+                    const kw = bpExtractKeywords(o.name);
+                    if (kw.length === 0) return;
+                    const fp = bpKeywordFingerprint(kw);
+                    const d = new Date(o.date);
+
+                    if (!kwMap[fp]) {
+                        kwMap[fp] = {
+                            keywords: kw,
+                            fingerprint: fp,
+                            items: new Set(),
+                            lastDate: null,
+                            totalOrders: 0,
+                            totalQty: 0
+                        };
+                    }
+                    kwMap[fp].items.add(o.name);
+                    kwMap[fp].totalOrders++;
+                    kwMap[fp].totalQty += Number(o.qty) || 0;
+                    if (!kwMap[fp].lastDate || d > kwMap[fp].lastDate) kwMap[fp].lastDate = d;
+                });
+
+                // Find items this client has stopped buying
+                const stopped = [];
+                for (const fp in kwMap) {
+                    const entry = kwMap[fp];
+                    if (!entry.lastDate) continue;
+                    const daysSince = Math.round((today - entry.lastDate) / (1000 * 60 * 60 * 24));
+                    // Only flag items bought at least twice (so it's a pattern, not a one-off)
+                    if (entry.totalOrders >= 2) {
+                        if (daysSince >= bpStoppedThreshold) {
+                            stopped.push({
+                                keywords: entry.keywords,
+                                items: [...entry.items],
+                                lastDate: entry.lastDate,
+                                daysSince,
+                                totalOrders: entry.totalOrders,
+                                totalQty: entry.totalQty
+                            });
+                            totalStoppedItems++;
+                        } else if (daysSince >= 45 && daysSince < bpStoppedThreshold) {
+                            totalAtRiskItems++;
+                        }
+                    }
+                }
+
+                if (stopped.length > 0) {
+                    stopped.sort((a, b) => a.daysSince - b.daysSince);
+                    stoppedByClient.push({
+                        client,
+                        stopped
+                    });
+                }
+            });
+
+            // Update KPI numbers
+            const stoppedKpi = document.getElementById('bpKpiStoppedCount');
+            const atRiskKpi = document.getElementById('bpKpiAtRiskCount');
+            if (stoppedKpi) stoppedKpi.innerText = totalStoppedItems;
+            if (atRiskKpi) atRiskKpi.innerText = totalAtRiskItems;
+
+            // Sort clients by number of stopped items (most first)
+            stoppedByClient.sort((a, b) => b.stopped.length - a.stopped.length);
+
+            if (stoppedByClient.length === 0) {
+                container.innerHTML = `
+                    <div class="bp-empty-state">
+                        <div class="bp-empty-icon">✅</div>
+                        <div class="bp-empty-title">No Stopped Items Detected</div>
+                        <div class="bp-empty-text">All clients are continuing their regular purchasing patterns within the ${bpStoppedThreshold}-day threshold.</div>
+                    </div>`;
+                return;
+            }
+
+            let html = '<div class="bp-stopped-grid">';
+            stoppedByClient.forEach((entry, ci) => {
+                html += `
+                <div class="bp-stopped-card" style="animation-delay:${ci * 0.08}s">
+                    <div class="bp-stopped-card-header">
+                        <div class="bp-stopped-client-name">🚫 ${entry.client.name || entry.client.email}</div>
+                        <div class="bp-stopped-count">${entry.stopped.length} item${entry.stopped.length > 1 ? 's' : ''}</div>
+                    </div>
+                    <div class="bp-stopped-items">`;
+
+                entry.stopped.forEach(s => {
+                    const dateStr = s.lastDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' });
+                    html += `
+                        <div class="bp-stopped-item">
+                            <div>
+                                <div class="bp-stopped-item-name">
+                                    📦 ${s.items[0]}${s.items.length > 1 ? ` <span style="color:var(--text-muted);font-size:0.75rem;">(+${s.items.length - 1} variants)</span>` : ''}
+                                </div>
+                                <div class="bp-stopped-item-keywords">
+                                    ${s.keywords.map(k => `<span class="bp-keyword-tag">${k}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div class="bp-stopped-item-meta">
+                                <div class="bp-stopped-last-date">${dateStr}</div>
+                                <div class="bp-stopped-ago">${s.daysSince} days ago</div>
+                                <div style="font-size:0.7rem;color:var(--text-muted);">${s.totalOrders}× ordered</div>
+                            </div>
+                        </div>`;
+                });
+
+                html += `</div></div>`;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        /** Render client overview */
+        function bpRenderClients(today) {
+            if (!bpRawData) return;
+            const container = document.getElementById('bpClientsContent');
+            today = today || new Date();
+
+            const clientData = [];
+            bpRawData.clients.forEach(client => {
+                const orders = bpRawData.orders.filter(o =>
+                    String(o.email).toLowerCase() === client.email.toLowerCase()
+                );
+                if (orders.length === 0) return;
+
+                // Compute stats
+                const orderDates = new Set();
+                const totalQty = orders.reduce((s, o) => {
+                    const d = new Date(o.date);
+                    if (!isNaN(d.getTime())) orderDates.add(d.toISOString().split('T')[0]);
+                    return s + (Number(o.qty) || 0);
+                }, 0);
+
+                const uniqueOrderDays = orderDates.size;
+                const sortedDates = [...orderDates].sort();
+                const lastOrderDate = new Date(sortedDates[sortedDates.length - 1]);
+                const daysSinceLast = Math.round((today - lastOrderDate) / (1000 * 60 * 60 * 24));
+
+                // Top keywords
+                const kwCount = {};
+                orders.forEach(o => {
+                    const kw = bpExtractKeywords(o.name);
+                    kw.forEach(k => { kwCount[k] = (kwCount[k] || 0) + 1; });
+                });
+                const topKeywords = Object.entries(kwCount)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 8)
+                    .map(e => e[0]);
+
+                clientData.push({
+                    name: client.name || client.email,
+                    email: client.email,
+                    totalOrders: uniqueOrderDays,
+                    totalItems: orders.length,
+                    totalQty,
+                    daysSinceLast,
+                    lastOrderDate,
+                    topKeywords
+                });
+            });
+
+            clientData.sort((a, b) => b.totalOrders - a.totalOrders);
+
+            if (!clientData.length) {
+                container.innerHTML = `
+                    <div class="bp-empty-state">
+                        <div class="bp-empty-icon">👥</div>
+                        <div class="bp-empty-title">No Client Data</div>
+                        <div class="bp-empty-text">No order history found to analyze.</div>
+                    </div>`;
+                return;
+            }
+
+            let html = '<div class="bp-client-grid">';
+            clientData.forEach((c, i) => {
+                const lastStr = c.lastOrderDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                const statusClass = c.daysSinceLast > 90 ? 'stopped' : c.daysSinceLast > 45 ? 'at-risk' : 'active';
+                const statusLabel = statusClass === 'active' ? '✅ Active' : statusClass === 'at-risk' ? '⚠️ At Risk' : '🚫 Inactive';
+
+                html += `
+                <div class="bp-client-card" style="animation-delay:${i * 0.06}s">
+                    <div class="bp-client-name">
+                        👤 ${c.name}
+                        <span class="bp-status-badge ${statusClass}" style="font-size:0.7rem;">${statusLabel}</span>
+                    </div>
+                    <div class="bp-client-email">${c.email}</div>
+                    <div class="bp-client-stats">
+                        <div class="bp-client-stat">
+                            <div class="bp-client-stat-value">${c.totalOrders}</div>
+                            <div class="bp-client-stat-label">Orders</div>
+                        </div>
+                        <div class="bp-client-stat">
+                            <div class="bp-client-stat-value">${c.totalQty.toLocaleString()}</div>
+                            <div class="bp-client-stat-label">Total Qty</div>
+                        </div>
+                        <div class="bp-client-stat">
+                            <div class="bp-client-stat-value">${c.daysSinceLast}d</div>
+                            <div class="bp-client-stat-label">Last Order</div>
+                        </div>
+                    </div>
+                    <div class="bp-client-top-items">
+                        ${c.topKeywords.map(k => `<span class="bp-client-top-item">${k}</span>`).join('')}
+                    </div>
+                </div>`;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        /* ---- Tab / Filter / Sort Controls ---- */
+        function bpSwitchTab(tab, btn) {
+            document.querySelectorAll('.bp-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.querySelectorAll('.bp-section').forEach(s => s.classList.remove('active'));
+            const sectionMap = { patterns: 'bpSectionPatterns', stopped: 'bpSectionStopped', clients: 'bpSectionClients' };
+            const section = document.getElementById(sectionMap[tab]);
+            if (section) section.classList.add('active');
+        }
+
+        function bpSetTimeRange(range, btn) {
+            bpTimeRange = range;
+            document.querySelectorAll('#bpTimeFilter .bp-time-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            bpPatternPage = 0;
+            bpRenderAll();
+        }
+
+        function bpSetStoppedThreshold(days, btn) {
+            bpStoppedThreshold = days;
+            btn.parentElement.querySelectorAll('.bp-time-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            const clientFilter = document.getElementById('bpClientFilter').value;
+            bpRenderStopped(today, clientFilter);
+        }
+
+        function bpSortPatterns(key) {
+            if (bpPatternSort.key === key) {
+                bpPatternSort.dir *= -1;
+            } else {
+                bpPatternSort.key = key;
+                bpPatternSort.dir = -1;
+            }
+            bpApplySort();
+            bpPatternPage = 0;
+            bpRenderPatterns();
+        }
+
+        function bpGoToPage(page) {
+            bpPatternPage = page;
+            bpRenderPatterns();
+            // Scroll to table top
+            document.querySelector('.bp-table-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Auto-load when admin page is shown
+        const origShowPage = showPage;
+        showPage = function (pageId, btn) {
+            origShowPage(pageId, btn);
+            if (pageId === 'page-admin-bp' && !bpRawData) {
+                bpLoadData();
+            }
+        };
 
     </script>
     <!-- PROGRESS OVERLAY -->
