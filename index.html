@@ -12,6 +12,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="brands.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -58,6 +59,9 @@
             <button class="nav-btn" onclick="showPage('page-admin-bp', this)" id="adminBpBtn" style="display:none;">
                 📊 Insights
             </button>
+            <button class="nav-btn" onclick="showPage('page-statement', this)" id="statementBtn" style="display:none;">
+                🧾 Statement
+            </button>
             <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"
                 style="font-size:1.2rem; padding:0 10px;" title="Toggle Theme">
                 ☀️
@@ -78,7 +82,8 @@
                 </p>
             </div>
             <!-- Hidden Inputs -->
-            <input type="file" id="stockFile" accept=".xlsx,.xls" style="display:none" onchange="uploadStockExcel()">
+            <input type="file" id="stockFile" accept=".xlsx,.xls,.csv" style="display:none"
+                onchange="uploadStockExcel()">
             <input type="file" id="draftExcel" accept=".csv" style="display:none" onchange="loadDraftFromExcel()">
         </header>
 
@@ -114,7 +119,191 @@
                 </div>
             </div>
         </div>
+
+        <!-- ============ NEW FEATURE CARDS ============ -->
+        <div class="features-section" id="featuresSection">
+            <div class="features-section-header">
+                <h2>✨ Powerful Features at Your Fingertips</h2>
+                <p>Explore our smart tools designed to make your procurement faster, smarter, and effortless</p>
+            </div>
+
+            <div class="features-grid">
+
+                <!-- CARD 1: AI Order -->
+                <div class="feature-card" id="fc-ai-order">
+                    <span class="fc-badge ai-badge">🤖 AI Powered</span>
+                    <div class="fc-icon-wrap ai-gradient">
+                        🧠
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                    </div>
+                    <h3 class="fc-title">AI Smart Order</h3>
+                    <p class="fc-desc">Our AI engine analyses your buying patterns and predicts what you need — before
+                        you even think about it.</p>
+                    <div class="fc-steps">
+                        <div class="fc-step">
+                            <span class="fc-step-num ai-num">1</span>
+                            <span class="fc-step-text"><strong>Login</strong> to your account to activate AI
+                                predictions</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num ai-num">2</span>
+                            <span class="fc-step-text">Click the <strong>😊 AI Order</strong> button in the navigation
+                                bar</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num ai-num">3</span>
+                            <span class="fc-step-text">Review your <strong>smart suggestions</strong>, adjust
+                                quantities, and add to cart</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: Order History -->
+                <div class="feature-card" id="fc-order-history">
+                    <span class="fc-badge history-badge">📋 Quick Recall</span>
+                    <div class="fc-icon-wrap history-gradient">
+                        🔄
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                    </div>
+                    <h3 class="fc-title">Order History & Retrieve</h3>
+                    <p class="fc-desc">Instantly view your last 5 orders and re-order with a single click. Never lose an
+                        order again.</p>
+                    <div class="fc-steps">
+                        <div class="fc-step">
+                            <span class="fc-step-num history-num">1</span>
+                            <span class="fc-step-text">Navigate to the <strong>History</strong> tab after logging
+                                in</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num history-num">2</span>
+                            <span class="fc-step-text">Browse your <strong>last 5 orders</strong> with full item
+                                details</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num history-num">3</span>
+                            <span class="fc-step-text">Hit <strong>Retrieve</strong> to instantly reload any past order
+                                into your cart</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: Stock Count -->
+                <div class="feature-card" id="fc-stock-count">
+                    <span class="fc-badge stock-badge">📦 Inventory</span>
+                    <div class="fc-icon-wrap stock-gradient">
+                        📊
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                    </div>
+                    <h3 class="fc-title">Stock Count Manager</h3>
+                    <p class="fc-desc">Generate a stock sheet from your purchase history, fill in physical counts, and
+                        auto-create your reorder.</p>
+                    <div class="fc-steps">
+                        <div class="fc-step">
+                            <span class="fc-step-num stock-num">1</span>
+                            <span class="fc-step-text">Open the <strong>Stock</strong> tab and click <strong>Generate
+                                    Sheet</strong></span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num stock-num">2</span>
+                            <span class="fc-step-text"><strong>Download</strong> the Excel sheet, fill physical stock
+                                counts</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num stock-num">3</span>
+                            <span class="fc-step-text"><strong>Upload</strong> the completed sheet — items are matched
+                                and loaded to your cart automatically</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: Live Statement -->
+                <div class="feature-card" id="fc-live-statement">
+                    <span class="fc-badge statement-badge">🧾 Finance</span>
+                    <div class="fc-icon-wrap statement-gradient">
+                        📑
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                    </div>
+                    <h3 class="fc-title">Live Statement</h3>
+                    <p class="fc-desc">View your real-time account statement with aging analysis, outstanding balances,
+                        and payment tracking.</p>
+                    <div class="fc-steps">
+                        <div class="fc-step">
+                            <span class="fc-step-num statement-num">1</span>
+                            <span class="fc-step-text"><strong>Login</strong> — the Statement button appears in the nav
+                                bar</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num statement-num">2</span>
+                            <span class="fc-step-text">Click <strong>🧾 Statement</strong> to fetch your live financial
+                                data</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num statement-num">3</span>
+                            <span class="fc-step-text">Review <strong>total billed, payments</strong>, and
+                                <strong>outstanding balance</strong> with aging breakdown</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 5: Items You May Have Missed -->
+                <div class="feature-card" id="fc-missed-items">
+                    <span class="fc-badge missed-badge">🔔 Smart Reminder</span>
+                    <div class="fc-icon-wrap missed-gradient">
+                        🔍
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                    </div>
+                    <h3 class="fc-title">Items You May Have Missed</h3>
+                    <p class="fc-desc">Before you submit, our system checks your order history and alerts you about
+                        items you usually buy but haven't added yet.</p>
+                    <div class="fc-steps">
+                        <div class="fc-step">
+                            <span class="fc-step-num missed-num">1</span>
+                            <span class="fc-step-text"><strong>Build your cart</strong> as usual from the price
+                                list</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num missed-num">2</span>
+                            <span class="fc-step-text">At checkout, the system <strong>scans your past orders</strong>
+                                and flags missing items</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num missed-num">3</span>
+                            <span class="fc-step-text">Tap <strong>Add</strong> to include them or <strong>Skip</strong>
+                                — it's completely up to you</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Feature Cards Scroll Animation -->
+        <script>
+            (function () {
+                const fcObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('fc-visible');
+                            fcObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.15 });
+                document.querySelectorAll('.feature-card').forEach(function (card) {
+                    fcObserver.observe(card);
+                });
+            })();
+        </script>
     </div>
+
 
     <!-- PAGE: PRICELIST (Order) -->
     <div id="page-pricelist" class="page" style="display:none;">
@@ -215,18 +404,97 @@
     </div>
 
     <!-- PAGE: STOCK -->
-    <div id="page-stock" class="page" style="display:none; padding: 2rem;">
-        <div class="container" style="max-width:600px; text-align:center;">
-            <div class="process-card">
-                <h2>📤 Stock Management</h2>
-                <p>Upload Excel stock file to auto-generate reorder quantities.</p>
-                <button class="checkout-btn" style="width:auto; padding:0.75rem 2rem; margin-top:1rem;"
-                    onclick="openStockUpload()">Upload Stock Excel</button>
-                <div style="margin-top:20px;">
-                    <button id="unavailableBtn" class="btn-secondary" style="display:none;"
-                        onclick="openUnavailableFromButton()">
-                        ⚠️ Unavailable Items <span id="unavailableBadge" class="badge badge-red">0</span>
+    <div id="page-stock" class="page" style="display:none;">
+        <!-- Hero -->
+        <div class="stock-hero">
+            <div class="stock-hero-glow"></div>
+            <div class="stock-hero-badge">📋 Inventory Management</div>
+            <h1 class="stock-hero-title">Stock Sheet Manager</h1>
+            <p class="stock-hero-subtitle">Generate stock sheets from your order history, take physical counts, and
+                create smart reorders</p>
+        </div>
+        <!-- Tab Bar -->
+        <div class="stock-tab-container">
+            <div class="stock-tab-bar">
+                <button class="stock-tab active" onclick="switchStockTab('generate', this)">
+                    <span class="stock-tab-icon">📋</span> Generate Sheet
+                </button>
+                <button class="stock-tab" onclick="switchStockTab('upload', this)">
+                    <span class="stock-tab-icon">📤</span> Upload & Order
+                </button>
+            </div>
+        </div>
+        <!-- Tab 1: Generate Stock Sheet -->
+        <div class="stock-section active" id="stockSectionGenerate">
+            <div class="stock-content-area">
+                <div class="stock-controls">
+                    <button class="stock-action-btn generate" onclick="generateStockSheet()">
+                        <span class="stock-action-icon">🔄</span> Generate from Order History
                     </button>
+                    <button class="stock-action-btn download" onclick="downloadStockSheet()" id="stockDownloadBtn"
+                        style="display:none;">
+                        <span class="stock-action-icon">⬇️</span> Download Excel Sheet
+                    </button>
+                </div>
+                <div class="stock-stats-strip" id="stockStats" style="display:none;"></div>
+                <div class="stock-table-wrap" id="stockTableContainer" style="display:none;">
+                    <div class="stock-table-header-bar">
+                        <div class="stock-table-title">📦 Stock Count Sheet</div>
+                        <input class="stock-search-input" id="stockSheetSearch" placeholder="🔍 Search items..."
+                            oninput="filterStockSheet()">
+                    </div>
+                    <div class="stock-table-scroll">
+                        <table class="stock-sheet-table" id="stockSheetTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item Name</th>
+                                    <th>Pack</th>
+                                    <th>Last Qty Ordered</th>
+                                    <th>Physical Stock</th>
+                                    <th>Qty to Order</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockSheetBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="stock-table-footer" id="stockTableFooter">
+                        <div class="stock-footer-info">
+                            <span id="stockTotalItems">0</span> items · <span id="stockItemsToOrder">0</span> need
+                            reorder
+                        </div>
+                        <div class="stock-footer-value">
+                            Total Qty to Order: <strong id="stockTotalQtyOrder">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tab 2: Upload Stock Sheet -->
+        <div class="stock-section" id="stockSectionUpload">
+            <div class="stock-content-area">
+                <div class="stock-upload-zone" id="stockUploadZone"
+                    ondragover="event.preventDefault(); this.classList.add('dragover')"
+                    ondragleave="this.classList.remove('dragover')"
+                    ondrop="event.preventDefault(); this.classList.remove('dragover'); handleStockFileDrop(event)">
+                    <div class="stock-upload-floating-icon">📤</div>
+                    <div class="stock-upload-particle p1">📦</div>
+                    <div class="stock-upload-particle p2">📋</div>
+                    <div class="stock-upload-particle p3">✨</div>
+                    <h3 class="stock-upload-title">Upload Stock Sheet</h3>
+                    <p class="stock-upload-desc">Drop your stock sheet here or click to browse.<br>Supports
+                        <strong>.xlsx</strong>, <strong>.xls</strong>, and <strong>.csv</strong> files</p>
+                    <button class="stock-action-btn upload" onclick="openStockUpload()"><span
+                            class="stock-action-icon">📁</span> Choose File</button>
+                    <p class="stock-upload-hint">💡 Tip: Generate a stock sheet first, fill physical counts, then upload
+                        it here to create your order.</p>
+                    <div style="margin-top:12px;">
+                        <button id="unavailableBtn" class="btn-secondary" style="display:none;"
+                            onclick="openUnavailableFromButton()">
+                            ⚠️ Unavailable Items <span id="unavailableBadge" class="badge badge-red">0</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -432,6 +700,55 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- PAGE: STATEMENT -->
+    <div id="page-statement" class="page" style="display:none; padding: 2rem;">
+        <div class="stmt-hero">
+            <div class="stmt-hero-badge">🧾 Live Balance</div>
+            <h1 class="stmt-hero-title">Account Statement</h1>
+            <p class="stmt-hero-subtitle" id="stmtSubtitle">Select this page to retrieve your latest live statement.</p>
+        </div>
+
+        <div class="stmt-controls" style="text-align:center; margin-bottom: 2rem;">
+            <button class="bp-refresh-btn" onclick="loadStatementData()">
+                <span class="bp-refresh-icon">🔄</span> Retrieve Live Statement
+            </button>
+        </div>
+
+        <div id="stmtContent" class="stmt-content fade-in" style="display:none; max-width: 1200px; margin: 0 auto;">
+            <!-- Render KPI strip here -->
+            <div class="bp-kpi-strip" id="stmtKpiStrip" style="margin-bottom: 2rem;"></div>
+
+            <div class="bp-table-container">
+                <div class="bp-table-header">
+                    <div class="bp-table-title" style="margin-bottom: 1rem;">📄 Transaction History</div>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="bp-table" id="stmtTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Entry No</th>
+                                <th style="text-align:right;">Net Amount</th>
+                                <th style="text-align:right;">Total Paid</th>
+                                <th style="text-align:right;">Net Balance</th>
+                                <th style="text-align:center;">Days</th>
+                                <th style="text-align:center;">Aging</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stmtBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="stmtLoading" style="display:none; text-align:center; margin: 3rem 0;">
+            <div class="loader-spinner"
+                style="border-color:#f3f3f3; border-top-color:var(--primary); width:40px; height:40px; margin:auto;">
+            </div>
+            <p style="margin-top:1rem; color:#666;">Retrieving your live statement...</p>
+        </div>
+        <div id="stmtError" style="display:none; text-align:center; color:red; margin: 2rem 0;"></div>
     </div>
 
     <!-- PAGE: ADMIN BUYING PATTERNS -->
@@ -777,11 +1094,30 @@
         💬
     </a>
 
+    <!-- STOCK RESULT MODAL -->
+    <div id="stockResultModal" class="modal" style="z-index:2500;">
+        <div class="modal-content" style="max-width:650px;">
+            <div class="stock-result-header">
+                <div class="stock-result-header-icon">📦</div>
+                <h3>Stock Order Results</h3>
+                <p>Items matched against current price list</p>
+            </div>
+            <div class="stock-result-stats" id="stockResultStats"></div>
+            <div class="stock-result-body" id="stockResultBody"></div>
+            <div class="stock-result-footer">
+                <button class="btn-secondary" onclick="closeStockResultModal()">Close</button>
+                <button class="btn-primary" onclick="loadStockToCart()">⚡ Load All to Cart</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRIPT (PRESERVED LOGIC) -->
     <script src="brands.js"></script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbwvESdCOg8spXuyhwjTMEECxlV5LeVSqNDusT3m4NaFhKNIg0LWhwoyt6-pwI6bQf3T/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbyrDMKrTfF_xcVN6Uo6WK2jv_E24sBeTiOi45EfiV4XUXtkCAbwa1zW9rP_3yUkUH8YvA/exec";
+        // Update this URL with your newly deployed Google Apps Script URL for Data5555:
+        const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
         let downloadUrl = "#";
 
         // POLYFILL FOR GOOGLE SCRIPT RUN
@@ -860,6 +1196,15 @@
                     if (d.result) return d.result;
                     throw new Error(d.error || 'Failed to load data');
                 });
+            },
+            getStatement: (email) => {
+                return fetch(STATEMENT_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'getStatement', data: { email } })
+                }).then(r => r.json()).then(d => {
+                    if (d.result) return d.result;
+                    throw new Error(d.error || 'Failed to load statement');
+                });
             }
         };
 
@@ -879,6 +1224,8 @@
         let historyMap = {}; // barcode -> latest entry
         let baseNameMap = {}; // baseName -> [entries]
         let namePackMap = {}; // 'name|pack' lowercase -> current price list item
+        let stockSheetData = []; // Stock sheet items
+        let stockUploadResults = { available: [], unavailable: [] };
         let newArrivalScrollTimer = null;
         let isNewArrivalScrolling = true;
 
@@ -991,10 +1338,12 @@
             const loginBtn = document.getElementById("loginBtn");
             const logoutBtn = document.getElementById("logoutBtn");
             const adminBtn = document.getElementById("adminBpBtn");
+            const statementBtn = document.getElementById("statementBtn");
             const email = (localStorage.getItem("userEmail") || '').toLowerCase().trim();
             if (token) {
                 loginBtn.style.display = "none";
                 logoutBtn.style.display = "inline-flex";
+                if (statementBtn) statementBtn.style.display = "inline-flex";
                 // Show admin button only for admin email
                 if (email === ADMIN_EMAIL) {
                     adminBtn.style.display = 'inline-flex';
@@ -1005,6 +1354,7 @@
                 loginBtn.style.display = "inline-flex";
                 logoutBtn.style.display = "none";
                 adminBtn.style.display = 'none';
+                if (statementBtn) statementBtn.style.display = "none";
             }
         }
 
@@ -2194,44 +2544,8 @@
             const fileInput = document.getElementById("stockFile");
             const file = fileInput.files[0];
             if (!file) { alert("❌ No file selected"); return; }
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const bytes = Array.from(new Uint8Array(e.target.result));
-                const base64 = btoa(bytes.map(b => String.fromCharCode(b)).join(""));
-                document.getElementById("autoLoader").style.display = "flex";
-
-                google.script.run
-                    .withSuccessHandler(res => {
-                        document.getElementById("autoLoader").style.display = "none";
-                        const available = res.availableItems || [];
-                        const unavailable = res.unavailableItems || [];
-
-                        if (available.length) {
-                            cart = {};
-                            available.forEach(i => cart[i.barcode] = i);
-                            renderCart();
-                            toggleCart();
-                        }
-
-                        if (unavailable.length) {
-                            const list = document.getElementById("unavailableList");
-                            list.innerHTML = "";
-                            unavailable.forEach(u => {
-                                list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #eee"><strong>${u.name}</strong><br>Req: ${u.requiredQty}</div>`;
-                            });
-                            document.getElementById("unavailableModal").style.display = "flex";
-                            const btn = document.getElementById("unavailableBtn");
-                            btn.style.display = "inline-block";
-                            document.getElementById("unavailableBadge").innerText = unavailable.length;
-                        } else {
-                            if (available.length) alert("✅ Stock Order Loaded");
-                            else alert("✅ Stock OK - No reorders needed.");
-                        }
-                    })
-                    .processStockExcel(base64, file.name);
-            };
-            reader.readAsArrayBuffer(file);
+            handleStockFileUpload(file);
+            fileInput.value = '';
         }
 
         function openUnavailableFromButton() { document.getElementById("unavailableModal").style.display = "flex"; }
@@ -3170,7 +3484,7 @@
                 : bpRawData.clients;
 
             const stoppedByClient = [];
-            
+
             let totalStoppedItems = 0;
             let totalAtRiskItems = 0;
 
@@ -3438,6 +3752,105 @@
             document.querySelector('.bp-table-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        /* ---- Statement UI Logic ---- */
+        function loadStatementData() {
+            const token = localStorage.getItem("authToken");
+            const email = localStorage.getItem("userEmail");
+            if (!token || !email) {
+                alert("Please login first.");
+                return;
+            }
+            document.getElementById("stmtContent").style.display = "none";
+            document.getElementById("stmtError").style.display = "none";
+            document.getElementById("stmtLoading").style.display = "block";
+
+            Api.getStatement(email)
+                .then(data => {
+                    document.getElementById("stmtLoading").style.display = "none";
+                    renderStatementData(data);
+                })
+                .catch(err => {
+                    document.getElementById("stmtLoading").style.display = "none";
+                    document.getElementById("stmtError").style.display = "block";
+                    document.getElementById("stmtError").innerText = "Error: " + err.message;
+                });
+        }
+
+        function renderStatementData(data) {
+            document.getElementById("stmtContent").style.display = "block";
+            document.getElementById("stmtSubtitle").innerHTML = `Customer: <strong>${data.customerName || data.asPerAccountName}</strong>`;
+
+            let totalBilled = 0;
+            let totalPaid = 0;
+            let currentBalance = 0;
+
+            const tbody = document.getElementById("stmtBody");
+            tbody.innerHTML = "";
+
+            if (!data.statement || data.statement.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 3rem;">No statement records found for ${data.asPerAccountName}.</td></tr>`;
+                document.getElementById("stmtKpiStrip").innerHTML = "";
+            } else {
+                let html = "";
+                data.statement.forEach((r, i) => {
+                    const amt = parseFloat(r.net_amt) || 0;
+                    const paid = parseFloat(r.total_paid) || 0;
+                    const bal = parseFloat(r.net_balance) || 0;
+
+                    totalBilled += amt;
+                    totalPaid += paid;
+
+                    const dateStr = r.entry_date && !isNaN(new Date(r.entry_date)) ? new Date(r.entry_date).toLocaleDateString('en-GB') : '-';
+                    const delay = Math.min(i * 0.03, 0.5);
+                    const agingColor = getStmtAgingColor(r.aging);
+
+                    html += `<tr style="animation-delay:${delay}s">
+                        <td>${dateStr}</td>
+                        <td><span style="font-family:monospace;">${r.entry_no || '-'}</span></td>
+                        <td style="text-align:right;">${amt.toLocaleString()}</td>
+                        <td style="text-align:right;">${paid.toLocaleString()}</td>
+                        <td style="text-align:right; font-weight:bold; color: ${bal > 0 ? '#ef4444' : '#10b981'}">${bal.toLocaleString()}</td>
+                        <td style="text-align:center;">${r.days !== '' && r.days !== null ? r.days : '-'}</td>
+                        <td style="text-align:center;"><span class="bp-status-badge" style="background:${agingColor.bg}; color:${agingColor.text}">${r.aging || 'Current'}</span></td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+
+                currentBalance = data.statement.reduce((acc, curr) => acc + (parseFloat(curr.net_balance) || 0), 0);
+
+                document.getElementById("stmtKpiStrip").innerHTML = `
+                    <div class="bp-kpi-card">
+                        <div class="bp-kpi-icon indigo">💵</div>
+                        <div>
+                            <div class="bp-kpi-value">${totalBilled.toLocaleString()}</div>
+                            <div class="bp-kpi-label">Total Billed</div>
+                        </div>
+                    </div>
+                    <div class="bp-kpi-card">
+                        <div class="bp-kpi-icon emerald">💳</div>
+                        <div>
+                            <div class="bp-kpi-value">${totalPaid.toLocaleString()}</div>
+                            <div class="bp-kpi-label">Total Paid</div>
+                        </div>
+                    </div>
+                    <div class="bp-kpi-card" style="border: 2px solid ${currentBalance > 0 ? '#fca5a5' : '#a7f3d0'};">
+                        <div class="bp-kpi-icon ${currentBalance > 0 ? 'rose' : 'emerald'}">⚖️</div>
+                        <div>
+                            <div class="bp-kpi-value" style="color: ${currentBalance > 0 ? '#ef4444' : '#10b981'}">${currentBalance.toLocaleString()}</div>
+                            <div class="bp-kpi-label">Outstanding Balance</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function getStmtAgingColor(aging) {
+            const a = String(aging || '').toLowerCase();
+            if (a.includes('over') || a.includes('>')) return { bg: '#fee2e2', text: '#b91c1c' };
+            if (a.includes('30')) return { bg: '#fef3c7', text: '#b45309' };
+            return { bg: '#d1fae5', text: '#047857' };
+        }
+
         // Auto-load when admin page is shown
         const origShowPage = showPage;
         showPage = function (pageId, btn) {
@@ -3446,6 +3859,328 @@
                 bpLoadData();
             }
         };
+
+        /* ===== STOCK SHEET MANAGER ===== */
+        function switchStockTab(tab, btn) {
+            document.querySelectorAll('.stock-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.stock-section').forEach(s => s.classList.remove('active'));
+            const map = { generate: 'stockSectionGenerate', upload: 'stockSectionUpload' };
+            const sec = document.getElementById(map[tab]);
+            if (sec) sec.classList.add('active');
+        }
+
+        function generateStockSheet() {
+            if (!lastPurchases || lastPurchases.length === 0) {
+                alert('No order history available. Please login first and ensure you have previous orders.');
+                return;
+            }
+            const itemMap = {};
+            lastPurchases.forEach(entry => {
+                const key = (String(entry.name || '') + '|' + String(entry.pack || '')).toLowerCase().trim();
+                if (!key || key === '|') return;
+                if (!itemMap[key]) {
+                    itemMap[key] = { name: entry.name, pack: entry.pack || '', cat: entry.cat || 'Other', lastQty: 0, lastDate: null, totalOrders: 0, _physicalStock: 0 };
+                }
+                const d = new Date(entry.date);
+                if (!itemMap[key].lastDate || d > itemMap[key].lastDate) {
+                    itemMap[key].lastDate = d;
+                    itemMap[key].lastQty = Number(entry.qty) || 0;
+                }
+                itemMap[key].totalOrders++;
+            });
+            stockSheetData = Object.values(itemMap).sort((a, b) => a.name.localeCompare(b.name));
+            const statsEl = document.getElementById('stockStats');
+            statsEl.style.display = 'flex';
+            statsEl.innerHTML = `
+                <div class="stock-stat-card"><span class="stock-stat-icon">📦</span><div><div class="stock-stat-value">${stockSheetData.length}</div><div class="stock-stat-label">Unique Items</div></div></div>
+                <div class="stock-stat-card"><span class="stock-stat-icon">📂</span><div><div class="stock-stat-value">${new Set(stockSheetData.map(i => i.cat)).size}</div><div class="stock-stat-label">Categories</div></div></div>
+                <div class="stock-stat-card"><span class="stock-stat-icon">📊</span><div><div class="stock-stat-value">${lastPurchases.length}</div><div class="stock-stat-label">History Records</div></div></div>
+            `;
+            renderStockSheetTable();
+            document.getElementById('stockDownloadBtn').style.display = 'inline-flex';
+            document.getElementById('stockTableContainer').style.display = 'block';
+        }
+
+        function renderStockSheetTable() {
+            const tbody = document.getElementById('stockSheetBody');
+            const search = (document.getElementById('stockSheetSearch')?.value || '').toLowerCase();
+            let filtered = stockSheetData;
+            if (search) filtered = filtered.filter(i => i.name.toLowerCase().includes(search) || i.pack.toLowerCase().includes(search));
+            let html = '', totalQtyOrder = 0, needsReorder = 0;
+            filtered.forEach((item, i) => {
+                const ps = item._physicalStock || 0;
+                const qto = Math.max(0, item.lastQty - ps);
+                if (qto > 0) { totalQtyOrder += qto; needsReorder++; }
+                const delay = Math.min(i * 0.02, 0.6);
+                html += `<tr style="animation-delay:${delay}s">
+                    <td class="stock-row-num">${i + 1}</td>
+                    <td class="stock-item-name">${item.name}</td>
+                    <td><span class="stock-item-pack">${item.pack}</span></td>
+                    <td class="stock-last-qty">${item.lastQty}</td>
+                    <td><input type="number" class="stock-physical-input" value="${ps}" min="0" onchange="updateStockQty(${i}, this.value)" placeholder="0"></td>
+                    <td class="stock-order-qty ${qto > 0 ? 'needs-order' : ''}" id="stockOQ-${i}">${qto}</td>
+                    <td><button class="stock-remove-btn" onclick="removeStockItem(${i})" title="Remove">✕</button></td>
+                </tr>`;
+            });
+            if (!filtered.length) html = '<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--text-muted);">No items found.</td></tr>';
+            tbody.innerHTML = html;
+            document.getElementById('stockTotalItems').textContent = filtered.length;
+            document.getElementById('stockItemsToOrder').textContent = needsReorder;
+            document.getElementById('stockTotalQtyOrder').textContent = totalQtyOrder;
+        }
+
+        function filterStockSheet() { renderStockSheetTable(); }
+
+        function updateStockQty(idx, val) {
+            stockSheetData[idx]._physicalStock = Number(val) || 0;
+            const qto = Math.max(0, stockSheetData[idx].lastQty - stockSheetData[idx]._physicalStock);
+            const cell = document.getElementById('stockOQ-' + idx);
+            if (cell) { cell.textContent = qto; cell.className = 'stock-order-qty ' + (qto > 0 ? 'needs-order' : ''); }
+            // Recalculate footer totals
+            let totalQ = 0, nr = 0;
+            stockSheetData.forEach(it => { const q = Math.max(0, it.lastQty - (it._physicalStock || 0)); if (q > 0) { totalQ += q; nr++; } });
+            document.getElementById('stockTotalQtyOrder').textContent = totalQ;
+            document.getElementById('stockItemsToOrder').textContent = nr;
+        }
+
+        function removeStockItem(idx) { stockSheetData.splice(idx, 1); renderStockSheetTable(); }
+
+        function downloadStockSheet() {
+            if (!stockSheetData.length) { alert('No items to download. Generate the sheet first.'); return; }
+            const wsData = [['Item Name', 'Pack', 'Category', 'Last Qty Ordered', 'Physical Stock', 'Qty to Order']];
+            stockSheetData.forEach(item => {
+                const ps = item._physicalStock || 0;
+                wsData.push([item.name, item.pack, item.cat || 'Other', item.lastQty, ps, Math.max(0, item.lastQty - ps)]);
+            });
+            if (typeof XLSX !== 'undefined') {
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.aoa_to_sheet(wsData);
+                ws['!cols'] = [{ wch: 40 }, { wch: 20 }, { wch: 18 }, { wch: 16 }, { wch: 16 }, { wch: 16 }];
+                XLSX.utils.book_append_sheet(wb, ws, 'Stock Sheet');
+                XLSX.writeFile(wb, 'Stock_Sheet_' + new Date().toISOString().split('T')[0] + '.xlsx');
+            } else {
+                let csv = wsData.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+                a.download = 'Stock_Sheet_' + new Date().toISOString().split('T')[0] + '.csv'; a.click();
+            }
+        }
+
+        /* ===== STOCK UPLOAD & PROCESSING ===== */
+        function handleStockFileDrop(e) { const f = e.dataTransfer.files[0]; if (f) handleStockFileUpload(f); }
+
+        function handleStockFileUpload(file) {
+            document.getElementById('autoLoader').style.display = 'flex';
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                let rows = [];
+                try {
+                    if (file.name.toLowerCase().endsWith('.csv')) {
+                        const text = e.target.result;
+                        const lines = text.split('\n');
+                        const header = lines[0].split(',').map(h => h.replace(/"/g, '').trim().toLowerCase());
+                        for (let i = 1; i < lines.length; i++) {
+                            if (!lines[i].trim()) continue;
+                            const vals = parseCSVLine(lines[i]);
+                            const row = {};
+                            header.forEach((h, j) => { row[h] = (vals[j] || '').replace(/"/g, '').trim(); });
+                            rows.push(row);
+                        }
+                    } else {
+                        if (typeof XLSX === 'undefined') { alert('Excel library not loaded. Please use CSV format.'); document.getElementById('autoLoader').style.display = 'none'; return; }
+                        const data = new Uint8Array(e.target.result);
+                        const wb = XLSX.read(data, { type: 'array' });
+                        const ws = wb.Sheets[wb.SheetNames[0]];
+                        const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+                        if (jsonData.length < 2) { alert('Empty or invalid file'); document.getElementById('autoLoader').style.display = 'none'; return; }
+                        const header = jsonData[0].map(h => String(h).trim().toLowerCase());
+                        for (let i = 1; i < jsonData.length; i++) {
+                            const row = {};
+                            header.forEach((h, j) => { row[h] = jsonData[i][j] != null ? String(jsonData[i][j]).trim() : ''; });
+                            rows.push(row);
+                        }
+                    }
+                    processStockSheetData(rows);
+                } catch (err) {
+                    alert('Error reading file: ' + err.message);
+                }
+                document.getElementById('autoLoader').style.display = 'none';
+            };
+            if (file.name.toLowerCase().endsWith('.csv')) reader.readAsText(file);
+            else reader.readAsArrayBuffer(file);
+        }
+
+        function parseCSVLine(line) {
+            const result = []; let cur = '', inQ = false;
+            for (let i = 0; i < line.length; i++) {
+                const c = line[i];
+                if (c === '"') { if (inQ && line[i + 1] === '"') { cur += '"'; i++; } else inQ = !inQ; }
+                else if (c === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
+                else cur += c;
+            }
+            result.push(cur.trim()); return result;
+        }
+
+        function processStockSheetData(rows) {
+            const available = [], unavailable = [];
+            const qtyFields = ['qty to order', 'qty to be ordered', 'qty_to_order', 'qty to be orderd', 'order qty'];
+            const nameFields = ['item name', 'name', 'item'];
+            const packFields = ['pack', 'packing', 'size'];
+            const catFields = ['category', 'cat', 'group'];
+
+            // Build a lookup from order history for category by name+pack
+            const historyCatMap = {};
+            if (lastPurchases && lastPurchases.length) {
+                lastPurchases.forEach(entry => {
+                    if (entry.name && entry.cat) {
+                        const hKey = (String(entry.name).toLowerCase().trim() + '|' + String(entry.pack || '').toLowerCase().trim());
+                        historyCatMap[hKey] = entry.cat;
+                        // Also store by name only as fallback
+                        const nameOnly = String(entry.name).toLowerCase().trim();
+                        if (!historyCatMap['n:' + nameOnly]) historyCatMap['n:' + nameOnly] = entry.cat;
+                    }
+                });
+            }
+
+            rows.forEach(row => {
+                let qtyToOrder = 0;
+                for (const f of qtyFields) { if (row[f] !== undefined && row[f] !== '') { qtyToOrder = Number(row[f]) || 0; break; } }
+                if (qtyToOrder <= 0) return;
+
+                let itemName = '';
+                for (const f of nameFields) { if (row[f]) { itemName = row[f]; break; } }
+                let pack = '';
+                for (const f of packFields) { if (row[f]) { pack = row[f]; break; } }
+                if (!itemName) return;
+
+                const currentItem = findCurrentItemByNamePack(itemName, pack);
+                if (currentItem) {
+                    available.push({ barcode: currentItem.barcode, name: currentItem.name, pack: currentItem.pack, price: currentItem.price, qty: qtyToOrder, cat: currentItem.cat || 'Other' });
+                } else {
+                    // 1. Try reading category from the uploaded file itself
+                    let cat = '';
+                    for (const f of catFields) { if (row[f] && row[f].trim()) { cat = row[f].trim(); break; } }
+
+                    // 2. Fallback: look up category from order history by name+pack
+                    if (!cat) {
+                        const lookupKey = (itemName.toLowerCase().trim() + '|' + (pack || '').toLowerCase().trim());
+                        cat = historyCatMap[lookupKey] || '';
+                    }
+
+                    // 3. Fallback: look up by name only in order history
+                    if (!cat) {
+                        cat = historyCatMap['n:' + itemName.toLowerCase().trim()] || '';
+                    }
+
+                    // 4. Last resort: find a product whose name closely matches
+                    if (!cat) {
+                        const nameLower = itemName.toLowerCase().trim();
+                        const words = nameLower.split(/\s+/);
+                        // Try matching first 2 words, then first word
+                        const twoWords = words.slice(0, 2).join(' ');
+                        for (const p of allProducts) {
+                            if (p.name.toLowerCase().startsWith(twoWords)) { cat = p.cat; break; }
+                        }
+                        if (!cat && words[0]) {
+                            for (const p of allProducts) {
+                                if (p.name.toLowerCase().startsWith(words[0])) { cat = p.cat; break; }
+                            }
+                        }
+                    }
+
+                    if (!cat) cat = 'Other';
+
+                    const alts = getCategoryAlternatives(itemName, cat);
+                    unavailable.push({
+                        originalName: itemName, originalPack: pack, requestedQty: qtyToOrder, cat,
+                        alts, tempId: 'stk_' + itemName.replace(/[^a-z0-9]/gi, '').substring(0, 20) + '_' + Date.now()
+                    });
+                }
+            });
+            stockUploadResults = { available, unavailable };
+            renderStockResultModal();
+        }
+
+        function renderStockResultModal() {
+            const { available, unavailable } = stockUploadResults;
+            if (!available.length && !unavailable.length) { alert('No items with quantity to order found in the stock sheet.'); return; }
+
+            document.getElementById('stockResultStats').innerHTML = `
+                <div class="stock-result-stat"><span class="stock-result-stat-icon">✅</span><div><div class="stock-result-stat-value">${available.length}</div><div class="stock-result-stat-label">Matched</div></div></div>
+                <div class="stock-result-stat"><span class="stock-result-stat-icon">⚠️</span><div><div class="stock-result-stat-value">${unavailable.length}</div><div class="stock-result-stat-label">Needs Alt.</div></div></div>
+                <div class="stock-result-stat"><span class="stock-result-stat-icon">📦</span><div><div class="stock-result-stat-value">${available.reduce((s, i) => s + i.qty, 0)}</div><div class="stock-result-stat-label">Total Qty</div></div></div>
+            `;
+
+            let bodyHtml = '';
+            if (available.length) {
+                bodyHtml += '<div class="stock-result-group"><div class="stock-result-group-label">✅ Available Items (' + available.length + ')</div>';
+                available.forEach((item, i) => {
+                    bodyHtml += `<div class="stock-result-item" id="stock-avail-${i}" style="animation-delay:${i * 0.03}s">
+                        <div class="stock-result-item-info"><div class="stock-result-item-name">${item.name}</div>
+                        <div class="stock-result-item-meta"><span>📦 ${item.pack}</span><span>💰 TZS ${item.price.toLocaleString()}</span></div></div>
+                        <div><input type="number" class="stock-result-qty" id="stock-rq-${i}" value="${item.qty}" min="1"></div></div>`;
+                });
+                bodyHtml += '</div>';
+            }
+            if (unavailable.length) {
+                bodyHtml += '<div class="stock-result-group"><div class="stock-result-group-label">⚠️ Items Not in Price List (' + unavailable.length + ')</div>';
+                unavailable.forEach((item, i) => {
+                    let opts = '<option value="">-- Select Alternative --</option>';
+                    item.alts.forEach(a => { opts += `<option value="${a.barcode}">[${a.pack}] ${a.name} - TZS ${a.price.toLocaleString()}</option>`; });
+                    const safeName = item.originalName.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    const safePack = (item.originalPack || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    bodyHtml += `<div class="stock-result-item unavailable-item" id="stock-unavail-${item.tempId}" style="animation-delay:${i * 0.03}s; border-left:3px solid #f59e0b;">
+                        <div class="stock-result-item-info" style="flex:1;">
+                            <div class="stock-result-item-name" style="color:#ef4444;">⚠️ ${item.originalName}</div>
+                            <div style="margin-top:4px;"><select class="form-input stock-alt-select" id="stock-alt-${item.tempId}" style="width:100%;padding:4px;font-size:0.8rem;" onchange="updateStockAltPrice('${item.tempId}')">${opts}</select></div>
+                            <div style="margin-top:6px;">
+                                <button onclick="moveToSpecialRequest('${safeName}','${safePack}','stock-uqty-${item.tempId}','stock-unavail-${item.tempId}')" style="background:none;border:none;color:#3b82f6;font-size:0.75rem;text-decoration:underline;font-weight:600;cursor:pointer;padding:0;">➔ Move to Special Request</button>
+                            </div>
+                            <div class="stock-result-item-meta" style="margin-top:4px;"><span>Pack: ${item.originalPack || '-'}</span><span id="stock-altp-${item.tempId}" style="color:var(--primary);font-weight:bold;"></span></div>
+                        </div>
+                        <div><input type="number" class="stock-result-qty" id="stock-uqty-${item.tempId}" value="${item.requestedQty}" min="1"></div>
+                    </div>`;
+                });
+                bodyHtml += '</div>';
+            }
+            document.getElementById('stockResultBody').innerHTML = bodyHtml;
+            document.getElementById('stockResultModal').style.display = 'flex';
+        }
+
+        function updateStockAltPrice(tid) {
+            const sel = document.getElementById('stock-alt-' + tid);
+            const el = document.getElementById('stock-altp-' + tid);
+            if (!sel.value) { el.innerText = ''; return; }
+            const item = priceMap[sel.value];
+            if (item) el.innerText = '💰 TZS ' + item.price.toLocaleString();
+        }
+
+        function loadStockToCart() {
+            const { available, unavailable } = stockUploadResults;
+            let added = 0;
+            available.forEach((item, i) => {
+                const qty = Number(document.getElementById('stock-rq-' + i)?.value) || item.qty;
+                if (qty > 0) { addToCartFinal(item.barcode, qty); const c = document.getElementById('stock-avail-' + i); if (c) c.classList.add('added'); added++; }
+            });
+            unavailable.forEach(item => {
+                const sel = document.getElementById('stock-alt-' + item.tempId);
+                if (sel && sel.value) {
+                    const qty = Number(document.getElementById('stock-uqty-' + item.tempId)?.value) || item.requestedQty;
+                    addToCartFinal(sel.value, qty);
+                    const c = document.getElementById('stock-unavail-' + item.tempId); if (c) c.classList.add('added'); added++;
+                }
+            });
+            renderCart(); triggerCartAnimation();
+            setTimeout(() => {
+                closeStockResultModal();
+                const orderBtn = document.querySelectorAll('.nav-btn')[1];
+                showPage('page-pricelist', orderBtn);
+                setTimeout(() => toggleCart(), 500);
+            }, 700);
+        }
+
+        function closeStockResultModal() { document.getElementById('stockResultModal').style.display = 'none'; }
 
     </script>
     <!-- PROGRESS OVERLAY -->
@@ -3473,6 +4208,67 @@
             </div>
         </div>
     </div>
+    <!-- ===== WHAT'S NEW NOTIFICATION ===== -->
+    <div id="whatsNewToast" class="wn-toast">
+        <button class="wn-close" onclick="dismissWhatsNew()" title="Dismiss">&times;</button>
+        <div class="wn-shimmer"></div>
+        <div class="wn-header">
+            <span class="wn-icon-ring">🚀</span>
+            <div>
+                <div class="wn-title">What's New!</div>
+                <div class="wn-subtitle">We've added powerful features for you</div>
+            </div>
+        </div>
+        <div class="wn-features">
+            <span class="wn-pill wn-pill-ai">🤖 AI Order</span>
+            <span class="wn-pill wn-pill-history">🔄 Order Recall</span>
+            <span class="wn-pill wn-pill-stock">📊 Stock Count</span>
+            <span class="wn-pill wn-pill-statement">📑 Live Statement</span>
+            <span class="wn-pill wn-pill-missed">🔍 Missed Items</span>
+        </div>
+        <button class="wn-explore-btn" onclick="exploreFeatures()">
+            Explore Features <span class="wn-arrow">→</span>
+        </button>
+    </div>
+
+    <script>
+        /* What's New Notification Logic */
+        function showWhatsNew() {
+            setTimeout(function () {
+                var toast = document.getElementById('whatsNewToast');
+                if (toast) toast.classList.add('wn-visible');
+            }, 2500);
+        }
+
+        function dismissWhatsNew() {
+            var toast = document.getElementById('whatsNewToast');
+            if (toast) toast.classList.remove('wn-visible');
+        }
+
+        function exploreFeatures() {
+            dismissWhatsNew();
+            // Make sure we're on the home page
+            var homeBtn = document.querySelector('.nav-btn');
+            if (homeBtn && typeof showPage === 'function') {
+                showPage('page-home', homeBtn);
+            }
+            setTimeout(function () {
+                var section = document.getElementById('featuresSection');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 300);
+        }
+
+        // Trigger on page load
+        if (document.readyState === 'complete') {
+            showWhatsNew();
+        } else {
+            window.addEventListener('load', showWhatsNew);
+        }
+    </script>
+
 </body>
+
 
 </html>
