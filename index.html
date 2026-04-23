@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="style.css?v=2">
     <link rel="stylesheet" href="brands.css">
     <link rel="stylesheet" href="premium-theme.css">
+    <link rel="stylesheet" href="guest-calc.css?v=1.3">
     <script src="https://unpkg.com/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -797,6 +798,245 @@
                 font-size: .75rem
             }
         }
+
+        /* ===== GUEST CAL ACCESS MANAGEMENT ===== */
+        .gca-hero {
+            background: linear-gradient(135deg, #431407 0%, #7c2d12 50%, #ea580c 100%);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .gca-hero-left h3 {
+            color: #fff;
+            margin: 0 0 4px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .gca-hero-left p {
+            color: rgba(255,255,255,.75);
+            margin: 0;
+            font-size: 0.85rem;
+        }
+        .gca-hero-badge {
+            background: rgba(255,255,255,.15);
+            color: #ffedd5;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .gca-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .gca-stat {
+            text-align: center;
+        }
+        .gca-stat-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fb923c;
+        }
+        .gca-stat-lbl {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,.7);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+        .gca-search-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .gca-search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .gca-search-input:focus {
+            border-color: #ea580c;
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, .12);
+        }
+        .gca-bulk-btns {
+            display: flex;
+            gap: 8px;
+        }
+        .gca-bulk-btn {
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-family: 'Inter', sans-serif;
+            transition: all .2s;
+        }
+        .gca-bulk-btn.grant-all {
+            background: linear-gradient(135deg, #ea580c, #f97316);
+            color: white;
+            box-shadow: 0 2px 8px rgba(249,115,22,.3);
+        }
+        .gca-bulk-btn.grant-all:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(249,115,22,.4); }
+        .gca-bulk-btn.revoke-all {
+            background: #fee2e2;
+            color: #dc2626;
+            border-color: rgba(220,38,38,.15);
+        }
+        .gca-bulk-btn.revoke-all:hover { background: #fecaca; }
+        .gca-client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            padding: 0.5rem 0;
+        }
+        .gca-client-card {
+            background: var(--bg-card, #fff);
+            border: 1.5px solid rgba(0,0,0,.06);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: all .25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .gca-client-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,.08);
+        }
+        .gca-client-card.gca-authorized {
+            border-color: rgba(234,88,12,.3);
+            background: linear-gradient(135deg, #fff7ed, #ffedd5 120%);
+        }
+        [data-theme="dark"] .gca-client-card.gca-authorized {
+            background: linear-gradient(135deg, #431407, #7c2d12 120%);
+            border-color: rgba(249,115,22,.35);
+        }
+        [data-theme="dark"] .gca-client-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .gca-card-glow {
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 80px; height: 80px;
+            background: radial-gradient(circle, rgba(249,115,22,.2), transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        .gca-client-card.gca-authorized .gca-card-glow { opacity: 1; }
+        .gca-client-info { flex: 1; min-width: 0; }
+        .gca-client-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main, #111827);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .gca-client-email {
+            font-size: 0.78rem;
+            color: var(--text-muted, #6b7280);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 2px;
+        }
+        .gca-client-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        .gca-badge-auth { background: #dcfce7; color: #15803d; }
+        .gca-badge-locked { background: #f3f4f6; color: #6b7280; }
+        .gca-toggle-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        .gca-toggle-lbl {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+        .gca-toggle-lbl.on { color: #ea580c; }
+        .gca-toggle-lbl.off { color: #9ca3af; }
+
+        /* Guest Cal Locked State */
+        .gc-locked-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 2rem;
+            min-height: 60vh;
+        }
+        .gc-locked-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: gc-pulse 2s ease-in-out infinite;
+        }
+        @keyframes gc-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .gc-locked-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-main, #111827);
+            margin: 0 0 .75rem;
+        }
+        .gc-locked-desc {
+            color: var(--text-muted, #6b7280);
+            font-size: 1rem;
+            max-width: 420px;
+            line-height: 1.6;
+            margin: 0 auto 2rem;
+        }
+        .gc-locked-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fee2e2, #fef2f2);
+            color: #dc2626;
+            border: 1px solid rgba(220,38,38,.15);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .gc-empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted, #6b7280);
+        }
+        .gc-empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: .4; }
+        .gc-empty-title { font-weight: 700; font-size: 1rem; color: var(--text-main, #111827); }
+        .gc-empty-text { font-size: 0.85rem; margin-top: .5rem; }
     </style>
 </head>
 
@@ -826,6 +1066,9 @@
             </button>
             <button class="nav-btn" onclick="showPage('page-new', this)">
                 <img src="https://drive.google.com/thumbnail?id=1zmftlvW426-bQWW3Yd6raiQyHwQ2tuoz"> Eco
+            </button>
+            <button class="nav-btn" onclick="showPage('page-guest-calc', this)" id="guestCalcBtn" style="display:none;">
+                🏨 Guest Calc
             </button>
             <!-- HIDDEN DOWNLOAD PAGE
             <button class="nav-btn" onclick="showPage('page-download', this)">
@@ -924,7 +1167,8 @@
             <div class="features-grid">
 
                 <!-- CARD 1: AI Order -->
-                <div class="feature-card" id="fc-ai-order">
+                <div class="fc-border-anim-wrapper">
+                <div class="feature-card fc-has-border-anim" id="fc-ai-order">
                     <span class="fc-badge ai-badge">🤖 AI Powered</span>
                     <div class="fc-icon-wrap ai-gradient">
                         🧠
@@ -952,6 +1196,7 @@
                                 quantities, and add to cart</span>
                         </div>
                     </div>
+                </div>
                 </div>
 
                 <!-- CARD 2: Order History -->
@@ -1078,6 +1323,35 @@
                     </div>
                 </div>
 
+                <!-- CARD 6: Guest-Based Calculator -->
+                <div class="fc-border-anim-wrapper">
+                <div class="feature-card fc-has-border-anim" id="fc-guest-calc">
+                    <span class="fc-badge guest-badge">🏨 Calculator</span>
+                    <div class="fc-icon-wrap guest-gradient">
+                        🧮
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                        <span class="fc-orbit-dot"></span>
+                    </div>
+                    <h3 class="fc-title">Guest-Based Calculator</h3>
+                    <p class="fc-desc">Enter your expected guest count and days — we instantly calculate exactly how many supplies you need. Built for hotels & lodges.</p>
+                    <div class="fc-steps">
+                        <div class="fc-step">
+                            <span class="fc-step-num guest-num">1</span>
+                            <span class="fc-step-text">Enter <strong>number of guests</strong> and <strong>number of days</strong></span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num guest-num">2</span>
+                            <span class="fc-step-text">Review <strong>auto-calculated quantities</strong> across all supply categories</span>
+                        </div>
+                        <div class="fc-step">
+                            <span class="fc-step-num guest-num">3</span>
+                            <span class="fc-step-text">Click <strong>Add All to Cart</strong> — items matched to our live price list</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
             </div>
         </div>
         <!-- Feature Cards Scroll Animation -->
@@ -1098,6 +1372,84 @@
         </script>
     </div>
 
+
+    <!-- PAGE: GUEST-BASED CALCULATOR -->
+    <div id="page-guest-calc" class="page" style="display:none;">
+        <!-- Hero -->
+        <div class="gc-hero">
+            <div class="gc-hero-badge">🏨 Smart Calculator</div>
+            <h1 class="gc-hero-title">Guest-Based Supply Calculator</h1>
+            <p class="gc-hero-subtitle">Enter your expected guests & days — we calculate exactly what you need</p>
+        </div>
+
+        <div class="gc-sticky-panel">
+            <!-- Inputs -->
+            <div class="gc-inputs-strip">
+                <div class="gc-input-card">
+                    <div class="gc-input-icon">👥</div>
+                    <label class="gc-input-label">Number of Guests</label>
+                    <input type="number" id="gcGuests" class="gc-input" value="20" min="1" max="999" oninput="guestCalcUpdate()">
+                </div>
+                <div class="gc-input-card">
+                    <div class="gc-input-icon">📅</div>
+                    <label class="gc-input-label">Number of Days</label>
+                    <input type="number" id="gcDays" class="gc-input" value="7" min="1" max="365" oninput="guestCalcUpdate()">
+                </div>
+                <div class="gc-input-card gc-summary-card">
+                    <div class="gc-input-icon">📊</div>
+                    <label class="gc-input-label">Total Guest-Days</label>
+                    <div class="gc-total-value" id="gcTotalGuestDays">140</div>
+                </div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="gc-tabs-wrap">
+                <button class="gc-tab active" onclick="guestCalcSetTab('all', this)">🏷️ All</button>
+                <button class="gc-tab" onclick="guestCalcSetTab('toiletries', this)">🧴 Toiletries</button>
+                <button class="gc-tab" onclick="guestCalcSetTab('cleaning', this)">🧹 Cleaning</button>
+                <button class="gc-tab" onclick="guestCalcSetTab('paper', this)">🧻 Paper Products</button>
+                <button class="gc-tab" onclick="guestCalcSetTab('laundry', this)">👔 Laundry</button>
+                <button class="gc-tab" onclick="guestCalcSetTab('kitchen', this)">🍳 Kitchen</button>
+                <button class="gc-tab" onclick="guestCalcSetTab('beverages', this)">☕ Beverages</button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="gc-products-container">
+            <div class="gc-products-header">
+                <div class="gc-products-title">📦 Calculated Supplies <span class="gc-products-count" id="gcItemCount">0</span></div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <button class="gc-select-btn" onclick="guestCalcToggleAll(true)">✅ Select All</button>
+                    <button class="gc-select-btn" onclick="guestCalcToggleAll(false)">❌ Deselect All</button>
+                    <button class="gc-select-btn" onclick="guestCalcAddCustomItem()" style="background:linear-gradient(135deg, #ea580c, #f97316);color:white;border:none;">➕ Add Custom Item</button>
+                </div>
+            </div>
+            <div class="gc-products-grid" id="gcProductsGrid">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <!-- Bottom Action Bar -->
+        <div class="gc-action-bar" id="gcActionBar">
+            <div class="gc-action-summary">
+                <div class="gc-action-stat">
+                    <span class="gc-action-label">Selected Items</span>
+                    <span class="gc-action-value" id="gcSelectedCount">0</span>
+                </div>
+                <div class="gc-action-stat">
+                    <span class="gc-action-label">Estimated Total</span>
+                    <span class="gc-action-value" id="gcEstTotal">TZS 0</span>
+                </div>
+                <div class="gc-action-stat">
+                    <span class="gc-action-label">Matched Items</span>
+                    <span class="gc-action-value" id="gcMatchedCount">0 / 0</span>
+                </div>
+            </div>
+            <button class="gc-add-cart-btn" onclick="guestCalcAddToCart()">
+                🛒 Add All to Cart
+            </button>
+        </div>
+    </div>
 
     <!-- PAGE: PRICELIST (Order) -->
     <div id="page-pricelist" class="page" style="display:none;">
@@ -1161,12 +1513,6 @@
                         </div>
                     </div>
 
-                    <!-- Cross-Sell Toggle -->
-                    <button id="csToggleBtn" class="cs-toggle-btn" onclick="toggleCrossSellPreference()"
-                        title="Toggle recommendations">
-                        <span id="csToggleIcon"></span>
-                        <span id="csToggleLabel"></span>
-                    </button>
                 </div>
             </div>
         </div>
@@ -1715,6 +2061,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Item Code</th>
                                 <th onclick="fulfillmentSort('name')">Item Name ↕</th>
                                 <th>Pack</th>
                                 <th>Customer(s)</th>
@@ -1764,6 +2111,7 @@
                 <button class="bp-tab active" onclick="bpSwitchTab('patterns', this)">📈 Patterns</button>
                 <button class="bp-tab" onclick="bpSwitchTab('stopped', this)">🚫 Stopped Buying</button>
                 <button class="bp-tab" onclick="bpSwitchTab('clients', this)">👥 Clients</button>
+                <button class="bp-tab" onclick="bpSwitchTab('guestcalaccess', this)">🏨 Guest Cal Access</button>
             </div>
             <button class="bp-refresh-btn" id="bpRefreshBtn" onclick="bpLoadData()">
                 <span class="bp-refresh-icon">🔄</span> Refresh
@@ -1825,6 +2173,13 @@
             <div class="bp-section" id="bpSectionClients">
                 <div id="bpClientsContent"></div>
             </div>
+
+            <!-- Tab 4: Guest Cal Access -->
+            <div class="bp-section" id="bpSectionGuestCalAccess">
+                <div id="gcaContent">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1850,9 +2205,7 @@
         </div>
 
         <div class="cart-footer">
-            <button id="csManualBtn" class="cs-manual-btn" onclick="showManualRecommendations()" style="display:none;">
-                ✨ See Items You Might Like
-            </button>
+
             <div class="total-row">
                 <span style="font-weight:500; font-size:1rem; color:var(--text-muted);">Total</span>
                 <span style="font-family:monospace;">TZS <span id="cartTotal">0</span></span>
@@ -2157,27 +2510,7 @@
         </div>
     </footer>
 
-    <!-- PREMIUM CROSS-SELL RECOMMENDATIONS -->
-    <div id="crossSellPanel" class="cs-panel">
-        <div class="cs-backdrop" onclick="closeCrossSell()"></div>
-        <div class="cs-drawer">
-            <div class="cs-handle" onclick="closeCrossSell()"><span></span></div>
-            <div class="cs-header">
-                <div class="cs-header-text">
-                    <div class="cs-badge">RECOMMENDED</div>
-                    <h3 class="cs-title">You Might Also Like</h3>
-                    <p class="cs-subtitle" id="csSubtitle">Customers who bought this also added these items</p>
-                </div>
-                <button class="cs-close" onclick="closeCrossSell()">&times;</button>
-            </div>
-            <div class="cs-scroll" id="csScrollArea">
-                <!-- Recommendation cards injected here -->
-            </div>
-            <div class="cs-footer">
-                <button class="cs-skip-btn" onclick="closeCrossSell()">No Thanks, Continue Shopping</button>
-            </div>
-        </div>
-    </div>
+
 
     <!-- PREMIUM NOTIFICATION CONTAINER -->
     <div id="premiumNotifContainer" class="pn-container"></div>
@@ -2380,7 +2713,7 @@
         let cart = {};
         let lastPurchases = []; // Array of {date, barcode, name, cat, pack, qty}
         let historyMap = {}; // barcode -> latest entry
-        let csEnabled = localStorage.getItem("csEnabled") !== "false"; // Default ON, persisted
+        let csEnabled = false; // Recommendations disabled
         let baseNameMap = {}; // baseName -> [entries]
         let namePackMap = {}; // 'name|pack' lowercase -> current price list item
         let stockSheetData = []; // Stock sheet items
@@ -2500,6 +2833,7 @@
             const adminAnalyticsBtn = document.getElementById("adminAnalyticsBtn");
             const adminFulfillmentBtn = document.getElementById("adminFulfillmentBtn");
             const statementBtn = document.getElementById("statementBtn");
+            const guestCalcBtn = document.getElementById("guestCalcBtn");
             const email = (localStorage.getItem("userEmail") || '').toLowerCase().trim();
             if (token) {
                 loginBtn.style.display = "none";
@@ -2510,10 +2844,16 @@
                     adminBtn.style.display = 'inline-flex';
                     if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'inline-flex';
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'inline-flex';
+                    // Admin always has Guest Cal access
+                    if (guestCalcBtn) guestCalcBtn.style.display = 'inline-flex';
                 } else {
                     adminBtn.style.display = 'none';
                     if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
+                    // Show Guest Cal only if client is authorized
+                    if (guestCalcBtn) {
+                        guestCalcBtn.style.display = gcaIsAuthorized(email) ? 'inline-flex' : 'none';
+                    }
                 }
             } else {
                 loginBtn.style.display = "inline-flex";
@@ -2522,6 +2862,8 @@
                 if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                 if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
                 if (statementBtn) statementBtn.style.display = "none";
+                // Hide Guest Cal when logged out
+                if (guestCalcBtn) guestCalcBtn.style.display = 'none';
             }
         }
 
@@ -2938,9 +3280,7 @@
 
             triggerCartAnimation();
             renderCart();
-            if (csEnabled) {
-                showCrossSell(barcode);
-            }
+
         }
 
         /* ===== CROSS-SELL RECOMMENDATION ENGINE ===== */
@@ -5073,9 +5413,11 @@
             btn.classList.add('active');
 
             document.querySelectorAll('.bp-section').forEach(s => s.classList.remove('active'));
-            const sectionMap = { patterns: 'bpSectionPatterns', stopped: 'bpSectionStopped', clients: 'bpSectionClients' };
+            const sectionMap = { patterns: 'bpSectionPatterns', stopped: 'bpSectionStopped', clients: 'bpSectionClients', guestcalaccess: 'bpSectionGuestCalAccess' };
             const section = document.getElementById(sectionMap[tab]);
             if (section) section.classList.add('active');
+            // Render Guest Cal Access tab when opened
+            if (tab === 'guestcalaccess') gcaRender();
         }
 
         function bpSetTimeRange(range, btn) {
@@ -5834,13 +6176,9 @@
         // Trigger on page load
         if (document.readyState === 'complete') {
             showWhatsNew();
-            updateCsToggleUI();
-            updateCsManualBtn();
         } else {
             window.addEventListener('load', function () {
                 showWhatsNew();
-                updateCsToggleUI();
-                updateCsManualBtn();
             });
         }
     </script>
@@ -6517,6 +6855,7 @@
                 }
 
                 var systemStock = stockItem ? stockItem.systemStock : 0;
+                var itemCode = stockItem ? (stockItem.itemCode || '') : '';
                 var shortfall = Math.max(0, agg.totalQty - systemStock);
                 var status = !stockItem ? 'out' : shortfall > 0 ? 'low' : 'ok';
 
@@ -6540,6 +6879,7 @@
 
                 results.push({
                     name: agg.name, pack: agg.pack, cat: agg.cat,
+                    itemCode: itemCode,
                     orderedQty: agg.totalQty, systemStock: systemStock,
                     shortfall: shortfall, status: status,
                     customers: Object.keys(agg.customers).join(', '),
@@ -6647,6 +6987,7 @@
 
                 html += '<tr class="' + rowClass + '">' +
                     '<td style="color:#9ca3af;font-size:.75rem;font-weight:600">' + (i + 1) + '</td>' +
+                    '<td style="font-size:.8rem;color:#6b7280;font-family:monospace">' + (r.itemCode || '—') + '</td>' +
                     '<td><strong>' + r.name + '</strong></td>' +
                     '<td style="color:#6b7280;font-size:.8rem">' + r.pack + '</td>' +
                     '<td style="font-size:.8rem;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.customers + '">' + custDisplay + '</td>' +
@@ -6662,21 +7003,654 @@
 
         function fulfillmentExport() {
             if (!ffLastResults || ffLastResults.length === 0) { alert('No data to export'); return; }
-            var data = [['#', 'Item Name', 'Pack', 'Customer(s)', 'Ordered Qty', 'System Stock', 'Shortfall', 'Status', 'Alternatives']];
+            var data = [['#', 'Item Code', 'Item Name', 'Pack', 'Customer(s)', 'Ordered Qty', 'System Stock', 'Shortfall', 'Status', 'Alternatives']];
             ffLastResults.forEach(function (r, i) {
                 var statusText = r.status === 'ok' ? 'In Stock' : r.status === 'low' ? 'Low Stock' : 'Not Found';
                 var altText = r.alternatives.map(function (a) { return a.name + ' (' + a.stock + ')'; }).join('; ');
-                data.push([i + 1, r.name, r.pack, r.customers, r.orderedQty, r.systemStock, r.shortfall, statusText, altText]);
+                data.push([i + 1, r.itemCode || '', r.name, r.pack, r.customers, r.orderedQty, r.systemStock, r.shortfall, statusText, altText]);
             });
             var ws = XLSX.utils.aoa_to_sheet(data);
             // Column widths
-            ws['!cols'] = [{ wch: 5 }, { wch: 30 }, { wch: 12 }, { wch: 25 }, { wch: 10 }, { wch: 12 }, { wch: 10 }, { wch: 12 }, { wch: 40 }];
+            ws['!cols'] = [{ wch: 5 }, { wch: 15 }, { wch: 30 }, { wch: 12 }, { wch: 25 }, { wch: 10 }, { wch: 12 }, { wch: 10 }, { wch: 12 }, { wch: 40 }];
             var wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Stock Fulfillment');
             var dateStr = document.getElementById('fulfillmentDateFrom').value || 'report';
             XLSX.writeFile(wb, 'Stock_Fulfillment_' + dateStr + '.xlsx');
             premiumNotify('Report exported successfully', 'success', 3000);
         }
+
+        /* ===== GUEST CAL ACCESS MANAGEMENT ===== */
+        const GCA_STORAGE_KEY = 'guestCalAuthorizedEmails';
+        const ADMIN_EMAIL_GCA  = 'kinpatel1983@gmail.com';
+
+        /** Return array of authorized emails (lowercase) */
+        function gcaGetList() {
+            try { return JSON.parse(localStorage.getItem(GCA_STORAGE_KEY)) || []; }
+            catch(e) { return []; }
+        }
+
+        /** Save the list */
+        function gcaSaveList(list) {
+            localStorage.setItem(GCA_STORAGE_KEY, JSON.stringify(list.map(e => e.toLowerCase().trim())));
+        }
+
+        /** Is this email authorized? */
+        function gcaIsAuthorized(email) {
+            if (!email) return false;
+            const em = email.toLowerCase().trim();
+            if (em === ADMIN_EMAIL_GCA) return true;
+            return gcaGetList().includes(em);
+        }
+
+        /** Grant access to a client email */
+        function gcaGrant(email) {
+            email = email.toLowerCase().trim();
+            const list = gcaGetList();
+            if (!list.includes(email)) { list.push(email); gcaSaveList(list); }
+            gcaRender();
+            premiumNotify('Guest Cal access granted to ' + email, 'success', 3000);
+            // If this is the currently logged-in user, update their nav button immediately
+            const curEmail = (localStorage.getItem('userEmail') || '').toLowerCase().trim();
+            if (curEmail === email) updateLoginUI(localStorage.getItem('authToken'));
+        }
+
+        /** Revoke access from a client email */
+        function gcaRevoke(email) {
+            email = email.toLowerCase().trim();
+            const list = gcaGetList().filter(e => e !== email);
+            gcaSaveList(list);
+            gcaRender();
+            premiumNotify('Guest Cal access revoked for ' + email, 'warning', 3000);
+            const curEmail = (localStorage.getItem('userEmail') || '').toLowerCase().trim();
+            if (curEmail === email) updateLoginUI(localStorage.getItem('authToken'));
+        }
+
+        /** Toggle a single client's access */
+        function gcaToggle(email) {
+            if (gcaIsAuthorized(email)) { gcaRevoke(email); }
+            else { gcaGrant(email); }
+        }
+
+        /** Grant access to all known clients */
+        function gcaGrantAll() {
+            if (!bpRawData || !bpRawData.clients) { alert('Please load the client data first (click Refresh).'); return; }
+            const all = bpRawData.clients.map(c => c.email.toLowerCase().trim());
+            gcaSaveList([...new Set(all)]);
+            gcaRender();
+            premiumNotify('Guest Cal access granted to all ' + all.length + ' clients', 'success', 3000);
+            updateLoginUI(localStorage.getItem('authToken'));
+        }
+
+        /** Revoke access from all clients */
+        function gcaRevokeAll() {
+            if (!confirm('Revoke Guest Cal access from ALL clients?')) return;
+            gcaSaveList([]);
+            gcaRender();
+            premiumNotify('Guest Cal access revoked from all clients', 'warning', 3500);
+            updateLoginUI(localStorage.getItem('authToken'));
+        }
+
+        /** Render the Guest Cal Access admin panel */
+        function gcaRender() {
+            const container = document.getElementById('gcaContent');
+            if (!container) return;
+
+            const authorizedList = gcaGetList();
+            // Get all known clients from bp data (or from an empty array)
+            let clients = [];
+            if (bpRawData && bpRawData.clients && bpRawData.clients.length > 0) {
+                clients = bpRawData.clients.slice();
+                // Remove admin from list (admin always has access)
+                clients = clients.filter(c => (c.email || '').toLowerCase().trim() !== ADMIN_EMAIL_GCA);
+                clients.sort((a, b) => (a.name || a.email || '').localeCompare(b.name || b.email || ''));
+            }
+
+            const totalClients = clients.length;
+            const totalAuthorized = clients.filter(c => gcaIsAuthorized(c.email)).length;
+
+            const searchVal = (document.getElementById('gcaSearchInput') ? document.getElementById('gcaSearchInput').value : '').toLowerCase().trim();
+
+            const filtered = searchVal ? clients.filter(c =>
+                (c.name || '').toLowerCase().includes(searchVal) ||
+                (c.email || '').toLowerCase().includes(searchVal)
+            ) : clients;
+
+            let html = `
+                <div class="gca-hero">
+                    <div class="gca-hero-left">
+                        <h3>🏨 Guest Calculator — Client Access Control</h3>
+                        <p>Toggle which clients can use the Guest-Based Supply Calculator feature.</p>
+                    </div>
+                    <div class="gca-stats">
+                        <div class="gca-stat">
+                            <div class="gca-stat-val">${totalAuthorized}</div>
+                            <div class="gca-stat-lbl">Authorized</div>
+                        </div>
+                        <div class="gca-stat">
+                            <div class="gca-stat-val" style="color:rgba(255,255,255,.5);">${totalClients - totalAuthorized}</div>
+                            <div class="gca-stat-lbl">Locked</div>
+                        </div>
+                        <div class="gca-stat">
+                            <div class="gca-stat-val" style="color:rgba(255,255,255,.7);">${totalClients}</div>
+                            <div class="gca-stat-lbl">Total Clients</div>
+                        </div>
+                    </div>
+                    <div class="gca-hero-badge">🔒 Admin Only</div>
+                </div>`;
+
+            if (totalClients === 0) {
+                html += `
+                <div class="gc-empty-state">
+                    <div class="gc-empty-icon">👥</div>
+                    <div class="gc-empty-title">No Client Data Loaded</div>
+                    <div class="gc-empty-text">Click the <strong>🔄 Refresh</strong> button above to load all clients, then come back to this tab to manage access.</div>
+                </div>`;
+            } else {
+                html += `
+                <div class="gca-search-bar">
+                    <input type="text" id="gcaSearchInput" class="gca-search-input" placeholder="🔍 Search clients by name or email..." oninput="gcaRender()" value="${searchVal}">
+                    <div class="gca-bulk-btns">
+                        <button class="gca-bulk-btn grant-all" onclick="gcaGrantAll()">✅ Authorize All</button>
+                        <button class="gca-bulk-btn revoke-all" onclick="gcaRevokeAll()">🔒 Revoke All</button>
+                    </div>
+                </div>`;
+
+                if (filtered.length === 0) {
+                    html += `<div style="text-align:center;padding:2rem;color:var(--text-muted,#6b7280);">No clients match your search.</div>`;
+                } else {
+                    html += '<div class="gca-client-grid">';
+                    filtered.forEach((c, i) => {
+                        const isAuth = gcaIsAuthorized(c.email);
+                        const delay = Math.min(i * 0.04, 0.6);
+                        html += `
+                        <div class="gca-client-card ${isAuth ? 'gca-authorized' : ''}" style="animation:ffKpiIn .4s ease ${delay}s both;">
+                            <div class="gca-card-glow"></div>
+                            <div class="gca-client-info">
+                                <div class="gca-client-name">${c.name || c.email}</div>
+                                <div class="gca-client-email">${c.email}</div>
+                                <span class="gca-client-badge ${isAuth ? 'gca-badge-auth' : 'gca-badge-locked'}">
+                                    ${isAuth ? '✅ Guest Cal Enabled' : '🔒 No Access'}
+                                </span>
+                            </div>
+                            <div class="gca-toggle-wrap">
+                                <label class="gc-switch" title="${isAuth ? 'Revoke access' : 'Grant access'}">
+                                    <input type="checkbox" ${isAuth ? 'checked' : ''} onchange="gcaToggle('${c.email.replace(/'/g,"\\'")}')">
+                                    <span class="gc-slider"></span>
+                                </label>
+                                <span class="gca-toggle-lbl ${isAuth ? 'on' : 'off'}">${isAuth ? 'ON' : 'OFF'}</span>
+                            </div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+            }
+
+            container.innerHTML = html;
+        }
+
+        /** Show a locked/unauthorized message on the Guest Calc page */
+        function gcaShowLockedState() {
+            const pageEl = document.getElementById('page-guest-calc');
+            if (!pageEl) return;
+            // Preserve action bar (hide it)
+            const actionBar = document.getElementById('gcActionBar');
+            if (actionBar) actionBar.style.display = 'none';
+
+            // Replace inner content with locked screen
+            const lockedHtml = `
+                <div class="gc-locked-state">
+                    <div class="gc-locked-icon">🔐</div>
+                    <h2 class="gc-locked-title">Feature Not Activated</h2>
+                    <p class="gc-locked-desc">The <strong>Guest-Based Supply Calculator</strong> is not enabled for your account. Please contact Premium Supplies Ltd to request access to this feature.</p>
+                    <div class="gc-locked-badge">🚫 Access Restricted</div>
+                </div>`;
+
+            // Inject inside the page div
+            const existingLocked = pageEl.querySelector('.gc-locked-state');
+            if (!existingLocked) {
+                const div = document.createElement('div');
+                div.id = 'gcLockedOverlay';
+                div.innerHTML = lockedHtml;
+                // Hide all other children
+                Array.from(pageEl.children).forEach(child => { child.style.display = 'none'; });
+                pageEl.appendChild(div);
+            }
+        }
+
+        /* ===== GUEST-BASED CALCULATOR ===== */
+        const GUEST_CALC_ITEMS = [
+            // Toiletries
+            { id: 'gc-soap', name: 'Soap', category: 'toiletries', unit: 'pcs', ratePerGuestDay: 0.5, rateLabel: '1 per 2 days', enabled: true },
+            { id: 'gc-shampoo', name: 'Shampoo', category: 'toiletries', unit: 'pcs', ratePerGuestDay: 0.15, rateLabel: '~1 per stay', enabled: true },
+            { id: 'gc-conditioner', name: 'Conditioner', category: 'toiletries', unit: 'pcs', ratePerGuestDay: 0.15, rateLabel: '~1 per stay', enabled: true },
+            { id: 'gc-body-lotion', name: 'Body Lotion', category: 'toiletries', unit: 'pcs', ratePerGuestDay: 0.15, rateLabel: '~1 per stay', enabled: true },
+            { id: 'gc-shower-gel', name: 'Shower Gel', category: 'toiletries', unit: 'litres', ratePerGuestDay: 0.03, rateLabel: '30ml/day', enabled: true },
+            { id: 'gc-shower-cap', name: 'Shower Cap', category: 'toiletries', unit: 'pcs', ratePerGuestDay: 0.15, rateLabel: '1 per stay', enabled: false },
+            // Cleaning
+            { id: 'gc-floor-cleaner', name: 'Floor Cleaner', category: 'cleaning', unit: 'litres', ratePerGuestDay: 0.05, rateLabel: '50ml/room/day', enabled: true },
+            { id: 'gc-glass-cleaner', name: 'Glass Cleaner', category: 'cleaning', unit: 'litres', ratePerGuestDay: 0.02, rateLabel: '20ml/room/day', enabled: true },
+            { id: 'gc-disinfectant', name: 'Disinfectant', category: 'cleaning', unit: 'litres', ratePerGuestDay: 0.03, rateLabel: '30ml/room/day', enabled: true },
+            { id: 'gc-toilet-cleaner', name: 'Toilet Cleaner', category: 'cleaning', unit: 'litres', ratePerGuestDay: 0.03, rateLabel: '30ml/room/day', enabled: true },
+            { id: 'gc-air-freshener', name: 'Air Freshener', category: 'cleaning', unit: 'pcs', ratePerGuestDay: 0.02, rateLabel: '1 per 50 days', enabled: true },
+            { id: 'gc-sponge', name: 'Sponge', category: 'cleaning', unit: 'pcs', ratePerGuestDay: 0.03, rateLabel: '1 per month', enabled: false },
+            // Paper Products
+            { id: 'gc-toilet-paper', name: 'Toilet Paper', category: 'paper', unit: 'rolls', ratePerGuestDay: 0.5, rateLabel: '0.5 rolls/day', enabled: true },
+            { id: 'gc-tissue', name: 'Tissue Box', category: 'paper', unit: 'pcs', ratePerGuestDay: 0.15, rateLabel: '~1 per stay', enabled: true },
+            { id: 'gc-paper-towel', name: 'Paper Towels', category: 'paper', unit: 'rolls', ratePerGuestDay: 0.1, rateLabel: '~1 roll/10 days', enabled: true },
+            { id: 'gc-napkins', name: 'Napkins', category: 'paper', unit: 'pcs', ratePerGuestDay: 3, rateLabel: '3 per meal/day', enabled: true },
+            { id: 'gc-bin-liner', name: 'Bin Liners', category: 'paper', unit: 'pcs', ratePerGuestDay: 1, rateLabel: '1 per room/day', enabled: true },
+            // Laundry
+            { id: 'gc-washing-powder', name: 'Washing Powder', category: 'laundry', unit: 'kg', ratePerGuestDay: 0.05, rateLabel: '50g/guest/day', enabled: true },
+            { id: 'gc-fabric-softener', name: 'Fabric Softener', category: 'laundry', unit: 'litres', ratePerGuestDay: 0.02, rateLabel: '20ml/guest/day', enabled: true },
+            { id: 'gc-bleach', name: 'Bleach', category: 'laundry', unit: 'litres', ratePerGuestDay: 0.01, rateLabel: '10ml/guest/day', enabled: true },
+            { id: 'gc-starch', name: 'Starch', category: 'laundry', unit: 'litres', ratePerGuestDay: 0.005, rateLabel: '5ml/guest/day', enabled: false },
+            // Kitchen
+            { id: 'gc-cooking-oil', name: 'Cooking Oil', category: 'kitchen', unit: 'litres', ratePerGuestDay: 0.05, rateLabel: '50ml/guest/day', enabled: true },
+            { id: 'gc-sugar', name: 'Sugar', category: 'kitchen', unit: 'kg', ratePerGuestDay: 0.03, rateLabel: '30g/guest/day', enabled: true },
+            { id: 'gc-salt', name: 'Salt', category: 'kitchen', unit: 'kg', ratePerGuestDay: 0.005, rateLabel: '5g/guest/day', enabled: true },
+            { id: 'gc-flour', name: 'Flour', category: 'kitchen', unit: 'kg', ratePerGuestDay: 0.05, rateLabel: '50g/guest/day', enabled: true },
+            { id: 'gc-rice', name: 'Rice', category: 'kitchen', unit: 'kg', ratePerGuestDay: 0.1, rateLabel: '100g/guest/day', enabled: true },
+            { id: 'gc-butter', name: 'Butter', category: 'kitchen', unit: 'kg', ratePerGuestDay: 0.015, rateLabel: '15g/guest/day', enabled: true },
+            { id: 'gc-eggs', name: 'Eggs', category: 'kitchen', unit: 'pcs', ratePerGuestDay: 1.5, rateLabel: '1-2 per guest/day', enabled: true },
+            // Beverages
+            { id: 'gc-tea', name: 'Tea', category: 'beverages', unit: 'kg', ratePerGuestDay: 0.005, rateLabel: '~2 cups/day', enabled: true },
+            { id: 'gc-coffee', name: 'Coffee', category: 'beverages', unit: 'kg', ratePerGuestDay: 0.01, rateLabel: '~2 cups/day', enabled: true },
+            { id: 'gc-water', name: 'Drinking Water', category: 'beverages', unit: 'litres', ratePerGuestDay: 1.5, rateLabel: '1.5L/guest/day', enabled: true },
+            { id: 'gc-juice', name: 'Juice', category: 'beverages', unit: 'litres', ratePerGuestDay: 0.25, rateLabel: '250ml/guest/day', enabled: true },
+            { id: 'gc-milk', name: 'Milk', category: 'beverages', unit: 'litres', ratePerGuestDay: 0.15, rateLabel: '150ml/guest/day', enabled: true },
+        ];
+
+        let gcCurrentTab = 'all';
+        let gcMatchCache = {};
+        let gcEditMatchState = {};
+
+        function guestCalcSaveSettings() {
+            const settings = {};
+            GUEST_CALC_ITEMS.forEach(item => {
+                settings[item.id] = {
+                    enabled: item.enabled,
+                    ratePerGuestDay: item.ratePerGuestDay,
+                    manualMatch: item.manualMatch,
+                    isCustom: item.isCustom,
+                    name: item.name,
+                    category: item.category,
+                    unit: item.unit
+                };
+            });
+            localStorage.setItem('guestCalcSettings', JSON.stringify(settings));
+        }
+
+        function guestCalcLoadSettings() {
+            const saved = localStorage.getItem('guestCalcSettings');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    // Handle default items natively
+                    GUEST_CALC_ITEMS.forEach(item => {
+                        if (parsed[item.id]) {
+                            item.enabled = parsed[item.id].enabled !== false;
+                            item.manualMatch = parsed[item.id].manualMatch || null;
+                            if (parsed[item.id].ratePerGuestDay !== undefined) {
+                                item.ratePerGuestDay = parsed[item.id].ratePerGuestDay;
+                            }
+                            parsed[item.id]._handled = true; // Mark as handled
+                        }
+                    });
+                    
+                    // Push user's custom items dynamically
+                    Object.keys(parsed).forEach(id => {
+                        if (!parsed[id]._handled && parsed[id].isCustom) {
+                            GUEST_CALC_ITEMS.push({
+                                id: id,
+                                name: parsed[id].name || 'Custom Item',
+                                category: parsed[id].category || 'kitchen',
+                                unit: parsed[id].unit || 'qty',
+                                ratePerGuestDay: parsed[id].ratePerGuestDay || 0,
+                                rateLabel: 'custom unit/day',
+                                enabled: parsed[id].enabled !== false,
+                                manualMatch: parsed[id].manualMatch || null,
+                                isCustom: true
+                            });
+                        }
+                    });
+                } catch (e) {
+                    console.error('Failed to parse guest calc settings', e);
+                }
+            }
+        }
+
+        guestCalcLoadSettings();
+
+        function guestCalcUpdate() {
+            const guests = parseInt(document.getElementById('gcGuests').value) || 0;
+            const days = parseInt(document.getElementById('gcDays').value) || 0;
+            document.getElementById('gcTotalGuestDays').textContent = (guests * days).toLocaleString();
+            guestCalcRender();
+        }
+
+        function guestCalcSetTab(tab, btn) {
+            gcCurrentTab = tab;
+            document.querySelectorAll('.gc-tab').forEach(t => t.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            guestCalcRender();
+        }
+
+        function guestCalcMatchProduct(gcItem) {
+            if (gcItem.manualMatch && allProducts && allProducts.length > 0) {
+                const manual = allProducts.find(p => String(p.barcode) === String(gcItem.manualMatch));
+                if (manual) return manual;
+            }
+
+            if (gcMatchCache[gcItem.id] !== undefined) return gcMatchCache[gcItem.id];
+            if (!allProducts || allProducts.length === 0) { gcMatchCache[gcItem.id] = null; return null; }
+
+            const searchName = gcItem.name.toLowerCase();
+            // Try exact name match first
+            let match = allProducts.find(p => p.name.toLowerCase() === searchName);
+            // Try starts-with match
+            if (!match) match = allProducts.find(p => p.name.toLowerCase().startsWith(searchName));
+            // Try contains match
+            if (!match) match = allProducts.find(p => p.name.toLowerCase().includes(searchName));
+            // Try reverse contains
+            if (!match) match = allProducts.find(p => searchName.includes(p.name.toLowerCase()) && p.name.length > 3);
+
+            gcMatchCache[gcItem.id] = match || null;
+            return match || null;
+        }
+
+        function guestCalcRender() {
+            const guests = parseInt(document.getElementById('gcGuests').value) || 0;
+            const days = parseInt(document.getElementById('gcDays').value) || 0;
+            const guestDays = guests * days;
+            const grid = document.getElementById('gcProductsGrid');
+
+            // Invalidate cache when products change
+            if (allProducts && allProducts.length > 0 && Object.keys(gcMatchCache).length === 0) {
+                gcMatchCache = {};
+            }
+
+            const filtered = GUEST_CALC_ITEMS.filter(item => {
+                if (gcCurrentTab === 'all') return true;
+                return item.category === gcCurrentTab;
+            });
+
+            document.getElementById('gcItemCount').textContent = filtered.length;
+
+            let html = '';
+            let selectedCount = 0;
+            let estTotal = 0;
+            let matchedCount = 0;
+            let totalWithMatch = 0;
+
+            filtered.forEach((item, idx) => {
+                const qty = Math.ceil(guestDays * item.ratePerGuestDay);
+                const match = guestCalcMatchProduct(item);
+                const hasMatch = !!match;
+                const price = hasMatch ? match.price : 0;
+                const itemTotal = qty * price;
+
+                if (hasMatch) matchedCount++;
+                totalWithMatch++;
+
+                if (item.enabled) {
+                    selectedCount++;
+                    estTotal += itemTotal;
+                }
+
+                const catIcons = { toiletries: '🧴', cleaning: '🧹', paper: '🧻', laundry: '👔', kitchen: '🍳', beverages: '☕' };
+                const catIcon = catIcons[item.category] || '📦';
+
+                let matchHtml = '';
+                if (gcEditMatchState[item.id]) {
+                    let opts = `<option value="">-- Remove Custom Match --</option>`;
+                    const currentBarcode = hasMatch ? String(match.barcode) : (item.manualMatch ? String(item.manualMatch) : '');
+                    if (allProducts && allProducts.length > 0) {
+                        allProducts.forEach(p => {
+                            opts += `<option value="${p.barcode}" ${currentBarcode === String(p.barcode) ? 'selected' : ''}>${p.name}</option>`;
+                        });
+                    }
+                    
+                    matchHtml = `
+                        <div class="gc-product-match" style="background:#f3f4f6; border:1px solid #d1d5db;">
+                            <div style="margin-bottom:6px;font-weight:600;font-size:0.75rem;color:#374151;">Select Match:</div>
+                            <select id="gc-select-${item.id}" style="width:100%; border:1px solid #d1d5db; border-radius:6px; padding:6px; margin-bottom:8px; font-size:0.8rem; font-family:'Inter',sans-serif;">
+                                ${opts}
+                            </select>
+                            <div style="display:flex; gap:8px;">
+                                <button onclick="guestCalcSaveMatch('${item.id}')" style="background:#ea580c;color:#fff;border:none;padding:4px 10px;border-radius:6px;font-size:0.7rem;font-weight:600;cursor:pointer;">Save</button>
+                                <button onclick="guestCalcCancelMatch('${item.id}')" style="background:#d1d5db;color:#374151;border:none;padding:4px 10px;border-radius:6px;font-size:0.7rem;font-weight:600;cursor:pointer;">Cancel</button>
+                            </div>
+                        </div>
+                    `;
+                } else if (hasMatch) {
+                    matchHtml = `
+                        <div class="gc-product-match gc-match-yes">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>✅ ${item.manualMatch ? 'Custom: ' : 'Matched: '} ${match.name}</span>
+                                <button onclick="guestCalcEditMatch('${item.id}')" style="background:none;border:none;color:#ea580c;text-decoration:underline;cursor:pointer;font-size:0.7rem;font-weight:600;padding:2px 4px;">Change</button>
+                            </div>
+                            <div class="gc-match-price">TZS ${price.toLocaleString()} × ${qty} = <strong>TZS ${itemTotal.toLocaleString()}</strong></div>
+                        </div>
+                    `;
+                } else {
+                    matchHtml = `
+                        <div class="gc-product-match gc-match-no">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>⚠️ Not found in price list</span>
+                                <button onclick="guestCalcEditMatch('${item.id}')" style="background:none;border:none;color:#b45309;text-decoration:underline;cursor:pointer;font-size:0.7rem;font-weight:600;padding:2px 4px;">Choose</button>
+                            </div>
+                            <div class="gc-match-hint">Will be skipped when adding to cart</div>
+                        </div>
+                    `;
+                }
+
+                const deleteBtnHtml = item.isCustom ? `<button onclick="guestCalcDeleteCustom('${item.id}')" style="position:absolute; top:12px; right:65px; background:rgba(239, 68, 68, 0.1); color:#ef4444; border:none; width:22px; height:22px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:10px;" title="Delete Item">❌</button>` : '';
+
+                html += `
+                    <div class="gc-product-card ${item.enabled ? '' : 'gc-disabled'}" id="gc-card-${item.id}">
+                        ${deleteBtnHtml}
+                        <div class="gc-product-toggle">
+                            <label class="gc-switch">
+                                <input type="checkbox" ${item.enabled ? 'checked' : ''} onchange="guestCalcToggle('${item.id}')">
+                                <span class="gc-slider"></span>
+                            </label>
+                        </div>
+                        <div class="gc-product-cat-badge">${catIcon} ${item.category}</div>
+                        <div class="gc-product-name">${item.name}</div>
+                        <div class="gc-product-rate">
+                            📏 Usage: <input type="number" class="gc-rate-input" value="${item.ratePerGuestDay}" step="0.001" min="0" onchange="guestCalcUpdateRate('${item.id}', this.value)"> ${item.unit}/guest-day
+                        </div>
+                        <div class="gc-product-qty-row">
+                            <span class="gc-product-qty-label">Calculated Qty:</span>
+                            <span class="gc-product-qty-value">${qty} ${item.unit}</span>
+                        </div>
+                        ${matchHtml}
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+            document.getElementById('gcSelectedCount').textContent = selectedCount;
+            document.getElementById('gcEstTotal').textContent = 'TZS ' + estTotal.toLocaleString();
+            document.getElementById('gcMatchedCount').textContent = matchedCount + ' / ' + totalWithMatch;
+        }
+
+        function guestCalcToggle(itemId) {
+            const item = GUEST_CALC_ITEMS.find(i => i.id === itemId);
+            if (item) {
+                item.enabled = !item.enabled;
+                guestCalcSaveSettings();
+                guestCalcRender();
+            }
+        }
+
+        function guestCalcToggleAll(state) {
+            GUEST_CALC_ITEMS.forEach(item => {
+                if (gcCurrentTab === 'all' || item.category === gcCurrentTab) {
+                    item.enabled = state;
+                }
+            });
+            guestCalcSaveSettings();
+            guestCalcRender();
+        }
+
+        function guestCalcUpdateRate(itemId, newRate) {
+            const item = GUEST_CALC_ITEMS.find(i => i.id === itemId);
+            if (item) {
+                const val = parseFloat(newRate);
+                if (!isNaN(val) && val >= 0) {
+                    item.ratePerGuestDay = val;
+                }
+                guestCalcSaveSettings();
+                guestCalcRender();
+            }
+        }
+
+        function guestCalcEditMatch(itemId) {
+            gcEditMatchState[itemId] = true;
+            guestCalcRender();
+        }
+
+        function guestCalcCancelMatch(itemId) {
+            gcEditMatchState[itemId] = false;
+            guestCalcRender();
+        }
+
+        function guestCalcSaveMatch(itemId) {
+            const select = document.getElementById('gc-select-' + itemId);
+            if (!select) return;
+            const item = GUEST_CALC_ITEMS.find(i => i.id === itemId);
+            if (item) {
+                if (select.value === "") {
+                    item.manualMatch = null;
+                } else {
+                    item.manualMatch = select.value;
+                    
+                    // If this is a custom user-added item, we can automatically update its name to safely match the selected product
+                    if (item.isCustom) {
+                        const matchedProd = allProducts.find(p => String(p.barcode) === String(item.manualMatch));
+                        if (matchedProd) item.name = matchedProd.name;
+                    }
+                }
+                gcEditMatchState[itemId] = false;
+                gcMatchCache[itemId] = undefined; // Clear cache to force rematch if custom is removed
+                guestCalcSaveSettings();
+                guestCalcRender();
+            }
+        }
+
+        function guestCalcAddCustomItem() {
+            const cat = gcCurrentTab === 'all' ? 'kitchen' : gcCurrentTab;
+            const newItem = {
+                id: 'gc-custom-' + Date.now(),
+                name: 'New Custom Item',
+                category: cat,
+                unit: 'qty',
+                ratePerGuestDay: 0.1,
+                rateLabel: 'custom unit/day',
+                enabled: true,
+                manualMatch: null,
+                isCustom: true
+            };
+            GUEST_CALC_ITEMS.push(newItem);
+            gcEditMatchState[newItem.id] = true; // Auto open product selector
+            guestCalcSaveSettings();
+            guestCalcRender();
+            
+            // Scroll to bottom
+            setTimeout(() => {
+                const grid = document.getElementById('gcProductsGrid');
+                if (grid) grid.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        function guestCalcDeleteCustom(itemId) {
+            const idx = GUEST_CALC_ITEMS.findIndex(i => i.id === itemId);
+            if (idx > -1) {
+                GUEST_CALC_ITEMS.splice(idx, 1);
+                guestCalcSaveSettings();
+                guestCalcRender();
+            }
+        }
+
+        function guestCalcAddToCart() {
+            const isLoggedIn = !!localStorage.getItem('authToken');
+            if (!isLoggedIn) {
+                alert('Please login first to add items to cart');
+                return;
+            }
+            if (!allProducts || allProducts.length === 0) {
+                alert('Price list not loaded yet. Please wait and try again.');
+                return;
+            }
+
+            const guests = parseInt(document.getElementById('gcGuests').value) || 0;
+            const days = parseInt(document.getElementById('gcDays').value) || 0;
+            const guestDays = guests * days;
+            let addedCount = 0;
+            let skippedCount = 0;
+
+            GUEST_CALC_ITEMS.forEach(item => {
+                if (!item.enabled) return;
+                const qty = Math.ceil(guestDays * item.ratePerGuestDay);
+                if (qty <= 0) return;
+
+                const match = guestCalcMatchProduct(item);
+                if (match && match.barcode) {
+                    addToCartFinal(match.barcode, qty);
+                    addedCount++;
+                } else {
+                    skippedCount++;
+                }
+            });
+
+            if (addedCount > 0) {
+                const skipMsg = skippedCount > 0 ? ` (${skippedCount} items skipped — not found in price list)` : '';
+                alert(`✅ ${addedCount} items added to cart for ${guests} guests × ${days} days!${skipMsg}`);
+                // Navigate to order page
+                const orderBtn = document.querySelector('.nav-btn[onclick*="page-pricelist"]');
+                showPage('page-pricelist', orderBtn);
+            } else {
+                alert('No items could be added. Please make sure the price list is loaded and items are selected.');
+            }
+        }
+
+        // Initial render when page is shown
+        (function() {
+            const origShowPage = showPage;
+            // Re-match products every time guest calc page is shown
+            const _origSP = window.showPage;
+        })();
+
+        // Listen for page show to trigger render
+        var _origShowPage = showPage;
+        showPage = function(pageId, btn) {
+            _origShowPage(pageId, btn);
+            if (pageId === 'page-guest-calc') {
+                const email = (localStorage.getItem('userEmail') || '').toLowerCase().trim();
+                const token = localStorage.getItem('authToken');
+
+                // If not logged in or not authorized → show locked state
+                if (!token || (!gcaIsAuthorized(email))) {
+                    gcaShowLockedState();
+                    return;
+                }
+
+                // Authorized — restore any previously hidden children
+                const pageEl = document.getElementById('page-guest-calc');
+                if (pageEl) {
+                    const overlay = document.getElementById('gcLockedOverlay');
+                    if (overlay) overlay.remove();
+                    Array.from(pageEl.children).forEach(child => { child.style.display = ''; });
+                    const actionBar = document.getElementById('gcActionBar');
+                    if (actionBar) actionBar.style.display = '';
+                }
+
+                gcMatchCache = {}; // Clear cache to re-match with latest products
+                guestCalcUpdate();
+            }
+        };
+
     </script>
 
 </body>
