@@ -798,245 +798,6 @@
                 font-size: .75rem
             }
         }
-
-        /* ===== GUEST CAL ACCESS MANAGEMENT ===== */
-        .gca-hero {
-            background: linear-gradient(135deg, #431407 0%, #7c2d12 50%, #ea580c 100%);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .gca-hero-left h3 {
-            color: #fff;
-            margin: 0 0 4px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .gca-hero-left p {
-            color: rgba(255,255,255,.75);
-            margin: 0;
-            font-size: 0.85rem;
-        }
-        .gca-hero-badge {
-            background: rgba(255,255,255,.15);
-            color: #ffedd5;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        .gca-stats {
-            display: flex;
-            gap: 1.5rem;
-        }
-        .gca-stat {
-            text-align: center;
-        }
-        .gca-stat-val {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #fb923c;
-        }
-        .gca-stat-lbl {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,.7);
-            text-transform: uppercase;
-            letter-spacing: .05em;
-        }
-        .gca-search-bar {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        .gca-search-input {
-            flex: 1;
-            min-width: 200px;
-            padding: 10px 14px;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 0.875rem;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: border-color .2s, box-shadow .2s;
-        }
-        .gca-search-input:focus {
-            border-color: #ea580c;
-            box-shadow: 0 0 0 3px rgba(234, 88, 12, .12);
-        }
-        .gca-bulk-btns {
-            display: flex;
-            gap: 8px;
-        }
-        .gca-bulk-btn {
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid transparent;
-            font-family: 'Inter', sans-serif;
-            transition: all .2s;
-        }
-        .gca-bulk-btn.grant-all {
-            background: linear-gradient(135deg, #ea580c, #f97316);
-            color: white;
-            box-shadow: 0 2px 8px rgba(249,115,22,.3);
-        }
-        .gca-bulk-btn.grant-all:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(249,115,22,.4); }
-        .gca-bulk-btn.revoke-all {
-            background: #fee2e2;
-            color: #dc2626;
-            border-color: rgba(220,38,38,.15);
-        }
-        .gca-bulk-btn.revoke-all:hover { background: #fecaca; }
-        .gca-client-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
-            padding: 0.5rem 0;
-        }
-        .gca-client-card {
-            background: var(--bg-card, #fff);
-            border: 1.5px solid rgba(0,0,0,.06);
-            border-radius: 14px;
-            padding: 1rem 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            transition: all .25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .gca-client-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,.08);
-        }
-        .gca-client-card.gca-authorized {
-            border-color: rgba(234,88,12,.3);
-            background: linear-gradient(135deg, #fff7ed, #ffedd5 120%);
-        }
-        [data-theme="dark"] .gca-client-card.gca-authorized {
-            background: linear-gradient(135deg, #431407, #7c2d12 120%);
-            border-color: rgba(249,115,22,.35);
-        }
-        [data-theme="dark"] .gca-client-card {
-            background: #1e293b;
-            border-color: #334155;
-        }
-        .gca-card-glow {
-            position: absolute;
-            top: -30px; right: -30px;
-            width: 80px; height: 80px;
-            background: radial-gradient(circle, rgba(249,115,22,.2), transparent 70%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity .3s;
-        }
-        .gca-client-card.gca-authorized .gca-card-glow { opacity: 1; }
-        .gca-client-info { flex: 1; min-width: 0; }
-        .gca-client-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: var(--text-main, #111827);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .gca-client-email {
-            font-size: 0.78rem;
-            color: var(--text-muted, #6b7280);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-top: 2px;
-        }
-        .gca-client-badge {
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 20px;
-            margin-top: 5px;
-            display: inline-block;
-        }
-        .gca-badge-auth { background: #dcfce7; color: #15803d; }
-        .gca-badge-locked { background: #f3f4f6; color: #6b7280; }
-        .gca-toggle-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-        .gca-toggle-lbl {
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-        }
-        .gca-toggle-lbl.on { color: #ea580c; }
-        .gca-toggle-lbl.off { color: #9ca3af; }
-
-        /* Guest Cal Locked State */
-        .gc-locked-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 5rem 2rem;
-            min-height: 60vh;
-        }
-        .gc-locked-icon {
-            font-size: 5rem;
-            margin-bottom: 1.5rem;
-            animation: gc-pulse 2s ease-in-out infinite;
-        }
-        @keyframes gc-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-        .gc-locked-title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--text-main, #111827);
-            margin: 0 0 .75rem;
-        }
-        .gc-locked-desc {
-            color: var(--text-muted, #6b7280);
-            font-size: 1rem;
-            max-width: 420px;
-            line-height: 1.6;
-            margin: 0 auto 2rem;
-        }
-        .gc-locked-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #fee2e2, #fef2f2);
-            color: #dc2626;
-            border: 1px solid rgba(220,38,38,.15);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .gc-empty-state {
-            text-align: center;
-            padding: 3rem 2rem;
-            color: var(--text-muted, #6b7280);
-        }
-        .gc-empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: .4; }
-        .gc-empty-title { font-weight: 700; font-size: 1rem; color: var(--text-main, #111827); }
-        .gc-empty-text { font-size: 0.85rem; margin-top: .5rem; }
     </style>
 </head>
 
@@ -1324,7 +1085,7 @@
                 </div>
 
                 <!-- CARD 6: Guest-Based Calculator -->
-                <div class="fc-border-anim-wrapper">
+                <div class="fc-border-anim-wrapper" id="guestCalcCardWrap" style="display:none;">
                 <div class="feature-card fc-has-border-anim" id="fc-guest-calc">
                     <span class="fc-badge guest-badge">🏨 Calculator</span>
                     <div class="fc-icon-wrap guest-gradient">
@@ -2111,7 +1872,6 @@
                 <button class="bp-tab active" onclick="bpSwitchTab('patterns', this)">📈 Patterns</button>
                 <button class="bp-tab" onclick="bpSwitchTab('stopped', this)">🚫 Stopped Buying</button>
                 <button class="bp-tab" onclick="bpSwitchTab('clients', this)">👥 Clients</button>
-                <button class="bp-tab" onclick="bpSwitchTab('guestcalaccess', this)">🏨 Guest Cal Access</button>
             </div>
             <button class="bp-refresh-btn" id="bpRefreshBtn" onclick="bpLoadData()">
                 <span class="bp-refresh-icon">🔄</span> Refresh
@@ -2172,13 +1932,6 @@
             <!-- Tab 3: Clients -->
             <div class="bp-section" id="bpSectionClients">
                 <div id="bpClientsContent"></div>
-            </div>
-
-            <!-- Tab 4: Guest Cal Access -->
-            <div class="bp-section" id="bpSectionGuestCalAccess">
-                <div id="gcaContent">
-                    <!-- Rendered by JS -->
-                </div>
             </div>
         </div>
     </div>
@@ -2574,7 +2327,7 @@
     </script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbz1RFSbZoy-4AcrlzCwyB8pEzTNAKiMWc3A6gFe_ibbXXo3vJRcKCL7PWkSh-udL7vb1w/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxE4BKZbr-RZRHgLh870fy6SKmz52yjxBI99GL8bjao5ALtuxtawpvKLmwzreHAWMUmAw/exec";
         // Update this URL with your newly deployed Google Apps Script URL for Data5555:
         const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
         const STOCK_API_URL = "https://script.google.com/macros/s/AKfycbwhxVp4QPKQEDsS7t7ZRCE9gq3Re-BZZsaaeqGeN4ZNSVyzayeClUd-_uPr0x0b-x6JSA/exec";
@@ -2834,26 +2587,23 @@
             const adminFulfillmentBtn = document.getElementById("adminFulfillmentBtn");
             const statementBtn = document.getElementById("statementBtn");
             const guestCalcBtn = document.getElementById("guestCalcBtn");
+            const guestCalcCardWrap = document.getElementById("guestCalcCardWrap");
             const email = (localStorage.getItem("userEmail") || '').toLowerCase().trim();
             if (token) {
                 loginBtn.style.display = "none";
                 logoutBtn.style.display = "inline-flex";
                 if (statementBtn) statementBtn.style.display = "inline-flex";
+                if (guestCalcBtn) guestCalcBtn.style.display = "inline-flex";
+                if (guestCalcCardWrap) guestCalcCardWrap.style.display = "block";
                 // Show admin buttons only for admin email
                 if (email === ADMIN_EMAIL) {
                     adminBtn.style.display = 'inline-flex';
                     if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'inline-flex';
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'inline-flex';
-                    // Admin always has Guest Cal access
-                    if (guestCalcBtn) guestCalcBtn.style.display = 'inline-flex';
                 } else {
                     adminBtn.style.display = 'none';
                     if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
-                    // Show Guest Cal only if client is authorized
-                    if (guestCalcBtn) {
-                        guestCalcBtn.style.display = gcaIsAuthorized(email) ? 'inline-flex' : 'none';
-                    }
                 }
             } else {
                 loginBtn.style.display = "inline-flex";
@@ -2862,8 +2612,8 @@
                 if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                 if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
                 if (statementBtn) statementBtn.style.display = "none";
-                // Hide Guest Cal when logged out
-                if (guestCalcBtn) guestCalcBtn.style.display = 'none';
+                if (guestCalcBtn) guestCalcBtn.style.display = "none";
+                if (guestCalcCardWrap) guestCalcCardWrap.style.display = "none";
             }
         }
 
@@ -5413,11 +5163,9 @@
             btn.classList.add('active');
 
             document.querySelectorAll('.bp-section').forEach(s => s.classList.remove('active'));
-            const sectionMap = { patterns: 'bpSectionPatterns', stopped: 'bpSectionStopped', clients: 'bpSectionClients', guestcalaccess: 'bpSectionGuestCalAccess' };
+            const sectionMap = { patterns: 'bpSectionPatterns', stopped: 'bpSectionStopped', clients: 'bpSectionClients' };
             const section = document.getElementById(sectionMap[tab]);
             if (section) section.classList.add('active');
-            // Render Guest Cal Access tab when opened
-            if (tab === 'guestcalaccess') gcaRender();
         }
 
         function bpSetTimeRange(range, btn) {
@@ -7018,205 +6766,6 @@
             XLSX.writeFile(wb, 'Stock_Fulfillment_' + dateStr + '.xlsx');
             premiumNotify('Report exported successfully', 'success', 3000);
         }
-
-        /* ===== GUEST CAL ACCESS MANAGEMENT ===== */
-        const GCA_STORAGE_KEY = 'guestCalAuthorizedEmails';
-        const ADMIN_EMAIL_GCA  = 'kinpatel1983@gmail.com';
-
-        /** Return array of authorized emails (lowercase) */
-        function gcaGetList() {
-            try { return JSON.parse(localStorage.getItem(GCA_STORAGE_KEY)) || []; }
-            catch(e) { return []; }
-        }
-
-        /** Save the list */
-        function gcaSaveList(list) {
-            localStorage.setItem(GCA_STORAGE_KEY, JSON.stringify(list.map(e => e.toLowerCase().trim())));
-        }
-
-        /** Is this email authorized? */
-        function gcaIsAuthorized(email) {
-            if (!email) return false;
-            const em = email.toLowerCase().trim();
-            if (em === ADMIN_EMAIL_GCA) return true;
-            return gcaGetList().includes(em);
-        }
-
-        /** Grant access to a client email */
-        function gcaGrant(email) {
-            email = email.toLowerCase().trim();
-            const list = gcaGetList();
-            if (!list.includes(email)) { list.push(email); gcaSaveList(list); }
-            gcaRender();
-            premiumNotify('Guest Cal access granted to ' + email, 'success', 3000);
-            // If this is the currently logged-in user, update their nav button immediately
-            const curEmail = (localStorage.getItem('userEmail') || '').toLowerCase().trim();
-            if (curEmail === email) updateLoginUI(localStorage.getItem('authToken'));
-        }
-
-        /** Revoke access from a client email */
-        function gcaRevoke(email) {
-            email = email.toLowerCase().trim();
-            const list = gcaGetList().filter(e => e !== email);
-            gcaSaveList(list);
-            gcaRender();
-            premiumNotify('Guest Cal access revoked for ' + email, 'warning', 3000);
-            const curEmail = (localStorage.getItem('userEmail') || '').toLowerCase().trim();
-            if (curEmail === email) updateLoginUI(localStorage.getItem('authToken'));
-        }
-
-        /** Toggle a single client's access */
-        function gcaToggle(email) {
-            if (gcaIsAuthorized(email)) { gcaRevoke(email); }
-            else { gcaGrant(email); }
-        }
-
-        /** Grant access to all known clients */
-        function gcaGrantAll() {
-            if (!bpRawData || !bpRawData.clients) { alert('Please load the client data first (click Refresh).'); return; }
-            const all = bpRawData.clients.map(c => c.email.toLowerCase().trim());
-            gcaSaveList([...new Set(all)]);
-            gcaRender();
-            premiumNotify('Guest Cal access granted to all ' + all.length + ' clients', 'success', 3000);
-            updateLoginUI(localStorage.getItem('authToken'));
-        }
-
-        /** Revoke access from all clients */
-        function gcaRevokeAll() {
-            if (!confirm('Revoke Guest Cal access from ALL clients?')) return;
-            gcaSaveList([]);
-            gcaRender();
-            premiumNotify('Guest Cal access revoked from all clients', 'warning', 3500);
-            updateLoginUI(localStorage.getItem('authToken'));
-        }
-
-        /** Render the Guest Cal Access admin panel */
-        function gcaRender() {
-            const container = document.getElementById('gcaContent');
-            if (!container) return;
-
-            const authorizedList = gcaGetList();
-            // Get all known clients from bp data (or from an empty array)
-            let clients = [];
-            if (bpRawData && bpRawData.clients && bpRawData.clients.length > 0) {
-                clients = bpRawData.clients.slice();
-                // Remove admin from list (admin always has access)
-                clients = clients.filter(c => (c.email || '').toLowerCase().trim() !== ADMIN_EMAIL_GCA);
-                clients.sort((a, b) => (a.name || a.email || '').localeCompare(b.name || b.email || ''));
-            }
-
-            const totalClients = clients.length;
-            const totalAuthorized = clients.filter(c => gcaIsAuthorized(c.email)).length;
-
-            const searchVal = (document.getElementById('gcaSearchInput') ? document.getElementById('gcaSearchInput').value : '').toLowerCase().trim();
-
-            const filtered = searchVal ? clients.filter(c =>
-                (c.name || '').toLowerCase().includes(searchVal) ||
-                (c.email || '').toLowerCase().includes(searchVal)
-            ) : clients;
-
-            let html = `
-                <div class="gca-hero">
-                    <div class="gca-hero-left">
-                        <h3>🏨 Guest Calculator — Client Access Control</h3>
-                        <p>Toggle which clients can use the Guest-Based Supply Calculator feature.</p>
-                    </div>
-                    <div class="gca-stats">
-                        <div class="gca-stat">
-                            <div class="gca-stat-val">${totalAuthorized}</div>
-                            <div class="gca-stat-lbl">Authorized</div>
-                        </div>
-                        <div class="gca-stat">
-                            <div class="gca-stat-val" style="color:rgba(255,255,255,.5);">${totalClients - totalAuthorized}</div>
-                            <div class="gca-stat-lbl">Locked</div>
-                        </div>
-                        <div class="gca-stat">
-                            <div class="gca-stat-val" style="color:rgba(255,255,255,.7);">${totalClients}</div>
-                            <div class="gca-stat-lbl">Total Clients</div>
-                        </div>
-                    </div>
-                    <div class="gca-hero-badge">🔒 Admin Only</div>
-                </div>`;
-
-            if (totalClients === 0) {
-                html += `
-                <div class="gc-empty-state">
-                    <div class="gc-empty-icon">👥</div>
-                    <div class="gc-empty-title">No Client Data Loaded</div>
-                    <div class="gc-empty-text">Click the <strong>🔄 Refresh</strong> button above to load all clients, then come back to this tab to manage access.</div>
-                </div>`;
-            } else {
-                html += `
-                <div class="gca-search-bar">
-                    <input type="text" id="gcaSearchInput" class="gca-search-input" placeholder="🔍 Search clients by name or email..." oninput="gcaRender()" value="${searchVal}">
-                    <div class="gca-bulk-btns">
-                        <button class="gca-bulk-btn grant-all" onclick="gcaGrantAll()">✅ Authorize All</button>
-                        <button class="gca-bulk-btn revoke-all" onclick="gcaRevokeAll()">🔒 Revoke All</button>
-                    </div>
-                </div>`;
-
-                if (filtered.length === 0) {
-                    html += `<div style="text-align:center;padding:2rem;color:var(--text-muted,#6b7280);">No clients match your search.</div>`;
-                } else {
-                    html += '<div class="gca-client-grid">';
-                    filtered.forEach((c, i) => {
-                        const isAuth = gcaIsAuthorized(c.email);
-                        const delay = Math.min(i * 0.04, 0.6);
-                        html += `
-                        <div class="gca-client-card ${isAuth ? 'gca-authorized' : ''}" style="animation:ffKpiIn .4s ease ${delay}s both;">
-                            <div class="gca-card-glow"></div>
-                            <div class="gca-client-info">
-                                <div class="gca-client-name">${c.name || c.email}</div>
-                                <div class="gca-client-email">${c.email}</div>
-                                <span class="gca-client-badge ${isAuth ? 'gca-badge-auth' : 'gca-badge-locked'}">
-                                    ${isAuth ? '✅ Guest Cal Enabled' : '🔒 No Access'}
-                                </span>
-                            </div>
-                            <div class="gca-toggle-wrap">
-                                <label class="gc-switch" title="${isAuth ? 'Revoke access' : 'Grant access'}">
-                                    <input type="checkbox" ${isAuth ? 'checked' : ''} onchange="gcaToggle('${c.email.replace(/'/g,"\\'")}')">
-                                    <span class="gc-slider"></span>
-                                </label>
-                                <span class="gca-toggle-lbl ${isAuth ? 'on' : 'off'}">${isAuth ? 'ON' : 'OFF'}</span>
-                            </div>
-                        </div>`;
-                    });
-                    html += '</div>';
-                }
-            }
-
-            container.innerHTML = html;
-        }
-
-        /** Show a locked/unauthorized message on the Guest Calc page */
-        function gcaShowLockedState() {
-            const pageEl = document.getElementById('page-guest-calc');
-            if (!pageEl) return;
-            // Preserve action bar (hide it)
-            const actionBar = document.getElementById('gcActionBar');
-            if (actionBar) actionBar.style.display = 'none';
-
-            // Replace inner content with locked screen
-            const lockedHtml = `
-                <div class="gc-locked-state">
-                    <div class="gc-locked-icon">🔐</div>
-                    <h2 class="gc-locked-title">Feature Not Activated</h2>
-                    <p class="gc-locked-desc">The <strong>Guest-Based Supply Calculator</strong> is not enabled for your account. Please contact Premium Supplies Ltd to request access to this feature.</p>
-                    <div class="gc-locked-badge">🚫 Access Restricted</div>
-                </div>`;
-
-            // Inject inside the page div
-            const existingLocked = pageEl.querySelector('.gc-locked-state');
-            if (!existingLocked) {
-                const div = document.createElement('div');
-                div.id = 'gcLockedOverlay';
-                div.innerHTML = lockedHtml;
-                // Hide all other children
-                Array.from(pageEl.children).forEach(child => { child.style.display = 'none'; });
-                pageEl.appendChild(div);
-            }
-        }
-
         /* ===== GUEST-BASED CALCULATOR ===== */
         const GUEST_CALC_ITEMS = [
             // Toiletries
@@ -7627,25 +7176,6 @@
         showPage = function(pageId, btn) {
             _origShowPage(pageId, btn);
             if (pageId === 'page-guest-calc') {
-                const email = (localStorage.getItem('userEmail') || '').toLowerCase().trim();
-                const token = localStorage.getItem('authToken');
-
-                // If not logged in or not authorized → show locked state
-                if (!token || (!gcaIsAuthorized(email))) {
-                    gcaShowLockedState();
-                    return;
-                }
-
-                // Authorized — restore any previously hidden children
-                const pageEl = document.getElementById('page-guest-calc');
-                if (pageEl) {
-                    const overlay = document.getElementById('gcLockedOverlay');
-                    if (overlay) overlay.remove();
-                    Array.from(pageEl.children).forEach(child => { child.style.display = ''; });
-                    const actionBar = document.getElementById('gcActionBar');
-                    if (actionBar) actionBar.style.display = '';
-                }
-
                 gcMatchCache = {}; // Clear cache to re-match with latest products
                 guestCalcUpdate();
             }
