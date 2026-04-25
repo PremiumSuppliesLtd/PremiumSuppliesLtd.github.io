@@ -929,35 +929,37 @@
 
                 <!-- CARD 1: AI Order -->
                 <div class="fc-border-anim-wrapper">
-                <div class="feature-card fc-has-border-anim" id="fc-ai-order">
-                    <span class="fc-badge ai-badge">🤖 AI Powered</span>
-                    <div class="fc-icon-wrap ai-gradient">
-                        🧠
-                        <span class="fc-orbit-dot"></span>
-                        <span class="fc-orbit-dot"></span>
-                        <span class="fc-orbit-dot"></span>
+                    <div class="feature-card fc-has-border-anim" id="fc-ai-order">
+                        <span class="fc-badge ai-badge">🤖 AI Powered</span>
+                        <div class="fc-icon-wrap ai-gradient">
+                            🧠
+                            <span class="fc-orbit-dot"></span>
+                            <span class="fc-orbit-dot"></span>
+                            <span class="fc-orbit-dot"></span>
+                        </div>
+                        <h3 class="fc-title">AI Smart Order</h3>
+                        <p class="fc-desc">Our AI engine analyses your buying patterns and predicts what you need —
+                            before
+                            you even think about it.</p>
+                        <div class="fc-steps">
+                            <div class="fc-step">
+                                <span class="fc-step-num ai-num">1</span>
+                                <span class="fc-step-text"><strong>Login</strong> to your account to activate AI
+                                    predictions</span>
+                            </div>
+                            <div class="fc-step">
+                                <span class="fc-step-num ai-num">2</span>
+                                <span class="fc-step-text">Click the <strong>😊 AI Order</strong> button in the
+                                    navigation
+                                    bar</span>
+                            </div>
+                            <div class="fc-step">
+                                <span class="fc-step-num ai-num">3</span>
+                                <span class="fc-step-text">Review your <strong>smart suggestions</strong>, adjust
+                                    quantities, and add to cart</span>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="fc-title">AI Smart Order</h3>
-                    <p class="fc-desc">Our AI engine analyses your buying patterns and predicts what you need — before
-                        you even think about it.</p>
-                    <div class="fc-steps">
-                        <div class="fc-step">
-                            <span class="fc-step-num ai-num">1</span>
-                            <span class="fc-step-text"><strong>Login</strong> to your account to activate AI
-                                predictions</span>
-                        </div>
-                        <div class="fc-step">
-                            <span class="fc-step-num ai-num">2</span>
-                            <span class="fc-step-text">Click the <strong>😊 AI Order</strong> button in the navigation
-                                bar</span>
-                        </div>
-                        <div class="fc-step">
-                            <span class="fc-step-num ai-num">3</span>
-                            <span class="fc-step-text">Review your <strong>smart suggestions</strong>, adjust
-                                quantities, and add to cart</span>
-                        </div>
-                    </div>
-                </div>
                 </div>
 
                 <!-- CARD 2: Order History -->
@@ -1086,31 +1088,35 @@
 
                 <!-- CARD 6: Guest-Based Calculator -->
                 <div class="fc-border-anim-wrapper" id="guestCalcCardWrap" style="display:none;">
-                <div class="feature-card fc-has-border-anim" id="fc-guest-calc">
-                    <span class="fc-badge guest-badge">🏨 Calculator</span>
-                    <div class="fc-icon-wrap guest-gradient">
-                        🧮
-                        <span class="fc-orbit-dot"></span>
-                        <span class="fc-orbit-dot"></span>
-                        <span class="fc-orbit-dot"></span>
+                    <div class="feature-card fc-has-border-anim" id="fc-guest-calc">
+                        <span class="fc-badge guest-badge">🏨 Calculator</span>
+                        <div class="fc-icon-wrap guest-gradient">
+                            🧮
+                            <span class="fc-orbit-dot"></span>
+                            <span class="fc-orbit-dot"></span>
+                            <span class="fc-orbit-dot"></span>
+                        </div>
+                        <h3 class="fc-title">Guest-Based Calculator</h3>
+                        <p class="fc-desc">Enter your expected guest count and days — we instantly calculate exactly how
+                            many supplies you need. Built for hotels & lodges.</p>
+                        <div class="fc-steps">
+                            <div class="fc-step">
+                                <span class="fc-step-num guest-num">1</span>
+                                <span class="fc-step-text">Enter <strong>number of guests</strong> and <strong>number of
+                                        days</strong></span>
+                            </div>
+                            <div class="fc-step">
+                                <span class="fc-step-num guest-num">2</span>
+                                <span class="fc-step-text">Review <strong>auto-calculated quantities</strong> across all
+                                    supply categories</span>
+                            </div>
+                            <div class="fc-step">
+                                <span class="fc-step-num guest-num">3</span>
+                                <span class="fc-step-text">Click <strong>Add All to Cart</strong> — items matched to our
+                                    live price list</span>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="fc-title">Guest-Based Calculator</h3>
-                    <p class="fc-desc">Enter your expected guest count and days — we instantly calculate exactly how many supplies you need. Built for hotels & lodges.</p>
-                    <div class="fc-steps">
-                        <div class="fc-step">
-                            <span class="fc-step-num guest-num">1</span>
-                            <span class="fc-step-text">Enter <strong>number of guests</strong> and <strong>number of days</strong></span>
-                        </div>
-                        <div class="fc-step">
-                            <span class="fc-step-num guest-num">2</span>
-                            <span class="fc-step-text">Review <strong>auto-calculated quantities</strong> across all supply categories</span>
-                        </div>
-                        <div class="fc-step">
-                            <span class="fc-step-num guest-num">3</span>
-                            <span class="fc-step-text">Click <strong>Add All to Cart</strong> — items matched to our live price list</span>
-                        </div>
-                    </div>
-                </div>
                 </div>
 
             </div>
@@ -1149,12 +1155,14 @@
                 <div class="gc-input-card">
                     <div class="gc-input-icon">👥</div>
                     <label class="gc-input-label">Number of Guests</label>
-                    <input type="number" id="gcGuests" class="gc-input" value="20" min="1" max="999" oninput="guestCalcUpdate()">
+                    <input type="number" id="gcGuests" class="gc-input" value="20" min="1" max="999"
+                        oninput="guestCalcUpdate()">
                 </div>
                 <div class="gc-input-card">
                     <div class="gc-input-icon">📅</div>
                     <label class="gc-input-label">Number of Days</label>
-                    <input type="number" id="gcDays" class="gc-input" value="7" min="1" max="365" oninput="guestCalcUpdate()">
+                    <input type="number" id="gcDays" class="gc-input" value="7" min="1" max="365"
+                        oninput="guestCalcUpdate()">
                 </div>
                 <div class="gc-input-card gc-summary-card">
                     <div class="gc-input-icon">📊</div>
@@ -1178,11 +1186,14 @@
         <!-- Products Grid -->
         <div class="gc-products-container">
             <div class="gc-products-header">
-                <div class="gc-products-title">📦 Calculated Supplies <span class="gc-products-count" id="gcItemCount">0</span></div>
+                <div class="gc-products-title">📦 Calculated Supplies <span class="gc-products-count"
+                        id="gcItemCount">0</span></div>
                 <div style="display:flex; gap:8px; align-items:center;">
                     <button class="gc-select-btn" onclick="guestCalcToggleAll(true)">✅ Select All</button>
                     <button class="gc-select-btn" onclick="guestCalcToggleAll(false)">❌ Deselect All</button>
-                    <button class="gc-select-btn" onclick="guestCalcAddCustomItem()" style="background:linear-gradient(135deg, #ea580c, #f97316);color:white;border:none;">➕ Add Custom Item</button>
+                    <button class="gc-select-btn" onclick="guestCalcAddCustomItem()"
+                        style="background:linear-gradient(135deg, #ea580c, #f97316);color:white;border:none;">➕ Add
+                        Custom Item</button>
                 </div>
             </div>
             <div class="gc-products-grid" id="gcProductsGrid">
@@ -2327,7 +2338,7 @@
     </script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbyiSlsaP0UmxI2jyaAC67aj0BBfWY7Jeh4EgR4UkL_aA5vIZEwcmBY7y-TtYZdX1WzbAA/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxYEg_469C4M0WB20wU2dzG9YZ07F17XBhWj5BqgVxAFrraZzoNK1wIuwpE1xOtXiCjUQ/exec";
         // Update this URL with your newly deployed Google Apps Script URL for Data5555:
         const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
         const STOCK_API_URL = "https://script.google.com/macros/s/AKfycbwhxVp4QPKQEDsS7t7ZRCE9gq3Re-BZZsaaeqGeN4ZNSVyzayeClUd-_uPr0x0b-x6JSA/exec";
@@ -2336,58 +2347,80 @@
         // POLYFILL FOR GOOGLE SCRIPT RUN
         const google = {
             script: {
-                run: {
-                    withSuccessHandler: function (successCb) {
-                        return {
-                            getPriceList: function (token) {
-                                // Pass token instead of email
-                                const url = API_URL + "?action=getPriceList" + (token ? "&token=" + encodeURIComponent(token) : "");
-                                fetch(url)
-                                    .then(r => r.json())
-                                    .then(d => {
-                                        if (d.result) successCb(d.result);
-                                        else console.error("API response missing result", d);
-                                    })
-                                    .catch(e => console.error(e));
-                            },
-                            placeOrder: function (data) {
-                                fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "placeOrder", data }) })
-                                    .then(r => r.json())
-                                    .then(d => {
-                                        if (d.result) successCb(d.result);
-                                        else alert("Error: " + (d.error || "Unknown error"));
-                                    })
-                                    .catch(e => alert("Network Error: " + e));
-                            },
-                            processStockExcel: function (base64, name) {
-                                fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "processStockExcel", data: { base64, fileName: name } }) })
-                                    .then(r => r.json())
-                                    .then(d => {
-                                        if (d.result) successCb(d.result);
-                                        else alert("Error: " + (d.error || "Unknown error"));
-                                    })
-                                    .catch(e => alert("Network Error: " + e));
-                            },
-                            requestOtp: function (email) {
-                                fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "requestOtp", data: { email } }) })
-                                    .then(r => r.json())
-                                    .then(d => {
-                                        if (d.result && d.result.success) successCb(d.result);
-                                        else alert("Error: " + (d.error || "Unknown error")); // Basic error handling
-                                    })
-                                    .catch(e => alert("Network Error: " + e));
-                            },
-                            verifyOtp: function (email, code) {
-                                fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "verifyOtp", data: { email, code } }) })
-                                    .then(r => r.json())
-                                    .then(d => {
-                                        if (d.result) successCb(d.result); // Pass entire result object
-                                        else alert("Error: " + (d.error || "Login Failed"));
-                                    })
-                                    .catch(e => alert("Network Error: " + e));
-                            }
-                        };
-                    }
+                get run() {
+                    let successCb = null;
+                    let failureCb = null;
+                    const runner = {
+                        withSuccessHandler: function (cb) { successCb = cb; return runner; },
+                        withFailureHandler: function (cb) { failureCb = cb; return runner; },
+                        getPriceList: function (token) {
+                            const url = API_URL + "?action=getPriceList" + (token ? "&token=" + encodeURIComponent(token) : "");
+                            fetch(url)
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                    else if (d.error) alert("Error: " + d.error);
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else console.error(e);
+                                });
+                        },
+                        placeOrder: function (data) {
+                            fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "placeOrder", data }) })
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                    else if (d.error) alert("Error: " + d.error);
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else alert("Network Error: " + e);
+                                });
+                        },
+                        processStockExcel: function (base64, name) {
+                            fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "processStockExcel", data: { base64, fileName: name } }) })
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                    else if (d.error) alert("Error: " + d.error);
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else alert("Network Error: " + e);
+                                });
+                        },
+                        requestOtp: function (email) {
+                            fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "requestOtp", data: { email } }) })
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result && d.result.success && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                    else if (d.error) alert("Error: " + d.error);
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else alert("Network Error: " + e);
+                                });
+                        },
+                        verifyOtp: function (email, code) {
+                            fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "verifyOtp", data: { email, code } }) })
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                    else if (d.error) alert("Error: " + d.error);
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else alert("Network Error: " + e);
+                                });
+                        }
+                    };
+                    return runner;
                 }
             }
         };
@@ -3865,9 +3898,18 @@
             }, 300);
 
             google.script.run
-                .withSuccessHandler((orderNo) => {
+                .withFailureHandler((error) => {
+                    clearInterval(interval);
+                    overlay.style.display = "none";
+                    alert("Order submission failed: " + error.message);
+                })
+                .withSuccessHandler((res) => {
                     clearInterval(interval);
                     fill.style.width = "100%";
+                    let orderNo = typeof res === 'string' ? res : res.orderNo;
+                    if (res && res.error) {
+                        alert("Order was processed, but email sending failed:\n" + res.error);
+                    }
 
                     setTimeout(() => {
                         // Switch to success
@@ -6845,7 +6887,7 @@
                             parsed[item.id]._handled = true; // Mark as handled
                         }
                     });
-                    
+
                     // Push user's custom items dynamically
                     Object.keys(parsed).forEach(id => {
                         if (!parsed[id]._handled && parsed[id].isCustom) {
@@ -6958,7 +7000,7 @@
                             opts += `<option value="${p.barcode}" ${currentBarcode === String(p.barcode) ? 'selected' : ''}>${p.name}</option>`;
                         });
                     }
-                    
+
                     matchHtml = `
                         <div class="gc-product-match" style="background:#f3f4f6; border:1px solid #d1d5db;">
                             <div style="margin-bottom:6px;font-weight:600;font-size:0.75rem;color:#374151;">Select Match:</div>
@@ -7074,7 +7116,7 @@
                     item.manualMatch = null;
                 } else {
                     item.manualMatch = select.value;
-                    
+
                     // If this is a custom user-added item, we can automatically update its name to safely match the selected product
                     if (item.isCustom) {
                         const matchedProd = allProducts.find(p => String(p.barcode) === String(item.manualMatch));
@@ -7105,7 +7147,7 @@
             gcEditMatchState[newItem.id] = true; // Auto open product selector
             guestCalcSaveSettings();
             guestCalcRender();
-            
+
             // Scroll to bottom
             setTimeout(() => {
                 const grid = document.getElementById('gcProductsGrid');
@@ -7165,7 +7207,7 @@
         }
 
         // Initial render when page is shown
-        (function() {
+        (function () {
             const origShowPage = showPage;
             // Re-match products every time guest calc page is shown
             const _origSP = window.showPage;
@@ -7173,7 +7215,7 @@
 
         // Listen for page show to trigger render
         var _origShowPage = showPage;
-        showPage = function(pageId, btn) {
+        showPage = function (pageId, btn) {
             _origShowPage(pageId, btn);
             if (pageId === 'page-guest-calc') {
                 gcMatchCache = {}; // Clear cache to re-match with latest products
