@@ -835,6 +835,8 @@ textarea {
     border-radius: 22px;
     padding: 3px;
     display: flex;
+    align-items: stretch;   /* inner card fills wrapper height */
+    align-self: start;      /* wrapper shrinks to card — stops orange line from floating below */
     background: conic-gradient(
         from var(--fc-border-angle),
         transparent 0%,
@@ -853,6 +855,26 @@ textarea {
     box-shadow: 
         0 0 15px rgba(255, 106, 0, 0.2),
         0 0 30px rgba(255, 106, 0, 0.08);
+}
+
+/* Teal variant for Live Tracking card */
+.fc-border-anim-wrapper.fc-border-teal {
+    background: conic-gradient(
+        from var(--fc-border-angle),
+        transparent 0%,
+        transparent 55%,
+        #059669 70%,
+        #10b981 80%,
+        #34d399 85%,
+        #059669 90%,
+        transparent 100%
+    ), transparent;
+}
+
+.fc-border-anim-wrapper.fc-border-teal:hover {
+    box-shadow:
+        0 0 15px rgba(5, 150, 105, 0.25),
+        0 0 30px rgba(5, 150, 105, 0.1);
 }
 
 @keyframes fc-border-spin {
@@ -882,10 +904,29 @@ textarea {
     ), transparent;
 }
 
+[data-theme="dark"] .fc-border-anim-wrapper.fc-border-teal {
+    background: conic-gradient(
+        from var(--fc-border-angle),
+        transparent 0%,
+        transparent 55%,
+        #059669 70%,
+        #10b981 80%,
+        #34d399 85%,
+        #059669 90%,
+        transparent 100%
+    ), transparent;
+}
+
 [data-theme="dark"] .fc-border-anim-wrapper:hover {
     box-shadow: 
         0 0 20px rgba(255, 106, 0, 0.35),
         0 0 40px rgba(255, 106, 0, 0.12);
+}
+
+[data-theme="dark"] .fc-border-anim-wrapper.fc-border-teal:hover {
+    box-shadow:
+        0 0 20px rgba(5, 150, 105, 0.4),
+        0 0 40px rgba(5, 150, 105, 0.15);
 }
 
 /* ::::: WHAT'S NEW TOAST NOTIFICATION ::::: */
@@ -1046,6 +1087,10 @@ textarea {
 .wn-pill-stock { background: rgba(245, 158, 11, 0.1); color: #d97706; }
 .wn-pill-statement { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
 .wn-pill-missed { background: rgba(8, 145, 178, 0.1); color: #0891b2; }
+.wn-pill-guest { background: rgba(249, 115, 22, 0.1); color: #ea580c; }
+.wn-pill-tracking { background: rgba(5, 150, 105, 0.12); color: #059669; }
+.wn-pill:nth-child(6) { animation-delay: 0.8s; }
+.wn-pill:nth-child(7) { animation-delay: 0.9s; }
 
 /* Explore button */
 .wn-explore-btn {
