@@ -798,6 +798,415 @@
                 font-size: .75rem
             }
         }
+
+        /* ===== LIVE ORDER TRACKING STYLES ===== */
+        .lot-hero {
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .lot-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, .12), rgba(139, 92, 246, .12));
+            color: #6366f1;
+            border: 1px solid rgba(99, 102, 241, .25);
+            border-radius: 50px;
+            padding: 5px 16px;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            margin-bottom: .75rem;
+        }
+
+        .lot-hero-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 .5rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lot-hero-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .lot-orders-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .lot-empty {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .lot-empty-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: .5;
+        }
+
+        .lot-empty-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+            color: var(--text-main);
+        }
+
+        /* Order Card */
+        .lot-card {
+            background: var(--card-bg, #fff);
+            border-radius: 20px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, .06);
+            border: 1px solid rgba(0, 0, 0, .06);
+            overflow: hidden;
+            transition: box-shadow .25s, transform .25s;
+        }
+
+        .lot-card:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .1);
+            transform: translateY(-2px);
+        }
+
+        .lot-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, .06);
+            flex-wrap: wrap;
+            gap: .75rem;
+        }
+
+        .lot-order-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .lot-order-no {
+            font-size: .75rem;
+            font-weight: 700;
+            color: #6366f1;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .lot-order-date {
+            font-size: .82rem;
+            color: var(--text-muted);
+        }
+
+        .lot-order-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: .82rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        /* Status Badge */
+        .lot-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 13px;
+            border-radius: 50px;
+            font-size: .75rem;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .lot-status-received {
+            background: #f0f9ff;
+            color: #0369a1;
+            border: 1.5px solid #bae6fd;
+        }
+
+        .lot-status-packing {
+            background: #fffbeb;
+            color: #b45309;
+            border: 1.5px solid #fde68a;
+        }
+
+        .lot-status-delivery {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1.5px solid #bfdbfe;
+        }
+
+        .lot-status-delivered {
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1.5px solid #bbf7d0;
+        }
+
+        /* Pulse dot on active status */
+        .lot-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block;
+            animation: lot-pulse 1.6s ease-in-out infinite;
+        }
+
+        @keyframes lot-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(.8);
+            }
+        }
+
+        /* Stepper */
+        .lot-stepper {
+            padding: 1.25rem 1.5rem 1.5rem;
+            position: relative;
+        }
+
+        .lot-stepper-compact {
+            padding: .75rem 0 .5rem;
+        }
+
+        .lot-steps {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* Connecting line */
+        .lot-steps::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            right: 18px;
+            height: 3px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            z-index: 0;
+        }
+
+        .lot-steps-progress {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 4px;
+            z-index: 1;
+            transition: width .8s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .lot-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .lot-step-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 3px solid #e5e7eb;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all .4s ease;
+            margin-bottom: .5rem;
+        }
+
+        .lot-step.done .lot-step-dot {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: #6366f1;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, .35);
+        }
+
+        .lot-step.active .lot-step-dot {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 5px rgba(99, 102, 241, .18);
+            animation: lot-ring 2s ease-in-out infinite;
+        }
+
+        @keyframes lot-ring {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 4px rgba(99, 102, 241, .2);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(99, 102, 241, .08);
+            }
+        }
+
+        .lot-step-label {
+            font-size: .68rem;
+            font-weight: 600;
+            text-align: center;
+            color: var(--text-muted);
+            line-height: 1.25;
+            max-width: 70px;
+        }
+
+        .lot-step.done .lot-step-label,
+        .lot-step.active .lot-step-label {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .lot-step-time {
+            font-size: .62rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        /* Compact stepper for success overlay */
+        .lot-stepper-compact .lot-step-dot {
+            width: 30px;
+            height: 30px;
+            font-size: .85rem;
+        }
+
+        .lot-stepper-compact .lot-steps::before {
+            top: 15px;
+            left: 15px;
+            right: 15px;
+        }
+
+        .lot-stepper-compact .lot-steps-progress {
+            top: 15px;
+            left: 15px;
+        }
+
+        .lot-stepper-compact .lot-step-label {
+            font-size: .62rem;
+            max-width: 60px;
+        }
+
+        /* Card footer */
+        .lot-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .75rem 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, .06);
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+
+        .lot-reorder-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 10px;
+            font-size: .78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s;
+            font-family: inherit;
+        }
+
+        .lot-reorder-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, .4);
+        }
+
+        .lot-total-label {
+            font-size: .8rem;
+            color: var(--text-muted);
+        }
+
+        .lot-total-val {
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--primary-dark, #1a202c);
+        }
+
+        /* Track button in success overlay */
+        .lot-track-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .25s;
+            font-family: inherit;
+        }
+
+        .lot-track-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(99, 102, 241, .4);
+        }
+
+        /* Dark mode support */
+        [data-theme="dark"] .lot-card {
+            background: #1e2130;
+            border-color: rgba(255, 255, 255, .07);
+        }
+
+        [data-theme="dark"] .lot-step-dot {
+            background: #1e2130;
+        }
+
+        [data-theme="dark"] .lot-step.done .lot-step-dot {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        @media (max-width:480px) {
+            .lot-step-label {
+                font-size: .58rem;
+                max-width: 55px;
+            }
+
+            .lot-step-dot {
+                width: 30px;
+                height: 30px;
+                font-size: .85rem;
+            }
+
+            .lot-stepper {
+                padding: 1rem;
+            }
+
+            .lot-hero-title {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 
@@ -856,6 +1265,10 @@
                 onclick="showPage('page-admin-fulfillment', this); if(!fulfillmentData) fulfillmentLoadData();"
                 id="adminFulfillmentBtn" style="display:none;">
                 📋 Fulfillment
+            </button>
+            <button class="nav-btn" onclick="showPage('page-admin-orders', this)" id="adminOrdersBtn"
+                style="display:none;">
+                🚚 Orders
             </button>
             <button class="nav-btn" onclick="showPage('page-statement', this)" id="statementBtn" style="display:none;">
                 🧾 Statement
@@ -1086,7 +1499,66 @@
                     </div>
                 </div>
 
-                <!-- CARD 6: Guest-Based Calculator -->
+                <!-- CARD 6: Live Order Tracking (NEW) -->
+                <div class="fc-border-anim-wrapper fc-border-teal">
+                    <div class="feature-card fc-has-border-anim" id="fc-live-tracking"
+                        onclick="showPage('page-orders', document.querySelectorAll('.nav-btn')[2])"
+                        style="cursor:pointer;">
+                        <span class="fc-badge tracking-badge">🚚 NEW &bull; Live Tracking</span>
+                        <div class="fc-icon-wrap tracking-gradient">
+                            📦
+                            <span class="fc-orbit-dot"></span>
+                            <span class="fc-orbit-dot"></span>
+                            <span class="fc-orbit-dot"></span>
+                        </div>
+                        <h3 class="fc-title">Live Order Tracking</h3>
+                        <p class="fc-desc">Track every order in real-time — from warehouse to your door. Know exactly
+                            where your delivery is at any moment.</p>
+
+                        <!-- Mini stepper preview -->
+                        <div class="fc-tracker-preview">
+                            <div class="fc-tracker-step done">
+                                <div class="fc-tracker-dot">✓</div>
+                                <div class="fc-tracker-lbl">Received</div>
+                            </div>
+                            <div class="fc-tracker-line done"></div>
+                            <div class="fc-tracker-step done">
+                                <div class="fc-tracker-dot">✓</div>
+                                <div class="fc-tracker-lbl">Packing</div>
+                            </div>
+                            <div class="fc-tracker-line active"></div>
+                            <div class="fc-tracker-step active">
+                                <div class="fc-tracker-dot">🚚</div>
+                                <div class="fc-tracker-lbl">Delivery</div>
+                            </div>
+                            <div class="fc-tracker-line"></div>
+                            <div class="fc-tracker-step">
+                                <div class="fc-tracker-dot">✅</div>
+                                <div class="fc-tracker-lbl">Done</div>
+                            </div>
+                        </div>
+
+                        <div class="fc-steps">
+                            <div class="fc-step">
+                                <span class="fc-step-num tracking-num">1</span>
+                                <span class="fc-step-text"><strong>Place an order</strong> — it's automatically
+                                    registered in the tracking system</span>
+                            </div>
+                            <div class="fc-step">
+                                <span class="fc-step-num tracking-num">2</span>
+                                <span class="fc-step-text">Open the <strong>History</strong> tab to see real-time
+                                    status updates from our team</span>
+                            </div>
+                            <div class="fc-step">
+                                <span class="fc-step-num tracking-num">3</span>
+                                <span class="fc-step-text">Get notified at every stage — <strong>Received → Packing
+                                        → Out for Delivery → Delivered</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 7: Guest-Based Calculator -->
                 <div class="fc-border-anim-wrapper" id="guestCalcCardWrap" style="display:none;">
                     <div class="feature-card fc-has-border-anim" id="fc-guest-calc">
                         <span class="fc-badge guest-badge">🏨 Calculator</span>
@@ -1121,7 +1593,129 @@
 
             </div>
         </div>
+        <!-- Live Tracking Feature Card Styles -->
+        <style>
+            /* Tracking badge */
+            .tracking-badge {
+                background: linear-gradient(135deg, rgba(16, 185, 129, .15), rgba(6, 182, 212, .15));
+                color: #059669;
+                border: 1px solid rgba(16, 185, 129, .3);
+            }
+
+            /* Tracking icon gradient */
+            .tracking-gradient {
+                background: linear-gradient(135deg, #059669, #0891b2);
+            }
+
+            /* Tracking step number */
+            .tracking-num {
+                background: linear-gradient(135deg, #059669, #0891b2);
+                color: #fff;
+            }
+
+            /* Card hover lift for clickable tracking card */
+            #fc-live-tracking:hover {
+                transform: translateY(-6px) scale(1.01);
+                box-shadow: 0 20px 60px rgba(5, 150, 105, .18);
+            }
+
+            /* Mini tracker preview */
+            .fc-tracker-preview {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0;
+                margin: 1rem 0 1.2rem;
+                padding: 0.75rem 1rem;
+                background: linear-gradient(135deg, rgba(16, 185, 129, .06), rgba(6, 182, 212, .06));
+                border-radius: 14px;
+                border: 1px solid rgba(16, 185, 129, .12);
+            }
+
+            .fc-tracker-step {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .fc-tracker-dot {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: .75rem;
+                font-weight: 700;
+                background: #e5e7eb;
+                color: #9ca3af;
+                border: 2px solid #e5e7eb;
+                transition: all .3s;
+            }
+
+            .fc-tracker-step.done .fc-tracker-dot {
+                background: linear-gradient(135deg, #059669, #10b981);
+                color: #fff;
+                border-color: #059669;
+            }
+
+            .fc-tracker-step.active .fc-tracker-dot {
+                background: linear-gradient(135deg, #0891b2, #06b6d4);
+                color: #fff;
+                border-color: #0891b2;
+                box-shadow: 0 0 0 4px rgba(6, 182, 212, .2);
+                animation: trackPulse 1.5s ease-in-out infinite;
+            }
+
+            @keyframes trackPulse {
+
+                0%,
+                100% {
+                    box-shadow: 0 0 0 4px rgba(6, 182, 212, .2);
+                }
+
+                50% {
+                    box-shadow: 0 0 0 8px rgba(6, 182, 212, .05);
+                }
+            }
+
+            .fc-tracker-lbl {
+                font-size: .62rem;
+                font-weight: 600;
+                color: #6b7280;
+                text-align: center;
+                white-space: nowrap;
+            }
+
+            .fc-tracker-step.done .fc-tracker-lbl {
+                color: #059669;
+            }
+
+            .fc-tracker-step.active .fc-tracker-lbl {
+                color: #0891b2;
+            }
+
+            .fc-tracker-line {
+                flex: 1;
+                height: 2px;
+                min-width: 14px;
+                background: #e5e7eb;
+                margin-bottom: 16px;
+                transition: background .3s;
+            }
+
+            .fc-tracker-line.done {
+                background: linear-gradient(90deg, #059669, #10b981);
+            }
+
+            .fc-tracker-line.active {
+                background: linear-gradient(90deg, #10b981, #06b6d4);
+            }
+        </style>
+
         <!-- Feature Cards Scroll Animation -->
+
         <script>
             (function () {
                 const fcObserver = new IntersectionObserver(function (entries) {
@@ -1308,17 +1902,37 @@
         </div>
     </div>
 
-    <!-- PAGE: ORDERS -->
-    <div id="page-orders" class="page" style="display:none; padding: 2rem;">
-        <div class="container" style="max-width:600px; text-align:center;">
-            <div class="process-card">
-                <h2>📜 Order History</h2>
-                <p>Review recent orders and reorder with updated prices.</p>
-                <button class="checkout-btn" style="width:auto; padding:0.75rem 2rem; margin-top:1rem;"
-                    onclick="showLast5Orders()">View Last 5 Orders</button>
-                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:1rem;">History is saved locally on this
-                    device.</p>
-            </div>
+    <!-- PAGE: ORDERS / LIVE TRACKING -->
+    <div id="page-orders" class="page" style="display:none;">
+        <!-- Hero -->
+        <div class="lot-hero">
+            <div class="lot-hero-badge">📦 Live Order Tracking</div>
+            <h1 class="lot-hero-title">Your Orders</h1>
+            <p class="lot-hero-subtitle">Real-time delivery status for all your recent orders</p>
+        </div>
+
+        <!-- Search & Filter Bar -->
+        <div style="max-width:760px; margin:0 auto 1.5rem; display:flex; gap:10px; flex-wrap:wrap; padding:0 1rem;">
+            <input id="lotSearchInput" type="text" placeholder="🔍 Search by order number..."
+                oninput="lotFilterOrders()"
+                style="flex:1; min-width:180px; padding:10px 14px; border-radius:12px; border:1.5px solid #e5e7eb; font-size:.88rem; font-family:inherit; outline:none; transition:border .2s;"
+                onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#e5e7eb'">
+            <select id="lotStatusFilter" onchange="lotFilterOrders()"
+                style="padding:10px 14px; border-radius:12px; border:1.5px solid #e5e7eb; font-size:.88rem; font-family:inherit; background:#fff; cursor:pointer; outline:none;">
+                <option value="all">All Statuses</option>
+                <option value="Received">📋 Received</option>
+                <option value="Packing">📦 Packing</option>
+                <option value="Out for Delivery">🚚 Out for Delivery</option>
+                <option value="Delivered">✅ Delivered</option>
+            </select>
+            <button onclick="renderLiveTrackingPage()"
+                style="padding:10px 16px; border-radius:12px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; border:none; font-size:.85rem; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap;">🔄
+                Refresh</button>
+        </div>
+
+        <!-- Orders Container -->
+        <div class="lot-orders-wrap" id="lotOrdersWrap" style="padding-bottom:2.5rem;">
+            <!-- Rendered by JS -->
         </div>
     </div>
 
@@ -2338,7 +2952,7 @@
     </script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbyKEIqKNW6AbWsavbtCkBWIk9crF2AlRa9Gw6OqWR9d1wHU56WEBBXSrAzwZx8nXaUcYg/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbxy5eS8qtrhhhE_S0FUM-ud_C__xra--dFcblUC58qEB8p3wHiivM5i2olttiJRHl5E5w/exec";
         // Update this URL with your newly deployed Google Apps Script URL for Data5555:
         const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
         const STOCK_API_URL = "https://script.google.com/macros/s/AKfycbwhxVp4QPKQEDsS7t7ZRCE9gq3Re-BZZsaaeqGeN4ZNSVyzayeClUd-_uPr0x0b-x6JSA/exec";
@@ -2452,8 +3066,34 @@
                     throw new Error(d.error || 'Failed to load statement');
                 });
             },
+            getOrderStatus: (token) => {
+                return fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'getOrderStatus', data: { token } })
+                }).then(r => r.json()).then(d => {
+                    if (d.result) return d.result;
+                    throw new Error(d.error || 'Failed to load order status');
+                });
+            },
+            updateOrderStatus: (token, orderNo, status, notes) => {
+                return fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'updateOrderStatus', data: { token, orderNo, status, notes: notes || '' } })
+                }).then(r => r.json()).then(d => {
+                    if (d.result) return d.result;
+                    throw new Error(d.error || 'Failed to update status');
+                });
+            },
+            getAdminOrders: (token) => {
+                return fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'getAdminOrders', data: { token } })
+                }).then(r => r.json()).then(d => {
+                    if (d.result) return d.result;
+                    throw new Error(d.error || 'Failed to load admin orders');
+                });
+            },
             getStockFulfillment: (token) => {
-                // Fetch orders from main database (using existing getAllBuyingPatterns logic)
                 const pOrders = fetch(API_URL, {
                     method: 'POST',
                     body: JSON.stringify({ action: 'getAllBuyingPatterns', data: { token } })
@@ -2461,27 +3101,19 @@
                     if (d.result) return d.result;
                     throw new Error(d.error || 'Failed to load order history');
                 });
-
-                // Fetch stock from new external stock sheet
                 const pStock = fetch(STOCK_API_URL, {
                     method: 'POST',
                     body: JSON.stringify({ action: 'getStock', data: {} })
                 }).then(r => r.json()).then(d => {
                     if (d.result) return d.result;
-                    // If the script returns directly the array
                     if (Array.isArray(d)) return d;
                     throw new Error(d.error || 'Failed to load stock data');
                 });
-
-                return Promise.all([pOrders, pStock]).then(results => {
-                    const orderData = results[0];
-                    const stockData = results[1];
-                    return {
-                        orders: orderData.orders || [],
-                        clients: orderData.clients || [],
-                        stock: stockData || []
-                    };
-                });
+                return Promise.all([pOrders, pStock]).then(results => ({
+                    orders: results[0].orders || [],
+                    clients: results[0].clients || [],
+                    stock: results[1] || []
+                }));
             }
         };
 
@@ -2633,10 +3265,14 @@
                     adminBtn.style.display = 'inline-flex';
                     if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'inline-flex';
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'inline-flex';
+                    var adminOrdersBtn = document.getElementById('adminOrdersBtn');
+                    if (adminOrdersBtn) adminOrdersBtn.style.display = 'inline-flex';
                 } else {
                     adminBtn.style.display = 'none';
                     if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
+                    var adminOrdersBtn = document.getElementById('adminOrdersBtn');
+                    if (adminOrdersBtn) adminOrdersBtn.style.display = 'none';
                 }
             } else {
                 loginBtn.style.display = "inline-flex";
@@ -2644,6 +3280,8 @@
                 adminBtn.style.display = 'none';
                 if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                 if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
+                var adminOrdersBtnLogout = document.getElementById('adminOrdersBtn');
+                if (adminOrdersBtnLogout) adminOrdersBtnLogout.style.display = 'none';
                 if (statementBtn) statementBtn.style.display = "none";
                 if (guestCalcBtn) guestCalcBtn.style.display = "none";
                 if (guestCalcCardWrap) guestCalcCardWrap.style.display = "none";
@@ -4059,6 +4697,13 @@
             }
             document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
             if (btn) btn.classList.add("active");
+
+            // Always scroll to top when changing pages
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Hide footer only on Admin Orders page, show on all others including History
+            const footer = document.getElementById('premiumFooter');
+            if (footer) footer.style.display = (pageId === 'page-admin-orders') ? 'none' : '';
 
             // Auto-load analytics data when navigating to analytics page
             if (pageId === 'page-admin-analytics' && !analyticsData) {
@@ -5906,8 +6551,17 @@
                         </svg>
                     </div>
                 </div>
-                <div class="progress-title" style="color:var(--primary);">Order Confirmed!</div>
-                <div class="progress-desc">Thank you for shopping with us.</div>
+                <div class="progress-title" style="color:var(--primary);">Order Confirmed! 🎉</div>
+                <div class="progress-desc" id="successOrderNo">Your order has been received.</div>
+                <!-- Live Tracking Stepper -->
+                <div class="lot-stepper lot-stepper-compact" id="successTracker">
+                    <!-- Rendered by JS -->
+                </div>
+                <button class="lot-track-btn"
+                    onclick="document.getElementById('progressOverlay').style.display='none'; showPage('page-orders', document.querySelectorAll('.nav-btn')[2]);"
+                    style="margin-top:1.25rem;">
+                    📦 View Full Tracking →
+                </button>
             </div>
         </div>
     </div>
@@ -5928,6 +6582,8 @@
             <span class="wn-pill wn-pill-stock">📊 Stock Count</span>
             <span class="wn-pill wn-pill-statement">📑 Live Statement</span>
             <span class="wn-pill wn-pill-missed">🔍 Missed Items</span>
+            <span class="wn-pill wn-pill-guest">🏨 Guest Calculator</span>
+            <span class="wn-pill wn-pill-tracking">🚚 Live Tracking</span>
         </div>
         <button class="wn-explore-btn" onclick="exploreFeatures()">
             Explore Features <span class="wn-arrow">→</span>
@@ -7209,7 +7865,6 @@
         // Initial render when page is shown
         (function () {
             const origShowPage = showPage;
-            // Re-match products every time guest calc page is shown
             const _origSP = window.showPage;
         })();
 
@@ -7218,11 +7873,382 @@
         showPage = function (pageId, btn) {
             _origShowPage(pageId, btn);
             if (pageId === 'page-guest-calc') {
-                gcMatchCache = {}; // Clear cache to re-match with latest products
+                gcMatchCache = {};
                 guestCalcUpdate();
             }
         };
 
+    </script>
+
+    <!-- ===== LIVE ORDER TRACKING ENGINE (Backend-Driven) ===== -->
+    <script>
+        /*
+         * LOT = Live Order Tracking (Real backend data)
+         * Status comes from the OrderStatus Google Sheet via Api.getOrderStatus()
+         * Stages: Received | Packing | Out for Delivery | Delivered
+         */
+        var LOT_STAGES = [
+            { id: 'received', icon: '📋', label: 'Received', key: 'receivedAt' },
+            { id: 'packing', icon: '📦', label: 'Packing', key: 'packingAt' },
+            { id: 'delivery', icon: '🚚', label: 'Out for Delivery', key: 'deliveryAt' },
+            { id: 'delivered', icon: '✅', label: 'Delivered', key: 'deliveredAt' }
+        ];
+        var STATUS_IDX = { 'Received': 0, 'Packing': 1, 'Out for Delivery': 2, 'Delivered': 3 };
+
+        /* Map a backend order record to stepper state */
+        function lotGetStatusFromRecord(record) {
+            var currentIdx = STATUS_IDX[record.status] !== undefined ? STATUS_IDX[record.status] : 0;
+            var stages = LOT_STAGES.map(function (s, i) {
+                var ts = record[s.key];
+                var reached = (i <= currentIdx);
+                var isActive = (i === currentIdx) && record.status !== 'Delivered';
+                return {
+                    id: s.id, icon: s.icon, label: s.label,
+                    reached: reached, isActive: isActive,
+                    time: (ts && ts !== '') ? lotFmtTime(new Date(ts)) : ''
+                };
+            });
+            return { stageIdx: currentIdx, stages: stages };
+        }
+
+        function lotFmtTime(d) {
+            return d.toLocaleDateString([], { day: 'numeric', month: 'short' }) +
+                ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        function lotFmtDate(iso) {
+            if (!iso) return 'N/A';
+            var d = new Date(iso);
+            return d.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' }) +
+                ' · ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        /* Build stepper HTML from a backend record */
+        function lotBuildStepper(record) {
+            var status = lotGetStatusFromRecord(record);
+            var totalSteps = LOT_STAGES.length - 1;
+            var progressPct = totalSteps > 0 ? (status.stageIdx / totalSteps) * 100 : 0;
+
+            var stepsHtml = status.stages.map(function (s) {
+                var cls = '';
+                if (s.reached) cls = s.isActive ? 'active' : 'done';
+                var dot = (s.reached && !s.isActive && s.id !== 'delivered') ? '✓' : s.icon;
+                return '<div class="lot-step ' + cls + '">' +
+                    '<div class="lot-step-dot">' + dot + '</div>' +
+                    '<div class="lot-step-label">' + s.label + '</div>' +
+                    '<div class="lot-step-time">' + (s.time || '') + '</div>' +
+                    '</div>';
+            }).join('');
+
+            return '<div class="lot-steps">' +
+                '<div class="lot-steps-progress" style="width:' + progressPct + '%"></div>' +
+                stepsHtml +
+                '</div>';
+        }
+
+        /* Status badge */
+        function lotStatusBadge(status) {
+            var classMap = {
+                'Received': 'lot-status-received',
+                'Packing': 'lot-status-packing',
+                'Out for Delivery': 'lot-status-delivery',
+                'Delivered': 'lot-status-delivered'
+            };
+            var icons = { 'Received': '📋', 'Packing': '📦', 'Out for Delivery': '🚚', 'Delivered': '✅' };
+            var isLive = status !== 'Delivered';
+            return '<span class="lot-status-badge ' + (classMap[status] || 'lot-status-received') + '">' +
+                (isLive ? '<span class="lot-pulse"></span>' : '') +
+                (icons[status] || '📋') + ' ' + status +
+                '</span>';
+        }
+
+        /* ---- Customer Tracking Page ---- */
+        var _lotCache = null; // cache fetched records
+
+        /* Filter cached orders by search + status without re-fetching */
+        function lotFilterOrders() {
+            if (!_lotCache) return;
+            var search = (document.getElementById('lotSearchInput') || { value: '' }).value.toLowerCase();
+            var filter = (document.getElementById('lotStatusFilter') || { value: 'all' }).value;
+            var filtered = _lotCache.filter(function (r) {
+                if (filter !== 'all' && r.status !== filter) return false;
+                if (search && String(r.orderNo).toLowerCase().indexOf(search) === -1) return false;
+                return true;
+            });
+            lotRenderCards(filtered);
+        }
+
+        /* Render a list of order records as tracking cards */
+        function lotRenderCards(records) {
+            var wrap = document.getElementById('lotOrdersWrap');
+            if (!wrap) return;
+            if (!records || records.length === 0) {
+                wrap.innerHTML = '<div class="lot-empty"><div class="lot-empty-icon">📭</div>' +
+                    '<div class="lot-empty-title">No Orders Found</div>' +
+                    '<p>Try adjusting your search or filter.</p></div>';
+                return;
+            }
+            var localOrders = getLastOrders();
+            wrap.innerHTML = records.map(function (r) {
+                var orderDate = r.receivedAt || '';
+                var localOrder = localOrders.find(function (o) { return String(o.orderNo) === String(r.orderNo); });
+                var total = localOrder ? localOrder.total : 0;
+                var items = localOrder ? localOrder.items : [];
+                return '<div class="lot-card fade-in">' +
+                    '<div class="lot-card-header">' +
+                    '<div class="lot-order-info">' +
+                    '<div class="lot-order-no">Order #' + r.orderNo + '</div>' +
+                    '<div class="lot-order-date">' + lotFmtDate(orderDate) + '</div>' +
+                    '<div class="lot-order-meta">' +
+                    (items.length ? '<span>\ud83d\udce6 ' + items.length + ' item' + (items.length > 1 ? 's' : '') + '</span>' : '') +
+                    (total ? '<span>TZS ' + Number(total).toLocaleString() + '</span>' : '') +
+                    (r.notes ? '<span>\ud83d\udcdd ' + r.notes + '</span>' : '') +
+                    '</div></div>' +
+                    lotStatusBadge(r.status) +
+                    '</div>' +
+                    '<div class="lot-stepper">' + lotBuildStepper(r) + '</div>' +
+                    (total ? '<div class="lot-card-footer"><span class="lot-total-label">Total: <span class="lot-total-val">TZS ' + Number(total).toLocaleString() + '</span></span>' +
+                        (localOrder ? '<button class="lot-reorder-btn" onclick="reorderFromLocal(' + localOrders.indexOf(localOrder) + ')">\ud83d\udd04 Reorder</button>' : '') +
+                        '</div>' : '') +
+                    '</div>';
+            }).join('');
+        }
+
+        function renderLiveTrackingPage() {
+            var wrap = document.getElementById('lotOrdersWrap');
+            if (!wrap) return;
+            var token = localStorage.getItem('authToken');
+            if (!token) {
+                wrap.innerHTML = '<div class="lot-empty"><div class="lot-empty-icon">🔐</div>' +
+                    '<div class="lot-empty-title">Login Required</div>' +
+                    '<p>Please login to track your orders.</p>' +
+                    '<button class="lot-track-btn" onclick="openLoginModal()" style="margin-top:1rem;">Login Now</button></div>';
+                return;
+            }
+            wrap.innerHTML = '<div class="lot-empty"><div class="lot-empty-icon" style="animation:spin 1s linear infinite;font-size:2rem;">🔄</div><p>Loading your orders...</p></div>';
+
+            Api.getOrderStatus(token).then(function (records) {
+                _lotCache = records;
+                lotRenderCards(records);
+            }).catch(function (err) {
+                // Fallback to localStorage if API fails
+                var localOrders = getLastOrders();
+                if (localOrders.length > 0) {
+                    wrap.innerHTML = '<div style="background:#fef3c7;border:1px solid #fde68a;padding:10px 16px;border-radius:10px;font-size:.82rem;margin-bottom:1rem;color:#92400e;">⚠️ Could not reach server. Showing cached data.</div>' +
+                        localOrders.map(function (o, idx) {
+                            var fakeRecord = { orderNo: o.orderNo, status: 'Received', receivedAt: o.date, packingAt: '', deliveryAt: '', deliveredAt: '', notes: '' };
+                            return '<div class="lot-card fade-in"><div class="lot-card-header"><div class="lot-order-info"><div class="lot-order-no">Order #' + o.orderNo + '</div><div class="lot-order-date">' + lotFmtDate(o.date) + '</div></div>' + lotStatusBadge('Received') + '</div>' +
+                                '<div class="lot-stepper">' + lotBuildStepper(fakeRecord) + '</div>' +
+                                '<div class="lot-card-footer"><span class="lot-total-label">Total: <span class="lot-total-val">TZS ' + Number(o.total || 0).toLocaleString() + '</span></span><button class="lot-reorder-btn" onclick="reorderFromLocal(' + idx + ')">🔄 Reorder</button></div></div>';
+                        }).join('');
+                } else {
+                    wrap.innerHTML = '<div class="lot-empty"><div class="lot-empty-icon">⚠️</div><div class="lot-empty-title">Could not load orders</div><p>' + (err.message || 'Please try again.') + '</p><button class="lot-track-btn" onclick="renderLiveTrackingPage()" style="margin-top:1rem;">Retry</button></div>';
+                }
+            });
+        }
+
+        /* ---- Admin: Order Management Panel ---- */
+        var _adminOrdersCache = [];
+
+        function adminOrdersLoad() {
+            var token = localStorage.getItem('authToken');
+            if (!token) return;
+            var body = document.getElementById('adminOrdersBody');
+            if (body) body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;">Loading...</td></tr>';
+            Api.getAdminOrders(token).then(function (records) {
+                _adminOrdersCache = records;
+                adminOrdersRender();
+            }).catch(function (e) {
+                if (body) body.innerHTML = '<tr><td colspan="7" style="color:red;padding:1rem;">' + e.message + '</td></tr>';
+            });
+        }
+
+        function adminOrdersRender() {
+            var filter = (document.getElementById('adminOrdersFilter') || {}).value || 'all';
+            var search = ((document.getElementById('adminOrdersSearch') || {}).value || '').toLowerCase();
+            var body = document.getElementById('adminOrdersBody');
+            if (!body) return;
+            var rows = _adminOrdersCache.filter(function (r) {
+                if (filter !== 'all' && r.status !== filter) return false;
+                if (search && !r.orderNo.toLowerCase().includes(search) && !r.customer.toLowerCase().includes(search) && !r.email.toLowerCase().includes(search)) return false;
+                return true;
+            });
+            if (!rows.length) {
+                body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#9ca3af;">No orders found.</td></tr>';
+                return;
+            }
+            body.innerHTML = rows.map(function (r) {
+                var statusClass = { 'Received': 'lot-status-received', 'Packing': 'lot-status-packing', 'Out for Delivery': 'lot-status-delivery', 'Delivered': 'lot-status-delivered' };
+                var VALID = ['Received', 'Packing', 'Out for Delivery', 'Delivered'];
+                var opts = VALID.map(function (s) { return '<option value="' + s + '"' + (r.status === s ? ' selected' : '') + '>' + s + '</option>'; }).join('');
+                return '<tr>' +
+                    '<td style="font-weight:700;color:#6366f1;">' + r.orderNo + '</td>' +
+                    '<td>' + (r.customer || r.email) + '<br><small style="color:#9ca3af;">' + r.email + '</small></td>' +
+                    '<td>' + lotFmtDate(r.receivedAt) + '</td>' +
+                    '<td><span class="lot-status-badge ' + (statusClass[r.status] || '') + '">' + r.status + '</span></td>' +
+                    '<td>' + (r.notes || '—') + '</td>' +
+                    '<td><select id="ao-sel-' + r.orderNo + '" style="padding:4px 8px;border-radius:8px;border:1px solid #e5e7eb;font-size:.78rem;">' + opts + '</select></td>' +
+                    '<td><input id="ao-note-' + r.orderNo + '" placeholder="Note (optional)" style="padding:4px 8px;border-radius:8px;border:1px solid #e5e7eb;font-size:.78rem;width:120px;"><br>' +
+                    '<button onclick="adminOrderUpdate(\'' + r.orderNo + '\')" style="margin-top:4px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;padding:5px 12px;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;">Update</button>' +
+                    '</td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        function adminOrderUpdate(orderNo) {
+            var token = localStorage.getItem('authToken');
+            var sel = document.getElementById('ao-sel-' + orderNo);
+            var noteEl = document.getElementById('ao-note-' + orderNo);
+            if (!sel) return;
+            var status = sel.value;
+            var notes = noteEl ? noteEl.value : '';
+            premiumNotify('Updating order ' + orderNo + '...', 'info');
+            Api.updateOrderStatus(token, orderNo, status, notes).then(function () {
+                premiumNotify('Order ' + orderNo + ' → ' + status, 'success');
+                adminOrdersLoad();
+            }).catch(function (e) { premiumNotify(e.message || 'Update failed', 'error'); });
+        }
+
+        /* Hook submitCustomerOrder success to show tracking in success overlay */
+        (function () {
+            var _origSubmit = window.submitCustomerOrder;
+            if (!_origSubmit) return;
+            window.submitCustomerOrder = function () {
+                var _origSave = window.saveLastOrder;
+                window.saveLastOrder = function (cartData, meta) {
+                    _origSave(cartData, meta);
+                    try {
+                        var on = (meta && meta.orderNo) || '';
+                        var el1 = document.getElementById('successOrderNo');
+                        var el2 = document.getElementById('successTracker');
+                        if (el1) el1.textContent = on ? 'Order #' + on + ' confirmed — tracking below!' : 'Your order has been received!';
+                        // Show a simple Received stepper immediately
+                        if (el2) {
+                            var fakeRecord = { orderNo: on, status: 'Received', receivedAt: new Date().toISOString(), packingAt: '', deliveryAt: '', deliveredAt: '', notes: '' };
+                            el2.innerHTML = lotBuildStepper(fakeRecord);
+                        }
+                    } catch (e) { console.warn('LOT overlay error', e); }
+                };
+                _origSubmit();
+                setTimeout(function () { window.saveLastOrder = _origSave; }, 2000);
+            };
+        })();
+
+    </script>
+
+    <!-- Admin Order Management Page -->
+    <style>
+        /* Fix: compensate for bp-hero negative margin so search bar is fully visible */
+        #page-admin-orders .ff-controls {
+            padding-top: 2rem;
+        }
+
+        #page-admin-orders .ao-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .82rem;
+        }
+
+        #page-admin-orders .ao-table th {
+            background: #111827;
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        #page-admin-orders .ao-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, .06);
+            vertical-align: middle;
+        }
+
+        #page-admin-orders .ao-table tr:hover td {
+            background: rgba(99, 102, 241, .04);
+        }
+    </style>
+    <!-- ===== PAGE: ADMIN ORDER MANAGEMENT ===== -->
+    <div id="page-admin-orders" class="page bp-page" style="display:none;">
+        <!-- Hero -->
+        <div class="bp-hero">
+            <div class="bp-hero-badge">🔒 Admin Only · Order Management</div>
+            <h1 class="bp-hero-title">Live Order Tracking</h1>
+            <p class="bp-hero-subtitle">Update delivery statuses — changes are saved to the sheet and customers are
+                notified by email</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="ff-controls" style="flex-wrap:wrap; gap:10px; margin-bottom:1.5rem;">
+            <input class="ff-search-input" id="adminOrdersSearch" placeholder="🔍 Search order / customer..."
+                oninput="adminOrdersRender()" style="min-width:220px;">
+            <select class="bp-select" id="adminOrdersFilter" onchange="adminOrdersRender()">
+                <option value="all">All Statuses</option>
+                <option value="Received">📋 Received</option>
+                <option value="Packing">📦 Packing</option>
+                <option value="Out for Delivery">🚚 Out for Delivery</option>
+                <option value="Delivered">✅ Delivered</option>
+            </select>
+            <button class="bp-refresh-btn" onclick="adminOrdersLoad()">
+                <span class="bp-refresh-icon">🔄</span> Refresh
+            </button>
+        </div>
+
+        <!-- Table -->
+        <div class="bp-table-container">
+            <div class="bp-table-header">
+                <div class="bp-table-title">📦 Customer Orders <span id="adminOrdersCount"
+                        style="font-size:.75rem;font-weight:400;color:#9ca3af;"></span></div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="ao-table" id="adminOrdersTable">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Customer</th>
+                            <th>Received At</th>
+                            <th>Current Status</th>
+                            <th>Notes</th>
+                            <th>Change Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminOrdersBody">
+                        <tr>
+                            <td colspan="7" style="text-align:center;padding:2rem;color:#9ca3af;">Click Refresh to load
+                                orders.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Timeline key -->
+        <div
+            style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;padding:1rem 1.25rem;background:rgba(99,102,241,.05);border-radius:14px;border:1px solid rgba(99,102,241,.12);">
+            <span style="font-size:.8rem;font-weight:600;color:#6366f1;">Status Guide:</span>
+            <span class="lot-status-badge lot-status-received">📋 Received</span>
+            <span style="color:#9ca3af;align-self:center;">→</span>
+            <span class="lot-status-badge lot-status-packing">📦 Packing</span>
+            <span style="color:#9ca3af;align-self:center;">→</span>
+            <span class="lot-status-badge lot-status-delivery">🚚 Out for Delivery</span>
+            <span style="color:#9ca3af;align-self:center;">→</span>
+            <span class="lot-status-badge lot-status-delivered">✅ Delivered</span>
+        </div>
+    </div>
+
+    <script>
+        /* Hook showPage to load admin orders when admin navigates there */
+        (function () {
+            var _prevSP = window.showPage;
+            window.showPage = function (pageId, btn) {
+                _prevSP(pageId, btn);
+                if (pageId === 'page-admin-orders') {
+                    adminOrdersLoad();
+                }
+                if (pageId === 'page-orders') {
+                    renderLiveTrackingPage();
+                }
+            };
+        })();
     </script>
 
 </body>
