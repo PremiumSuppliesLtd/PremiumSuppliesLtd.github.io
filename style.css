@@ -4647,3 +4647,126 @@ textarea {
 [data-theme="dark"] .period-muted { color: #9ca3af !important; }
 [data-theme="dark"] .period-badge.up { background: rgba(34,197,94,0.15) !important; color: #4ade80 !important; }
 [data-theme="dark"] .period-badge.down { background: rgba(239,68,68,0.15) !important; color: #f87171 !important; }
+
+/* ===== DARK THEME: STOCK FULFILLMENT REPORT ===== */
+
+/* KPI Cards */
+[data-theme="dark"] .ff-kpi-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+[data-theme="dark"] .ff-kpi-card:hover {
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+}
+[data-theme="dark"] .ff-kpi-label { color: #94a3b8; }
+[data-theme="dark"] .ff-kpi-value { color: #f1f5f9; }
+[data-theme="dark"] .ff-kpi-sub { color: #64748b; }
+[data-theme="dark"] .ff-gauge-bg { stroke: #334155; }
+[data-theme="dark"] .ff-gauge-text { color: #f1f5f9; }
+
+/* Summary Strip Cards */
+[data-theme="dark"] .ff-summary-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+[data-theme="dark"] .ff-summary-card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.35);
+}
+[data-theme="dark"] .ff-summary-val { color: #f1f5f9; }
+[data-theme="dark"] .ff-summary-lbl { color: #94a3b8; }
+
+/* Date Group & Controls */
+[data-theme="dark"] .ff-date-group {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+[data-theme="dark"] .ff-date-input {
+    color: #e2e8f0;
+    background: transparent;
+    color-scheme: dark;
+}
+[data-theme="dark"] .ff-date-sep { color: #64748b; }
+
+/* Quick Date Buttons */
+[data-theme="dark"] .ff-quick-btn {
+    background: #1e293b;
+    border-color: #334155;
+    color: #94a3b8;
+}
+[data-theme="dark"] .ff-quick-btn:hover {
+    border-color: #fb923c;
+    color: #fb923c;
+    background: rgba(251,146,60,0.08);
+}
+[data-theme="dark"] .ff-quick-btn.active {
+    background: linear-gradient(135deg, #fb923c, #f97316);
+    color: white;
+    border-color: transparent;
+}
+
+/* Table Container */
+[data-theme="dark"] .ff-table-container {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+[data-theme="dark"] .ff-table-header { border-bottom-color: #334155; }
+[data-theme="dark"] .ff-table-title { color: #f1f5f9; }
+[data-theme="dark"] .ff-table-count {
+    background: #0f172a;
+    color: #94a3b8;
+}
+
+/* Search Input */
+[data-theme="dark"] .ff-search-input {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+[data-theme="dark"] .ff-search-input::placeholder { color: #64748b; }
+[data-theme="dark"] .ff-search-input:focus {
+    border-color: #fb923c;
+    box-shadow: 0 0 0 3px rgba(251,146,60,0.15);
+}
+
+/* Table Thead */
+[data-theme="dark"] .ff-table thead th {
+    color: #94a3b8;
+    border-bottom-color: #334155;
+}
+[data-theme="dark"] .ff-table thead th:hover { color: #e2e8f0; }
+
+/* Table Rows */
+[data-theme="dark"] .ff-table tbody tr { border-bottom-color: #1e293b; }
+[data-theme="dark"] .ff-table tbody tr:hover { background: rgba(251,146,60,0.06); }
+[data-theme="dark"] .ff-table tbody tr.ff-row-ok:hover { background: rgba(16,185,129,0.08); }
+[data-theme="dark"] .ff-table tbody tr.ff-row-low:hover { background: rgba(245,158,11,0.08); }
+[data-theme="dark"] .ff-table tbody tr.ff-row-out:hover { background: rgba(239,68,68,0.08); }
+[data-theme="dark"] .ff-table tbody td { color: #cbd5e1; }
+
+/* Shortfall Bar Track */
+[data-theme="dark"] .ff-shortfall-bar { background: #334155; }
+
+/* Alternatives List */
+[data-theme="dark"] .ff-alt-item { color: #94a3b8; }
+[data-theme="dark"] .ff-alt-name { color: #94a3b8; }
+
+/* Client Filter Select */
+[data-theme="dark"] #fulfillmentClientFilter {
+    background: #1e293b;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+[data-theme="dark"] #fulfillmentClientFilter option {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+/* Analytics Comparison Card */
+[data-theme="dark"] #analyticsComparison .bp-table-container {
+    background: linear-gradient(135deg, #1e293b 0%, #162032 100%) !important;
+    border-color: #334155 !important;
+}
+
