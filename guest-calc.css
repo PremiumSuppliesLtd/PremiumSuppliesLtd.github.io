@@ -96,12 +96,60 @@
     border: 1px solid rgba(0, 0, 0, 0.06);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     text-align: center;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* Animated moving border pseudo-element */
+.gc-input-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: conic-gradient(
+        from var(--gc-angle, 0deg),
+        transparent 0deg,
+        transparent 270deg,
+        #f97316 310deg,
+        #ea580c 340deg,
+        #fb923c 355deg,
+        transparent 360deg
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+/* Inner mask to show only the border, not fill */
+.gc-input-card::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--bg-card, #fff);
+    border-radius: 15px;
+    z-index: -1;
 }
 
 .gc-input-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(249, 115, 22, 0.18);
+}
+
+.gc-input-card:hover::before {
+    opacity: 1;
+    animation: gcBorderSpin 1.6s linear infinite;
+}
+
+@property --gc-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes gcBorderSpin {
+    to { --gc-angle: 360deg; }
 }
 
 .gc-input-icon {
@@ -522,6 +570,18 @@
 .gc-add-cart-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+}
+
+/* Light Theme Card Distinct Backgrounds */
+body:not([data-theme="dark"]) #page-guest-calc {
+    --bg-card: #f4f5f7;
+}
+
+body:not([data-theme="dark"]) .gc-products-container,
+body:not([data-theme="dark"]) .gc-action-bar,
+body:not([data-theme="dark"]) .gc-input,
+body:not([data-theme="dark"]) .gc-rate-input {
+    background: #ffffff;
 }
 
 /* Dark Theme */
