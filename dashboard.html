@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard - Premium Supplies Ltd</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for Insights -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --surface: #ffffff;
+            --surface-hover: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --font-main: 'Inter', sans-serif;
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Dark Mode Theme */
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --surface: #1e293b;
+            --surface-hover: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* ----- NAVIGATION ----- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-brand img {
+            height: 40px;
+            width: auto;
+            border-radius: 8px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: var(--surface-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--text-main);
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--surface-hover);
+        }
+
+        /* ----- MAIN DASHBOARD CONTAINER ----- */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .welcome-text {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.25rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-subtext {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* ----- KPI STRIP ----- */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+            --card-accent: #3b82f6; /* default */
+        }
+
+        .kpi-card-blue { --card-accent: #3b82f6; }
+        .kpi-card-green { --card-accent: #10b981; }
+        .kpi-card-orange { --card-accent: #f59e0b; }
+        .kpi-card-purple { --card-accent: #8b5cf6; }
+
+        .kpi-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-lg);
+            padding: 2px; 
+            background: linear-gradient(90deg, transparent 0%, var(--card-accent) 50%, transparent 100%);
+            background-size: 200% 100%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            animation: borderMove 2s linear infinite;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .kpi-card:hover::after {
+            opacity: 1;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .kpi-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .kpi-blue { background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1)); color: var(--primary); }
+        .kpi-green { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); color: var(--success); }
+        .kpi-purple { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1)); color: var(--accent); }
+        .kpi-orange { background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1)); color: var(--warning); }
+
+        .kpi-value {
+            font-size: 1.875rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+            font-family: var(--font-heading);
+        }
+
+        .kpi-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .kpi-decoration {
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 8rem;
+            opacity: 0.03;
+            transform: rotate(-15deg);
+            z-index: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+
+        .kpi-card:hover .analytics-kpi-sparkline {
+            opacity: 0.25;
+        }
+
+        /* Hover link arrow for outstanding balance */
+        .kpi-link-arrow {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            color: var(--primary);
+            font-size: 1.25rem;
+            z-index: 2;
+        }
+
+        .kpi-card-clickable {
+            cursor: pointer;
+        }
+
+        @keyframes borderMove {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .kpi-card-clickable:hover .kpi-link-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ----- CHARTS SECTION ----- */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.6s ease-out backwards;
+        }
+
+        .chart-card:nth-child(2) { animation-delay: 0.1s; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            flex-grow: 1;
+            min-height: 300px;
+            width: 100%;
+        }
+
+        /* ----- RECENT ORDERS & STATEMENT ----- */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .data-table-container {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out backwards;
+            animation-delay: 0.2s;
+        }
+
+        .data-table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+            background: rgba(0,0,0,0.02);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 1rem 1.5rem;
+            font-size: 0.875rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .data-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--surface-hover);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            width: 100%;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Action Panel */
+        .action-panel {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out backwards;
+            animation-delay: 0.3s;
+        }
+
+        .action-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10h10v10H10z" fill="rgba(255,255,255,0.05)"/></svg>') repeat;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .action-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .action-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-btn {
+            background: white;
+            color: var(--primary-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 1024px) {
+            .charts-grid, .tables-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .action-panel {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="Index.html" class="nav-brand">
+            <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7" alt="Logo">
+            Premium Supplies
+        </a>
+        <div class="nav-actions">
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">☀️</button>
+            <a href="Index.html" class="btn btn-outline">← Back to Portal</a>
+            <button class="btn btn-primary" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-container" id="mainDashboard" style="display: none;">
+        
+        <div class="dashboard-header">
+            <div>
+                <h1 class="welcome-text">Welcome back, <span id="clientNameDisplay">Client</span>!</h1>
+                <p class="welcome-subtext">Here are your latest insights and purchasing trends.</p>
+            </div>
+            <div>
+                <span class="badge badge-success" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+                    Account Active
+                </span>
+            </div>
+        </div>
+
+        <!-- Action Panel -->
+        <div class="action-panel">
+            <div class="action-content">
+                <h2 class="action-title">Need to restock?</h2>
+                <p style="opacity: 0.9;">Jump straight into your smart order based on your history.</p>
+            </div>
+            <a href="Index.html" class="action-btn">
+                <span>🛒</span> Place Smart Order
+            </a>
+        </div>
+
+        <!-- KPI Strip -->
+        <div class="kpi-grid">
+            <div class="kpi-card kpi-card-blue">
+                <div class="kpi-icon-wrap kpi-blue">📦</div>
+                <div class="kpi-value" id="kpiTotalOrders">-</div>
+                <div class="kpi-label">Total Orders Placed</div>
+                <div class="kpi-decoration">📦</div>
+            </div>
+            <div class="kpi-card kpi-card-green">
+                <div class="kpi-icon-wrap kpi-green">💰</div>
+                <div class="kpi-value" id="kpiTotalSpend">-</div>
+                <div class="kpi-label">Total Spend (TZS)</div>
+                <div class="kpi-decoration">💰</div>
+            </div>
+            <div class="kpi-card kpi-card-orange kpi-card-clickable" onclick="window.location.href='Index.html#statement'" title="View Full Statement">
+                <div class="kpi-link-arrow">→</div>
+                <div class="kpi-icon-wrap kpi-orange">🧾</div>
+                <div class="kpi-value" id="kpiOutstanding">-</div>
+                <div class="kpi-label">Outstanding Balance (TZS)</div>
+                <div class="kpi-decoration">🧾</div>
+            </div>
+            <div class="kpi-card kpi-card-purple">
+                <div class="kpi-icon-wrap kpi-purple">⭐</div>
+                <div class="kpi-value" id="kpiTopCategory">-</div>
+                <div class="kpi-label">Most Bought Category</div>
+                <div class="kpi-decoration">⭐</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">📈 Order Volume Trend</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">📊 Category Distribution</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tables -->
+        <div class="tables-grid">
+            <!-- Recent Orders -->
+            <div class="data-table-container">
+                <div class="data-table-header">
+                    <h3 class="chart-title">🕒 Recent Orders</h3>
+                    <a href="Index.html" style="color: var(--primary); font-size: 0.875rem; text-decoration: none; font-weight: 600;">View All →</a>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table" id="recentOrdersTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Total (TZS)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Statement / Outstanding -->
+            <div class="data-table-container">
+                <div class="data-table-header">
+                    <h3 class="chart-title">🧾 Statement Overview</h3>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table" id="statementTable">
+                        <thead>
+                            <tr>
+                                <th>Entry Date</th>
+                                <th>Net Amount</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Login Prompt if not logged in -->
+    <div id="loginPrompt" style="display: flex; height: 100vh; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem;">
+        <div style="background: var(--surface); padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); max-width: 400px; width: 100%;">
+            <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">Authentication Required</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Please login through the main portal to access your dashboard.</p>
+            <a href="Index.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Go to Portal</a>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" style="display: none; height: 100vh; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="spinner"></div>
+        <p style="margin-top: 1rem; color: var(--text-muted); font-weight: 500;">Loading your insights...</p>
+    </div>
+
+    <script>
+        // CONFIG
+        const API_URL = "https://script.google.com/macros/s/AKfycbxy5eS8qtrhhhE_S0FUM-ud_C__xra--dFcblUC58qEB8p3wHiivM5i2olttiJRHl5E5w/exec";
+        const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
+        
+        let clientData = {
+            purchases: [],
+            statement: [],
+            accountName: ''
+        };
+
+        let charts = {};
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            checkAuth();
+        });
+
+        function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            const email = localStorage.getItem('userEmail');
+
+            if (!token || !email) {
+                document.getElementById('loginPrompt').style.display = 'flex';
+                document.getElementById('mainDashboard').style.display = 'none';
+            } else {
+                document.getElementById('loginPrompt').style.display = 'none';
+                document.getElementById('loadingState').style.display = 'flex';
+                document.getElementById('mainDashboard').style.display = 'none';
+                
+                // Display email initially until we fetch name
+                document.getElementById('clientNameDisplay').textContent = email.split('@')[0];
+                
+                loadDashboardData(email, token);
+            }
+        }
+
+        async function loadDashboardData(email, token) {
+            try {
+                // Fetch Last Purchases
+                const req1 = fetch(API_URL + "?action=getLastPurchases&email=" + encodeURIComponent(email)).then(r => r.json());
+                // Fetch Statement using POST to STATEMENT_API_URL
+                const req2 = fetch(STATEMENT_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'getStatement', data: { email } })
+                }).then(r => r.json());
+
+                const [res1, res2] = await Promise.all([req1, req2]);
+
+                if(res1.result) clientData.purchases = res1.result;
+                if(res2.result) {
+                    clientData.statement = res2.result.statement || [];
+                    clientData.accountName = res2.result.customerName || res2.result.asPerAccountName || email.split('@')[0];
+                    document.getElementById('clientNameDisplay').textContent = clientData.accountName;
+                }
+
+                renderDashboard();
+
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('mainDashboard').style.display = 'block';
+                
+                // Animate charts after display block
+                setTimeout(() => {
+                    renderCharts();
+                }, 100);
+
+            } catch(e) {
+                console.error(e);
+                alert("Failed to load dashboard data. Please try again.");
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('loginPrompt').style.display = 'flex';
+            }
+        }
+
+        function renderDashboard() {
+            // Process KPIs
+            const purchases = clientData.purchases;
+            const statements = clientData.statement;
+
+            // 1. Total Orders
+            const uniqueDates = new Set(purchases.map(p => new Date(p.date).toISOString().split('T')[0]));
+            document.getElementById('kpiTotalOrders').textContent = uniqueDates.size;
+
+            // 2. Outstanding Balance
+            let outstanding = 0;
+            statements.forEach(s => {
+                outstanding += Number(s.net_balance) || 0;
+            });
+            document.getElementById('kpiOutstanding').textContent = outstanding.toLocaleString();
+
+            // 3. Process Categories & Spend
+            let totalSpend = 0;
+            const catCount = {};
+            purchases.forEach(p => {
+                const qty = Number(p.qty) || 0;
+                // Since price isn't returned in basic getLastPurchases, we estimate if missing
+                // Or we count by volume
+                totalSpend += qty; // Fallback: showing total volume if price missing
+
+                const cat = p.cat || 'General';
+                catCount[cat] = (catCount[cat] || 0) + qty;
+            });
+            
+            // If we have statement net_amount, use that for total spend instead
+            let actualSpend = 0;
+            statements.forEach(s => {
+                actualSpend += Number(s.net_amt) || 0;
+            });
+            
+            if(actualSpend > 0) {
+                document.getElementById('kpiTotalSpend').textContent = actualSpend.toLocaleString();
+            } else {
+                document.getElementById('kpiTotalSpend').textContent = "---";
+            }
+
+            // Top Category
+            let topCat = "None";
+            let maxCatVol = 0;
+            for(const c in catCount) {
+                if(catCount[c] > maxCatVol) {
+                    maxCatVol = catCount[c];
+                    topCat = c;
+                }
+            }
+            document.getElementById('kpiTopCategory').textContent = topCat;
+
+            // Render Tables
+            renderRecentOrdersTable();
+            renderStatementTable();
+        }
+
+        function renderRecentOrdersTable() {
+            const tbody = document.querySelector('#recentOrdersTable tbody');
+            const p = [...clientData.purchases].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+            
+            if(p.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="empty-state"><div class="empty-icon">📦</div>No recent orders found.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            p.forEach(item => {
+                const d = new Date(item.date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'});
+                html += `
+                    <tr>
+                        <td><span style="color:var(--text-muted); font-size:0.8rem;">${d}</span></td>
+                        <td>
+                            <div style="font-weight:600; color:var(--primary-dark);">${item.name}</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">${item.pack} | ${item.cat}</div>
+                        </td>
+                        <td><span style="font-weight:700;">${item.qty}</span></td>
+                        <td>-</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function renderStatementTable() {
+            const tbody = document.querySelector('#statementTable tbody');
+            const s = [...clientData.statement].sort((a,b) => new Date(b.entry_date) - new Date(a.entry_date)).slice(0, 5);
+
+            if(s.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><div class="empty-icon">🧾</div>No statement records found.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            s.forEach(item => {
+                const d = new Date(item.entry_date).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'});
+                const net = Number(item.net_amt) || 0;
+                const bal = Number(item.net_balance) || 0;
+                
+                let badge = '<span class="badge badge-success">Cleared</span>';
+                if(bal > 0) {
+                    const days = Number(item.days) || 0;
+                    if(days > 30) badge = '<span class="badge badge-danger">Overdue ('+days+'d)</span>';
+                    else badge = '<span class="badge badge-warning">Pending</span>';
+                }
+
+                html += `
+                    <tr>
+                        <td><span style="color:var(--text-muted); font-size:0.8rem;">${d}</span></td>
+                        <td style="font-weight:600;">${net.toLocaleString()}</td>
+                        <td style="color:var(--success);">${(Number(item.total_paid)||0).toLocaleString()}</td>
+                        <td style="font-weight:700; color:${bal>0?'var(--danger)':'inherit'}">${bal.toLocaleString()}</td>
+                        <td>${badge}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function renderCharts() {
+            const p = clientData.purchases;
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+            const textColor = isDark ? '#94a3b8' : '#64748b';
+
+            // 1. Trend Chart (Orders per month)
+            const monthMap = {};
+            p.forEach(item => {
+                const d = new Date(item.date);
+                if(isNaN(d.getTime())) return;
+                const m = d.toLocaleString('en', {month:'short', year:'2-digit'});
+                monthMap[m] = (monthMap[m] || 0) + Number(item.qty);
+            });
+
+            // Sort months (chronological logic approximation for recent)
+            const labels = Object.keys(monthMap);
+            const data = Object.values(monthMap);
+
+            if(charts.trend) charts.trend.destroy();
+            const ctx1 = document.getElementById('trendChart').getContext('2d');
+            
+            // Create gradient
+            let gradient = ctx1.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+            charts.trend = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Volume (Qty)',
+                        data: data,
+                        borderColor: '#3b82f6',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#3b82f6',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { color: gridColor, drawBorder: false },
+                            ticks: { color: textColor }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+
+            // 2. Category Doughnut Chart
+            const catMap = {};
+            p.forEach(item => {
+                const cat = item.cat || 'Other';
+                catMap[cat] = (catMap[cat] || 0) + Number(item.qty);
+            });
+
+            const catLabels = Object.keys(catMap);
+            const catData = Object.values(catMap);
+            const colors = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#14b8a6', '#f43f5e'];
+
+            if(charts.category) charts.category.destroy();
+            const ctx2 = document.getElementById('categoryChart').getContext('2d');
+            charts.category = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: catLabels,
+                    datasets: [{
+                        data: catData,
+                        backgroundColor: colors,
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { 
+                            position: 'right',
+                            labels: { color: textColor, font: { family: "'Inter', sans-serif" }, padding: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Theme Handling
+        function initTheme() {
+            const saved = localStorage.getItem('theme');
+            if(saved === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                document.querySelector('.theme-toggle').textContent = '🌙';
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            if(isDark) {
+                document.body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                document.querySelector('.theme-toggle').textContent = '🌙';
+            }
+            if(clientData.purchases.length > 0) renderCharts();
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            window.location.href = 'Index.html';
+        }
+    </script>
+</body>
+</html>
