@@ -1740,154 +1740,221 @@
 
     <!-- PAGE: GUEST-BASED CALCULATOR -->
     <div id="page-guest-calc" class="page" style="display:none;">
+
         <!-- Hero -->
         <div class="gc-hero">
-            <div class="gc-hero-badge">🏨 Smart Calculator</div>
-            <h1 class="gc-hero-title">Guest-Based Supply Calculator</h1>
-            <p class="gc-hero-subtitle">Build your custom supply list — enter guests &amp; days, then add your items</p>
+            <div class="gc-hero-orb gc-hero-orb-1"></div>
+            <div class="gc-hero-orb gc-hero-orb-2"></div>
+            <div class="gc-hero-orb gc-hero-orb-3"></div>
+            <div class="gc-hero-content">
+                <div class="gc-hero-badge">
+                    <span class="gc-hero-badge-dot"></span>
+                    🏨 Smart Calculator
+                </div>
+                <h1 class="gc-hero-title">Guest-Based Supply Calculator</h1>
+                <p class="gc-hero-subtitle">Build your custom supply list — enter guests &amp; days, then add your items</p>
+            </div>
         </div>
 
+        <!-- Inputs Strip -->
         <div class="gc-sticky-panel">
-            <!-- Inputs -->
             <div class="gc-inputs-strip">
                 <div class="gc-input-card">
+                    <div class="gc-input-glow"></div>
                     <div class="gc-input-icon">👥</div>
                     <label class="gc-input-label">Number of Guests</label>
-                    <input type="number" id="gcGuests" class="gc-input" value="20" min="1" max="999"
-                        oninput="guestCalcUpdate()">
+                    <input type="number" id="gcGuests" class="gc-input" value="20" min="1" max="999" oninput="guestCalcUpdate()">
                 </div>
                 <div class="gc-input-card">
+                    <div class="gc-input-glow"></div>
                     <div class="gc-input-icon">📅</div>
                     <label class="gc-input-label">Number of Days</label>
-                    <input type="number" id="gcDays" class="gc-input" value="7" min="1" max="365"
-                        oninput="guestCalcUpdate()">
+                    <input type="number" id="gcDays" class="gc-input" value="7" min="1" max="365" oninput="guestCalcUpdate()">
                 </div>
                 <div class="gc-input-card gc-summary-card">
+                    <div class="gc-input-glow gc-summary-glow"></div>
                     <div class="gc-input-icon">📊</div>
                     <label class="gc-input-label">Total Guest-Days</label>
                     <div class="gc-total-value" id="gcTotalGuestDays">140</div>
-                </div>
-            </div>
-
-            <!-- Summary Stats Strip -->
-            <div
-                style="display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; padding:0 2rem 1rem; max-width:900px; margin:0 auto;">
-                <div
-                    style="background:var(--bg-card,#fff); border-radius:12px; padding:.75rem 1rem; text-align:center; border:1px solid rgba(0,0,0,0.06); box-shadow:0 2px 6px rgba(0,0,0,0.04);">
-                    <div
-                        style="font-size:.68rem; font-weight:600; color:var(--text-muted,#6b7280); text-transform:uppercase; letter-spacing:.05em; margin-bottom:.25rem;">
-                        Selected Items</div>
-                    <div style="font-size:1.4rem; font-weight:800; color:#ea580c;" id="gcSelectedCount">0</div>
-                </div>
-                <div
-                    style="background:var(--bg-card,#fff); border-radius:12px; padding:.75rem 1rem; text-align:center; border:1px solid rgba(0,0,0,0.06); box-shadow:0 2px 6px rgba(0,0,0,0.04);">
-                    <div
-                        style="font-size:.68rem; font-weight:600; color:var(--text-muted,#6b7280); text-transform:uppercase; letter-spacing:.05em; margin-bottom:.25rem;">
-                        Estimated Total</div>
-                    <div style="font-size:1.1rem; font-weight:800; color:#ea580c;" id="gcEstTotal">TZS 0</div>
-                </div>
-                <div
-                    style="background:var(--bg-card,#fff); border-radius:12px; padding:.75rem 1rem; text-align:center; border:1px solid rgba(0,0,0,0.06); box-shadow:0 2px 6px rgba(0,0,0,0.04);">
-                    <div
-                        style="font-size:.68rem; font-weight:600; color:var(--text-muted,#6b7280); text-transform:uppercase; letter-spacing:.05em; margin-bottom:.25rem;">
-                        Matched Items</div>
-                    <div style="font-size:1.4rem; font-weight:800; color:#ea580c;" id="gcMatchedCount">0 / 0</div>
-                </div>
-            </div>
-
-            <!-- Reminder Alert -->
-            <div style="max-width:900px; margin: 0 auto 1rem; padding: 0 2rem;">
-                <div
-                    style="background: linear-gradient(to right, rgba(249, 115, 22, 0.1), rgba(234, 88, 12, 0.05)); border-left: 4px solid #ea580c; border-radius: 8px; padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-                    <div style="font-size: 1.25rem;">💡</div>
-                    <div style="font-size: 0.9rem; color: var(--text-main, #111827); font-weight: 500;">
-                        <strong style="font-weight: 700; color: #ea580c;">Reminder:</strong> Kindly <strong
-                            style="color: #ea580c;">save</strong> your My Supply List after making any changes.
-                    </div>
+                    <div class="gc-total-pulse"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Products Grid -->
-        <div class="gc-products-container">
-            <div class="gc-products-header">
-                <div class="gc-products-title">📦 My Supply List <span class="gc-products-count"
-                        id="gcItemCount">0</span></div>
-                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                    <button class="gc-select-btn" onclick="guestCalcToggleAll(true)">✅ Select All</button>
-                    <button class="gc-select-btn" onclick="guestCalcToggleAll(false)">❌ Deselect All</button>
-                    <button class="gc-select-btn" id="gcSaveSheetBtn" onclick="guestCalcSaveToSheet()"
-                        style="background:linear-gradient(135deg,#0ea5e9,#6366f1);color:white;border:none;">☁️ Save
-                        List</button>
-                    <button class="gc-select-btn" onclick="guestCalcAddCustomItem()"
-                        style="background:linear-gradient(135deg,#ea580c,#f97316);color:white;border:none;">➕ Add Custom
-                        Item</button>
-                </div>
-            </div>
+        <!-- Two-Column Split Layout -->
+        <div class="gc-split-layout">
 
-            <!-- Empty state -->
-            <div id="gcEmptyState" style="text-align:center; padding:4rem 2rem; display:none;">
-                <div style="font-size:3rem; margin-bottom:1rem;">📋</div>
-                <div style="font-size:1.1rem; font-weight:700; color:var(--text-main,#111827); margin-bottom:.5rem;">No
-                    items yet</div>
-                <div style="color:var(--text-muted,#6b7280); margin-bottom:1.5rem;">Click <strong>➕ Add Custom
-                        Item</strong> to build your supply list</div>
-                <button class="gc-add-cart-btn" onclick="guestCalcAddCustomItem()" style="margin:0 auto;">➕ Add Your
-                    First Item</button>
-            </div>
+            <!-- LEFT PANEL -->
+            <div class="gc-left-panel">
 
-            <!-- Loading state -->
-            <div id="gcLoadingState" style="text-align:center; padding:3rem; display:none;">
-                <div style="font-size:2rem; margin-bottom:1rem;">⏳</div>
-                <div style="color:var(--text-muted,#6b7280);">Loading your saved list...</div>
-            </div>
-
-            <div class="gc-products-grid" id="gcProductsGrid">
-                <!-- Rendered by JS -->
-            </div>
-        </div>
-
-        <!-- Bottom Action Bar -->
-        <div class="gc-action-bar" id="gcActionBar" style="justify-content:center;">
-            <button class="gc-add-cart-btn" onclick="guestCalcAddToCart()">
-                🛒 Add All to Cart
-            </button>
-        </div>
-
-        <!-- Premium Searchable Product Dropdown Overlay -->
-        <div id="gcDropdownOverlay"
-            style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;"
-            onclick="gcCloseDropdown(event)">
-            <div style="background:var(--bg-card,#fff); border-radius:20px; width:min(520px,95vw); max-height:85vh; display:flex; flex-direction:column; box-shadow:0 25px 80px rgba(0,0,0,0.3); overflow:hidden;"
-                onclick="event.stopPropagation()">
-                <!-- Header -->
-                <div style="padding:1.25rem 1.5rem 1rem; border-bottom:1px solid rgba(0,0,0,0.08);">
-                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:.75rem;">
-                        <div style="font-weight:700; font-size:1rem; color:var(--text-main,#111827);">🔍 Select Product
-                            Match</div>
-                        <button onclick="gcCloseDropdown()"
-                            style="background:none; border:none; font-size:1.4rem; cursor:pointer; color:var(--text-muted,#6b7280); line-height:1; padding:4px;">×</button>
-                    </div>
-                    <!-- Search bar -->
-                    <div style="position:relative;">
-                        <span
-                            style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:1rem;">🔍</span>
-                        <input type="text" id="gcDropdownSearch" placeholder="Search products by name..."
-                            oninput="gcDropdownFilter()"
-                            style="width:100%; padding:.65rem .75rem .65rem 2.5rem; border-radius:12px; border:2px solid #e5e7eb; font-size:.9rem; font-family:'Inter',sans-serif; outline:none; box-sizing:border-box; transition:border-color .2s; background:var(--bg-card,#fff); color:var(--text-main,#111827);"
-                            onfocus="this.style.borderColor='#f97316'" onblur="this.style.borderColor='#e5e7eb'">
+                <!-- Pro Tip Reminder — always first -->
+                <div class="gc-reminder">
+                    <div class="gc-reminder-pulse"></div>
+                    <div class="gc-reminder-icon">💡</div>
+                    <div class="gc-reminder-text">
+                        <strong>Pro Tip:</strong> Save your list to the cloud so it persists across sessions.
                     </div>
                 </div>
-                <!-- Results list -->
-                <div id="gcDropdownList" style="overflow-y:auto; flex:1; padding:.5rem;">
-                    <!-- Populated by JS -->
+
+                <!-- Live Stats -->
+                <div class="gc-stats-panel">
+                    <div class="gc-stats-heading">📈 Live Stats</div>
+                    <div class="gc-stat-card gc-stat-selected">
+                        <div class="gc-stat-orb"></div>
+                        <div class="gc-stat-inner">
+                            <div class="gc-stat-label">Selected Items</div>
+                            <div class="gc-stat-value" id="gcSelectedCount">0</div>
+                        </div>
+                        <div class="gc-stat-icon-big">✅</div>
+                    </div>
+                    <div class="gc-stat-card gc-stat-total">
+                        <div class="gc-stat-orb"></div>
+                        <div class="gc-stat-inner">
+                            <div class="gc-stat-label">Est. Total</div>
+                            <div class="gc-stat-value gc-stat-value-sm" id="gcEstTotal">TZS 0</div>
+                        </div>
+                        <div class="gc-stat-icon-big">💰</div>
+                    </div>
+                    <div class="gc-stat-card gc-stat-matched">
+                        <div class="gc-stat-orb"></div>
+                        <div class="gc-stat-inner">
+                            <div class="gc-stat-label">Matched</div>
+                            <div class="gc-stat-value" id="gcMatchedCount">0 / 0</div>
+                        </div>
+                        <div class="gc-stat-icon-big">🔗</div>
+                    </div>
                 </div>
-                <!-- Footer -->
-                <div
-                    style="padding:.75rem 1.5rem; border-top:1px solid rgba(0,0,0,0.06); display:flex; justify-content:flex-end; align-items:center;">
-                    <span id="gcDropdownCount" style="font-size:.78rem; color:var(--text-muted,#6b7280);"></span>
+
+                <!-- Action Buttons -->
+                <div class="gc-actions-section">
+                    <div class="gc-actions-heading">⚡ Quick Actions</div>
+
+                    <button class="gc-pill-btn gc-pill-import" onclick="guestCalcGenerateFromHistory()">
+                        <span class="gc-pill-shine"></span>
+                        <span class="gc-pill-icon">✨</span>
+                        <span class="gc-pill-text">Import from History</span>
+                        <span class="gc-pill-arrow">→</span>
+                    </button>
+
+                    <button class="gc-pill-btn gc-pill-add" onclick="guestCalcAddCustomItem()">
+                        <span class="gc-pill-shine"></span>
+                        <span class="gc-pill-icon">➕</span>
+                        <span class="gc-pill-text">Add Custom Item</span>
+                        <span class="gc-pill-arrow">→</span>
+                    </button>
+
+                    <button class="gc-pill-btn gc-pill-save" id="gcSaveSheetBtn" onclick="guestCalcSaveToSheet()">
+                        <span class="gc-pill-shine"></span>
+                        <span class="gc-pill-icon">☁️</span>
+                        <span class="gc-pill-text">Save My List</span>
+                        <span class="gc-pill-arrow">→</span>
+                    </button>
+
+                    <div class="gc-mini-actions">
+                        <button class="gc-mini-btn" onclick="guestCalcToggleAll(true)">✅ Select All</button>
+                        <button class="gc-mini-btn" onclick="guestCalcToggleAll(false)">☐ Deselect</button>
+                    </div>
+
+                    <button class="gc-cart-btn" onclick="guestCalcAddToCart()">
+                        <span class="gc-cart-shine"></span>
+                        <span class="gc-cart-icon">🛒</span>
+                        <span class="gc-cart-text">Add All to Cart</span>
+                        <div class="gc-cart-particles"><span></span><span></span><span></span></div>
+                    </button>
                 </div>
+
+                <!-- How It Works -->
+                <div class="gc-how-it-works">
+                    <div class="gc-how-title">📖 How It Works</div>
+                    <div class="gc-how-step">
+                        <span class="gc-step-num">1</span>
+                        <div class="gc-step-content">
+                            <div class="gc-step-title">Set Parameters</div>
+                            <div class="gc-step-desc">Enter your guests &amp; days</div>
+                        </div>
+                    </div>
+                    <div class="gc-how-step">
+                        <span class="gc-step-num">2</span>
+                        <div class="gc-step-content">
+                            <div class="gc-step-title">Build Your List</div>
+                            <div class="gc-step-desc">Import history or add items</div>
+                        </div>
+                    </div>
+                    <div class="gc-how-step">
+                        <span class="gc-step-num">3</span>
+                        <div class="gc-step-content">
+                            <div class="gc-step-title">Fine-tune Rates</div>
+                            <div class="gc-step-desc">Adjust usage per guest-day</div>
+                        </div>
+                    </div>
+                    <div class="gc-how-step">
+                        <span class="gc-step-num">4</span>
+                        <div class="gc-step-content">
+                            <div class="gc-step-title">Order</div>
+                            <div class="gc-step-desc">Add to cart &amp; checkout</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- RIGHT PANEL: Supply List -->
+            <div class="gc-right-panel">
+                <div class="gc-products-header">
+                    <div class="gc-products-title">
+                        <span class="gc-title-dot"></span>
+                        📦 My Supply List
+                        <span class="gc-products-count" id="gcItemCount">0</span>
+                    </div>
+                    <div class="gc-search-wrapper">
+                        <span class="gc-search-icon">🔍</span>
+                        <input type="text" id="gcSearchInput" class="gc-search-input" oninput="guestCalcRender()" placeholder="Search supply list...">
+                    </div>
+                </div>
+
+                <!-- Loading state -->
+                <div id="gcLoadingState" style="text-align:center; padding:4rem 2rem; display:none;">
+                    <div class="gc-loading-spinner"></div>
+                    <div style="color:var(--text-muted,#6b7280); margin-top:1.25rem; font-size:.9rem; font-weight:500;">Loading your saved list...</div>
+                </div>
+
+                <!-- Empty state -->
+                <div id="gcEmptyState" style="display:none;">
+                    <div class="gc-empty-inner">
+                        <div class="gc-empty-icon-wrap">
+                            <div class="gc-empty-ring"></div>
+                            <div class="gc-empty-icon">📋</div>
+                        </div>
+                        <div class="gc-empty-title">Your supply list is empty</div>
+                        <div class="gc-empty-sub">Import from your purchase history or add a custom item to get started</div>
+                        <div class="gc-empty-actions">
+                            <button class="gc-empty-btn gc-empty-btn-import" onclick="guestCalcGenerateFromHistory()">
+                                <span>✨</span> Import from History
+                            </button>
+                            <button class="gc-empty-btn gc-empty-btn-add" onclick="guestCalcAddCustomItem()">
+                                <span>➕</span> Add Custom Item
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Empty state -->
+                <div id="gcSearchEmptyState" style="display:none;">
+                    <div class="gc-empty-inner">
+                        <div class="gc-empty-icon-wrap">
+                            <div class="gc-empty-ring"></div>
+                            <div class="gc-empty-icon">🔍</div>
+                        </div>
+                        <div class="gc-empty-title">No matches found</div>
+                        <div class="gc-empty-sub">Nothing matches "<strong id="gcSearchTermHighlight" style="color:#ea580c;"></strong>"</div>
+                        <button class="gc-empty-btn gc-empty-btn-clear" onclick="document.getElementById('gcSearchInput').value=''; guestCalcRender();">✕ Clear Search</button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="gc-products-grid" id="gcProductsGrid"></div>
+            </div>
+
         </div>
     </div>
 
@@ -2803,6 +2870,31 @@
         <img id="imageViewerImg" style="max-width:90%; max-height:90%; border-radius:8px;">
         <button
             style="position:absolute; top:20px; right:20px; background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
+    </div>
+
+    <!-- Product Match Dropdown Overlay (Placed at body root) -->
+    <div id="gcDropdownOverlay"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:99999; align-items:center; justify-content:center;"
+        onclick="gcCloseDropdown(event)">
+        <div style="background:var(--bg-card,#fff); border-radius:20px; width:min(520px,95vw); max-height:85vh; display:flex; flex-direction:column; box-shadow:0 25px 80px rgba(0,0,0,0.35); overflow:hidden; border:1px solid rgba(249,115,22,0.15);"
+            onclick="event.stopPropagation()">
+            <div style="padding:1.25rem 1.5rem 1rem; border-bottom:1px solid rgba(0,0,0,0.08); background:linear-gradient(135deg,rgba(249,115,22,0.04),transparent);">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:.75rem;">
+                    <div style="font-weight:700; font-size:1rem; color:var(--text-main,#111827);">🔍 Select Product Match</div>
+                    <button onclick="gcCloseDropdown()" style="background:rgba(0,0,0,0.06); border:none; font-size:1.1rem; cursor:pointer; color:var(--text-muted,#6b7280); padding:6px 10px; border-radius:8px;">×</button>
+                </div>
+                <div style="position:relative;">
+                    <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:1rem;">🔍</span>
+                    <input type="text" id="gcDropdownSearch" placeholder="Search products by name..." oninput="gcDropdownFilter()"
+                        style="width:100%; padding:.65rem .75rem .65rem 2.5rem; border-radius:12px; border:2px solid #e5e7eb; font-size:.9rem; font-family:'Inter',sans-serif; outline:none; box-sizing:border-box; transition:border-color .2s; background:var(--bg-card,#fff); color:var(--text-main,#111827);"
+                        onfocus="this.style.borderColor='#f97316'" onblur="this.style.borderColor='#e5e7eb'">
+                </div>
+            </div>
+            <div id="gcDropdownList" style="overflow-y:auto; flex:1; padding:.5rem;"></div>
+            <div style="padding:.75rem 1.5rem; border-top:1px solid rgba(0,0,0,0.06); display:flex; justify-content:flex-end;">
+                <span id="gcDropdownCount" style="font-size:.78rem; color:var(--text-muted,#6b7280);"></span>
+            </div>
+        </div>
     </div>
 
     <!-- Smart Suggestion Modal -->
@@ -7589,8 +7681,19 @@
             premiumNotify('Report exported successfully', 'success', 3000);
         }
         /* ===== GUEST-BASED CALCULATOR ===== */
-        // Premium Searchable Dropdown State
         let gcDropdownTargetId = null;
+
+        function gcCardClicked(event, itemId) {
+            const target = event.target;
+            const tag = target.tagName.toLowerCase();
+            
+            // Exclude interactive elements so their native behaviors are not blocked
+            if (tag === 'input' || tag === 'button' || tag === 'textarea' || tag === 'select') return;
+            if (target.closest('.gc-switch') || target.closest('button') || target.closest('input')) return;
+            if (target.closest('[contenteditable="true"]')) return;
+            
+            gcOpenDropdown(itemId);
+        }
 
         function gcOpenDropdown(itemId) {
             gcDropdownTargetId = itemId;
@@ -7771,17 +7874,22 @@
         }
 
         function guestCalcMatchProduct(gcItem) {
+            if (!gcItem) return null;
             if (gcItem.manualMatch && allProducts && allProducts.length > 0) {
-                const manual = allProducts.find(p => String(p.barcode) === String(gcItem.manualMatch));
+                const manual = allProducts.find(p => p && String(p.barcode) === String(gcItem.manualMatch));
                 if (manual) return manual;
             }
             if (gcMatchCache[gcItem.id] !== undefined) return gcMatchCache[gcItem.id];
             if (!allProducts || allProducts.length === 0) { gcMatchCache[gcItem.id] = null; return null; }
-            const searchName = gcItem.name.toLowerCase();
-            let match = allProducts.find(p => p.name.toLowerCase() === searchName);
-            if (!match) match = allProducts.find(p => p.name.toLowerCase().startsWith(searchName));
-            if (!match) match = allProducts.find(p => p.name.toLowerCase().includes(searchName));
-            if (!match) match = allProducts.find(p => searchName.includes(p.name.toLowerCase()) && p.name.length > 3);
+            
+            const searchName = (gcItem.name || "").toLowerCase().trim();
+            if (!searchName) { gcMatchCache[gcItem.id] = null; return null; }
+
+            let match = allProducts.find(p => p && p.name && p.name.toLowerCase().trim() === searchName);
+            if (!match) match = allProducts.find(p => p && p.name && p.name.toLowerCase().trim().startsWith(searchName));
+            if (!match) match = allProducts.find(p => p && p.name && p.name.toLowerCase().trim().includes(searchName));
+            if (!match) match = allProducts.find(p => p && p.name && searchName.includes(p.name.toLowerCase().trim()) && p.name.trim().length > 3);
+            
             gcMatchCache[gcItem.id] = match || null;
             return match || null;
         }
@@ -7792,10 +7900,13 @@
             const guestDays = guests * days;
             const grid = document.getElementById('gcProductsGrid');
             const emptyEl = document.getElementById('gcEmptyState');
+            const searchEmptyEl = document.getElementById('gcSearchEmptyState');
+            const searchQuery = document.getElementById('gcSearchInput')?.value.toLowerCase().trim() || "";
 
             if (!GC_CUSTOM_ITEMS || GC_CUSTOM_ITEMS.length === 0) {
                 grid.innerHTML = '';
                 if (emptyEl) emptyEl.style.display = 'block';
+                if (searchEmptyEl) searchEmptyEl.style.display = 'none';
                 document.getElementById('gcItemCount').textContent = '0';
                 document.getElementById('gcSelectedCount').textContent = '0';
                 document.getElementById('gcEstTotal').textContent = 'TZS 0';
@@ -7803,6 +7914,7 @@
                 return;
             }
             if (emptyEl) emptyEl.style.display = 'none';
+            if (searchEmptyEl) searchEmptyEl.style.display = 'none';
 
             document.getElementById('gcItemCount').textContent = GC_CUSTOM_ITEMS.length;
 
@@ -7811,22 +7923,35 @@
             let estTotal = 0;
             let matchedCount = 0;
             let totalWithMatch = GC_CUSTOM_ITEMS.length;
+            let renderedCount = 0;
 
             GC_CUSTOM_ITEMS.forEach((item, idx) => {
-                const qty = Math.ceil(guestDays * item.ratePerGuestDay);
+                if (!item) return;
+                const rate = parseFloat(item.ratePerGuestDay) || 0;
+                const qty = Math.ceil(guestDays * rate) || 0;
                 const match = guestCalcMatchProduct(item);
                 const hasMatch = !!match;
-                const price = hasMatch ? match.price : 0;
+                const price = (hasMatch && match.price && !isNaN(parseFloat(match.price))) ? parseFloat(match.price) : 0;
                 const itemTotal = qty * price;
                 if (hasMatch) matchedCount++;
                 if (item.enabled) { selectedCount++; estTotal += itemTotal; }
+
+                // Search filtering logic
+                if (searchQuery) {
+                    const itemName = (item.name || "").toLowerCase();
+                    const matchedName = (hasMatch && match.name) ? match.name.toLowerCase() : "";
+                    if (!itemName.includes(searchQuery) && !matchedName.includes(searchQuery)) {
+                        return; // Skip rendering this item
+                    }
+                }
+                renderedCount++;
 
                 let matchHtml = '';
                 if (hasMatch) {
                     matchHtml = `
                         <div class="gc-product-match gc-match-yes">
                             <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span>✅ ${item.manualMatch ? 'Custom: ' : 'Matched: '} ${match.name}</span>
+                                <span>✅ ${item.manualMatch ? 'Custom: ' : 'Matched: '} ${(match.name || 'Matched Product')}</span>
                                 <button onclick="gcOpenDropdown('${item.id}')" style="background:none;border:none;color:#ea580c;text-decoration:underline;cursor:pointer;font-size:0.7rem;font-weight:600;padding:2px 4px;">Change</button>
                             </div>
                             <div class="gc-match-price">TZS ${price.toLocaleString()} × ${qty} = <strong>TZS ${itemTotal.toLocaleString()}</strong></div>
@@ -7843,7 +7968,7 @@
                 }
 
                 html += `
-                    <div class="gc-product-card ${item.enabled ? '' : 'gc-disabled'}" id="gc-card-${item.id}" style="position:relative;">
+                    <div class="gc-product-card ${item.enabled ? '' : 'gc-disabled'}" id="gc-card-${item.id}" style="position:relative;" onclick="gcCardClicked(event, '${item.id}')">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:.75rem;">
                             <div style="display:flex; align-items:center; gap:10px;">
                                 <label class="gc-switch" title="Toggle to select/deselect">
@@ -7858,19 +7983,34 @@
                                 onmouseout="this.style.background='rgba(239,68,68,0.1)'"
                                 title="Remove this item">🗑 Remove</button>
                         </div>
-                        <div class="gc-product-name" contenteditable="true" onblur="guestCalcRenameItem('${item.id}', this.textContent)" style="cursor:text; border-bottom:1px dashed rgba(0,0,0,0.15); padding-bottom:3px;" title="Click to rename">${item.name}</div>
+                        <div class="gc-product-name" contenteditable="true" onblur="guestCalcRenameItem('${item.id}', this.textContent)" style="cursor:text; border-bottom:1px dashed rgba(0,0,0,0.15); padding-bottom:3px;" title="Click to rename">${(item.name || 'Custom Item')}</div>
                         <div class="gc-product-rate">
-                            📏 Usage: <input type="number" class="gc-rate-input" value="${item.ratePerGuestDay}" step="0.001" min="0" onchange="guestCalcUpdateRate('${item.id}', this.value)"> ${item.unit}/guest-day
+                            📏 Usage: <input type="number" class="gc-rate-input" value="${rate}" step="0.001" min="0" onchange="guestCalcUpdateRate('${item.id}', this.value)"> ${(item.unit || 'qty')}/guest-day
                         </div>
                         <div class="gc-product-qty-row">
                             <span class="gc-product-qty-label">Calculated Qty:</span>
-                            <span class="gc-product-qty-value">${qty} ${item.unit}</span>
+                            <span class="gc-product-qty-value" style="display:flex; align-items:center; gap:6px;">
+                                <span style="font-size:1.15rem; font-weight:800; color:#ea580c;">${qty}</span>
+                                <span style="font-size:0.7rem; font-weight:600; color:#ea580c; background:rgba(249, 115, 22, 0.08); padding:2px 6px; border-radius:4px; max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${(item.unit || 'qty')}">${(item.unit || 'qty')}</span>
+                            </span>
                         </div>
                         ${matchHtml}
                     </div>`;
             });
 
             grid.innerHTML = html;
+
+            // Handle search empty state
+            if (searchQuery && renderedCount === 0) {
+                if (searchEmptyEl) {
+                    searchEmptyEl.style.display = 'block';
+                    const termHighlight = document.getElementById('gcSearchTermHighlight');
+                    if (termHighlight) termHighlight.textContent = searchQuery;
+                }
+            } else {
+                if (searchEmptyEl) searchEmptyEl.style.display = 'none';
+            }
+
             document.getElementById('gcSelectedCount').textContent = selectedCount;
             document.getElementById('gcEstTotal').textContent = 'TZS ' + estTotal.toLocaleString();
             document.getElementById('gcMatchedCount').textContent = matchedCount + ' / ' + totalWithMatch;
@@ -7882,7 +8022,7 @@
         }
 
         function guestCalcToggleAll(state) {
-            GC_CUSTOM_ITEMS.forEach(item => { item.enabled = state; });
+            GC_CUSTOM_ITEMS.forEach(item => { if (item) item.enabled = state; });
             guestCalcRender();
         }
 
@@ -7903,6 +8043,77 @@
             }
         }
 
+        function guestCalcGenerateFromHistory() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert("Please log in first to import from your purchase history.");
+                return;
+            }
+
+            if (!lastPurchases || lastPurchases.length === 0) {
+                alert("No purchase history found for this account. Make sure you are logged in and have ordered previously.");
+                return;
+            }
+
+            const uniqueBarcodes = Object.keys(historyMap || {});
+            if (uniqueBarcodes.length === 0) {
+                alert("No historical products found to import.");
+                return;
+            }
+
+            let addedCount = 0;
+            uniqueBarcodes.forEach(bc => {
+                const histItem = historyMap[bc];
+                if (!histItem) return;
+
+                // Avoid duplicating items already in the supply list (either by barcode or identical name)
+                const exists = GC_CUSTOM_ITEMS.some(item => {
+                    if (!item) return false;
+                    const matchBarcode = item.manualMatch ? String(item.manualMatch) === String(bc) : false;
+                    const itemName = (item.name || "").toLowerCase().trim();
+                    const histName = (histItem.name || "").toLowerCase().trim();
+                    return matchBarcode || (itemName && histName && itemName === histName);
+                });
+
+                if (!exists) {
+                    let unit = 'qty';
+                    if (histItem.pack && typeof histItem.pack === 'string') {
+                        const pLower = histItem.pack.toLowerCase();
+                        if (pLower.includes('pcs') || pLower.includes('pc')) unit = 'pcs';
+                        else if (pLower.includes('bag')) unit = 'bags';
+                        else if (pLower.includes('box')) unit = 'boxes';
+                        else if (pLower.includes('bottle')) unit = 'bottles';
+                        else if (pLower.includes('kg')) unit = 'kg';
+                        else if (pLower.includes('ltr') || pLower.includes('litre')) unit = 'ltr';
+                        else unit = histItem.pack;
+                    }
+
+                    const newItem = {
+                        id: 'gc-custom-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+                        name: histItem.name || 'Custom Item',
+                        unit: unit,
+                        ratePerGuestDay: 0.1,
+                        enabled: true,
+                        manualMatch: bc, // Auto link to product barcode in price list
+                        isCustom: true
+                    };
+                    GC_CUSTOM_ITEMS.push(newItem);
+                    addedCount++;
+                }
+            });
+
+            if (addedCount > 0) {
+                guestCalcRender();
+                if (typeof premiumNotify === 'function') {
+                    premiumNotify(`✨ Imported ${addedCount} new items from your purchase history!`, 'success', 3500);
+                } else {
+                    alert(`✨ Smart Import Complete! Added ${addedCount} new items from history.`);
+                }
+            } else {
+                alert("All items from your purchase history are already present in your supply list!");
+            }
+        }
+
         function guestCalcAddCustomItem() {
             const newItem = {
                 id: 'gc-custom-' + Date.now(),
@@ -7918,8 +8129,6 @@
 
             // Auto-open the premium dropdown so user can immediately assign a product
             setTimeout(() => {
-                const grid = document.getElementById('gcProductsGrid');
-                if (grid && grid.lastElementChild) grid.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 gcOpenDropdown(newItem.id);
             }, 120);
         }
