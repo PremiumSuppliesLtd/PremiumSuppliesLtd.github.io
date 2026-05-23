@@ -94,6 +94,29 @@ const brandSequences = [
             { id: 'kericho-overlay-3', start: 0.5, end: 0.85 },
             { id: 'kericho-overlay-4', start: 0.85, end: 1.0 }
         ]
+    },
+    {
+        id: 'zenwater',
+        containerId: 'container-zenwater',
+        canvasId: 'canvas-zenwater',
+        loaderId: 'loader-zenwater',
+        frameCount: 192,
+        imagesPath: "ZEN WATER/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'zenwater-overlay-1', start: 0, end: 0.2 },
+            { id: 'zenwater-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'zenwater-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'zenwater-overlay-4', start: 0.85, end: 1.0 }
+        ]
     }
 ];
 
