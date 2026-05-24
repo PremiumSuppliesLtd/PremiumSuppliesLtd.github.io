@@ -320,3 +320,45 @@ window.openBrandsPage = function (btn) {
         handleScroll();
     }, 100);
 };
+
+// Navigate to pricelist and pre-filter for Zen Water products
+window.orderZenWater = function() {
+    // 1. Find the navbar button for order page (page-pricelist)
+    const navButtons = Array.from(document.querySelectorAll('.nav-links .nav-btn'));
+    const orderBtn = navButtons.find(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        return onclickAttr.includes('page-pricelist');
+    });
+
+    // 2. Switch to page-pricelist
+    if (typeof showPage === 'function') {
+        showPage('page-pricelist', orderBtn);
+    } else {
+        document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+        const page = document.getElementById('page-pricelist');
+        if (page) {
+            page.style.display = "block";
+            page.classList.add("fade-in");
+        }
+        if (orderBtn) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            orderBtn.classList.add("active");
+        }
+    }
+
+    // 3. Set the search value to 'Zen' and apply filters
+    setTimeout(() => {
+        const searchInput = document.getElementById('search');
+        if (searchInput) {
+            searchInput.value = 'Zen';
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            } else if (typeof debouncedSearch === 'function') {
+                debouncedSearch();
+            } else {
+                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                searchInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+            }
+        }
+    }, 150);
+};
