@@ -1818,6 +1818,14 @@
                         </div>
                         <div class="gc-stat-icon-big">💰</div>
                     </div>
+                    <div class="gc-stat-card gc-stat-cost">
+                        <div class="gc-stat-orb"></div>
+                        <div class="gc-stat-inner">
+                            <div class="gc-stat-label">Cost / Guest / Day</div>
+                            <div class="gc-stat-value gc-stat-value-sm" id="gcCostPerGuestDay">TZS 0</div>
+                        </div>
+                        <div class="gc-stat-icon-big">👤</div>
+                    </div>
                     <div class="gc-stat-card gc-stat-matched">
                         <div class="gc-stat-orb"></div>
                         <div class="gc-stat-inner">
@@ -8058,6 +8066,8 @@
                 document.getElementById('gcItemCount').textContent = '0';
                 document.getElementById('gcSelectedCount').textContent = '0';
                 document.getElementById('gcEstTotal').textContent = 'TZS 0';
+                const costEl = document.getElementById('gcCostPerGuestDay');
+                if (costEl) costEl.textContent = 'TZS 0';
                 document.getElementById('gcMatchedCount').textContent = '0 / 0';
                 return;
             }
@@ -8161,6 +8171,12 @@
 
             document.getElementById('gcSelectedCount').textContent = selectedCount;
             document.getElementById('gcEstTotal').textContent = 'TZS ' + estTotal.toLocaleString();
+            
+            // Calculate Cost Per Guest Per Day
+            const costPerGuestDay = guestDays > 0 ? Math.round(estTotal / guestDays) : 0;
+            const costEl = document.getElementById('gcCostPerGuestDay');
+            if (costEl) costEl.textContent = 'TZS ' + costPerGuestDay.toLocaleString();
+
             document.getElementById('gcMatchedCount').textContent = matchedCount + ' / ' + totalWithMatch;
         }
 
