@@ -343,6 +343,10 @@
     background: linear-gradient(135deg, rgba(99,102,241,.08), rgba(79,70,229,.04));
     border: 1px solid rgba(99,102,241,.18);
 }
+.gc-stat-cost {
+    background: linear-gradient(135deg, rgba(217,119,6,.08), rgba(245,158,11,.04));
+    border: 1px solid rgba(217,119,6,.2);
+}
 
 .gc-stat-orb {
     position: absolute;
@@ -355,6 +359,7 @@
 .gc-stat-selected .gc-stat-orb { background: radial-gradient(circle,#10b981,transparent); }
 .gc-stat-total   .gc-stat-orb { background: radial-gradient(circle,#f97316,transparent); }
 .gc-stat-matched .gc-stat-orb { background: radial-gradient(circle,#6366f1,transparent); }
+.gc-stat-cost    .gc-stat-orb { background: radial-gradient(circle,#d97706,transparent); }
 
 .gc-stat-inner { flex: 1; }
 .gc-stat-label {
@@ -374,6 +379,7 @@
 .gc-stat-selected .gc-stat-value { color: #059669; }
 .gc-stat-total   .gc-stat-value { color: #ea580c; }
 .gc-stat-matched .gc-stat-value { color: #6366f1; }
+.gc-stat-cost    .gc-stat-value { color: #d97706; }
 .gc-stat-value-sm { font-size: 1rem !important; }
 
 .gc-stat-icon-big {
