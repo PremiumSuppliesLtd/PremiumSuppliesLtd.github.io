@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Premium Supplies Ltd — Over 20 years supplying quality beverages and hospitality products to hotels and lodges across Arusha & surrounding regions." />
+  <meta name="description"
+    content="Premium Supplies Ltd — Over 20 years supplying quality beverages and hospitality products to hotels and lodges across Arusha & surrounding regions." />
   <title>Premium Supplies Ltd — Arusha's Trusted Supply Partner</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
 
   <style>
     /* =============================================
@@ -15,33 +19,44 @@
     ============================================= */
     :root {
       --bg-darkest: #040c03;
-      --bg-dark:    #060f05;
-      --bg-mid:     #0d1e0a;
-      --bg-light:   #162612;
-      --bg-card:    rgba(8, 16, 6, 0.72);
-      --gold:       #C99A4E;
-      --gold-dim:   rgba(201,154,78,0.55);
-      --gold-glow:  rgba(201,154,78,0.22);
-      --gold-glow-strong: rgba(201,154,78,0.45);
-      --gold-pale:  rgba(201,154,78,0.12);
-      --cream:      #E7D4B3;
-      --cream-dim:  rgba(231,212,179,0.62);
-      --cream-faint:rgba(231,212,179,0.32);
-      --glass-bg:   rgba(5,12,4,0.62);
-      --glass-bg2:  rgba(10,20,8,0.75);
-      --glass-border: rgba(201,154,78,0.18);
-      --glass-border-bright: rgba(201,154,78,0.42);
+      --bg-dark: #060f05;
+      --bg-mid: #0d1e0a;
+      --bg-light: #162612;
+      --bg-card: rgba(8, 16, 6, 0.72);
+      --gold: #C99A4E;
+      --gold-dim: rgba(201, 154, 78, 0.55);
+      --gold-glow: rgba(201, 154, 78, 0.22);
+      --gold-glow-strong: rgba(201, 154, 78, 0.45);
+      --gold-pale: rgba(201, 154, 78, 0.12);
+      --cream: #E7D4B3;
+      --cream-dim: rgba(231, 212, 179, 0.62);
+      --cream-faint: rgba(231, 212, 179, 0.32);
+      --glass-bg: rgba(5, 12, 4, 0.62);
+      --glass-bg2: rgba(10, 20, 8, 0.75);
+      --glass-border: rgba(201, 154, 78, 0.18);
+      --glass-border-bright: rgba(201, 154, 78, 0.42);
       --font-serif: 'Cormorant Garamond', Georgia, serif;
-      --font-sans:  'Inter', system-ui, sans-serif;
-      --ease-spring: cubic-bezier(0.16,1,0.3,1);
-      --ease-out:    cubic-bezier(0.22,1,0.36,1);
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     /* =============================================
        RESET & BASE
     ============================================= */
-    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-    html { scroll-behavior:smooth; font-size:16px; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
     body {
       background-color: var(--bg-darkest);
       color: var(--cream);
@@ -49,17 +64,38 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    a { text-decoration:none; color:inherit; }
-    ::selection { background:var(--gold-dim); color:var(--cream); }
-    ::-webkit-scrollbar { width:5px; }
-    ::-webkit-scrollbar-track { background:var(--bg-darkest); }
-    ::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:3px; }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ::selection {
+      background: var(--gold-dim);
+      color: var(--cream);
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-darkest);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold-dim);
+      border-radius: 3px;
+    }
 
     /* =============================================
        FILM GRAIN TEXTURE
     ============================================= */
     .grain {
-      position: fixed; inset:0; z-index:1; pointer-events:none;
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
       opacity: 0.04;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 200px 200px;
@@ -69,684 +105,1799 @@
        FLOATING NAVBAR
     ============================================= */
     .navbar {
-      position: fixed; top:20px; left:50%; transform:translateX(-50%);
-      width: calc(100% - 64px); max-width:1160px; z-index:1000;
-      display: flex; align-items:center; justify-content:space-between;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 64px);
+      max-width: 1160px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 12px 20px 12px 16px;
       background: var(--glass-bg);
       backdrop-filter: blur(28px) saturate(1.4);
       -webkit-backdrop-filter: blur(28px) saturate(1.4);
       border: 1px solid var(--glass-border);
       border-radius: 60px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(201,154,78,0.06);
-      opacity:0; animation: navIn 0.8s var(--ease-out) 0.15s forwards;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(201, 154, 78, 0.06);
+      opacity: 0;
+      animation: navIn 0.8s var(--ease-out) 0.15s forwards;
       transition: background 0.3s, box-shadow 0.3s;
     }
+
     .navbar.scrolled {
-      background: rgba(4,12,3,0.88);
-      box-shadow: 0 12px 48px rgba(0,0,0,0.75), 0 0 0 1px rgba(201,154,78,0.1);
+      background: rgba(4, 12, 3, 0.88);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(201, 154, 78, 0.1);
     }
+
     @keyframes navIn {
-      from { opacity:0; transform:translateX(-50%) translateY(-14px); }
-      to   { opacity:1; transform:translateX(-50%) translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
     }
 
     .nav-logo {
-      display:flex; align-items:center; gap:10px; flex-shrink:0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
     }
+
     .nav-logo-mark {
-      width:40px; height:40px; border-radius:10px; flex-shrink:0;
-      background: rgba(201,154,78,0.08);
-      border: 1px solid rgba(201,154,78,0.2);
-      display:flex; align-items:center; justify-content:center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      background: rgba(201, 154, 78, 0.08);
+      border: 1px solid rgba(201, 154, 78, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       box-shadow: 0 0 18px var(--gold-glow);
       overflow: hidden;
       padding: 3px;
     }
-    .nav-logo-mark img { width:100%; height:100%; object-fit:contain; display:block; border-radius:7px; }
+
+    .nav-logo-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 7px;
+    }
+
     .nav-logo-name {
       font-family: var(--font-serif);
-      font-size:19px; font-weight:500; color:var(--cream); letter-spacing:0.01em;
+      font-size: 19px;
+      font-weight: 500;
+      color: var(--cream);
+      letter-spacing: 0.01em;
     }
 
     .nav-links {
-      display:flex; align-items:center; gap:32px; list-style:none;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
     }
-    .nav-links a {
-      font-size:13px; font-weight:400; color:var(--cream-dim);
-      letter-spacing:0.03em; transition:color 0.25s; position:relative;
-    }
-    .nav-links a::after {
-      content:''; position:absolute; bottom:-2px; left:0;
-      width:0; height:1px; background:var(--gold); transition:width 0.3s;
-    }
-    .nav-links a:hover { color:var(--cream); }
-    .nav-links a:hover::after { width:100%; }
 
-    .nav-actions { display:flex; gap:8px; flex-shrink:0; }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--cream-dim);
+      letter-spacing: 0.03em;
+      transition: color 0.25s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--cream);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
 
     .btn-ghost-nav {
-      font-family:var(--font-sans); font-size:13px; font-weight:400;
-      color:var(--cream-dim); background:transparent;
-      border:1px solid rgba(231,212,179,0.18); border-radius:50px;
-      padding:8px 20px; cursor:pointer; display:inline-flex; align-items:center;
-      transition:all 0.25s;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--cream-dim);
+      background: transparent;
+      border: 1px solid rgba(231, 212, 179, 0.18);
+      border-radius: 50px;
+      padding: 8px 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.25s;
     }
-    .btn-ghost-nav:hover { color:var(--cream); border-color:rgba(231,212,179,0.4); background:rgba(231,212,179,0.06); }
+
+    .btn-ghost-nav:hover {
+      color: var(--cream);
+      border-color: rgba(231, 212, 179, 0.4);
+      background: rgba(231, 212, 179, 0.06);
+    }
 
     .btn-gold-nav {
-      font-family:var(--font-sans); font-size:13px; font-weight:500;
-      color:var(--bg-darkest); background:linear-gradient(135deg,#d4a659,#c99a4e,#a07030);
-      border:none; border-radius:50px; padding:8px 22px; cursor:pointer;
-      display:inline-flex; align-items:center; gap:6px;
-      box-shadow:0 4px 20px rgba(201,154,78,0.35);
-      transition:transform 0.25s var(--ease-spring), box-shadow 0.25s, filter 0.25s;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--bg-darkest);
+      background: linear-gradient(135deg, #d4a659, #c99a4e, #a07030);
+      border: none;
+      border-radius: 50px;
+      padding: 8px 22px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 20px rgba(201, 154, 78, 0.35);
+      transition: transform 0.25s var(--ease-spring), box-shadow 0.25s, filter 0.25s;
     }
-    .btn-gold-nav:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(201,154,78,0.55); filter:brightness(1.08); }
+
+    .btn-gold-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(201, 154, 78, 0.55);
+      filter: brightness(1.08);
+    }
 
     /* =============================================
        HERO
     ============================================= */
     .hero {
-      position:relative; width:100%; min-height:100vh;
-      display:flex; flex-direction:column; align-items:center;
-      justify-content:center; overflow:hidden;
-      background:var(--bg-darkest);
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--bg-darkest);
     }
 
     /* Cinematic canvas background */
     #hero-canvas {
-      position:absolute; top:0; left:0; width:100%; height:100%;
-      object-fit:cover; z-index:0;
-      opacity:0; transition:opacity 2.2s ease;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 2.2s ease;
     }
-    #hero-canvas.loaded { opacity:1; }
+
+    #hero-canvas.loaded {
+      opacity: 1;
+    }
+
+    /* Hero brand crossfade canvas (sits on top of hero-canvas during transitions) */
+    #hero-canvas-next {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.8s ease;
+    }
+
+    /* Brand indicator bar */
+    .hero-brand-indicator {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 12;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
+
+    .hero-brand-indicator.visible {
+      opacity: 1;
+    }
+
+    .hbi-name {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(231, 212, 179, 0.65);
+      background: rgba(4, 12, 3, 0.45);
+      backdrop-filter: blur(8px);
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(201, 154, 78, 0.18);
+      transition: opacity 0.6s ease;
+    }
+
+    .hbi-dots {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .hbi-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(201, 154, 78, 0.28);
+      transition: all 0.5s ease;
+      flex-shrink: 0;
+    }
+
+    .hbi-dot.active {
+      width: 18px;
+      border-radius: 3px;
+      background: var(--gold);
+      box-shadow: 0 0 8px rgba(201, 154, 78, 0.6);
+    }
 
     /* Layered overlays */
     .hero-glow-base {
-      position:absolute; inset:0; z-index:2; pointer-events:none;
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
       background:
-        radial-gradient(ellipse 75% 60% at 50% 80%, rgba(18,38,14,0.9) 0%, transparent 65%),
-        radial-gradient(ellipse 100% 55% at 50% 100%, rgba(4,12,3,0.98) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 45% at 50% 0%, rgba(4,12,3,0.75) 0%, transparent 65%);
+        radial-gradient(ellipse 75% 60% at 50% 80%, rgba(18, 38, 14, 0.9) 0%, transparent 65%),
+        radial-gradient(ellipse 100% 55% at 50% 100%, rgba(4, 12, 3, 0.98) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 45% at 50% 0%, rgba(4, 12, 3, 0.75) 0%, transparent 65%);
     }
+
     .hero-vignette {
-      position:absolute; inset:0; z-index:3; pointer-events:none;
-      background: radial-gradient(ellipse 130% 130% at 50% 50%, transparent 28%, rgba(3,8,2,0.9) 100%);
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background: radial-gradient(ellipse 130% 130% at 50% 50%, transparent 28%, rgba(3, 8, 2, 0.9) 100%);
     }
+
     .hero-center-glow {
-      position:absolute; left:50%; top:52%; transform:translate(-50%,-50%);
-      width:900px; height:600px; z-index:4; pointer-events:none;
-      background: radial-gradient(ellipse at center, rgba(201,154,78,0.16) 0%, rgba(201,154,78,0.05) 38%, transparent 68%);
-      animation:glowBreathe 5.5s ease-in-out infinite; will-change:opacity,transform;
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 600px;
+      z-index: 4;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(201, 154, 78, 0.16) 0%, rgba(201, 154, 78, 0.05) 38%, transparent 68%);
+      animation: glowBreathe 5.5s ease-in-out infinite;
+      will-change: opacity, transform;
     }
+
     @keyframes glowBreathe {
-      0%,100%{opacity:0.75; transform:translate(-50%,-50%) scale(1);}
-      50%{opacity:1; transform:translate(-50%,-50%) scale(1.1);}
+
+      0%,
+      100% {
+        opacity: 0.75;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
     }
 
     /* Perspective grid SVG */
     .hero-grid {
-      position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-      width:1440px; height:480px; z-index:4; pointer-events:none; opacity:0.45;
-      transition:transform 0.12s ease-out;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1440px;
+      height: 480px;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0.45;
+      transition: transform 0.12s ease-out;
     }
 
     /* Hero content */
     .hero-content {
-      position:relative; z-index:10; max-width:1200px; width:100%;
-      margin:0 auto; padding:180px 40px 100px;
-      display:flex; flex-direction:column; align-items:center; text-align:center;
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 180px 40px 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     /* Badge */
     .hero-badge {
-      display:inline-flex; align-items:center; gap:10px;
-      padding:8px 18px 8px 10px;
-      background:rgba(22,38,18,0.7); border:1px solid var(--glass-border);
-      border-radius:50px; backdrop-filter:blur(12px);
-      margin-bottom:36px;
-      opacity:0; animation:fadeUp 0.9s var(--ease-spring) 0.5s forwards;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px 8px 10px;
+      background: rgba(22, 38, 18, 0.7);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      backdrop-filter: blur(12px);
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-spring) 0.5s forwards;
     }
+
     .badge-icon {
-      width:28px; height:28px; border-radius:50%;
-      background:linear-gradient(135deg, rgba(201,154,78,0.28), rgba(201,154,78,0.1));
-      border:1px solid var(--glass-border-bright);
-      display:flex; align-items:center; justify-content:center; font-size:13px;
-      box-shadow:0 0 10px rgba(201,154,78,0.28);
-      animation:badgeFloat 3.5s ease-in-out infinite;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(201, 154, 78, 0.28), rgba(201, 154, 78, 0.1));
+      border: 1px solid var(--glass-border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      box-shadow: 0 0 10px rgba(201, 154, 78, 0.28);
+      animation: badgeFloat 3.5s ease-in-out infinite;
     }
-    @keyframes badgeFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+
+    @keyframes badgeFloat {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-3px)
+      }
+    }
+
     .badge-pulse {
-      width:5px; height:5px; background:var(--gold); border-radius:50%;
-      box-shadow:0 0 6px var(--gold); animation:dotPulse 2s ease-in-out infinite;
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--gold);
+      animation: dotPulse 2s ease-in-out infinite;
     }
-    @keyframes dotPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    @keyframes dotPulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.3
+      }
+    }
+
     .badge-text {
-      font-size:12px; font-weight:500; color:var(--cream-dim);
-      letter-spacing:0.07em; text-transform:uppercase;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--cream-dim);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
     }
 
     /* Headline */
     .hero-headline {
-      font-family:var(--font-serif);
-      font-size:clamp(62px,6vw,96px); font-weight:300;
-      line-height:1.04; letter-spacing:-0.01em;
-      color:var(--cream); max-width:900px; margin-bottom:24px;
-      text-shadow:0 0 120px rgba(201,154,78,0.18), 0 0 240px rgba(201,154,78,0.08);
-      opacity:0; animation:fadeUp 1s var(--ease-spring) 0.72s forwards;
+      font-family: var(--font-serif);
+      font-size: clamp(62px, 6vw, 96px);
+      font-weight: 300;
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      color: var(--cream);
+      max-width: 900px;
+      margin-bottom: 24px;
+      text-shadow: 0 0 120px rgba(201, 154, 78, 0.18), 0 0 240px rgba(201, 154, 78, 0.08);
+      opacity: 0;
+      animation: fadeUp 1s var(--ease-spring) 0.72s forwards;
     }
+
     .hero-headline em {
-      font-style:italic; color:var(--gold);
-      text-shadow:0 0 80px rgba(201,154,78,0.5), 0 0 180px rgba(201,154,78,0.22);
+      font-style: italic;
+      color: var(--gold);
+      text-shadow: 0 0 80px rgba(201, 154, 78, 0.5), 0 0 180px rgba(201, 154, 78, 0.22);
     }
 
     /* Subtitle */
     .hero-subtitle {
-      font-size:16.5px; font-weight:300; color:var(--cream-faint);
-      letter-spacing:0.04em; max-width:600px; line-height:1.75;
-      margin-bottom:52px;
-      opacity:0; animation:fadeUp 1s var(--ease-spring) 0.92s forwards;
+      font-size: 16.5px;
+      font-weight: 300;
+      color: var(--cream-faint);
+      letter-spacing: 0.04em;
+      max-width: 600px;
+      line-height: 1.75;
+      margin-bottom: 52px;
+      opacity: 0;
+      animation: fadeUp 1s var(--ease-spring) 0.92s forwards;
     }
 
     /* CTAs */
     .hero-ctas {
-      display:flex; gap:14px; align-items:center; margin-bottom:100px;
-      opacity:0; animation:fadeUp 1s var(--ease-spring) 1.1s forwards;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 100px;
+      opacity: 0;
+      animation: fadeUp 1s var(--ease-spring) 1.1s forwards;
     }
+
     .btn-primary-hero {
-      font-family:var(--font-sans); font-size:15px; font-weight:500;
-      color:var(--bg-darkest);
-      background:linear-gradient(135deg,#dbb060 0%,#c99a4e 48%,#a87030 100%);
-      border:none; border-radius:50px; padding:15px 38px; cursor:pointer;
-      display:inline-flex; align-items:center; gap:10px;
-      box-shadow:0 6px 28px rgba(201,154,78,0.45), inset 0 2px 0 rgba(255,255,255,0.15);
-      transition:transform 0.3s var(--ease-spring),box-shadow 0.3s,filter 0.3s;
-      position:relative; overflow:hidden;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--bg-darkest);
+      background: linear-gradient(135deg, #dbb060 0%, #c99a4e 48%, #a87030 100%);
+      border: none;
+      border-radius: 50px;
+      padding: 15px 38px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 28px rgba(201, 154, 78, 0.45), inset 0 2px 0 rgba(255, 255, 255, 0.15);
+      transition: transform 0.3s var(--ease-spring), box-shadow 0.3s, filter 0.3s;
+      position: relative;
+      overflow: hidden;
     }
+
     .btn-primary-hero::after {
-      content:''; position:absolute; top:-50%; left:-75%; width:50%; height:200%;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent);
-      transform:skewX(-20deg); transition:left 0.6s;
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -75%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s;
     }
-    .btn-primary-hero:hover::after { left:125%; }
-    .btn-primary-hero:hover { transform:translateY(-4px); box-shadow:0 14px 48px rgba(201,154,78,0.6); filter:brightness(1.07); }
+
+    .btn-primary-hero:hover::after {
+      left: 125%;
+    }
+
+    .btn-primary-hero:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 48px rgba(201, 154, 78, 0.6);
+      filter: brightness(1.07);
+    }
+
     .btn-ghost-hero {
-      font-family:var(--font-sans); font-size:15px; font-weight:400;
-      color:var(--cream-dim); background:rgba(22,38,18,0.45);
-      border:1px solid rgba(231,212,179,0.2); border-radius:50px;
-      padding:15px 34px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
-      backdrop-filter:blur(10px); transition:all 0.3s var(--ease-spring);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--cream-dim);
+      background: rgba(22, 38, 18, 0.45);
+      border: 1px solid rgba(231, 212, 179, 0.2);
+      border-radius: 50px;
+      padding: 15px 34px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s var(--ease-spring);
     }
-    .btn-ghost-hero:hover { color:var(--cream); border-color:rgba(231,212,179,0.42); background:rgba(22,38,18,0.7); transform:translateY(-3px); }
+
+    .btn-ghost-hero:hover {
+      color: var(--cream);
+      border-color: rgba(231, 212, 179, 0.42);
+      background: rgba(22, 38, 18, 0.7);
+      transform: translateY(-3px);
+    }
 
     /* Hero stats row */
     .hero-stats {
-      display:flex; gap:0; opacity:0; animation:fadeUp 1s var(--ease-spring) 1.3s forwards;
+      display: flex;
+      gap: 0;
+      opacity: 0;
+      animation: fadeUp 1s var(--ease-spring) 1.3s forwards;
     }
+
     .hero-stat {
-      padding:0 40px; border-right:1px solid rgba(201,154,78,0.12);
-      text-align:center;
+      padding: 0 40px;
+      border-right: 1px solid rgba(201, 154, 78, 0.12);
+      text-align: center;
     }
-    .hero-stat:first-child { padding-left:0; }
-    .hero-stat:last-child { border-right:none; padding-right:0; }
+
+    .hero-stat:first-child {
+      padding-left: 0;
+    }
+
+    .hero-stat:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
     .hero-stat-num {
-      font-family:var(--font-serif); font-size:42px; font-weight:300;
-      color:var(--cream); line-height:1; margin-bottom:6px;
+      font-family: var(--font-serif);
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 6px;
     }
-    .hero-stat-num span { color:var(--gold); }
-    .hero-stat-label { font-size:12px; color:var(--cream-faint); letter-spacing:0.06em; text-transform:uppercase; font-weight:500; }
+
+    .hero-stat-num span {
+      color: var(--gold);
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--cream-faint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
 
     @keyframes fadeUp {
-      from { opacity:0; transform:translateY(22px); }
-      to   { opacity:1; transform:translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* =============================================
        SECTION SHARED
     ============================================= */
     .section-eyebrow {
-      display:inline-flex; align-items:center; gap:8px;
-      font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
-      color:var(--gold); background:rgba(201,154,78,0.1);
-      border:1px solid var(--glass-border); border-radius:50px;
-      padding:5px 16px; margin-bottom:20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201, 154, 78, 0.1);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      padding: 5px 16px;
+      margin-bottom: 20px;
     }
-    .eyebrow-dot { width:5px; height:5px; border-radius:50%; background:var(--gold); box-shadow:0 0 6px var(--gold); animation:dotPulse 2s ease-in-out infinite; }
+
+    .eyebrow-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 6px var(--gold);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
 
     .section-title {
-      font-family:var(--font-serif);
-      font-size:clamp(38px,3.5vw,58px); font-weight:300;
-      line-height:1.1; color:var(--cream); margin-bottom:16px;
+      font-family: var(--font-serif);
+      font-size: clamp(38px, 3.5vw, 58px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 16px;
     }
-    .section-title em { font-style:italic; color:var(--gold); }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
     .section-subtitle {
-      font-size:16px; color:var(--cream-faint); line-height:1.75;
-      max-width:560px; margin:0 auto 68px;
+      font-size: 16px;
+      color: var(--cream-faint);
+      line-height: 1.75;
+      max-width: 560px;
+      margin: 0 auto 68px;
     }
 
     .reveal {
-      opacity:0; transform:translateY(26px);
-      transition:opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
     }
-    .reveal.visible { opacity:1; transform:translateY(0); }
-    .rd1{transition-delay:0.1s} .rd2{transition-delay:0.2s}
-    .rd3{transition-delay:0.3s} .rd4{transition-delay:0.4s}
-    .rd5{transition-delay:0.5s} .rd6{transition-delay:0.6s}
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .rd1 {
+      transition-delay: 0.1s
+    }
+
+    .rd2 {
+      transition-delay: 0.2s
+    }
+
+    .rd3 {
+      transition-delay: 0.3s
+    }
+
+    .rd4 {
+      transition-delay: 0.4s
+    }
+
+    .rd5 {
+      transition-delay: 0.5s
+    }
+
+    .rd6 {
+      transition-delay: 0.6s
+    }
 
     /* =============================================
        PROCESS STRIP
     ============================================= */
     .process-section {
-      background:var(--bg-mid);
-      border-top:1px solid rgba(201,154,78,0.08);
-      border-bottom:1px solid rgba(201,154,78,0.08);
-      padding:72px 0;
+      background: var(--bg-mid);
+      border-top: 1px solid rgba(201, 154, 78, 0.08);
+      border-bottom: 1px solid rgba(201, 154, 78, 0.08);
+      padding: 72px 0;
     }
-    .process-inner { max-width:1200px; margin:0 auto; padding:0 40px; }
+
+    .process-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
     .process-label {
-      text-align:center; font-size:11px; font-weight:600;
-      letter-spacing:0.1em; text-transform:uppercase;
-      color:var(--cream-faint); margin-bottom:52px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cream-faint);
+      margin-bottom: 52px;
     }
-    .process-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0; position:relative; }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
     .process-grid::before {
-      content:''; position:absolute; top:30px; left:10%; right:10%;
-      height:1px; background:linear-gradient(90deg,transparent,rgba(201,154,78,0.2) 20%,rgba(201,154,78,0.2) 80%,transparent);
+      content: '';
+      position: absolute;
+      top: 30px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201, 154, 78, 0.2) 20%, rgba(201, 154, 78, 0.2) 80%, transparent);
     }
-    .process-step { display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 12px; }
+
+    .process-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 12px;
+    }
+
     .proc-icon {
-      width:60px; height:60px; border-radius:50%;
-      background:var(--glass-bg2); border:1px solid var(--glass-border);
-      display:flex; align-items:center; justify-content:center; font-size:24px;
-      position:relative; z-index:2; margin-bottom:18px;
-      box-shadow:0 0 24px rgba(201,154,78,0.08), 0 4px 16px rgba(0,0,0,0.5);
-      transition:all 0.35s var(--ease-spring);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--glass-bg2);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 18px;
+      box-shadow: 0 0 24px rgba(201, 154, 78, 0.08), 0 4px 16px rgba(0, 0, 0, 0.5);
+      transition: all 0.35s var(--ease-spring);
     }
-    .process-step:hover .proc-icon { border-color:var(--gold-dim); box-shadow:0 0 28px var(--gold-glow); transform:scale(1.08); }
+
+    .process-step:hover .proc-icon {
+      border-color: var(--gold-dim);
+      box-shadow: 0 0 28px var(--gold-glow);
+      transform: scale(1.08);
+    }
+
     .proc-num {
-      position:absolute; top:-4px; right:-4px;
-      width:18px; height:18px; border-radius:50%;
-      background:var(--gold); color:var(--bg-darkest);
-      font-size:9px; font-weight:800;
-      display:flex; align-items:center; justify-content:center;
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--bg-darkest);
+      font-size: 9px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .process-step h4 { font-size:13px; font-weight:600; color:var(--cream); margin-bottom:6px; }
-    .process-step p { font-size:12px; color:var(--cream-faint); line-height:1.55; }
+
+    .process-step h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+
+    .process-step p {
+      font-size: 12px;
+      color: var(--cream-faint);
+      line-height: 1.55;
+    }
 
     /* =============================================
        BRANDS SECTION
     ============================================= */
-    .brands-section { padding:110px 0 130px; background:var(--bg-dark); position:relative; overflow:hidden; }
-    .brands-section::before {
-      content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-      width:900px; height:500px;
-      background:radial-gradient(ellipse at center, rgba(201,154,78,0.06) 0%, transparent 65%);
-      pointer-events:none;
+    .brands-section {
+      padding: 110px 0 130px;
+      background: var(--bg-dark);
+      position: relative;
+      overflow: hidden;
     }
-    .brands-header { text-align:center; }
+
+    .brands-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 500px;
+      background: radial-gradient(ellipse at center, rgba(201, 154, 78, 0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .brands-header {
+      text-align: center;
+    }
+
     .brands-grid {
-      display:grid; grid-template-columns:repeat(6,1fr);
-      gap:18px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px;
     }
 
     .brand-card {
-      background:var(--glass-bg2);
-      border:1px solid var(--glass-border);
-      border-radius:20px; overflow:hidden;
-      box-shadow:0 4px 24px rgba(0,0,0,0.5);
-      transition:all 0.4s var(--ease-spring);
-      cursor:pointer; position:relative;
+      background: var(--glass-bg2);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s var(--ease-spring);
+      cursor: pointer;
+      position: relative;
     }
+
     .brand-card:hover {
-      transform:translateY(-10px);
-      border-color:var(--gold-dim);
-      box-shadow:0 20px 60px rgba(0,0,0,0.7), 0 0 30px rgba(201,154,78,0.15);
+      transform: translateY(-10px);
+      border-color: var(--gold-dim);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(201, 154, 78, 0.15);
     }
-    .brand-canvas-wrap { position:relative; aspect-ratio:1/1; background:var(--bg-mid); overflow:hidden; }
-    .brand-canvas-wrap canvas { width:100%; height:100%; object-fit:cover; display:block; }
+
+    .brand-canvas-wrap {
+      position: relative;
+      aspect-ratio: 1/1;
+      background: var(--bg-mid);
+      overflow: hidden;
+    }
+
+    .brand-canvas-wrap canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .brand-canvas-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(to top, rgba(4,12,3,0.7) 0%, rgba(4,12,3,0.1) 50%, transparent 100%);
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(4, 12, 3, 0.7) 0%, rgba(4, 12, 3, 0.1) 50%, transparent 100%);
     }
-    .brand-card-body { padding:14px 16px 16px; }
-    .brand-name { font-family:var(--font-serif); font-size:16px; font-weight:400; color:var(--cream); margin-bottom:4px; }
-    .brand-type { font-size:11px; color:var(--cream-faint); letter-spacing:0.04em; }
+
+    .brand-card-body {
+      padding: 14px 16px 16px;
+    }
+
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+
+    .brand-type {
+      font-size: 11px;
+      color: var(--cream-faint);
+      letter-spacing: 0.04em;
+    }
+
     .brand-tag {
-      display:inline-block; margin-top:8px;
-      font-size:10px; font-weight:600; color:var(--gold);
-      background:rgba(201,154,78,0.12); border:1px solid rgba(201,154,78,0.25);
-      border-radius:50px; padding:3px 10px; letter-spacing:0.04em;
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gold);
+      background: rgba(201, 154, 78, 0.12);
+      border: 1px solid rgba(201, 154, 78, 0.25);
+      border-radius: 50px;
+      padding: 3px 10px;
+      letter-spacing: 0.04em;
     }
 
     /* TrueFood placeholder (no sequence) */
     .brand-placeholder {
-      aspect-ratio:1/1; background:var(--bg-mid);
-      display:flex; align-items:center; justify-content:center;
-      font-size:48px; position:relative;
+      aspect-ratio: 1/1;
+      background: var(--bg-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      position: relative;
     }
+
     .brand-placeholder::after {
-      content:''; position:absolute; inset:0;
-      background:radial-gradient(ellipse at center, rgba(201,154,78,0.1) 0%, transparent 70%);
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(201, 154, 78, 0.1) 0%, transparent 70%);
     }
 
     /* =============================================
        FEATURES SECTION
     ============================================= */
-    .features-section { padding:120px 0 140px; background:var(--bg-darkest); position:relative; overflow:hidden; }
-    .features-section::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:1px;
-      background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); opacity:0.35;
+    .features-section {
+      padding: 120px 0 140px;
+      background: var(--bg-darkest);
+      position: relative;
+      overflow: hidden;
     }
-    .features-header { text-align:center; }
 
-    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .features-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      opacity: 0.35;
+    }
+
+    .features-header {
+      text-align: center;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
 
     /* AI HERO CARD — full width */
     .feat-hero {
-      grid-column:span 3;
-      background:linear-gradient(135deg, var(--bg-mid) 0%, rgba(18,38,12,0.95) 100%);
-      border:1px solid var(--glass-border); border-radius:24px;
-      padding:52px 60px; display:grid; grid-template-columns:1fr 1.35fr;
-      gap:60px; align-items:center; position:relative; overflow:hidden;
-      box-shadow:0 24px 70px rgba(0,0,0,0.6);
-      transition:transform 0.4s var(--ease-spring), box-shadow 0.4s;
+      grid-column: span 3;
+      background: linear-gradient(135deg, var(--bg-mid) 0%, rgba(18, 38, 12, 0.95) 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 52px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+      transition: transform 0.4s var(--ease-spring), box-shadow 0.4s;
     }
-    .feat-hero:hover { transform:translateY(-4px); box-shadow:0 36px 90px rgba(0,0,0,0.7), 0 0 60px rgba(201,154,78,0.08); }
+
+    .feat-hero:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 36px 90px rgba(0, 0, 0, 0.7), 0 0 60px rgba(201, 154, 78, 0.08);
+    }
+
     .feat-hero::before {
-      content:''; position:absolute; top:-30%; right:-8%;
-      width:550px; height:550px; border-radius:50%; pointer-events:none;
-      background:radial-gradient(circle, rgba(201,154,78,0.1) 0%, transparent 60%);
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -8%;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(201, 154, 78, 0.1) 0%, transparent 60%);
     }
+
     .feat-hero::after {
-      content:''; position:absolute; bottom:-25%; left:25%; pointer-events:none;
-      width:300px; height:300px; border-radius:50%;
-      background:radial-gradient(circle, rgba(74,222,128,0.05) 0%, transparent 60%);
+      content: '';
+      position: absolute;
+      bottom: -25%;
+      left: 25%;
+      pointer-events: none;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74, 222, 128, 0.05) 0%, transparent 60%);
     }
 
     /* Feature card AI left */
-    .fh-left { position:relative; z-index:2; }
+    .fh-left {
+      position: relative;
+      z-index: 2;
+    }
+
     .fh-badge {
-      display:inline-flex; align-items:center; gap:7px;
-      background:rgba(201,154,78,0.12); border:1px solid var(--glass-border);
-      border-radius:50px; padding:5px 16px;
-      font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
-      color:var(--gold); margin-bottom:24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(201, 154, 78, 0.12);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      padding: 5px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
     }
+
     .fh-title {
-      font-family:var(--font-serif); font-size:42px; font-weight:300;
-      line-height:1.08; color:var(--cream); margin-bottom:16px;
+      font-family: var(--font-serif);
+      font-size: 42px;
+      font-weight: 300;
+      line-height: 1.08;
+      color: var(--cream);
+      margin-bottom: 16px;
     }
-    .fh-title em { font-style:italic; color:var(--gold); }
-    .fh-desc { font-size:15px; color:var(--cream-faint); line-height:1.72; margin-bottom:30px; }
-    .fh-steps { display:flex; flex-direction:column; gap:12px; }
-    .fh-step { display:flex; gap:12px; align-items:flex-start; }
+
+    .fh-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .fh-desc {
+      font-size: 15px;
+      color: var(--cream-faint);
+      line-height: 1.72;
+      margin-bottom: 30px;
+    }
+
+    .fh-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .fh-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
     .fh-step-num {
-      width:22px; height:22px; border-radius:50%; flex-shrink:0;
-      background:rgba(201,154,78,0.18); border:1px solid rgba(201,154,78,0.35);
-      display:flex; align-items:center; justify-content:center;
-      font-size:10px; font-weight:800; color:var(--gold);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: rgba(201, 154, 78, 0.18);
+      border: 1px solid rgba(201, 154, 78, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--gold);
     }
-    .fh-step-text { font-size:14px; color:var(--cream-faint); line-height:1.55; padding-top:3px; }
-    .fh-step-text strong { color:var(--cream); font-weight:600; }
+
+    .fh-step-text {
+      font-size: 14px;
+      color: var(--cream-faint);
+      line-height: 1.55;
+      padding-top: 3px;
+    }
+
+    .fh-step-text strong {
+      color: var(--cream);
+      font-weight: 600;
+    }
 
     /* AI Mockup */
-    .fh-right { position:relative; z-index:2; }
+    .fh-right {
+      position: relative;
+      z-index: 2;
+    }
+
     .ai-mockup {
-      background:rgba(4,10,3,0.82); border:1px solid var(--glass-border);
-      border-radius:18px; padding:22px; backdrop-filter:blur(12px);
-      box-shadow:0 20px 60px rgba(0,0,0,0.6);
+      background: rgba(4, 10, 3, 0.82);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 22px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
     }
+
     .ai-mock-header {
-      display:flex; align-items:center; gap:10px; margin-bottom:18px;
-      padding-bottom:14px; border-bottom:1px solid rgba(201,154,78,0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(201, 154, 78, 0.1);
     }
+
     .ai-mock-icon {
-      width:36px; height:36px; border-radius:10px; font-size:18px;
-      background:linear-gradient(135deg, rgba(201,154,78,0.3), rgba(201,154,78,0.12));
-      border:1px solid var(--glass-border-bright);
-      display:flex; align-items:center; justify-content:center;
-      box-shadow:0 0 16px rgba(201,154,78,0.3);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      font-size: 18px;
+      background: linear-gradient(135deg, rgba(201, 154, 78, 0.3), rgba(201, 154, 78, 0.12));
+      border: 1px solid var(--glass-border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(201, 154, 78, 0.3);
     }
-    .ai-mock-title { font-size:13px; font-weight:600; color:var(--cream); }
-    .ai-mock-sub { font-size:10.5px; color:var(--cream-faint); }
+
+    .ai-mock-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    .ai-mock-sub {
+      font-size: 10.5px;
+      color: var(--cream-faint);
+    }
+
     .ai-row {
-      display:flex; justify-content:space-between; align-items:center;
-      padding:10px 12px; background:rgba(201,154,78,0.05);
-      border:1px solid rgba(201,154,78,0.08); border-radius:10px; margin-bottom:8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: rgba(201, 154, 78, 0.05);
+      border: 1px solid rgba(201, 154, 78, 0.08);
+      border-radius: 10px;
+      margin-bottom: 8px;
     }
-    .ai-row-name { font-size:13px; color:var(--cream-dim); }
+
+    .ai-row-name {
+      font-size: 13px;
+      color: var(--cream-dim);
+    }
+
     .ai-qty {
-      font-size:12px; font-weight:700; color:var(--gold);
-      background:rgba(201,154,78,0.15); border-radius:7px; padding:3px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold);
+      background: rgba(201, 154, 78, 0.15);
+      border-radius: 7px;
+      padding: 3px 10px;
     }
-    .ai-conf { display:flex; gap:2px; margin-top:14px; }
+
+    .ai-conf {
+      display: flex;
+      gap: 2px;
+      margin-top: 14px;
+    }
+
     .ai-conf-bar {
-      height:3px; border-radius:2px;
-      background:linear-gradient(90deg,var(--gold),#a07030);
-      animation:confGrow 1.8s ease both;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--gold), #a07030);
+      animation: confGrow 1.8s ease both;
     }
-    @keyframes confGrow { from{width:0} }
-    .ai-conf-bg { flex:1; height:3px; border-radius:2px; background:rgba(201,154,78,0.1); }
+
+    @keyframes confGrow {
+      from {
+        width: 0
+      }
+    }
+
+    .ai-conf-bg {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(201, 154, 78, 0.1);
+    }
 
     /* Standard feature cards */
     .feat-card {
-      background:var(--glass-bg2); border:1px solid var(--glass-border);
-      border-radius:20px; padding:34px; position:relative; overflow:hidden;
-      box-shadow:0 4px 24px rgba(0,0,0,0.5);
-      transition:all 0.4s var(--ease-spring);
+      background: var(--glass-bg2);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s var(--ease-spring);
     }
+
     .feat-card::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:1px;
-      background:linear-gradient(90deg,transparent,rgba(201,154,78,0.18),transparent);
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201, 154, 78, 0.18), transparent);
     }
+
     .feat-card:hover {
-      transform:translateY(-6px);
-      border-color:var(--gold-dim);
-      box-shadow:0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(201,154,78,0.1);
+      transform: translateY(-6px);
+      border-color: var(--gold-dim);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(201, 154, 78, 0.1);
     }
+
     .feat-card:hover::after {
-      content:''; position:absolute; inset:0; border-radius:20px;
-      background:linear-gradient(135deg,rgba(201,154,78,0.04),transparent);
-      pointer-events:none;
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(201, 154, 78, 0.04), transparent);
+      pointer-events: none;
     }
 
     .fc-badge {
-      display:inline-flex; align-items:center; gap:5px;
-      font-size:10.5px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase;
-      border-radius:50px; padding:4px 12px; margin-bottom:18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border-radius: 50px;
+      padding: 4px 12px;
+      margin-bottom: 18px;
     }
-    .fcb-gold  { color:var(--gold); background:rgba(201,154,78,0.12); border:1px solid rgba(201,154,78,0.25); }
-    .fcb-blue  { color:#7dd3fc; background:rgba(125,211,252,0.1); border:1px solid rgba(125,211,252,0.2); }
-    .fcb-amber { color:#fcd34d; background:rgba(252,211,77,0.1); border:1px solid rgba(252,211,77,0.2); }
-    .fcb-teal  { color:#5eead4; background:rgba(94,234,212,0.1); border:1px solid rgba(94,234,212,0.2); }
-    .fcb-orange{ color:#fdba74; background:rgba(253,186,116,0.1); border:1px solid rgba(253,186,116,0.2); }
-    .fcb-green { color:#86efac; background:rgba(134,239,172,0.1); border:1px solid rgba(134,239,172,0.2); }
-    .fcb-pink  { color:#f9a8d4; background:rgba(249,168,212,0.1); border:1px solid rgba(249,168,212,0.2); }
+
+    .fcb-gold {
+      color: var(--gold);
+      background: rgba(201, 154, 78, 0.12);
+      border: 1px solid rgba(201, 154, 78, 0.25);
+    }
+
+    .fcb-blue {
+      color: #7dd3fc;
+      background: rgba(125, 211, 252, 0.1);
+      border: 1px solid rgba(125, 211, 252, 0.2);
+    }
+
+    .fcb-amber {
+      color: #fcd34d;
+      background: rgba(252, 211, 77, 0.1);
+      border: 1px solid rgba(252, 211, 77, 0.2);
+    }
+
+    .fcb-teal {
+      color: #5eead4;
+      background: rgba(94, 234, 212, 0.1);
+      border: 1px solid rgba(94, 234, 212, 0.2);
+    }
+
+    .fcb-orange {
+      color: #fdba74;
+      background: rgba(253, 186, 116, 0.1);
+      border: 1px solid rgba(253, 186, 116, 0.2);
+    }
+
+    .fcb-green {
+      color: #86efac;
+      background: rgba(134, 239, 172, 0.1);
+      border: 1px solid rgba(134, 239, 172, 0.2);
+    }
+
+    .fcb-pink {
+      color: #f9a8d4;
+      background: rgba(249, 168, 212, 0.1);
+      border: 1px solid rgba(249, 168, 212, 0.2);
+    }
 
     .fc-icon {
-      width:52px; height:52px; border-radius:14px;
-      background:rgba(201,154,78,0.1); border:1px solid var(--glass-border);
-      display:flex; align-items:center; justify-content:center; font-size:24px;
-      margin-bottom:20px; box-shadow:0 0 20px rgba(201,154,78,0.08);
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(201, 154, 78, 0.1);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(201, 154, 78, 0.08);
     }
-    .fc-title { font-family:var(--font-serif); font-size:22px; font-weight:400; color:var(--cream); margin-bottom:10px; }
-    .fc-desc { font-size:14px; color:var(--cream-faint); line-height:1.7; margin-bottom:22px; }
-    .fc-steps-list { display:flex; flex-direction:column; gap:10px; }
-    .fc-step-row { display:flex; gap:10px; align-items:flex-start; }
+
+    .fc-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+
+    .fc-desc {
+      font-size: 14px;
+      color: var(--cream-faint);
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+
+    .fc-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fc-step-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
     .fc-step-bul {
-      width:20px; height:20px; border-radius:50%; flex-shrink:0;
-      display:flex; align-items:center; justify-content:center;
-      font-size:9.5px; font-weight:800; color:var(--bg-darkest); margin-top:1px;
-      background:var(--gold);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--bg-darkest);
+      margin-top: 1px;
+      background: var(--gold);
     }
-    .fc-step-row p { font-size:13px; color:var(--cream-faint); line-height:1.55; }
-    .fc-step-row p strong { color:var(--cream); }
+
+    .fc-step-row p {
+      font-size: 13px;
+      color: var(--cream-faint);
+      line-height: 1.55;
+    }
+
+    .fc-step-row p strong {
+      color: var(--cream);
+    }
 
     /* Mini tracker */
     .mini-tracker {
-      display:flex; align-items:center;
-      background:rgba(201,154,78,0.06); border:1px solid rgba(201,154,78,0.12);
-      border-radius:12px; padding:12px 14px; margin:14px 0; gap:0;
+      display: flex;
+      align-items: center;
+      background: rgba(201, 154, 78, 0.06);
+      border: 1px solid rgba(201, 154, 78, 0.12);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 14px 0;
+      gap: 0;
     }
-    .mt-step { display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; }
+
+    .mt-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+
     .mt-dot {
-      width:26px; height:26px; border-radius:50%; font-size:10px; font-weight:700;
-      display:flex; align-items:center; justify-content:center; color:var(--cream-faint);
-      background:rgba(201,154,78,0.08); border:1px solid rgba(201,154,78,0.15);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cream-faint);
+      background: rgba(201, 154, 78, 0.08);
+      border: 1px solid rgba(201, 154, 78, 0.15);
     }
-    .mt-dot.done { background:linear-gradient(135deg,var(--gold),#a07030); color:var(--bg-darkest); border-color:var(--gold); }
+
+    .mt-dot.done {
+      background: linear-gradient(135deg, var(--gold), #a07030);
+      color: var(--bg-darkest);
+      border-color: var(--gold);
+    }
+
     .mt-dot.active {
-      background:rgba(6,182,212,0.2); border-color:#0891b2; color:#67e8f9;
-      box-shadow:0 0 0 4px rgba(6,182,212,0.12);
-      animation:mtPulse 1.6s ease-in-out infinite;
+      background: rgba(6, 182, 212, 0.2);
+      border-color: #0891b2;
+      color: #67e8f9;
+      box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.12);
+      animation: mtPulse 1.6s ease-in-out infinite;
     }
-    @keyframes mtPulse { 0%,100%{box-shadow:0 0 0 4px rgba(6,182,212,0.12)} 50%{box-shadow:0 0 0 8px rgba(6,182,212,0.04)} }
-    .mt-lbl { font-size:9px; font-weight:600; color:var(--cream-faint); text-align:center; white-space:nowrap; letter-spacing:0.04em; }
-    .mt-lbl.done { color:var(--gold); }
-    .mt-lbl.active { color:#67e8f9; }
-    .mt-line { flex:1; height:2px; background:rgba(201,154,78,0.12); margin-bottom:14px; }
-    .mt-line.done { background:linear-gradient(90deg,var(--gold),rgba(201,154,78,0.4)); }
-    .mt-line.active { background:linear-gradient(90deg,var(--gold),#0891b2); }
+
+    @keyframes mtPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.12)
+      }
+
+      50% {
+        box-shadow: 0 0 0 8px rgba(6, 182, 212, 0.04)
+      }
+    }
+
+    .mt-lbl {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--cream-faint);
+      text-align: center;
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+    }
+
+    .mt-lbl.done {
+      color: var(--gold);
+    }
+
+    .mt-lbl.active {
+      color: #67e8f9;
+    }
+
+    .mt-line {
+      flex: 1;
+      height: 2px;
+      background: rgba(201, 154, 78, 0.12);
+      margin-bottom: 14px;
+    }
+
+    .mt-line.done {
+      background: linear-gradient(90deg, var(--gold), rgba(201, 154, 78, 0.4));
+    }
+
+    .mt-line.active {
+      background: linear-gradient(90deg, var(--gold), #0891b2);
+    }
 
     /* =============================================
        STATS SECTION
     ============================================= */
     .stats-section {
-      background:var(--bg-mid);
-      border-top:1px solid rgba(201,154,78,0.08);
-      border-bottom:1px solid rgba(201,154,78,0.08);
-      padding:96px 0; position:relative; overflow:hidden;
+      background: var(--bg-mid);
+      border-top: 1px solid rgba(201, 154, 78, 0.08);
+      border-bottom: 1px solid rgba(201, 154, 78, 0.08);
+      padding: 96px 0;
+      position: relative;
+      overflow: hidden;
     }
+
     .stats-section::before {
-      content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-      width:800px; height:400px; pointer-events:none;
-      background:radial-gradient(ellipse at center, rgba(201,154,78,0.07) 0%, transparent 65%);
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 400px;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(201, 154, 78, 0.07) 0%, transparent 65%);
     }
+
     .stats-grid {
-      display:grid; grid-template-columns:repeat(4,1fr);
-      max-width:1200px; margin:0 auto; padding:0 40px;
-      gap:0; position:relative; z-index:2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      gap: 0;
+      position: relative;
+      z-index: 2;
     }
-    .stat-item { text-align:center; padding:24px 40px; border-right:1px solid rgba(201,154,78,0.1); }
-    .stat-item:last-child { border-right:none; }
+
+    .stat-item {
+      text-align: center;
+      padding: 24px 40px;
+      border-right: 1px solid rgba(201, 154, 78, 0.1);
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
     .stat-num {
-      font-family:var(--font-serif); font-size:58px; font-weight:300;
-      color:var(--cream); line-height:1; margin-bottom:10px;
+      font-family: var(--font-serif);
+      font-size: 58px;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 10px;
     }
-    .stat-num span { color:var(--gold); text-shadow:0 0 40px var(--gold-glow); }
-    .stat-lbl { font-size:11.5px; color:var(--cream-faint); text-transform:uppercase; letter-spacing:0.1em; font-weight:500; }
+
+    .stat-num span {
+      color: var(--gold);
+      text-shadow: 0 0 40px var(--gold-glow);
+    }
+
+    .stat-lbl {
+      font-size: 11.5px;
+      color: var(--cream-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+    }
 
     /* =============================================
        TESTIMONIALS
     ============================================= */
-    .testimonials-section { padding:110px 0 130px; background:var(--bg-dark); position:relative; overflow:hidden; }
+    .testimonials-section {
+      padding: 110px 0 130px;
+      background: var(--bg-dark);
+      position: relative;
+      overflow: hidden;
+    }
+
     .testimonials-section::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:1px;
-      background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); opacity:0.25;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      opacity: 0.25;
     }
-    .testi-header { text-align:center; }
-    .testi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+
+    .testi-header {
+      text-align: center;
+    }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
     .testi-card {
-      background:var(--glass-bg2); border:1px solid var(--glass-border);
-      border-radius:20px; padding:34px; position:relative;
-      box-shadow:0 4px 24px rgba(0,0,0,0.5);
-      transition:all 0.4s var(--ease-spring);
+      background: var(--glass-bg2);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 34px;
+      position: relative;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s var(--ease-spring);
     }
+
     .testi-card::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:1px;
-      background:linear-gradient(90deg,transparent,rgba(201,154,78,0.18),transparent);
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201, 154, 78, 0.18), transparent);
     }
-    .testi-card:hover { transform:translateY(-6px); border-color:var(--gold-dim); box-shadow:0 20px 60px rgba(0,0,0,0.7); }
+
+    .testi-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold-dim);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    }
+
     .testi-quote {
-      position:absolute; top:18px; right:24px;
-      font-family:var(--font-serif); font-size:72px; font-weight:300;
-      color:rgba(201,154,78,0.12); line-height:1;
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      font-family: var(--font-serif);
+      font-size: 72px;
+      font-weight: 300;
+      color: rgba(201, 154, 78, 0.12);
+      line-height: 1;
     }
-    .testi-stars { display:flex; gap:3px; margin-bottom:16px; }
-    .testi-star { color:var(--gold); font-size:13px; }
-    .testi-text { font-family:var(--font-serif); font-size:16px; font-weight:300; font-style:italic; color:var(--cream-dim); line-height:1.75; margin-bottom:22px; }
-    .testi-author { display:flex; align-items:center; gap:12px; }
+
+    .testi-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 16px;
+    }
+
+    .testi-star {
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .testi-text {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream-dim);
+      line-height: 1.75;
+      margin-bottom: 22px;
+    }
+
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
     .testi-avatar {
-      width:40px; height:40px; border-radius:50%;
-      background:linear-gradient(135deg,rgba(201,154,78,0.3),rgba(201,154,78,0.1));
-      border:1px solid var(--glass-border-bright);
-      display:flex; align-items:center; justify-content:center;
-      font-size:14px; font-weight:700; color:var(--gold); flex-shrink:0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(201, 154, 78, 0.3), rgba(201, 154, 78, 0.1));
+      border: 1px solid var(--glass-border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
     }
-    .testi-name { font-size:13.5px; font-weight:600; color:var(--cream); }
-    .testi-role { font-size:11.5px; color:var(--cream-faint); }
+
+    .testi-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    .testi-role {
+      font-size: 11.5px;
+      color: var(--cream-faint);
+    }
 
     /* =============================================
        CTA FINAL
     ============================================= */
     .cta-section {
-      padding:150px 0 170px; background:var(--bg-darkest);
-      text-align:center; position:relative; overflow:hidden;
+      padding: 150px 0 170px;
+      background: var(--bg-darkest);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+
     .cta-section::before {
-      content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-      width:900px; height:500px; pointer-events:none;
-      background:radial-gradient(ellipse at center, rgba(201,154,78,0.09) 0%, transparent 65%);
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 500px;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(201, 154, 78, 0.09) 0%, transparent 65%);
     }
-    .cta-inner { position:relative; z-index:2; max-width:700px; margin:0 auto; padding:0 40px; }
-    .cta-title { font-family:var(--font-serif); font-size:clamp(44px,4.2vw,68px); font-weight:300; color:var(--cream); line-height:1.08; margin-bottom:20px; }
-    .cta-title em { font-style:italic; color:var(--gold); text-shadow:0 0 60px var(--gold-glow); }
-    .cta-body { font-size:16px; color:var(--cream-faint); line-height:1.75; margin-bottom:52px; }
-    .cta-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+    .cta-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .cta-title {
+      font-family: var(--font-serif);
+      font-size: clamp(44px, 4.2vw, 68px);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.08;
+      margin-bottom: 20px;
+    }
+
+    .cta-title em {
+      font-style: italic;
+      color: var(--gold);
+      text-shadow: 0 0 60px var(--gold-glow);
+    }
+
+    .cta-body {
+      font-size: 16px;
+      color: var(--cream-faint);
+      line-height: 1.75;
+      margin-bottom: 52px;
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
     .cta-trust {
-      display:flex; align-items:center; justify-content:center; gap:28px;
-      margin-top:40px; flex-wrap:wrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      margin-top: 40px;
+      flex-wrap: wrap;
     }
-    .cta-trust-item { display:flex; align-items:center; gap:7px; font-size:13px; color:var(--cream-faint); font-weight:400; }
-    .cta-trust-icon { font-size:14px; }
+
+    .cta-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--cream-faint);
+      font-weight: 400;
+    }
+
+    .cta-trust-icon {
+      font-size: 14px;
+    }
 
     /* =============================================
        FOOTER
     ============================================= */
     .footer {
-      background:var(--bg-mid);
-      border-top:1px solid rgba(201,154,78,0.08);
-      padding:80px 0 0;
+      background: var(--bg-mid);
+      border-top: 1px solid rgba(201, 154, 78, 0.08);
+      padding: 80px 0 0;
     }
+
     .footer-grid {
-      display:grid; grid-template-columns:1.8fr 1fr 1fr 1fr;
-      gap:60px; max-width:1200px; margin:0 auto;
-      padding:0 40px 64px;
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 64px;
     }
-    .footer-logo-row { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+
+    .footer-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
     .footer-logo-mark {
-      width:38px; height:38px; border-radius:9px; flex-shrink:0;
-      background: rgba(201,154,78,0.08);
-      border: 1px solid rgba(201,154,78,0.2);
-      display:flex; align-items:center; justify-content:center;
-      box-shadow:0 0 14px var(--gold-glow);
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      flex-shrink: 0;
+      background: rgba(201, 154, 78, 0.08);
+      border: 1px solid rgba(201, 154, 78, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 14px var(--gold-glow);
       overflow: hidden;
       padding: 3px;
     }
-    .footer-logo-mark img { width:100%; height:100%; object-fit:contain; display:block; border-radius:6px; }
-    .footer-logo-name { font-family:var(--font-serif); font-size:18px; color:var(--cream); }
-    .footer-tagline { font-size:13.5px; color:var(--cream-faint); line-height:1.7; max-width:280px; margin-bottom:22px; }
-    .footer-contact { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--cream-dim); margin-bottom:10px; }
-    .footer-contact svg { width:14px; height:14px; opacity:0.6; flex-shrink:0; }
-    .footer-col-title { font-size:10.5px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--cream-faint); margin-bottom:20px; }
-    .footer-links { list-style:none; display:flex; flex-direction:column; gap:12px; }
-    .footer-links a { font-size:13.5px; color:var(--cream-dim); transition:color 0.2s; }
-    .footer-links a:hover { color:var(--gold); }
-    .footer-bottom {
-      border-top:1px solid rgba(201,154,78,0.08);
-      padding:24px 40px; max-width:1200px; margin:0 auto;
-      display:flex; justify-content:space-between; align-items:center; gap:16px;
+
+    .footer-logo-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 6px;
     }
-    .footer-copy { font-size:12.5px; color:var(--cream-faint); }
-    .footer-made { font-size:12.5px; color:rgba(231,212,179,0.28); }
-    .footer-made span { color:var(--gold); }
+
+    .footer-logo-name {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--cream);
+    }
+
+    .footer-tagline {
+      font-size: 13.5px;
+      color: var(--cream-faint);
+      line-height: 1.7;
+      max-width: 280px;
+      margin-bottom: 22px;
+    }
+
+    .footer-contact {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--cream-dim);
+      margin-bottom: 10px;
+    }
+
+    .footer-contact svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+
+    .footer-col-title {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cream-faint);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 13.5px;
+      color: var(--cream-dim);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(201, 154, 78, 0.08);
+      padding: 24px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 12.5px;
+      color: var(--cream-faint);
+    }
+
+    .footer-made {
+      font-size: 12.5px;
+      color: rgba(231, 212, 179, 0.28);
+    }
+
+    .footer-made span {
+      color: var(--gold);
+    }
 
     /* =============================================
        RESPONSIVE DESIGN (MOBILE & TABLET OPTIMIZED)
        SparkScribe Aesthetic fully scaled for smaller screens
     ============================================= */
-    
+
     /* Toggle button for mobile menu */
     .mobile-menu-toggle {
       display: none;
@@ -762,14 +1913,16 @@
       align-items: center;
       gap: 5px;
       border-radius: 50%;
-      border: 1px solid rgba(231,212,179,0.12);
-      background: rgba(201,154,78,0.05);
+      border: 1px solid rgba(231, 212, 179, 0.12);
+      background: rgba(201, 154, 78, 0.05);
       transition: all 0.3s ease;
     }
+
     .mobile-menu-toggle:hover {
-      background: rgba(201,154,78,0.1);
+      background: rgba(201, 154, 78, 0.1);
       border-color: var(--gold-dim);
     }
+
     .mobile-menu-toggle span {
       display: block;
       width: 18px;
@@ -778,15 +1931,17 @@
       border-radius: 2px;
       transition: transform 0.35s var(--ease-spring), opacity 0.3s ease, background-color 0.3s ease;
     }
-    
+
     /* Hamburger to X animation */
     .navbar.mobile-active .mobile-menu-toggle span:nth-child(1) {
       transform: translateY(7px) rotate(45deg);
       background-color: var(--gold);
     }
+
     .navbar.mobile-active .mobile-menu-toggle span:nth-child(2) {
       opacity: 0;
     }
+
     .navbar.mobile-active .mobile-menu-toggle span:nth-child(3) {
       transform: translateY(-7px) rotate(-45deg);
       background-color: var(--gold);
@@ -797,37 +1952,47 @@
       .navbar {
         width: calc(100% - 32px);
       }
+
       .nav-links {
         gap: 20px;
       }
+
       .brands-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 16px;
       }
+
       .features-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .feat-hero {
         grid-column: span 2;
         grid-template-columns: 1fr;
         padding: 40px;
         gap: 36px;
       }
+
       .testi-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .stat-item {
         border-right: none;
-        border-bottom: 1px solid rgba(201,154,78,0.1);
+        border-bottom: 1px solid rgba(201, 154, 78, 0.1);
         padding: 28px 20px;
       }
+
       .stat-item:nth-child(even) {
         border-right: none;
       }
-      .stat-item:nth-child(3), .stat-item:nth-child(4) {
+
+      .stat-item:nth-child(3),
+      .stat-item:nth-child(4) {
         border-bottom: none;
       }
     }
@@ -837,7 +2002,7 @@
       .mobile-menu-toggle {
         display: flex;
       }
-      
+
       /* Navbar conversion to drawer */
       .navbar .nav-links {
         position: absolute;
@@ -853,20 +2018,20 @@
         align-items: center;
         padding: 30px 24px;
         gap: 24px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 1px 0 rgba(201,154,78,0.06);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(201, 154, 78, 0.06);
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
         transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out), visibility 0.4s;
         z-index: 999;
       }
-      
+
       .navbar.mobile-active .nav-links {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
       }
-      
+
       .nav-links a {
         font-size: 16px;
         width: 100%;
@@ -874,22 +2039,26 @@
         padding: 6px 0;
         display: block;
       }
-      
+
       .nav-actions {
         margin-left: auto;
         margin-right: 12px;
       }
-      
+
       .process-grid {
         grid-template-columns: 1fr;
         gap: 40px;
       }
+
       .process-grid::before {
-        display: none; /* Hide horizontal line */
+        display: none;
+        /* Hide horizontal line */
       }
+
       .process-step {
         padding: 0;
       }
+
       .process-step::after {
         content: '';
         width: 1px;
@@ -898,10 +2067,11 @@
         margin-top: 24px;
         opacity: 0.4;
       }
+
       .process-step:last-child::after {
         display: none;
       }
-      
+
       .footer-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 40px;
@@ -913,85 +2083,102 @@
       .hero-content {
         padding: 140px 20px 80px;
       }
+
       .hero-headline {
         font-size: clamp(34px, 8vw, 56px);
         line-height: 1.15;
       }
+
       .hero-subtitle {
         font-size: 14.5px;
         margin-bottom: 40px;
       }
+
       .hero-stats {
         flex-direction: column;
         gap: 30px;
         width: 100%;
         max-width: 320px;
       }
+
       .hero-stat {
         border-right: none;
-        border-bottom: 1px solid rgba(201,154,78,0.1);
+        border-bottom: 1px solid rgba(201, 154, 78, 0.1);
         padding: 0 0 16px;
       }
+
       .hero-stat:last-child {
         border-bottom: none;
       }
-      
+
       .brands-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      
+
       .features-grid {
         grid-template-columns: 1fr;
       }
+
       .feat-hero {
         grid-column: span 1;
         padding: 34px 24px;
       }
+
       .fh-title {
         font-size: 32px;
       }
+
       .ai-mockup {
         padding: 16px;
       }
-      
+
       .testi-grid {
         grid-template-columns: 1fr;
       }
+
       .stats-grid {
         grid-template-columns: 1fr;
       }
+
       .stat-item {
-        border-bottom: 1px solid rgba(201,154,78,0.1);
+        border-bottom: 1px solid rgba(201, 154, 78, 0.1);
       }
+
       .stat-item:last-child {
         border-bottom: none;
       }
-      
+
       .cta-btns {
         flex-direction: column;
         align-items: stretch;
         max-width: 320px;
         margin: 0 auto;
       }
-      .btn-primary-hero, .btn-ghost-hero {
+
+      .btn-primary-hero,
+      .btn-ghost-hero {
         width: 100%;
         justify-content: center;
       }
-      
+
       .footer-grid {
         grid-template-columns: 1fr;
         gap: 32px;
         text-align: center;
       }
+
       .footer-logo-row {
         justify-content: center;
       }
+
       .footer-tagline {
         margin: 0 auto 18px;
       }
+
       .footer-contact {
         justify-content: center;
       }
+
       .footer-bottom {
         flex-direction: column;
         gap: 12px;
@@ -1006,21 +2193,26 @@
         width: calc(100% - 20px);
         padding: 10px 14px 10px 12px;
       }
+
       .nav-logo-name {
-        display: none; /* Hide long name on extra small screens to save space */
+        display: none;
+        /* Hide long name on extra small screens to save space */
       }
+
       .nav-actions {
         margin-right: 6px;
       }
+
       .btn-ghost-nav {
         padding: 6px 12px;
         font-size: 12px;
       }
+
       .btn-gold-nav {
         padding: 6px 14px;
         font-size: 12px;
       }
-      
+
       .brands-grid {
         grid-template-columns: 1fr;
         max-width: 300px;
@@ -1029,703 +2221,981 @@
     }
   </style>
 </head>
+
 <body>
 
-<!-- Film grain -->
-<div class="grain" aria-hidden="true"></div>
+  <!-- Film grain -->
+  <div class="grain" aria-hidden="true"></div>
 
-<!-- ============ NAVBAR ============ -->
-<nav class="navbar" id="navbar">
-  <a href="#" class="nav-logo" id="nav-logo" aria-label="Premium Supplies Ltd">
-    <div class="nav-logo-mark">
-      <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7" alt="Premium Supplies Ltd Logo" />
-    </div>
-    <span class="nav-logo-name">Premium Supplies Ltd</span>
-  </a>
-
-  <ul class="nav-links">
-    <li><a href="#brands" id="nl-brands">Our Brands</a></li>
-    <li><a href="#features" id="nl-features">Features</a></li>
-    <li><a href="#about" id="nl-about">About</a></li>
-    <li><a href="#contact" id="nl-contact">Contact</a></li>
-  </ul>
-
-  <div class="nav-actions">
-    <a href="app.html" class="btn-ghost-nav" id="btn-login">Login</a>
-    <a href="app.html" class="btn-gold-nav" id="btn-order">
-      Order Now
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6.5 3.5L9 6l-2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="nav-logo" id="nav-logo" aria-label="Premium Supplies Ltd">
+      <div class="nav-logo-mark">
+        <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7"
+          alt="Premium Supplies Ltd Logo" />
+      </div>
+      <span class="nav-logo-name">Premium Supplies Ltd</span>
     </a>
-  </div>
 
-  <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle Menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-</nav>
+    <ul class="nav-links">
+      <li><a href="#brands" id="nl-brands">Our Brands</a></li>
+      <li><a href="#features" id="nl-features">Features</a></li>
+      <li><a href="#about" id="nl-about">About</a></li>
+      <li><a href="#contact" id="nl-contact">Contact</a></li>
+    </ul>
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="hero" aria-label="Hero">
-  <!-- Cinematic canvas background (Kericho Gold) -->
-  <canvas id="hero-canvas" aria-hidden="true"></canvas>
-
-  <!-- Layered lighting overlays -->
-  <div class="hero-glow-base" aria-hidden="true"></div>
-  <div class="hero-vignette" aria-hidden="true"></div>
-  <div class="hero-center-glow" aria-hidden="true"></div>
-
-  <!-- Perspective grid -->
-  <svg class="hero-grid" aria-hidden="true" viewBox="0 0 1440 480" fill="none" preserveAspectRatio="none">
-    <defs><linearGradient id="gridFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(201,154,78,0.3)"/><stop offset="100%" stop-color="rgba(201,154,78,0)"/></linearGradient></defs>
-    <!-- horizontal lines -->
-    <line x1="0" y1="60" x2="1440" y2="60" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="0" y1="140" x2="1440" y2="140" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="0" y1="240" x2="1440" y2="240" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="0" y1="360" x2="1440" y2="360" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <!-- vertical perspective lines from vanishing point -->
-    <line x1="720" y1="0" x2="0" y2="480" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="720" y1="0" x2="240" y2="480" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="720" y1="0" x2="480" y2="480" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="720" y1="0" x2="720" y2="480" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="720" y1="0" x2="960" y2="480" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="720" y1="0" x2="1200" y2="480" stroke="url(#gridFade)" stroke-width="0.5"/>
-    <line x1="720" y1="0" x2="1440" y2="480" stroke="url(#gridFade)" stroke-width="0.5"/>
-  </svg>
-
-  <!-- Content -->
-  <div class="hero-content">
-    <div class="hero-badge">
-      <div class="badge-icon">🏆</div>
-      <span class="badge-pulse"></span>
-      <span class="badge-text">Trusted by 50+ Hotels & Lodges in Arusha</span>
-    </div>
-
-    <h1 class="hero-headline">
-      Your <em>Premium</em> Supply<br>Partner in Arusha
-    </h1>
-
-    <p class="hero-subtitle">
-      Over 20 years delivering quality beverages and hospitality products to hotels and lodges across Arusha &amp; surrounding regions — with AI-powered ordering, live tracking, and real-time financial statements.
-    </p>
-
-    <div class="hero-ctas">
-      <a href="app.html" class="btn-primary-hero" id="hero-cta-primary">
-        Start Ordering
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M8 4L11 7L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#features" class="btn-ghost-hero" id="hero-cta-secondary">
-        Explore Features
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 2.5v8M3 8l3.5 3.5L10 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="nav-actions">
+      <a href="app.html" class="btn-ghost-nav" id="btn-login">Login</a>
+      <a href="app.html" class="btn-gold-nav" id="btn-order">
+        Order Now
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 6h8M6.5 3.5L9 6l-2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
       </a>
     </div>
 
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num"><span>20</span>+</div>
-        <div class="hero-stat-label">Years Experience</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num"><span>50</span>+</div>
-        <div class="hero-stat-label">Hotels &amp; Lodges</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num"><span>6</span></div>
-        <div class="hero-stat-label">Premium Brands</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num"><span>7</span></div>
-        <div class="hero-stat-label">Smart Features</div>
-      </div>
-    </div>
-  </div>
-</section>
+    <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
 
-<!-- ============ PROCESS STRIP ============ -->
-<section class="process-section" id="process" aria-label="How it works">
-  <div class="process-inner">
-    <p class="process-label">How It Works — From Order to Delivery</p>
-    <div class="process-grid">
-      <div class="process-step reveal">
-        <div class="proc-icon">🛒<span class="proc-num">1</span></div>
-        <h4>Easy Ordering</h4>
-        <p>Order from our live price list, use AI smart order, or upload your stock sheet</p>
-      </div>
-      <div class="process-step reveal rd1">
-        <div class="proc-icon">🤖<span class="proc-num">2</span></div>
-        <h4>AI Confirmation</h4>
-        <p>Smart system checks for missed items and confirms your order instantly</p>
-      </div>
-      <div class="process-step reveal rd2">
-        <div class="proc-icon">📦<span class="proc-num">3</span></div>
-        <h4>Box Packing</h4>
-        <p>Careful packing with full delivery note and order confirmation</p>
-      </div>
-      <div class="process-step reveal rd3">
-        <div class="proc-icon">🚚<span class="proc-num">4</span></div>
-        <h4>Fast Delivery</h4>
-        <p>Direct delivery to your premises with live real-time tracking</p>
-      </div>
-      <div class="process-step reveal rd4">
-        <div class="proc-icon">✅<span class="proc-num">5</span></div>
-        <h4>Confirmed &amp; Invoiced</h4>
-        <p>Receive goods, view your live statement and full payment history</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero" aria-label="Hero">
+    <!-- Cinematic canvas backgrounds (brand rotator) -->
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <canvas id="hero-canvas-next" aria-hidden="true"></canvas>
 
-<!-- ============ BRANDS ============ -->
-<section class="brands-section" id="brands" aria-label="Our brands">
-  <div style="max-width:1200px;margin:0 auto;padding:0 40px;">
-    <div class="brands-header">
-      <div class="section-eyebrow reveal"><span class="eyebrow-dot"></span>Our Premium Portfolio</div>
-      <h2 class="section-title reveal rd1">World-Class Brands,<br><em>Delivered to Your Door</em></h2>
-      <p class="section-subtitle reveal rd2">A curated selection of premium beverage brands trusted by top hotels and lodges across Arusha.</p>
+    <!-- Brand indicator -->
+    <div class="hero-brand-indicator" id="hero-brand-indicator" aria-hidden="true">
+      <div class="hbi-name" id="hbi-name">Kericho Gold</div>
+      <div class="hbi-dots" id="hbi-dots"></div>
     </div>
 
-    <div class="brands-grid">
-      <!-- Kericho Gold -->
-      <div class="brand-card reveal rd1">
-        <div class="brand-canvas-wrap">
-          <canvas id="bc-kericho" aria-label="Kericho Gold Tea"></canvas>
-          <div class="brand-canvas-overlay"></div>
-        </div>
-        <div class="brand-card-body">
-          <div class="brand-name">Kericho Gold</div>
-          <div class="brand-type">Pure Kenya Tea</div>
-          <div class="brand-tag">🍃 Premium Tea</div>
-        </div>
+    <!-- Layered lighting overlays -->
+    <div class="hero-glow-base" aria-hidden="true"></div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-center-glow" aria-hidden="true"></div>
+
+    <!-- Perspective grid -->
+    <svg class="hero-grid" aria-hidden="true" viewBox="0 0 1440 480" fill="none" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gridFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(201,154,78,0.3)" />
+          <stop offset="100%" stop-color="rgba(201,154,78,0)" />
+        </linearGradient>
+      </defs>
+      <!-- horizontal lines -->
+      <line x1="0" y1="60" x2="1440" y2="60" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="0" y1="140" x2="1440" y2="140" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="0" y1="240" x2="1440" y2="240" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="0" y1="360" x2="1440" y2="360" stroke="url(#gridFade)" stroke-width="0.5" />
+      <!-- vertical perspective lines from vanishing point -->
+      <line x1="720" y1="0" x2="0" y2="480" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="720" y1="0" x2="240" y2="480" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="720" y1="0" x2="480" y2="480" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="720" y1="0" x2="720" y2="480" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="720" y1="0" x2="960" y2="480" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="720" y1="0" x2="1200" y2="480" stroke="url(#gridFade)" stroke-width="0.5" />
+      <line x1="720" y1="0" x2="1440" y2="480" stroke="url(#gridFade)" stroke-width="0.5" />
+    </svg>
+
+    <!-- Content -->
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="badge-icon">🏆</div>
+        <span class="badge-pulse"></span>
+        <span class="badge-text">Trusted by 50+ Hotels & Lodges in Arusha</span>
       </div>
 
-      <!-- FruitVille -->
-      <div class="brand-card reveal rd2">
-        <div class="brand-canvas-wrap">
-          <canvas id="bc-fv" aria-label="FruitVille Mango Juice"></canvas>
-          <div class="brand-canvas-overlay"></div>
-        </div>
-        <div class="brand-card-body">
-          <div class="brand-name">FruitVille</div>
-          <div class="brand-type">100% Natural Mango Juice</div>
-          <div class="brand-tag">🥭 Fruit Juice</div>
-        </div>
+      <h1 class="hero-headline">
+        Your <em>Premium</em> Supply<br>Partner in Arusha
+      </h1>
+
+      <p class="hero-subtitle">
+        Over 20 years delivering quality beverages and hospitality products to hotels and lodges across Arusha &amp;
+        surrounding regions — with AI-powered ordering, live tracking, and real-time financial statements.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="app.html" class="btn-primary-hero" id="hero-cta-primary">
+          Start Ordering
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M3 7H11M8 4L11 7L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a href="#features" class="btn-ghost-hero" id="hero-cta-secondary">
+          Explore Features
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M6.5 2.5v8M3 8l3.5 3.5L10 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
       </div>
 
-      <!-- Frosti -->
-      <div class="brand-card reveal rd3">
-        <div class="brand-canvas-wrap">
-          <canvas id="bc-frosti" aria-label="Frosti"></canvas>
-          <div class="brand-canvas-overlay"></div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num"><span>20</span>+</div>
+          <div class="hero-stat-label">Years Experience</div>
         </div>
-        <div class="brand-card-body">
-          <div class="brand-name">Frosti</div>
-          <div class="brand-type">Jolly Berries Fruit Drink</div>
-          <div class="brand-tag">🍓 Fruit Drink</div>
+        <div class="hero-stat">
+          <div class="hero-stat-num"><span>50</span>+</div>
+          <div class="hero-stat-label">Hotels &amp; Lodges</div>
         </div>
-      </div>
-
-      <!-- Nuziwa -->
-      <div class="brand-card reveal rd4">
-        <div class="brand-canvas-wrap">
-          <canvas id="bc-nuziwa" aria-label="Nuziwa"></canvas>
-          <div class="brand-canvas-overlay"></div>
+        <div class="hero-stat">
+          <div class="hero-stat-num"><span>6</span></div>
+          <div class="hero-stat-label">Premium Brands</div>
         </div>
-        <div class="brand-card-body">
-          <div class="brand-name">Nuziwa</div>
-          <div class="brand-type">Roasted Almond Original</div>
-          <div class="brand-tag">🌰 Plant-Based</div>
-        </div>
-      </div>
-
-      <!-- ZEN Water -->
-      <div class="brand-card reveal rd5">
-        <div class="brand-canvas-wrap">
-          <canvas id="bc-zen" aria-label="ZEN Water"></canvas>
-          <div class="brand-canvas-overlay"></div>
-        </div>
-        <div class="brand-card-body">
-          <div class="brand-name">ZEN Water</div>
-          <div class="brand-type">Premium Purified Water</div>
-          <div class="brand-tag">💧 Hydration</div>
-        </div>
-      </div>
-
-      <!-- TrueFood Brands -->
-      <div class="brand-card reveal rd6">
-        <div class="brand-canvas-wrap">
-          <div class="brand-placeholder">🥗</div>
-          <div class="brand-canvas-overlay"></div>
-        </div>
-        <div class="brand-card-body">
-          <div class="brand-name">TrueFood</div>
-          <div class="brand-type">Quality Food Brands</div>
-          <div class="brand-tag">🌿 Premium Food</div>
+        <div class="hero-stat">
+          <div class="hero-stat-num"><span>7</span></div>
+          <div class="hero-stat-label">Smart Features</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ FEATURES ============ -->
-<section class="features-section" id="features" aria-label="Platform features">
-  <div style="max-width:1200px;margin:0 auto;padding:0 40px;">
-    <div class="features-header">
-      <div class="section-eyebrow reveal"><span class="eyebrow-dot"></span>Powerful Features</div>
-      <h2 class="section-title reveal rd1">Smart Tools Built<br><em>for Hotels &amp; Lodges</em></h2>
-      <p class="section-subtitle reveal rd2">Our digital platform makes procurement faster, smarter, and effortless — from AI-powered ordering to real-time delivery tracking.</p>
+  <!-- ============ PROCESS STRIP ============ -->
+  <section class="process-section" id="process" aria-label="How it works">
+    <div class="process-inner">
+      <p class="process-label">How It Works — From Order to Delivery</p>
+      <div class="process-grid">
+        <div class="process-step reveal">
+          <div class="proc-icon">🛒<span class="proc-num">1</span></div>
+          <h4>Easy Ordering</h4>
+          <p>Order from our live price list, use AI smart order, or upload your stock sheet</p>
+        </div>
+        <div class="process-step reveal rd1">
+          <div class="proc-icon">🤖<span class="proc-num">2</span></div>
+          <h4>AI Confirmation</h4>
+          <p>Smart system checks for missed items and confirms your order instantly</p>
+        </div>
+        <div class="process-step reveal rd2">
+          <div class="proc-icon">📦<span class="proc-num">3</span></div>
+          <h4>Box Packing</h4>
+          <p>Careful packing with full delivery note and order confirmation</p>
+        </div>
+        <div class="process-step reveal rd3">
+          <div class="proc-icon">🚚<span class="proc-num">4</span></div>
+          <h4>Fast Delivery</h4>
+          <p>Direct delivery to your premises with live real-time tracking</p>
+        </div>
+        <div class="process-step reveal rd4">
+          <div class="proc-icon">✅<span class="proc-num">5</span></div>
+          <h4>Confirmed &amp; Invoiced</h4>
+          <p>Receive goods, view your live statement and full payment history</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="features-grid">
+  <!-- ============ BRANDS ============ -->
+  <section class="brands-section" id="brands" aria-label="Our brands">
+    <div style="max-width:1200px;margin:0 auto;padding:0 40px;">
+      <div class="brands-header">
+        <div class="section-eyebrow reveal"><span class="eyebrow-dot"></span>Our Premium Portfolio</div>
+        <h2 class="section-title reveal rd1">World-Class Brands,<br><em>Delivered to Your Door</em></h2>
+        <p class="section-subtitle reveal rd2">A curated selection of premium beverage brands trusted by top hotels and
+          lodges across Arusha.</p>
+      </div>
 
-      <!-- HERO CARD: AI Smart Order -->
-      <div class="feat-hero reveal" id="feat-ai" role="article">
-        <div class="fh-left">
-          <div class="fh-badge"><span class="badge-pulse"></span>🤖 AI Powered</div>
-          <h3 class="fh-title">AI <em>Smart Order</em> —<br>Predict Before You Think</h3>
-          <p class="fh-desc">Our AI engine analyses your buying history and predicts exactly what you need — quantities, products, and timing — before you even think about it.</p>
-          <div class="fh-steps">
-            <div class="fh-step"><div class="fh-step-num">1</div><div class="fh-step-text"><strong>Login</strong> to activate AI predictions for your account</div></div>
-            <div class="fh-step"><div class="fh-step-num">2</div><div class="fh-step-text">Click the <strong>😊 AI Order</strong> button in the navigation bar</div></div>
-            <div class="fh-step"><div class="fh-step-num">3</div><div class="fh-step-text">Review <strong>smart suggestions</strong>, adjust quantities, add to cart</div></div>
+      <div class="brands-grid">
+        <!-- Kericho Gold -->
+        <div class="brand-card reveal rd1">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-kericho" aria-label="Kericho Gold Tea"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">Kericho Gold</div>
+            <div class="brand-type">Pure Kenya Tea</div>
+            <div class="brand-tag">🍃 Premium Tea</div>
           </div>
         </div>
-        <div class="fh-right">
-          <div class="ai-mockup" aria-hidden="true">
-            <div class="ai-mock-header">
-              <div class="ai-mock-icon">🧠</div>
-              <div><div class="ai-mock-title">AI Prediction Engine</div><div class="ai-mock-sub">Based on your last 5 orders</div></div>
-            </div>
-            <div class="ai-row"><span class="ai-row-name">Kericho Gold 100s</span><span class="ai-qty">+12 boxes</span></div>
-            <div class="ai-row"><span class="ai-row-name">ZEN Water 500ml (24pk)</span><span class="ai-qty">+8 cases</span></div>
-            <div class="ai-row"><span class="ai-row-name">FruitVille Mango 1L</span><span class="ai-qty">+20 cartons</span></div>
-            <div class="ai-row"><span class="ai-row-name">Frosti Berries 250ml</span><span class="ai-qty">+15 boxes</span></div>
-            <div style="margin-top:14px;font-size:10.5px;color:rgba(231,212,179,0.4);margin-bottom:6px;">Prediction confidence</div>
-            <div class="ai-conf">
-              <div class="ai-conf-bar" style="width:78%;animation-duration:1.8s;"></div>
-              <div class="ai-conf-bg"></div>
-            </div>
-            <div style="font-size:10.5px;color:var(--gold);margin-top:6px;font-weight:600;">78% match confidence</div>
+
+        <!-- FruitVille -->
+        <div class="brand-card reveal rd2">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-fv" aria-label="FruitVille Mango Juice"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">FruitVille</div>
+            <div class="brand-type">100% Natural Mango Juice</div>
+            <div class="brand-tag">🥭 Fruit Juice</div>
+          </div>
+        </div>
+
+        <!-- Frosti -->
+        <div class="brand-card reveal rd3">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-frosti" aria-label="Frosti"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">Frosti</div>
+            <div class="brand-type">Jolly Berries Fruit Drink</div>
+            <div class="brand-tag">🍓 Fruit Drink</div>
+          </div>
+        </div>
+
+        <!-- Nuziwa -->
+        <div class="brand-card reveal rd4">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-nuziwa" aria-label="Nuziwa"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">Nuziwa</div>
+            <div class="brand-type">Roasted Almond Original</div>
+            <div class="brand-tag">🌰 Plant-Based</div>
+          </div>
+        </div>
+
+        <!-- ZEN Water -->
+        <div class="brand-card reveal rd5">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-zen" aria-label="ZEN Water"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">ZEN Water</div>
+            <div class="brand-type">Premium Purified Water</div>
+            <div class="brand-tag">💧 Hydration</div>
+          </div>
+        </div>
+
+        <!-- TrueFood Brands -->
+        <div class="brand-card reveal rd6">
+          <div class="brand-canvas-wrap">
+            <div class="brand-placeholder">🥗</div>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">TrueFood</div>
+            <div class="brand-type">Quality Food Brands</div>
+            <div class="brand-tag">🌿 Premium Food</div>
           </div>
         </div>
       </div>
-
-      <!-- Order History -->
-      <div class="feat-card reveal rd1" id="feat-history" role="article">
-        <div class="fc-badge fcb-blue">📋 Quick Recall</div>
-        <div class="fc-icon">🔄</div>
-        <h3 class="fc-title">Order History &amp; Retrieve</h3>
-        <p class="fc-desc">View your last 5 orders and re-order with a single click. Never lose an order again.</p>
-        <div class="fc-steps-list">
-          <div class="fc-step-row"><div class="fc-step-bul">1</div><p>Navigate to the <strong>History</strong> tab after logging in</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">2</div><p>Browse your <strong>last 5 orders</strong> with full item details</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">3</div><p>Hit <strong>Retrieve</strong> to instantly reload any past order to cart</p></div>
-        </div>
-      </div>
-
-      <!-- Stock Count Manager -->
-      <div class="feat-card reveal rd2" id="feat-stock" role="article">
-        <div class="fc-badge fcb-amber">📦 Inventory</div>
-        <div class="fc-icon">📊</div>
-        <h3 class="fc-title">Stock Count Manager</h3>
-        <p class="fc-desc">Generate a stock sheet, fill in physical counts, and auto-create your reorder in minutes.</p>
-        <div class="fc-steps-list">
-          <div class="fc-step-row"><div class="fc-step-bul">1</div><p>Open the <strong>Stock</strong> tab, click <strong>Generate Sheet</strong></p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">2</div><p><strong>Download</strong> the Excel sheet, fill in physical stock counts</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">3</div><p><strong>Upload</strong> — items matched and auto-loaded to your cart</p></div>
-        </div>
-      </div>
-
-      <!-- Live Statement -->
-      <div class="feat-card reveal rd1" id="feat-statement" role="article">
-        <div class="fc-badge fcb-teal">🧾 Finance</div>
-        <div class="fc-icon">📑</div>
-        <h3 class="fc-title">Live Statement</h3>
-        <p class="fc-desc">Real-time account statement with aging analysis, outstanding balances, and full payment tracking.</p>
-        <div class="fc-steps-list">
-          <div class="fc-step-row"><div class="fc-step-bul">1</div><p><strong>Login</strong> — the Statement button appears in your nav bar</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">2</div><p>Click <strong>🧾 Statement</strong> to fetch your live financial data</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">3</div><p>Review <strong>billed, payments</strong> and <strong>outstanding balance</strong> with aging</p></div>
-        </div>
-      </div>
-
-      <!-- Items You May Have Missed -->
-      <div class="feat-card reveal rd2" id="feat-missed" role="article">
-        <div class="fc-badge fcb-orange">🔔 Smart Reminder</div>
-        <div class="fc-icon">🔍</div>
-        <h3 class="fc-title">Items You May Have Missed</h3>
-        <p class="fc-desc">Before you submit, our system scans your history and alerts you about items you usually buy but haven't added.</p>
-        <div class="fc-steps-list">
-          <div class="fc-step-row"><div class="fc-step-bul">1</div><p><strong>Build your cart</strong> as usual from the price list</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">2</div><p>At checkout, the system <strong>scans your past orders</strong> and flags missing items</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">3</div><p>Tap <strong>Add</strong> to include them or <strong>Skip</strong> — up to you</p></div>
-        </div>
-      </div>
-
-      <!-- Live Order Tracking -->
-      <div class="feat-card reveal rd1" id="feat-tracking" role="article">
-        <div class="fc-badge fcb-green">🚚 Live Tracking</div>
-        <div class="fc-icon">📦</div>
-        <h3 class="fc-title">Live Order Tracking</h3>
-        <p class="fc-desc">Track every order in real-time — from our warehouse to your door. Know exactly where your delivery is.</p>
-        <div class="mini-tracker" aria-hidden="true">
-          <div class="mt-step"><div class="mt-dot done">✓</div><div class="mt-lbl done">Received</div></div>
-          <div class="mt-line done"></div>
-          <div class="mt-step"><div class="mt-dot done">✓</div><div class="mt-lbl done">Packing</div></div>
-          <div class="mt-line active"></div>
-          <div class="mt-step"><div class="mt-dot active">🚚</div><div class="mt-lbl active">Delivery</div></div>
-          <div class="mt-line"></div>
-          <div class="mt-step"><div class="mt-dot">✅</div><div class="mt-lbl">Done</div></div>
-        </div>
-        <div class="fc-steps-list">
-          <div class="fc-step-row"><div class="fc-step-bul">1</div><p><strong>Place an order</strong> — auto-registered in tracking system</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">2</div><p>Open <strong>History</strong> to see real-time status updates</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">3</div><p>Notified: <strong>Received → Packing → Delivery → Done</strong></p></div>
-        </div>
-      </div>
-
-      <!-- Guest Calculator -->
-      <div class="feat-card reveal rd2" id="feat-guest" role="article">
-        <div class="fc-badge fcb-pink">🏨 Calculator</div>
-        <div class="fc-icon">🧮</div>
-        <h3 class="fc-title">Guest-Based Calculator</h3>
-        <p class="fc-desc">Enter your expected guest count and days — we instantly calculate how many supplies you need. Built for hotels &amp; lodges.</p>
-        <div class="fc-steps-list">
-          <div class="fc-step-row"><div class="fc-step-bul">1</div><p>Enter <strong>number of guests</strong> and <strong>number of days</strong></p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">2</div><p>Review <strong>auto-calculated quantities</strong> across all supply categories</p></div>
-          <div class="fc-step-row"><div class="fc-step-bul">3</div><p>Click <strong>Add All to Cart</strong> — matched to live price list</p></div>
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ STATS ============ -->
-<section class="stats-section" id="about" aria-label="Company statistics">
-  <div class="stats-grid">
-    <div class="stat-item reveal"><div class="stat-num"><span data-count="20">0</span>+</div><div class="stat-lbl">Years of Experience</div></div>
-    <div class="stat-item reveal rd1"><div class="stat-num"><span data-count="50">0</span>+</div><div class="stat-lbl">Hotels &amp; Lodges Served</div></div>
-    <div class="stat-item reveal rd2"><div class="stat-num"><span data-count="6">0</span></div><div class="stat-lbl">Premium Brands</div></div>
-    <div class="stat-item reveal rd3"><div class="stat-num"><span data-count="7">0</span></div><div class="stat-lbl">Smart Features</div></div>
-  </div>
-</section>
+  <!-- ============ FEATURES ============ -->
+  <section class="features-section" id="features" aria-label="Platform features">
+    <div style="max-width:1200px;margin:0 auto;padding:0 40px;">
+      <div class="features-header">
+        <div class="section-eyebrow reveal"><span class="eyebrow-dot"></span>Powerful Features</div>
+        <h2 class="section-title reveal rd1">Smart Tools Built<br><em>for Hotels &amp; Lodges</em></h2>
+        <p class="section-subtitle reveal rd2">Our digital platform makes procurement faster, smarter, and effortless —
+          from AI-powered ordering to real-time delivery tracking.</p>
+      </div>
 
-<!-- ============ TESTIMONIALS ============ -->
-<section class="testimonials-section" aria-label="Client testimonials">
-  <div style="max-width:1200px;margin:0 auto;padding:0 40px;">
-    <div class="testi-header">
-      <div class="section-eyebrow reveal"><span class="eyebrow-dot"></span>What Our Clients Say</div>
-      <h2 class="section-title reveal rd1">Trusted by Arusha's<br><em>Leading Hospitality Venues</em></h2>
-      <p class="section-subtitle reveal rd2">Hotels and lodges across Arusha rely on us for quality products, reliable delivery, and smart digital tools.</p>
+      <div class="features-grid">
+
+        <!-- HERO CARD: AI Smart Order -->
+        <div class="feat-hero reveal" id="feat-ai" role="article">
+          <div class="fh-left">
+            <div class="fh-badge"><span class="badge-pulse"></span>🤖 AI Powered</div>
+            <h3 class="fh-title">AI <em>Smart Order</em> —<br>Predict Before You Think</h3>
+            <p class="fh-desc">Our AI engine analyses your buying history and predicts exactly what you need —
+              quantities, products, and timing — before you even think about it.</p>
+            <div class="fh-steps">
+              <div class="fh-step">
+                <div class="fh-step-num">1</div>
+                <div class="fh-step-text"><strong>Login</strong> to activate AI predictions for your account</div>
+              </div>
+              <div class="fh-step">
+                <div class="fh-step-num">2</div>
+                <div class="fh-step-text">Click the <strong>😊 AI Order</strong> button in the navigation bar</div>
+              </div>
+              <div class="fh-step">
+                <div class="fh-step-num">3</div>
+                <div class="fh-step-text">Review <strong>smart suggestions</strong>, adjust quantities, add to cart
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fh-right">
+            <div class="ai-mockup" aria-hidden="true">
+              <div class="ai-mock-header">
+                <div class="ai-mock-icon">🧠</div>
+                <div>
+                  <div class="ai-mock-title">AI Prediction Engine</div>
+                  <div class="ai-mock-sub">Based on your last 5 orders</div>
+                </div>
+              </div>
+              <div class="ai-row"><span class="ai-row-name">Kericho Gold 100s</span><span class="ai-qty">+12
+                  boxes</span></div>
+              <div class="ai-row"><span class="ai-row-name">ZEN Water 500ml (24pk)</span><span class="ai-qty">+8
+                  cases</span></div>
+              <div class="ai-row"><span class="ai-row-name">FruitVille Mango 1L</span><span class="ai-qty">+20
+                  cartons</span></div>
+              <div class="ai-row"><span class="ai-row-name">Frosti Berries 250ml</span><span class="ai-qty">+15
+                  boxes</span></div>
+              <div style="margin-top:14px;font-size:10.5px;color:rgba(231,212,179,0.4);margin-bottom:6px;">Prediction
+                confidence</div>
+              <div class="ai-conf">
+                <div class="ai-conf-bar" style="width:78%;animation-duration:1.8s;"></div>
+                <div class="ai-conf-bg"></div>
+              </div>
+              <div style="font-size:10.5px;color:var(--gold);margin-top:6px;font-weight:600;">78% match confidence</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order History -->
+        <div class="feat-card reveal rd1" id="feat-history" role="article">
+          <div class="fc-badge fcb-blue">📋 Quick Recall</div>
+          <div class="fc-icon">🔄</div>
+          <h3 class="fc-title">Order History &amp; Retrieve</h3>
+          <p class="fc-desc">View your last 5 orders and re-order with a single click. Never lose an order again.</p>
+          <div class="fc-steps-list">
+            <div class="fc-step-row">
+              <div class="fc-step-bul">1</div>
+              <p>Navigate to the <strong>History</strong> tab after logging in</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">2</div>
+              <p>Browse your <strong>last 5 orders</strong> with full item details</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">3</div>
+              <p>Hit <strong>Retrieve</strong> to instantly reload any past order to cart</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stock Count Manager -->
+        <div class="feat-card reveal rd2" id="feat-stock" role="article">
+          <div class="fc-badge fcb-amber">📦 Inventory</div>
+          <div class="fc-icon">📊</div>
+          <h3 class="fc-title">Stock Count Manager</h3>
+          <p class="fc-desc">Generate a stock sheet, fill in physical counts, and auto-create your reorder in minutes.
+          </p>
+          <div class="fc-steps-list">
+            <div class="fc-step-row">
+              <div class="fc-step-bul">1</div>
+              <p>Open the <strong>Stock</strong> tab, click <strong>Generate Sheet</strong></p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">2</div>
+              <p><strong>Download</strong> the Excel sheet, fill in physical stock counts</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">3</div>
+              <p><strong>Upload</strong> — items matched and auto-loaded to your cart</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Statement -->
+        <div class="feat-card reveal rd1" id="feat-statement" role="article">
+          <div class="fc-badge fcb-teal">🧾 Finance</div>
+          <div class="fc-icon">📑</div>
+          <h3 class="fc-title">Live Statement</h3>
+          <p class="fc-desc">Real-time account statement with aging analysis, outstanding balances, and full payment
+            tracking.</p>
+          <div class="fc-steps-list">
+            <div class="fc-step-row">
+              <div class="fc-step-bul">1</div>
+              <p><strong>Login</strong> — the Statement button appears in your nav bar</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">2</div>
+              <p>Click <strong>🧾 Statement</strong> to fetch your live financial data</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">3</div>
+              <p>Review <strong>billed, payments</strong> and <strong>outstanding balance</strong> with aging</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Items You May Have Missed -->
+        <div class="feat-card reveal rd2" id="feat-missed" role="article">
+          <div class="fc-badge fcb-orange">🔔 Smart Reminder</div>
+          <div class="fc-icon">🔍</div>
+          <h3 class="fc-title">Items You May Have Missed</h3>
+          <p class="fc-desc">Before you submit, our system scans your history and alerts you about items you usually buy
+            but haven't added.</p>
+          <div class="fc-steps-list">
+            <div class="fc-step-row">
+              <div class="fc-step-bul">1</div>
+              <p><strong>Build your cart</strong> as usual from the price list</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">2</div>
+              <p>At checkout, the system <strong>scans your past orders</strong> and flags missing items</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">3</div>
+              <p>Tap <strong>Add</strong> to include them or <strong>Skip</strong> — up to you</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Order Tracking -->
+        <div class="feat-card reveal rd1" id="feat-tracking" role="article">
+          <div class="fc-badge fcb-green">🚚 Live Tracking</div>
+          <div class="fc-icon">📦</div>
+          <h3 class="fc-title">Live Order Tracking</h3>
+          <p class="fc-desc">Track every order in real-time — from our warehouse to your door. Know exactly where your
+            delivery is.</p>
+          <div class="mini-tracker" aria-hidden="true">
+            <div class="mt-step">
+              <div class="mt-dot done">✓</div>
+              <div class="mt-lbl done">Received</div>
+            </div>
+            <div class="mt-line done"></div>
+            <div class="mt-step">
+              <div class="mt-dot done">✓</div>
+              <div class="mt-lbl done">Packing</div>
+            </div>
+            <div class="mt-line active"></div>
+            <div class="mt-step">
+              <div class="mt-dot active">🚚</div>
+              <div class="mt-lbl active">Delivery</div>
+            </div>
+            <div class="mt-line"></div>
+            <div class="mt-step">
+              <div class="mt-dot">✅</div>
+              <div class="mt-lbl">Done</div>
+            </div>
+          </div>
+          <div class="fc-steps-list">
+            <div class="fc-step-row">
+              <div class="fc-step-bul">1</div>
+              <p><strong>Place an order</strong> — auto-registered in tracking system</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">2</div>
+              <p>Open <strong>History</strong> to see real-time status updates</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">3</div>
+              <p>Notified: <strong>Received → Packing → Delivery → Done</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guest Calculator -->
+        <div class="feat-card reveal rd2" id="feat-guest" role="article">
+          <div class="fc-badge fcb-pink">🏨 Calculator</div>
+          <div class="fc-icon">🧮</div>
+          <h3 class="fc-title">Guest-Based Calculator</h3>
+          <p class="fc-desc">Enter your expected guest count and days — we instantly calculate how many supplies you
+            need. Built for hotels &amp; lodges.</p>
+          <div class="fc-steps-list">
+            <div class="fc-step-row">
+              <div class="fc-step-bul">1</div>
+              <p>Enter <strong>number of guests</strong> and <strong>number of days</strong></p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">2</div>
+              <p>Review <strong>auto-calculated quantities</strong> across all supply categories</p>
+            </div>
+            <div class="fc-step-row">
+              <div class="fc-step-bul">3</div>
+              <p>Click <strong>Add All to Cart</strong> — matched to live price list</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <div class="testi-grid">
-      <div class="testi-card reveal rd1">
-        <div class="testi-quote">"</div>
-        <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
-        <p class="testi-text">"The AI Smart Order feature is incredible. It predicted exactly what we needed for our peak season — saved us hours of planning and we never ran out of stock."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">JM</div>
-          <div><div class="testi-name">James M.</div><div class="testi-role">Procurement Manager, Arusha Lodge</div></div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="stats-section" id="about" aria-label="Company statistics">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num"><span data-count="20">0</span>+</div>
+        <div class="stat-lbl">Years of Experience</div>
+      </div>
+      <div class="stat-item reveal rd1">
+        <div class="stat-num"><span data-count="50">0</span>+</div>
+        <div class="stat-lbl">Hotels &amp; Lodges Served</div>
+      </div>
+      <div class="stat-item reveal rd2">
+        <div class="stat-num"><span data-count="6">0</span></div>
+        <div class="stat-lbl">Premium Brands</div>
+      </div>
+      <div class="stat-item reveal rd3">
+        <div class="stat-num"><span data-count="7">0</span></div>
+        <div class="stat-lbl">Smart Features</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="testimonials-section" aria-label="Client testimonials">
+    <div style="max-width:1200px;margin:0 auto;padding:0 40px;">
+      <div class="testi-header">
+        <div class="section-eyebrow reveal"><span class="eyebrow-dot"></span>What Our Clients Say</div>
+        <h2 class="section-title reveal rd1">Trusted by Arusha's<br><em>Leading Hospitality Venues</em></h2>
+        <p class="section-subtitle reveal rd2">Hotels and lodges across Arusha rely on us for quality products, reliable
+          delivery, and smart digital tools.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card reveal rd1">
+          <div class="testi-quote">"</div>
+          <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span
+              class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
+          <p class="testi-text">"The AI Smart Order feature is incredible. It predicted exactly what we needed for our
+            peak season — saved us hours of planning and we never ran out of stock."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">JM</div>
+            <div>
+              <div class="testi-name">James M.</div>
+              <div class="testi-role">Procurement Manager, Arusha Lodge</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal rd2">
+          <div class="testi-quote">"</div>
+          <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span
+              class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
+          <p class="testi-text">"The Guest Calculator changed how we order. Enter the expected guests, it calculates
+            everything automatically, and we add it all to cart with one click. Brilliant."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">SA</div>
+            <div>
+              <div class="testi-name">Sarah A.</div>
+              <div class="testi-role">Hotel Manager, Arusha</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal rd3">
+          <div class="testi-quote">"</div>
+          <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span
+              class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
+          <p class="testi-text">"Live order tracking is a game changer. I can see exactly where our delivery is —
+            Received, Packing, Out for Delivery — and plan our kitchen schedule accordingly."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">RK</div>
+            <div>
+              <div class="testi-name">Robert K.</div>
+              <div class="testi-role">F&amp;B Director, Arusha</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="testi-card reveal rd2">
-        <div class="testi-quote">"</div>
-        <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
-        <p class="testi-text">"The Guest Calculator changed how we order. Enter the expected guests, it calculates everything automatically, and we add it all to cart with one click. Brilliant."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">SA</div>
-          <div><div class="testi-name">Sarah A.</div><div class="testi-role">Hotel Manager, Arusha</div></div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="cta-section" id="contact" aria-label="Get started">
+    <div class="cta-inner">
+      <div class="section-eyebrow reveal" style="display:inline-flex;"><span class="eyebrow-dot"></span>Get Started
+        Today</div>
+      <h2 class="cta-title reveal rd1">Start Ordering<br>the <em>Smart Way</em></h2>
+      <p class="cta-body reveal rd2">Join 50+ hotels and lodges across Arusha who trust Premium Supplies Ltd for quality
+        products, fast delivery, and intelligent procurement tools.</p>
+      <div class="cta-btns reveal rd3">
+        <a href="app.html" class="btn-primary-hero" id="cta-final-primary">
+          Open the Platform
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M3 7H11M8 4L11 7L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a href="mailto:sales@megamart.co.tz" class="btn-ghost-hero" id="cta-final-contact">Contact Us</a>
+      </div>
+      <div class="cta-trust reveal rd4">
+        <div class="cta-trust-item"><span class="cta-trust-icon">✅</span> No credit card required</div>
+        <div class="cta-trust-item"><span class="cta-trust-icon">🔐</span> Secure &amp; private</div>
+        <div class="cta-trust-item"><span class="cta-trust-icon">🚚</span> Same-day delivery available</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="footer" aria-label="Site footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-row">
+          <div class="footer-logo-mark">
+            <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7"
+              alt="Premium Supplies Ltd Logo" />
+          </div>
+          <span class="footer-logo-name">Premium Supplies Ltd</span>
+        </div>
+        <p class="footer-tagline">Over 20 years supplying quality products to lodges and hotels across Arusha &amp;
+          surrounding regions.</p>
+        <a href="mailto:sales@megamart.co.tz" class="footer-contact" id="footer-email">
+          <svg viewBox="0 0 15 15" fill="none">
+            <path
+              d="M2 4.5C2 3.67 2.67 3 3.5 3h8C12.33 3 13 3.67 13 4.5v6c0 .83-.67 1.5-1.5 1.5h-8C2.67 12 2 11.33 2 10.5v-6zm0 0l5.5 3.5L13 4.5"
+              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          sales@megamart.co.tz
+        </a>
+        <div class="footer-contact">
+          <svg viewBox="0 0 15 15" fill="none">
+            <path
+              d="M7.5 1.5C5 1.5 2.5 3.5 2.5 6.5c0 3.5 5 8 5 8s5-4.5 5-8c0-3-2.5-5-5-5zm0 6.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"
+              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Arusha, Tanzania
         </div>
       </div>
-      <div class="testi-card reveal rd3">
-        <div class="testi-quote">"</div>
-        <div class="testi-stars"><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span><span class="testi-star">★</span></div>
-        <p class="testi-text">"Live order tracking is a game changer. I can see exactly where our delivery is — Received, Packing, Out for Delivery — and plan our kitchen schedule accordingly."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">RK</div>
-          <div><div class="testi-name">Robert K.</div><div class="testi-role">F&amp;B Director, Arusha</div></div>
-        </div>
+      <div>
+        <p class="footer-col-title">Platform</p>
+        <ul class="footer-links">
+          <li><a href="app.html">Order Online</a></li>
+          <li><a href="app.html">Order History</a></li>
+          <li><a href="app.html">Stock Manager</a></li>
+          <li><a href="app.html">Live Tracking</a></li>
+          <li><a href="app.html">Live Statement</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Brands</p>
+        <ul class="footer-links">
+          <li><a href="#">Kericho Gold Tea</a></li>
+          <li><a href="#">FruitVille Mango</a></li>
+          <li><a href="#">Frosti Berries</a></li>
+          <li><a href="#">Nuziwa Almond</a></li>
+          <li><a href="#">ZEN Water</a></li>
+          <li><a href="#">TrueFood Brands</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our History</a></li>
+          <li><a href="#">Eco Products</a></li>
+          <li><a href="mailto:sales@megamart.co.tz">Contact Us</a></li>
+        </ul>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ FINAL CTA ============ -->
-<section class="cta-section" id="contact" aria-label="Get started">
-  <div class="cta-inner">
-    <div class="section-eyebrow reveal" style="display:inline-flex;"><span class="eyebrow-dot"></span>Get Started Today</div>
-    <h2 class="cta-title reveal rd1">Start Ordering<br>the <em>Smart Way</em></h2>
-    <p class="cta-body reveal rd2">Join 50+ hotels and lodges across Arusha who trust Premium Supplies Ltd for quality products, fast delivery, and intelligent procurement tools.</p>
-    <div class="cta-btns reveal rd3">
-      <a href="app.html" class="btn-primary-hero" id="cta-final-primary">
-        Open the Platform
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M8 4L11 7L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="mailto:sales@megamart.co.tz" class="btn-ghost-hero" id="cta-final-contact">Contact Us</a>
+    <div class="footer-bottom" style="max-width:1200px;margin:0 auto;">
+      <p class="footer-copy">© 2026 Premium Supplies Ltd. All rights reserved. Arusha, Tanzania.</p>
+      <p class="footer-made">Powered with <span>✦</span> for Arusha's hospitality industry</p>
     </div>
-    <div class="cta-trust reveal rd4">
-      <div class="cta-trust-item"><span class="cta-trust-icon">✅</span> No credit card required</div>
-      <div class="cta-trust-item"><span class="cta-trust-icon">🔐</span> Secure &amp; private</div>
-      <div class="cta-trust-item"><span class="cta-trust-icon">🚚</span> Same-day delivery available</div>
-    </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ============ FOOTER ============ -->
-<footer class="footer" id="footer" aria-label="Site footer">
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo-row">
-        <div class="footer-logo-mark">
-          <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7" alt="Premium Supplies Ltd Logo" />
-        </div>
-        <span class="footer-logo-name">Premium Supplies Ltd</span>
-      </div>
-      <p class="footer-tagline">Over 20 years supplying quality products to lodges and hotels across Arusha &amp; surrounding regions.</p>
-      <a href="mailto:sales@megamart.co.tz" class="footer-contact" id="footer-email">
-        <svg viewBox="0 0 15 15" fill="none"><path d="M2 4.5C2 3.67 2.67 3 3.5 3h8C12.33 3 13 3.67 13 4.5v6c0 .83-.67 1.5-1.5 1.5h-8C2.67 12 2 11.33 2 10.5v-6zm0 0l5.5 3.5L13 4.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        sales@megamart.co.tz
-      </a>
-      <div class="footer-contact">
-        <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5C5 1.5 2.5 3.5 2.5 6.5c0 3.5 5 8 5 8s5-4.5 5-8c0-3-2.5-5-5-5zm0 6.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Arusha, Tanzania
-      </div>
-    </div>
-    <div>
-      <p class="footer-col-title">Platform</p>
-      <ul class="footer-links">
-        <li><a href="app.html">Order Online</a></li>
-        <li><a href="app.html">Order History</a></li>
-        <li><a href="app.html">Stock Manager</a></li>
-        <li><a href="app.html">Live Tracking</a></li>
-        <li><a href="app.html">Live Statement</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="footer-col-title">Brands</p>
-      <ul class="footer-links">
-        <li><a href="#">Kericho Gold Tea</a></li>
-        <li><a href="#">FruitVille Mango</a></li>
-        <li><a href="#">Frosti Berries</a></li>
-        <li><a href="#">Nuziwa Almond</a></li>
-        <li><a href="#">ZEN Water</a></li>
-        <li><a href="#">TrueFood Brands</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="footer-col-title">Company</p>
-      <ul class="footer-links">
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Our History</a></li>
-        <li><a href="#">Eco Products</a></li>
-        <li><a href="mailto:sales@megamart.co.tz">Contact Us</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom" style="max-width:1200px;margin:0 auto;">
-    <p class="footer-copy">© 2026 Premium Supplies Ltd. All rights reserved. Arusha, Tanzania.</p>
-    <p class="footer-made">Powered with <span>✦</span> for Arusha's hospitality industry</p>
-  </div>
-</footer>
+  <!-- ============ JAVASCRIPT ============ -->
+  <script>
+    (function () {
+      'use strict';
 
-<!-- ============ JAVASCRIPT ============ -->
-<script>
-(function(){
-  'use strict';
+      // ── NAVBAR ────────────────────────────────────────────────────
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 70);
+      }, { passive: true });
 
-  // ── NAVBAR ────────────────────────────────────────────────────
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 70);
-  }, { passive: true });
+      // ── REVEAL ON SCROLL ──────────────────────────────────────────
+      const revealObs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+      }, { threshold: 0.1, rootMargin: '0px 0px -24px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  // ── REVEAL ON SCROLL ──────────────────────────────────────────
-  const revealObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
-  }, { threshold: 0.1, rootMargin: '0px 0px -24px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+      // ── ANIMATED STAT COUNTERS ────────────────────────────────────
+      const cntObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          const target = parseInt(el.dataset.count, 10);
+          const dur = 1800;
+          const start = performance.now();
+          const tick = now => {
+            const p = Math.min((now - start) / dur, 1);
+            el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          cntObs.unobserve(el);
+        });
+      }, { threshold: 0.6 });
+      document.querySelectorAll('[data-count]').forEach(el => cntObs.observe(el));
 
-  // ── ANIMATED STAT COUNTERS ────────────────────────────────────
-  const cntObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if(!e.isIntersecting) return;
-      const el = e.target;
-      const target = parseInt(el.dataset.count, 10);
-      const dur = 1800;
-      const start = performance.now();
-      const tick = now => {
-        const p = Math.min((now - start) / dur, 1);
-        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
-        if(p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      cntObs.unobserve(el);
-    });
-  }, { threshold: 0.6 });
-  document.querySelectorAll('[data-count]').forEach(el => cntObs.observe(el));
+      // ── CANVAS ANIMATION ENGINE ───────────────────────────────────
+      const FRAMES = 192;
+      function pad(n) { return String(n).padStart(5, '0'); }
 
-  // ── CANVAS ANIMATION ENGINE ───────────────────────────────────
-  const FRAMES = 192;
-  function pad(n){ return String(n).padStart(5,'0'); }
+      function initSequence(path, fps, canvasIds) {
+        const canvases = canvasIds.map(id => document.getElementById(id)).filter(Boolean);
+        if (!canvases.length) return;
+        const ctxs = canvases.map(c => c.getContext('2d'));
+        const frames = new Array(FRAMES).fill(null);
+        let loaded = 0, frame = 0, lastT = 0, running = false;
 
-  function initSequence(path, fps, canvasIds){
-    const canvases = canvasIds.map(id => document.getElementById(id)).filter(Boolean);
-    if(!canvases.length) return;
-    const ctxs = canvases.map(c => c.getContext('2d'));
-    const frames = new Array(FRAMES).fill(null);
-    let loaded = 0, frame = 0, lastT = 0, running = false;
-
-    function resize(){
-      canvases.forEach(c => {
-        const p = c.parentElement; if(!p) return;
-        const dpr = window.devicePixelRatio || 1;
-        c.width  = p.offsetWidth  * dpr;
-        c.height = p.offsetHeight * dpr;
-        c.style.width  = p.offsetWidth  + 'px';
-        c.style.height = p.offsetHeight + 'px';
-        ctxs[canvases.indexOf(c)].setTransform(dpr,0,0,dpr,0,0);
-      });
-    }
-    resize();
-    window.addEventListener('resize', resize, { passive: true });
-
-    function draw(img, ctx, canvas){
-      if(!img || !img.naturalWidth) return;
-      const dpr = window.devicePixelRatio || 1;
-      const cw = canvas.width / dpr, ch = canvas.height / dpr;
-      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-      const w = img.naturalWidth * s, h = img.naturalHeight * s;
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, (cw-w)/2, (ch-h)/2, w, h);
-    }
-
-    function loop(ts){
-      if(!running) return;
-      requestAnimationFrame(loop);
-      if(ts - lastT < 1000/fps) return;
-      lastT = ts - ((ts - lastT) % (1000/fps));
-      const img = frames[frame];
-      if(img) canvases.forEach((c,i) => draw(img, ctxs[i], c));
-      frame = (frame + 1) % FRAMES;
-    }
-
-    canvases.forEach(c => { c.style.opacity = '0'; c.style.transition = 'opacity 1.4s ease'; });
-
-    for(let i = 1; i <= FRAMES; i++){
-      const img = new Image(); const idx = i - 1;
-      img.onload = () => {
-        frames[idx] = img; loaded++;
-        if(!running && loaded >= 12){
-          running = true;
-          canvases.forEach(c => { c.style.opacity = '1'; });
-          requestAnimationFrame(loop);
+        function resize() {
+          canvases.forEach(c => {
+            const p = c.parentElement; if (!p) return;
+            const dpr = window.devicePixelRatio || 1;
+            c.width = p.offsetWidth * dpr;
+            c.height = p.offsetHeight * dpr;
+            c.style.width = p.offsetWidth + 'px';
+            c.style.height = p.offsetHeight + 'px';
+            ctxs[canvases.indexOf(c)].setTransform(dpr, 0, 0, dpr, 0, 0);
+          });
         }
-      };
-      img.onerror = () => { loaded++; };
-      img.src = `${path}${pad(i)}.jpg`;
-    }
-  }
+        resize();
+        window.addEventListener('resize', resize, { passive: true });
 
-  // Hero background (Kericho Gold — fullscreen)
-  (function(){
-    const hCanvas = document.getElementById('hero-canvas');
-    if(!hCanvas) return;
-    const ctx = hCanvas.getContext('2d');
-    const frames = new Array(FRAMES).fill(null);
-    let loaded = 0, frame = 0, lastT = 0, running = false;
-
-    function resize(){
-      hCanvas.width  = window.innerWidth;
-      hCanvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize, { passive: true });
-
-    function draw(img){
-      if(!img || !img.naturalWidth) return;
-      const cw = hCanvas.width, ch = hCanvas.height;
-      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-      const w = img.naturalWidth * s, h = img.naturalHeight * s;
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, (cw-w)/2, (ch-h)/2, w, h);
-    }
-
-    function loop(ts){
-      if(!running) return;
-      requestAnimationFrame(loop);
-      if(ts - lastT < 1000/8) return;
-      lastT = ts - ((ts - lastT) % (1000/8));
-      draw(frames[frame]);
-      frame = (frame + 1) % FRAMES;
-    }
-
-    for(let i = 1; i <= FRAMES; i++){
-      const img = new Image(); const idx = i - 1;
-      img.onload = () => {
-        frames[idx] = img; loaded++;
-        if(!running && loaded >= 12){
-          running = true;
-          hCanvas.classList.add('loaded');
-          requestAnimationFrame(loop);
+        function draw(img, ctx, canvas) {
+          if (!img || !img.naturalWidth) return;
+          const dpr = window.devicePixelRatio || 1;
+          const cw = canvas.width / dpr, ch = canvas.height / dpr;
+          const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+          const w = img.naturalWidth * s, h = img.naturalHeight * s;
+          ctx.clearRect(0, 0, cw, ch);
+          ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
         }
-      };
-      img.onerror = () => { loaded++; };
-      img.src = `Kericho Gold/${pad(i)}.jpg`;
-    }
-  })();
 
-  // Brand canvases
-  initSequence('Kericho Gold/',     6, ['bc-kericho']);
-  initSequence('FV MANGO Sequence/',6, ['bc-fv']);
-  initSequence('Frosti Berries/',   6, ['bc-frosti']);
-  initSequence('Nuziwa Almond/',    5, ['bc-nuziwa']);
-  initSequence('ZEN WATER/',        6, ['bc-zen']);
+        function loop(ts) {
+          if (!running) return;
+          requestAnimationFrame(loop);
+          if (ts - lastT < 1000 / fps) return;
+          lastT = ts - ((ts - lastT) % (1000 / fps));
+          const img = frames[frame];
+          if (img) canvases.forEach((c, i) => draw(img, ctxs[i], c));
+          frame = (frame + 1) % FRAMES;
+        }
 
-  // ── MOUSE PARALLAX on hero ────────────────────────────────────
-  const heroCenterGlow = document.querySelector('.hero-center-glow');
-  const heroGrid       = document.querySelector('.hero-grid');
-  let mx = 0, my = 0, cx = 0, cy = 0;
-  document.addEventListener('mousemove', e => {
-    mx = (e.clientX / window.innerWidth  - 0.5) * 2;
-    my = (e.clientY / window.innerHeight - 0.5) * 2;
-  }, { passive: true });
-  (function raf(){
-    requestAnimationFrame(raf);
-    cx += (mx - cx) * 0.06;
-    cy += (my - cy) * 0.06;
-    if(heroCenterGlow) heroCenterGlow.style.transform = `translate(calc(-50% + ${cx * 22}px), calc(-50% + ${cy * 14}px))`;
-    if(heroGrid)       heroGrid.style.transform       = `translateX(calc(-50% + ${cx * 8}px))`;
-  })();
+        canvases.forEach(c => { c.style.opacity = '0'; c.style.transition = 'opacity 1.4s ease'; });
 
-  // Mobile menu toggle logic
-  (function(){
-    const toggleBtn = document.getElementById('mobile-toggle');
-    const navbar    = document.getElementById('navbar');
-    const navLinks  = document.querySelectorAll('.nav-links a');
-
-    if(!toggleBtn || !navbar) return;
-
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      navbar.classList.toggle('mobile-active');
-    });
-
-    // Close menu when clicking links
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        navbar.classList.remove('mobile-active');
-      });
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if(!navbar.contains(e.target) && e.target !== toggleBtn) {
-        navbar.classList.remove('mobile-active');
+        for (let i = 1; i <= FRAMES; i++) {
+          const img = new Image(); const idx = i - 1;
+          img.onload = () => {
+            frames[idx] = img; loaded++;
+            if (!running && loaded >= 12) {
+              running = true;
+              canvases.forEach(c => { c.style.opacity = '1'; });
+              requestAnimationFrame(loop);
+            }
+          };
+          img.onerror = () => { loaded++; };
+          img.src = `${path}${pad(i)}.jpg`;
+        }
       }
-    });
-  })();
 
-})();
-</script>
+      // ── HERO BRAND ROTATOR ────────────────────────────────────────
+      (function () {
+        const BRANDS = [
+          { name: 'Kericho Gold',  path: 'Kericho Gold/',        fps: 8 },
+          { name: 'FruitVille',    path: 'FV MANGO Sequence/',   fps: 6 },
+          { name: 'Frosti',        path: 'Frosti Berries/',      fps: 6 },
+          { name: 'Nuziwa',        path: 'Nuziwa Almond/',       fps: 5 },
+          { name: 'ZEN Water',     path: 'ZEN WATER/',           fps: 6 },
+        ];
+
+        const hCanvas  = document.getElementById('hero-canvas');
+        const nCanvas  = document.getElementById('hero-canvas-next');
+        const indicator = document.getElementById('hero-brand-indicator');
+        const hbiName  = document.getElementById('hbi-name');
+        const hbiDots  = document.getElementById('hbi-dots');
+        if (!hCanvas || !nCanvas) return;
+
+        const hCtx = hCanvas.getContext('2d');
+        const nCtx = nCanvas.getContext('2d');
+
+        // Build dot indicators
+        const dots = BRANDS.map((_, i) => {
+          const d = document.createElement('div');
+          d.className = 'hbi-dot' + (i === 0 ? ' active' : '');
+          hbiDots.appendChild(d);
+          return d;
+        });
+
+        function setActiveDot(idx) {
+          dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        }
+
+        function resizeCanvas(c) {
+          c.width  = window.innerWidth;
+          c.height = window.innerHeight;
+        }
+        resizeCanvas(hCanvas);
+        resizeCanvas(nCanvas);
+        window.addEventListener('resize', () => { resizeCanvas(hCanvas); resizeCanvas(nCanvas); }, { passive: true });
+
+        function drawImg(img, ctx, canvas) {
+          if (!img || !img.naturalWidth) return;
+          const cw = canvas.width, ch = canvas.height;
+          const s  = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+          const w  = img.naturalWidth * s, h = img.naturalHeight * s;
+          ctx.clearRect(0, 0, cw, ch);
+          ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+        }
+
+        // Pre-load frames for a brand into a frames array, call onReady when enough are ready
+        function loadBrand(brandIdx, onReady) {
+          const brand  = BRANDS[brandIdx];
+          const frames = new Array(FRAMES).fill(null);
+          let loaded   = 0, readyCalled = false;
+          for (let i = 1; i <= FRAMES; i++) {
+            const img = new Image();
+            const idx = i - 1;
+            img.onload = () => {
+              frames[idx] = img; loaded++;
+              if (!readyCalled && loaded >= 12) { readyCalled = true; onReady(frames, brand.fps); }
+            };
+            img.onerror = () => { loaded++; };
+            img.src = `${brand.path}${pad(i)}.jpg`;
+          }
+        }
+
+        let currentBrand = 0;
+        let currentFrames = new Array(FRAMES).fill(null);
+        let nextFrames    = null;
+        let currentFps    = BRANDS[0].fps;
+        let frame = 0, lastT = 0, running = false;
+        let transitioning = false;
+
+        // Show indicator after first brand starts
+        function showIndicator(idx) {
+          hbiName.textContent = BRANDS[idx].name;
+          setActiveDot(idx);
+          indicator.classList.add('visible');
+        }
+
+        // Crossfade to next brand
+        function crossfade(nextIdx) {
+          if (transitioning) return;
+          transitioning = true;
+
+          // Draw current last frame on hCanvas (already there)
+          // Start playing nextFrames on nCanvas while it fades in
+          let nFrame = 0, nLastT = 0;
+          const nFps = BRANDS[nextIdx].fps;
+          const framesForNext = nextFrames;
+
+          // Update indicator name smoothly
+          hbiName.style.opacity = '0';
+          setTimeout(() => {
+            hbiName.textContent = BRANDS[nextIdx].name;
+            hbiName.style.opacity = '1';
+            setActiveDot(nextIdx);
+          }, 400);
+
+          // Start drawing nextFrames on nCanvas and fade nCanvas in
+          function nLoop(ts) {
+            if (ts - nLastT >= 1000 / nFps) {
+              nLastT = ts;
+              const img = framesForNext[nFrame];
+              if (img) drawImg(img, nCtx, nCanvas);
+              nFrame = (nFrame + 1) % FRAMES;
+            }
+            if (parseFloat(nCanvas.style.opacity) < 1) {
+              requestAnimationFrame(nLoop);
+            } else {
+              // Crossfade complete: copy nCanvas to hCanvas and hide nCanvas
+              hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height);
+              if (framesForNext[nFrame]) drawImg(framesForNext[nFrame], hCtx, hCanvas);
+              nCanvas.style.opacity = '0';
+              // Switch running state
+              currentFrames = framesForNext;
+              currentFps    = nFps;
+              currentBrand  = nextIdx;
+              frame         = nFrame;
+              transitioning = false;
+              // Pre-load the brand after next
+              const afterNext = (nextIdx + 1) % BRANDS.length;
+              loadBrand(afterNext, (f) => { nextFrames = f; });
+            }
+          }
+
+          nCanvas.style.transition = 'opacity 1.8s ease';
+          nCanvas.style.opacity = '0';
+          // Trigger reflow then fade in
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              nCanvas.style.opacity = '1';
+              requestAnimationFrame(nLoop);
+            });
+          });
+        }
+
+        // Main loop — plays currentFrames on hCanvas
+        function loop(ts) {
+          if (!running) return;
+          requestAnimationFrame(loop);
+          if (ts - lastT < 1000 / currentFps) return;
+          lastT = ts - ((ts - lastT) % (1000 / currentFps));
+          const img = currentFrames[frame];
+          if (img) drawImg(img, hCtx, hCanvas);
+          frame = (frame + 1) % FRAMES;
+          // When we complete a full loop and next frames are ready, crossfade
+          if (frame === 0 && nextFrames && !transitioning) {
+            const nextIdx = (currentBrand + 1) % BRANDS.length;
+            crossfade(nextIdx);
+          }
+        }
+
+        // Bootstrap: load first brand, then pre-load second
+        loadBrand(0, (frames, fps) => {
+          currentFrames = frames;
+          currentFps    = fps;
+          running       = true;
+          hCanvas.classList.add('loaded');
+          showIndicator(0);
+          requestAnimationFrame(loop);
+          // Pre-load brand 1 while brand 0 plays
+          loadBrand(1, (f) => { nextFrames = f; });
+        });
+      })();
+
+      // Brand canvases
+      initSequence('Kericho Gold/', 6, ['bc-kericho']);
+      initSequence('FV MANGO Sequence/', 6, ['bc-fv']);
+      initSequence('Frosti Berries/', 6, ['bc-frosti']);
+      initSequence('Nuziwa Almond/', 5, ['bc-nuziwa']);
+      initSequence('ZEN WATER/', 6, ['bc-zen']);
+
+      // ── MOUSE PARALLAX on hero ────────────────────────────────────
+      const heroCenterGlow = document.querySelector('.hero-center-glow');
+      const heroGrid = document.querySelector('.hero-grid');
+      let mx = 0, my = 0, cx = 0, cy = 0;
+      document.addEventListener('mousemove', e => {
+        mx = (e.clientX / window.innerWidth - 0.5) * 2;
+        my = (e.clientY / window.innerHeight - 0.5) * 2;
+      }, { passive: true });
+      (function raf() {
+        requestAnimationFrame(raf);
+        cx += (mx - cx) * 0.06;
+        cy += (my - cy) * 0.06;
+        if (heroCenterGlow) heroCenterGlow.style.transform = `translate(calc(-50% + ${cx * 22}px), calc(-50% + ${cy * 14}px))`;
+        if (heroGrid) heroGrid.style.transform = `translateX(calc(-50% + ${cx * 8}px))`;
+      })();
+
+      // Mobile menu toggle logic
+      (function () {
+        const toggleBtn = document.getElementById('mobile-toggle');
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        if (!toggleBtn || !navbar) return;
+
+        toggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          navbar.classList.toggle('mobile-active');
+        });
+
+        // Close menu when clicking links
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            navbar.classList.remove('mobile-active');
+          });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!navbar.contains(e.target) && e.target !== toggleBtn) {
+            navbar.classList.remove('mobile-active');
+          }
+        });
+      })();
+
+    })();
+  </script>
 </body>
+
 </html>
