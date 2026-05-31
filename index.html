@@ -2467,16 +2467,16 @@
           </div>
         </div>
 
-        <!-- TrueFood Brands -->
+        <!-- Zesta -->
         <div class="brand-card reveal rd6">
           <div class="brand-canvas-wrap">
-            <div class="brand-placeholder">🥗</div>
+            <canvas id="bc-zesta" aria-label="Zesta Jam"></canvas>
             <div class="brand-canvas-overlay"></div>
           </div>
           <div class="brand-card-body">
-            <div class="brand-name">TrueFood</div>
-            <div class="brand-type">Quality Food Brands</div>
-            <div class="brand-tag">🌿 Premium Food</div>
+            <div class="brand-name">Zesta</div>
+            <div class="brand-type">Premium Kenyan Jam</div>
+            <div class="brand-tag">🍯 Fruit Jam</div>
           </div>
         </div>
       </div>
@@ -2860,7 +2860,7 @@
           <li><a href="#">Frosti Berries</a></li>
           <li><a href="#">Nuziwa Almond</a></li>
           <li><a href="#">ZEN Water</a></li>
-          <li><a href="#">TrueFood Brands</a></li>
+          <li><a href="#">Zesta Jam</a></li>
         </ul>
       </div>
       <div>
@@ -2985,6 +2985,7 @@
           { name: 'Frosti',        path: 'Frosti Berries/',      fps: 6 },
           { name: 'Nuziwa',        path: 'Nuziwa Almond/',       fps: 5 },
           { name: 'ZEN Water',     path: 'ZEN WATER/',           fps: 6 },
+          { name: 'Zesta',         path: 'ZESTA/',               fps: 6 },
         ];
 
         const hCanvas  = document.getElementById('hero-canvas');
@@ -3149,6 +3150,7 @@
       initSequence('Frosti Berries/', 6, ['bc-frosti']);
       initSequence('Nuziwa Almond/', 5, ['bc-nuziwa']);
       initSequence('ZEN WATER/', 6, ['bc-zen']);
+      initSequence('ZESTA/', 6, ['bc-zesta']);
 
       // ── MOUSE PARALLAX on hero ────────────────────────────────────
       const heroCenterGlow = document.querySelector('.hero-center-glow');
