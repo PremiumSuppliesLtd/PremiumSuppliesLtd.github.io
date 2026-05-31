@@ -1983,9 +1983,10 @@
                 <!-- Center: Search (Wider) -->
                 <div style="position:relative; width: 380px; text-align:center;">
                     <input id="search" class="search-input" placeholder="🔍 Search products..."
-                        onkeyup="debouncedSearch()"
+                        oninput="renderGrid()"
+                        onkeyup="renderGrid()"
                         style="width:100%; padding: 0.6rem 2.2rem 0.6rem 0.8rem; font-size:1rem; height:46px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                    <button onclick="document.getElementById('search').value=''; applyFilters();"
+                    <button onclick="document.getElementById('search').value=''; renderGrid();"
                         style="position:absolute; right:5px; top:50%; transform:translateY(-50%); background:none; border:none; color:#999; cursor:pointer; font-size:1.2rem; padding:5px;">&times;</button>
                 </div>
 
@@ -2525,6 +2526,107 @@
                 </div>
             </div>
         </div>
+
+        <!-- SEQUENCE 6: ZESTA -->
+        <div id="container-zesta" class="brands-scroll-container">
+            <div class="brands-sticky">
+                <canvas id="canvas-zesta" class="brands-canvas"></canvas>
+
+                <!-- Loading State -->
+                <div id="loader-zesta" class="brands-loader">
+                    <div class="loader-spinner"></div>
+                    <div class="loader-text">Loading Zesta sequence...</div>
+                </div>
+
+                <!-- Text Overlays -->
+                <div class="brands-overlays">
+                    <!-- 0% - Introduction -->
+                    <div id="zesta-overlay-1" class="brand-section align-center active">
+                        <span class="zen-badge badge-still" style="margin-bottom: 0.5rem; font-size: 0.75rem; background: linear-gradient(135deg,#c9400033,#ff6b0022); color:#c94000; border-color:#c9400044;">Premium Jam</span>
+                        <h2 class="brand-heading" style="background: linear-gradient(135deg, #c94000, #ff8c00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">ZESTA Jam</h2>
+                        <div class="zen-divider" style="background: linear-gradient(90deg, transparent, #c94000, transparent);"></div>
+                        <p class="brand-subtext" style="font-weight: 600; font-size: 1.4rem; color: #1e293b;">Pure. Fruity. Loved Across East Africa.</p>
+                        <p class="brand-subtext" style="max-width: 500px; margin: 0.5rem auto 0; font-size: 1rem; color: var(--text-muted);">
+                            Crafted from the finest fruits, Zesta delivers rich, flavourful jams trusted by hotels, restaurants and homes across the region. Scroll to explore.
+                        </p>
+                    </div>
+
+                    <!-- 30% - Jam Products -->
+                    <div id="zesta-overlay-2" class="brand-section align-left">
+                        <div class="zen-card">
+                            <span class="zen-badge badge-package" style="margin-bottom: 0.25rem; background: linear-gradient(135deg,#c9400022,#ff6b0011); color:#c94000; border-color:#c9400033;">Jam Collection</span>
+                            <h3 class="brand-heading" style="font-size: 2rem; margin-top: 0.5rem; margin-bottom: 0.5rem; color: var(--primary-dark);">Signature Flavours</h3>
+                            <div class="zen-divider" style="background: linear-gradient(90deg, #c94000, transparent);"></div>
+                            <div class="zen-product-list">
+                                <div class="zen-product-row">
+                                    <div class="zen-product-info">
+                                        <h4 class="zen-product-title">Zesta Strawberry Jam
+                                            <span class="zen-badge badge-still" style="color:#c94000; border-color:#c9400044;">🍓 Classic</span>
+                                        </h4>
+                                        <p class="zen-product-desc">Smooth, sweet strawberry jam — a breakfast staple loved by guests at top hotels across East Africa.</p>
+                                    </div>
+                                </div>
+                                <div class="zen-product-row">
+                                    <div class="zen-product-info">
+                                        <h4 class="zen-product-title">Zesta Mixed Fruit Jam
+                                            <span class="zen-badge badge-package" style="color:#c94000; border-color:#c9400044;">🍊 Tropical</span>
+                                        </h4>
+                                        <p class="zen-product-desc">A vibrant tropical blend of mixed fruits — bold, fruity flavour in every spoonful.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 60% - More Varieties -->
+                    <div id="zesta-overlay-3" class="brand-section align-right">
+                        <div class="zen-card" style="margin-left: auto;">
+                            <span class="zen-badge badge-still" style="margin-bottom: 0.25rem; background: linear-gradient(135deg,#c9400022,#ff6b0011); color:#c94000; border-color:#c9400033;">More Varieties</span>
+                            <h3 class="brand-heading" style="font-size: 2rem; margin-top: 0.5rem; margin-bottom: 0.5rem; color: var(--primary-dark);">Every Occasion</h3>
+                            <div class="zen-divider" style="background: linear-gradient(90deg, transparent, #c94000); margin-left: auto;"></div>
+                            <div class="zen-product-list">
+                                <div class="zen-product-row">
+                                    <div class="zen-product-info">
+                                        <h4 class="zen-product-title">Zesta Apricot Jam
+                                            <span class="zen-badge badge-still" style="color:#c94000; border-color:#c9400044;">🍑 Smooth</span>
+                                        </h4>
+                                        <p class="zen-product-desc">Delicately sweet apricot jam — perfect for breakfast buffets, pastries and in-room amenities.</p>
+                                    </div>
+                                </div>
+                                <div class="zen-product-row">
+                                    <div class="zen-product-info">
+                                        <h4 class="zen-product-title">Zesta Pineapple Jam
+                                            <span class="zen-badge badge-sparkling" style="color:#c94000; border-color:#c9400044;">🍍 Tropical</span>
+                                        </h4>
+                                        <p class="zen-product-desc">Bright pineapple jam with a sweet-tangy finish — a guest favourite for all-day breakfast service.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 90% - CTA -->
+                    <div id="zesta-overlay-4" class="brand-section align-center">
+                        <div class="zen-card" style="margin: 0 auto; text-align: center; max-width: 580px;">
+                            <span class="zen-badge badge-sparkling" style="margin-bottom: 0.5rem; background: linear-gradient(135deg,#c9400022,#ff6b0011); color:#c94000; border-color:#c9400033;">Partner with Zesta</span>
+                            <h2 class="brand-heading" style="font-size: 2.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem; background: linear-gradient(135deg, #c94000, #ff8c00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Sweeten Every Spread</h2>
+                            <div class="zen-divider" style="background: linear-gradient(90deg, transparent, #c94000, transparent);"></div>
+                            <p class="brand-subtext" style="font-size: 1.05rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 1.5rem;">
+                                As an authorised distributor, we supply Zesta jams to hotels, lodges, restaurants and cafés across Arusha — with competitive rates and reliable delivery.
+                            </p>
+                            <div class="zen-cta-container" style="justify-content: center;">
+                                <button class="zen-cta-btn" style="background: linear-gradient(135deg, #c94000, #ff6b00);" onclick="orderZesta()">
+                                    🛒 Order Zesta Jam
+                                </button>
+                                <a href="tel:+255700000000" class="zen-secondary-btn">
+                                    📞 Contact Sales
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- PAGE: STATEMENT -->
@@ -3054,7 +3156,6 @@
     </div>
 
     <!-- Smart Suggestion Modal -->
-    <!-- Smart Suggestion Modal -->
     <div id="suggestionModal" class="modal" style="z-index:9990;">
         <div class="modal-content">
             <h3 id="suggestionTitle">💡 Quick Reorder?</h3>
@@ -3077,7 +3178,34 @@
         </div>
     </div>
 
-    <!-- MISSED ITEMS ALERT MODAL -->
+    <!-- ══ PACK SIZE CONFIRMATION MODAL ══════════════════════════════════ -->
+    <div id="packConfirmModal" class="modal" style="z-index:9995; display:none;">
+        <div class="modal-content pack-confirm-modal-content">
+            <!-- Icon + heading -->
+            <div class="pack-confirm-header">
+                <div class="pack-confirm-icon-ring">📦</div>
+                <div>
+                    <h3 class="pack-confirm-title">Confirm Pack Size</h3>
+                    <p class="pack-confirm-subtitle">Multiple pack sizes available for:</p>
+                    <div class="pack-confirm-item-name" id="packConfirmTitle"></div>
+                </div>
+            </div>
+
+            <p class="pack-confirm-instruction">
+                ⚠️ Please select the exact pack size you want to order:
+            </p>
+
+            <!-- Pack options list (populated by JS) -->
+            <div id="packConfirmList" class="pack-options-list"></div>
+
+            <button class="btn-secondary pack-confirm-cancel" onclick="closePackConfirmModal()">
+                ✕ Cancel — go back
+            </button>
+        </div>
+    </div>
+    <!-- ══════════════════════════════════════════════════════════════════ -->
+
+
     <div id="missedItemsModal" class="modal missed-items-modal" style="z-index:2500;">
         <div class="modal-content">
             <!-- Header -->
@@ -3925,11 +4053,13 @@
                 return `
                 <div class="product-card" data-category="${item.cat.toLowerCase()}">
                     <div class="card-header">
-                        <div class="card-title">${nameDisplay}</div>
-                        <div class="card-meta">
-                            <span class="card-pack">${packDisplay}</span>
+                        <div class="card-meta" style="margin-bottom:0.5rem;">
+                            ${isLoggedIn
+                                ? `<span class="pack-hero" title="Pack / Packaging Size"><span class="pack-hero-icon">📦</span>${packDisplay}</span>`
+                                : `<span class="card-pack">${packDisplay}</span>`}
                             <span class="card-code">#${item.code}</span>
                         </div>
+                        <div class="card-title">${nameDisplay}</div>
                     </div>
                     <div class="card-footer">
                         <div class="price-tag">${priceDisplay}</div>
@@ -3959,6 +4089,37 @@
         function addToCartFromGrid(barcode, inputId, btn) {
             const qtyInput = document.getElementById(inputId);
             const qty = Number(qtyInput.value) || 1;
+
+            // ── Pack Confirmation Logic ──────────────────────────────────────────
+            // Only show modal when the same item name has DIFFERENT pack sizes.
+            const selectedItem = priceMap[barcode];
+            if (selectedItem) {
+                const selectedNameNorm  = String(selectedItem.name || '').toLowerCase().trim();
+                const selectedPackNorm  = String(selectedItem.pack || '').toLowerCase().trim();
+                // Find siblings with same name but a DIFFERENT pack (dedupe by pack value)
+                const seenPacks = new Set([selectedPackNorm]);
+                const siblings = allProducts.filter(p => {
+                    const pNameNorm = String(p.name || '').toLowerCase().trim();
+                    const pPackNorm = String(p.pack || '').toLowerCase().trim();
+                    if (pNameNorm !== selectedNameNorm) return false; // different item
+                    if (p.barcode === barcode)           return false; // same barcode
+                    if (seenPacks.has(pPackNorm))        return false; // duplicate pack
+                    seenPacks.add(pPackNorm);
+                    return true; // genuinely different pack size
+                });
+                if (siblings.length > 0) {
+                    // Show pack picker confirmation modal
+                    showPackConfirmModal(selectedItem, siblings, qty, () => {
+                        // After confirmation, do feedback
+                        const original = btn.innerHTML;
+                        btn.innerHTML = "✓";
+                        setTimeout(() => { btn.innerHTML = original; }, 1000);
+                    });
+                    return; // Wait for modal response
+                }
+            }
+            // ─────────────────────────────────────────────────────────────────────
+
             smartAddToCart(barcode, qty, () => {
                 // Visual Feedback callback
                 const original = btn.innerHTML;
@@ -3966,6 +4127,62 @@
                 setTimeout(() => { btn.innerHTML = original; }, 1000);
             });
         }
+
+        // ── Pack Confirmation Modal Logic ────────────────────────────────────────
+        function showPackConfirmModal(selectedItem, siblings, qty, successCb) {
+            const modal = document.getElementById('packConfirmModal');
+            const titleEl = document.getElementById('packConfirmTitle');
+            const listEl = document.getElementById('packConfirmList');
+
+            titleEl.textContent = selectedItem.name;
+
+            // Build all options: selected + siblings, deduplicated by pack label
+            const seenPackLabels = new Set();
+            const allOptions = [selectedItem, ...siblings]
+                .filter(o => {
+                    const key = String(o.pack || '').toLowerCase().trim();
+                    if (seenPackLabels.has(key)) return false;
+                    seenPackLabels.add(key);
+                    return true;
+                })
+                .sort((a, b) => {
+                    // Sort ascending by numeric weight (250g < 500g < 1kg)
+                    const numA = parseFloat(String(a.pack || '0')) || 0;
+                    const numB = parseFloat(String(b.pack || '0')) || 0;
+                    return numA - numB;
+                });
+
+            listEl.innerHTML = allOptions.map(opt => {
+                const isSelected = opt.barcode === selectedItem.barcode;
+                return `
+                <button class="pack-option-btn ${isSelected ? 'pack-option-selected' : ''}"
+                        onclick="confirmPackChoice('${opt.barcode}', ${qty}, event)">
+                    <span class="pack-option-icon">📦</span>
+                    <span class="pack-option-size">${opt.pack}</span>
+                    ${opt.price > 0 ? `<span class="pack-option-price">TZS ${opt.price.toLocaleString()}</span>` : ''}
+                    ${isSelected ? '<span class="pack-option-check">✓ Your selection</span>' : ''}
+                </button>`;
+            }).join('');
+
+            // Store the callback
+            window._packConfirmSuccessCb = successCb;
+
+            modal.style.display = 'flex';
+        }
+
+        function confirmPackChoice(barcode, qty, e) {
+            document.getElementById('packConfirmModal').style.display = 'none';
+            smartAddToCart(barcode, qty, () => {
+                if (window._packConfirmSuccessCb) window._packConfirmSuccessCb();
+                premiumNotify('Added to cart ✓', 'success', 1800);
+            });
+        }
+
+        function closePackConfirmModal() {
+            document.getElementById('packConfirmModal').style.display = 'none';
+        }
+        // ─────────────────────────────────────────────────────────────────────────
+
 
         // Wrapper for New Arrivals too
         function quickAddNew(barcode) {
@@ -4337,7 +4554,7 @@
         <div class="cart-item">
           <div class="item-info">
              <strong>${i.name}</strong>
-             <small>${i.pack}</small>
+             <div class="cart-pack-badge">${i.pack}</div>
              <div style="font-weight:600; color:var(--primary-dark)">${(i.price * i.qty).toLocaleString()}</div>
           </div>
           <div style="display:flex; flex-direction:column; align-items:flex-end;">
