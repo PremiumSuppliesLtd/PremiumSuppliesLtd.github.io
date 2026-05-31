@@ -117,6 +117,29 @@ const brandSequences = [
             { id: 'zenwater-overlay-3', start: 0.5, end: 0.85 },
             { id: 'zenwater-overlay-4', start: 0.85, end: 1.0 }
         ]
+    },
+    {
+        id: 'zesta',
+        containerId: 'container-zesta',
+        canvasId: 'canvas-zesta',
+        loaderId: 'loader-zesta',
+        frameCount: 192,
+        imagesPath: "ZESTA/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'zesta-overlay-1', start: 0, end: 0.2 },
+            { id: 'zesta-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'zesta-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'zesta-overlay-4', start: 0.85, end: 1.0 }
+        ]
     }
 ];
 
@@ -351,6 +374,48 @@ window.orderZenWater = function() {
         const searchInput = document.getElementById('search');
         if (searchInput) {
             searchInput.value = 'Zen';
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            } else if (typeof debouncedSearch === 'function') {
+                debouncedSearch();
+            } else {
+                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                searchInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+            }
+        }
+    }, 150);
+};
+
+// Navigate to pricelist and pre-filter for Zesta products
+window.orderZesta = function() {
+    // 1. Find the navbar button for order page (page-pricelist)
+    const navButtons = Array.from(document.querySelectorAll('.nav-links .nav-btn'));
+    const orderBtn = navButtons.find(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        return onclickAttr.includes('page-pricelist');
+    });
+
+    // 2. Switch to page-pricelist
+    if (typeof showPage === 'function') {
+        showPage('page-pricelist', orderBtn);
+    } else {
+        document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+        const page = document.getElementById('page-pricelist');
+        if (page) {
+            page.style.display = "block";
+            page.classList.add("fade-in");
+        }
+        if (orderBtn) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            orderBtn.classList.add("active");
+        }
+    }
+
+    // 3. Set the search value to 'Zesta' and apply filters
+    setTimeout(() => {
+        const searchInput = document.getElementById('search');
+        if (searchInput) {
+            searchInput.value = 'Zesta';
             if (typeof applyFilters === 'function') {
                 applyFilters();
             } else if (typeof debouncedSearch === 'function') {
