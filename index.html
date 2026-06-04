@@ -2346,7 +2346,7 @@
           <div class="hero-stat-label">Hotels &amp; Lodges</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-num"><span>6</span></div>
+          <div class="hero-stat-num"><span>10</span></div>
           <div class="hero-stat-label">Premium Brands</div>
         </div>
         <div class="hero-stat">
@@ -2477,6 +2477,58 @@
             <div class="brand-name">Zesta</div>
             <div class="brand-type">Premium Kenyan Jam</div>
             <div class="brand-tag">🍯 Fruit Jam</div>
+          </div>
+        </div>
+
+        <!-- Kenylon -->
+        <div class="brand-card reveal rd7">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-kenylon" aria-label="Kenylon Canned Foods"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">Kenylon</div>
+            <div class="brand-type">Premium Canned Legumes</div>
+            <div class="brand-tag">🫘 Canned Foods</div>
+          </div>
+        </div>
+
+        <!-- Golden Biscuit -->
+        <div class="brand-card reveal rd8">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-golden" aria-label="Golden Biscuit"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">Golden</div>
+            <div class="brand-type">Premium Biscuits</div>
+            <div class="brand-tag">🍪 1kg Jar</div>
+          </div>
+        </div>
+
+        <!-- Choco Primo -->
+        <div class="brand-card reveal rd9">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-chocoprimo" aria-label="Choco Primo"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">Choco Primo</div>
+            <div class="brand-type">Premium Cocoa Products</div>
+            <div class="brand-tag">🍫 Cocoa &amp; Chocolate</div>
+          </div>
+        </div>
+
+        <!-- Viva -->
+        <div class="brand-card reveal rd10">
+          <div class="brand-canvas-wrap">
+            <canvas id="bc-viva" aria-label="Viva Hygiene"></canvas>
+            <div class="brand-canvas-overlay"></div>
+          </div>
+          <div class="brand-card-body">
+            <div class="brand-name">Viva</div>
+            <div class="brand-type">Hygiene &amp; Paper Products</div>
+            <div class="brand-tag">🧴 Premium Hygiene</div>
           </div>
         </div>
       </div>
@@ -2720,7 +2772,7 @@
         <div class="stat-lbl">Hotels &amp; Lodges Served</div>
       </div>
       <div class="stat-item reveal rd2">
-        <div class="stat-num"><span data-count="6">0</span></div>
+        <div class="stat-num"><span data-count="10">0</span></div>
         <div class="stat-lbl">Premium Brands</div>
       </div>
       <div class="stat-item reveal rd3">
@@ -2861,6 +2913,10 @@
           <li><a href="#">Nuziwa Almond</a></li>
           <li><a href="#">ZEN Water</a></li>
           <li><a href="#">Zesta Jam</a></li>
+          <li><a href="#">Kenylon Canned Foods</a></li>
+          <li><a href="#">Golden Biscuit</a></li>
+          <li><a href="#">Choco Primo</a></li>
+          <li><a href="#">Viva Hygiene</a></li>
         </ul>
       </div>
       <div>
@@ -2986,6 +3042,10 @@
           { name: 'Nuziwa',        path: 'Nuziwa Almond/',       fps: 5 },
           { name: 'ZEN Water',     path: 'ZEN WATER/',           fps: 6 },
           { name: 'Zesta',         path: 'ZESTA/',               fps: 6 },
+          { name: 'Kenylon',       path: 'Kenylon/',             fps: 6 },
+          { name: 'Golden',        path: 'Golden/',              fps: 6 },
+          { name: 'Choco Primo',   path: 'Choco Primo/',         fps: 6 },
+          { name: 'Viva',          path: 'Viva/',                fps: 6 },
         ];
 
         const hCanvas  = document.getElementById('hero-canvas');
@@ -3151,6 +3211,10 @@
       initSequence('Nuziwa Almond/', 5, ['bc-nuziwa']);
       initSequence('ZEN WATER/', 6, ['bc-zen']);
       initSequence('ZESTA/', 6, ['bc-zesta']);
+      initSequence('Kenylon/', 6, ['bc-kenylon']);
+      initSequence('Golden/', 6, ['bc-golden']);
+      initSequence('Choco Primo/', 6, ['bc-chocoprimo']);
+      initSequence('Viva/', 6, ['bc-viva']);
 
       // ── MOUSE PARALLAX on hero ────────────────────────────────────
       const heroCenterGlow = document.querySelector('.hero-center-glow');
