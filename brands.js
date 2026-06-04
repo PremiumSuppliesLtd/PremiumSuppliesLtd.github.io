@@ -140,6 +140,98 @@ const brandSequences = [
             { id: 'zesta-overlay-3', start: 0.5, end: 0.85 },
             { id: 'zesta-overlay-4', start: 0.85, end: 1.0 }
         ]
+    },
+    {
+        id: 'kenylon',
+        containerId: 'container-kenylon',
+        canvasId: 'canvas-kenylon',
+        loaderId: 'loader-kenylon',
+        frameCount: 192,
+        imagesPath: "Kenylon/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'kenylon-overlay-1', start: 0, end: 0.2 },
+            { id: 'kenylon-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'kenylon-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'kenylon-overlay-4', start: 0.85, end: 1.0 }
+        ]
+    },
+    {
+        id: 'golden',
+        containerId: 'container-golden',
+        canvasId: 'canvas-golden',
+        loaderId: 'loader-golden',
+        frameCount: 192,
+        imagesPath: "Golden/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'golden-overlay-1', start: 0, end: 0.2 },
+            { id: 'golden-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'golden-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'golden-overlay-4', start: 0.85, end: 1.0 }
+        ]
+    },
+    {
+        id: 'chocoprimo',
+        containerId: 'container-chocoprimo',
+        canvasId: 'canvas-chocoprimo',
+        loaderId: 'loader-chocoprimo',
+        frameCount: 192,
+        imagesPath: "Choco Primo/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'chocoprimo-overlay-1', start: 0, end: 0.2 },
+            { id: 'chocoprimo-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'chocoprimo-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'chocoprimo-overlay-4', start: 0.85, end: 1.0 }
+        ]
+    },
+    {
+        id: 'viva',
+        containerId: 'container-viva',
+        canvasId: 'canvas-viva',
+        loaderId: 'loader-viva',
+        frameCount: 192,
+        imagesPath: "Viva/",
+        imagePrefix: "",
+        imageSuffix: ".jpg",
+        images: [],
+        loadedCount: 0,
+        currentFrame: 0,
+        isLoaded: false,
+        ctx: null,
+        canvas: null,
+        container: null,
+        overlays: [
+            { id: 'viva-overlay-1', start: 0, end: 0.2 },
+            { id: 'viva-overlay-2', start: 0.2, end: 0.5 },
+            { id: 'viva-overlay-3', start: 0.5, end: 0.85 },
+            { id: 'viva-overlay-4', start: 0.85, end: 1.0 }
+        ]
     }
 ];
 
@@ -344,6 +436,42 @@ window.openBrandsPage = function (btn) {
     }, 100);
 };
 
+// Navigate to pricelist and pre-filter for Nuziwa products
+window.orderNuziwa = function() {
+    const navButtons = Array.from(document.querySelectorAll('.nav-links .nav-btn'));
+    const orderBtn = navButtons.find(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        return onclickAttr.includes('page-pricelist');
+    });
+
+    if (typeof showPage === 'function') {
+        showPage('page-pricelist', orderBtn);
+    } else {
+        document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+        const page = document.getElementById('page-pricelist');
+        if (page) { page.style.display = "block"; page.classList.add("fade-in"); }
+        if (orderBtn) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            orderBtn.classList.add("active");
+        }
+    }
+
+    setTimeout(() => {
+        const searchInput = document.getElementById('search');
+        if (searchInput) {
+            searchInput.value = 'Nuziwa';
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            } else if (typeof debouncedSearch === 'function') {
+                debouncedSearch();
+            } else {
+                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                searchInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+            }
+        }
+    }, 150);
+};
+
 // Navigate to pricelist and pre-filter for Zen Water products
 window.orderZenWater = function() {
     // 1. Find the navbar button for order page (page-pricelist)
@@ -416,6 +544,156 @@ window.orderZesta = function() {
         const searchInput = document.getElementById('search');
         if (searchInput) {
             searchInput.value = 'Zesta';
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            } else if (typeof debouncedSearch === 'function') {
+                debouncedSearch();
+            } else {
+                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                searchInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+            }
+        }
+    }, 150);
+};
+
+// Navigate to pricelist and pre-filter for Kenylon products
+window.orderKenylon = function() {
+    // 1. Find the navbar button for order page (page-pricelist)
+    const navButtons = Array.from(document.querySelectorAll('.nav-links .nav-btn'));
+    const orderBtn = navButtons.find(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        return onclickAttr.includes('page-pricelist');
+    });
+
+    // 2. Switch to page-pricelist
+    if (typeof showPage === 'function') {
+        showPage('page-pricelist', orderBtn);
+    } else {
+        document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+        const page = document.getElementById('page-pricelist');
+        if (page) {
+            page.style.display = "block";
+            page.classList.add("fade-in");
+        }
+        if (orderBtn) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            orderBtn.classList.add("active");
+        }
+    }
+
+    // 3. Set the search value to 'Kenylon' and apply filters
+    setTimeout(() => {
+        const searchInput = document.getElementById('search');
+        if (searchInput) {
+            searchInput.value = 'Kenylon';
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            } else if (typeof debouncedSearch === 'function') {
+                debouncedSearch();
+            } else {
+                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                searchInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+            }
+        }
+    }, 150);
+};
+
+// Navigate to pricelist and pre-filter for Golden Biscuit products
+window.orderGolden = function() {
+    const navButtons = Array.from(document.querySelectorAll('.nav-links .nav-btn'));
+    const orderBtn = navButtons.find(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        return onclickAttr.includes('page-pricelist');
+    });
+
+    if (typeof showPage === 'function') {
+        showPage('page-pricelist', orderBtn);
+    } else {
+        document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+        const page = document.getElementById('page-pricelist');
+        if (page) { page.style.display = "block"; page.classList.add("fade-in"); }
+        if (orderBtn) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            orderBtn.classList.add("active");
+        }
+    }
+
+    setTimeout(() => {
+        const searchInput = document.getElementById('search');
+        if (searchInput) {
+            searchInput.value = 'Golden';
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            } else if (typeof debouncedSearch === 'function') {
+                debouncedSearch();
+            } else {
+                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                searchInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+            }
+        }
+    }, 150);
+};
+
+// Navigate to pricelist and pre-filter for Choco Primo products
+window.orderChocoPrimo = function() {
+    const navButtons = Array.from(document.querySelectorAll('.nav-links .nav-btn'));
+    const orderBtn = navButtons.find(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        return onclickAttr.includes('page-pricelist');
+    });
+
+    if (typeof showPage === 'function') {
+        showPage('page-pricelist', orderBtn);
+    } else {
+        document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+        const page = document.getElementById('page-pricelist');
+        if (page) { page.style.display = "block"; page.classList.add("fade-in"); }
+        if (orderBtn) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            orderBtn.classList.add("active");
+        }
+    }
+
+    setTimeout(() => {
+        const searchInput = document.getElementById('search');
+        if (searchInput) {
+            searchInput.value = 'Choco Primo';
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            } else if (typeof debouncedSearch === 'function') {
+                debouncedSearch();
+            } else {
+                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                searchInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+            }
+        }
+    }, 150);
+};
+
+// Navigate to pricelist and pre-filter for Viva products
+window.orderViva = function() {
+    const navButtons = Array.from(document.querySelectorAll('.nav-links .nav-btn'));
+    const orderBtn = navButtons.find(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        return onclickAttr.includes('page-pricelist');
+    });
+
+    if (typeof showPage === 'function') {
+        showPage('page-pricelist', orderBtn);
+    } else {
+        document.querySelectorAll(".page").forEach(p => p.style.display = "none");
+        const page = document.getElementById('page-pricelist');
+        if (page) { page.style.display = "block"; page.classList.add("fade-in"); }
+        if (orderBtn) {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            orderBtn.classList.add("active");
+        }
+    }
+
+    setTimeout(() => {
+        const searchInput = document.getElementById('search');
+        if (searchInput) {
+            searchInput.value = 'Viva';
             if (typeof applyFilters === 'function') {
                 applyFilters();
             } else if (typeof debouncedSearch === 'function') {
