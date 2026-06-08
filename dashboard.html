@@ -562,13 +562,13 @@
 
     <!-- Navigation -->
     <nav class="navbar">
-        <a href="Index.html" class="nav-brand">
+        <a href="app.html" class="nav-brand">
             <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7" alt="Logo">
             Premium Supplies
         </a>
         <div class="nav-actions">
             <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">☀️</button>
-            <a href="Index.html" class="btn btn-outline">← Back to Portal</a>
+            <a href="app.html" class="btn btn-outline">← Back to Portal</a>
             <button class="btn btn-primary" onclick="logout()">Logout</button>
         </div>
     </nav>
@@ -594,7 +594,7 @@
                 <h2 class="action-title">Need to restock?</h2>
                 <p style="opacity: 0.9;">Jump straight into your smart order based on your history.</p>
             </div>
-            <a href="Index.html" class="action-btn">
+            <a href="app.html" class="action-btn">
                 <span>🛒</span> Place Smart Order
             </a>
         </div>
@@ -613,7 +613,7 @@
                 <div class="kpi-label">Total Spend (TZS)</div>
                 <div class="kpi-decoration">💰</div>
             </div>
-            <div class="kpi-card kpi-card-orange kpi-card-clickable" onclick="window.location.href='Index.html#statement'" title="View Full Statement">
+            <div class="kpi-card kpi-card-orange kpi-card-clickable" onclick="window.location.href='app.html#statement'" title="View Full Statement">
                 <div class="kpi-link-arrow">→</div>
                 <div class="kpi-icon-wrap kpi-orange">🧾</div>
                 <div class="kpi-value" id="kpiOutstanding">-</div>
@@ -654,7 +654,7 @@
             <div class="data-table-container">
                 <div class="data-table-header">
                     <h3 class="chart-title">🕒 Recent Orders</h3>
-                    <a href="Index.html" style="color: var(--primary); font-size: 0.875rem; text-decoration: none; font-weight: 600;">View All →</a>
+                    <a href="app.html" style="color: var(--primary); font-size: 0.875rem; text-decoration: none; font-weight: 600;">View All →</a>
                 </div>
                 <div style="overflow-x: auto;">
                     <table class="data-table" id="recentOrdersTable">
@@ -704,7 +704,7 @@
         <div style="background: var(--surface); padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); max-width: 400px; width: 100%;">
             <h2 style="font-family: var(--font-heading); margin-bottom: 1rem;">Authentication Required</h2>
             <p style="color: var(--text-muted); margin-bottom: 2rem;">Please login through the main portal to access your dashboard.</p>
-            <a href="Index.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Go to Portal</a>
+            <a href="app.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Go to Portal</a>
         </div>
     </div>
 
@@ -734,8 +734,19 @@
         });
 
         function checkAuth() {
-            const token = localStorage.getItem('authToken');
-            const email = localStorage.getItem('userEmail');
+            let token = localStorage.getItem('authToken');
+            let email = localStorage.getItem('userEmail');
+            const loginTimestamp = localStorage.getItem('loginTimestamp');
+            const currentTime = Date.now();
+            const SIX_HOURS = 6 * 60 * 60 * 1000;
+
+            if (token && (!loginTimestamp || (currentTime - parseInt(loginTimestamp, 10)) > SIX_HOURS)) {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('loginTimestamp');
+                token = null;
+                email = null;
+            }
 
             if (!token || !email) {
                 document.getElementById('loginPrompt').style.display = 'flex';
@@ -751,6 +762,13 @@
                 loadDashboardData(email, token);
             }
         }
+
+        // Run session expiration check on tab visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                checkAuth();
+            }
+        });
 
         async function loadDashboardData(email, token) {
             try {
@@ -1036,7 +1054,8 @@
         function logout() {
             localStorage.removeItem('authToken');
             localStorage.removeItem('userEmail');
-            window.location.href = 'Index.html';
+            localStorage.removeItem('loginTimestamp');
+            window.location.href = 'app.html';
         }
     </script>
 </body>
