@@ -1279,6 +1279,14 @@
             <button class="nav-btn" id="dashboardBtn" style="display:none !important;">
                 📊 Dashboard
             </button>
+            <!-- Feedback button: visible to all logged-in clients -->
+            <button class="nav-btn" onclick="showPage('page-feedback', this)" id="feedbackBtn" style="display:none;">
+                ⭐ Feedback
+            </button>
+            <!-- Admin Reviews button: admin only -->
+            <button class="nav-btn" onclick="openAdminReviews(this)" id="adminReviewsBtn" style="display:none;">
+                💬 Reviews
+            </button>
             <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"
                 style="font-size:1.2rem; padding:0 10px;" title="Toggle Theme">
                 ☀️
@@ -1598,6 +1606,18 @@
 
             </div>
         </div>
+
+        <!-- PUBLIC TESTIMONIALS SECTION -->
+        <div class="testimonials-section" id="testimonialsSection" style="display:none;">
+            <div class="testimonials-header">
+                <h2>💬 What Our Clients Say</h2>
+                <p>Real reviews and suggestions from lodges and hotels across Arusha & surrounding regions</p>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+
         <!-- Live Tracking Feature Card Styles -->
         <style>
             /* Tracking badge */
@@ -1736,6 +1756,175 @@
                 });
             })();
         </script>
+    </div>
+
+
+    <!-- PAGE: CLIENT FEEDBACK -->
+    <div id="page-feedback" class="page" style="display:none;">
+        <!-- Hero Header -->
+        <div class="fbk-hero">
+            <div class="fbk-hero-orb fbk-orb-1"></div>
+            <div class="fbk-hero-orb fbk-orb-2"></div>
+            <div class="fbk-hero-content">
+                <div class="fbk-hero-badge">⭐ Your Voice Matters</div>
+                <h1 class="fbk-hero-title">Share Your Experience</h1>
+                <p class="fbk-hero-sub">Help us serve you better — your feedback shapes how we improve every day.</p>
+            </div>
+        </div>
+
+        <div class="fbk-container">
+            <!-- Success overlay (hidden initially) -->
+            <div id="fbkSuccessOverlay" class="fbk-success-overlay" style="display:none;">
+                <div class="fbk-success-card">
+                    <div class="fbk-success-icon">🎉</div>
+                    <h2>Thank You!</h2>
+                    <p>Your feedback has been received. We truly appreciate you taking the time to share your experience
+                        with us.</p>
+                    <button class="fbk-submit-btn"
+                        onclick="document.getElementById('fbkSuccessOverlay').style.display='none'; showPage('page-home', document.querySelector('.nav-btn'))"
+                        style="margin-top:1rem;">← Back to Home</button>
+                </div>
+            </div>
+
+            <div class="fbk-form-card">
+                <h2 class="fbk-section-title">Rate Your Experience</h2>
+                <p class="fbk-section-sub">Tap the stars to rate each category</p>
+
+                <!-- Star Rating Rows -->
+                <div class="fbk-rating-grid">
+                    <div class="fbk-rating-row">
+                        <div class="fbk-rating-label">
+                            <span class="fbk-rating-icon">📦</span>
+                            <span>Product Quality</span>
+                        </div>
+                        <div class="fbk-stars" id="stars-quality" data-category="quality" data-value="0">
+                            <span class="fbk-star" data-val="1">★</span>
+                            <span class="fbk-star" data-val="2">★</span>
+                            <span class="fbk-star" data-val="3">★</span>
+                            <span class="fbk-star" data-val="4">★</span>
+                            <span class="fbk-star" data-val="5">★</span>
+                        </div>
+                    </div>
+                    <div class="fbk-rating-row">
+                        <div class="fbk-rating-label">
+                            <span class="fbk-rating-icon">🚚</span>
+                            <span>Delivery Speed</span>
+                        </div>
+                        <div class="fbk-stars" id="stars-delivery" data-category="delivery" data-value="0">
+                            <span class="fbk-star" data-val="1">★</span>
+                            <span class="fbk-star" data-val="2">★</span>
+                            <span class="fbk-star" data-val="3">★</span>
+                            <span class="fbk-star" data-val="4">★</span>
+                            <span class="fbk-star" data-val="5">★</span>
+                        </div>
+                    </div>
+                    <div class="fbk-rating-row">
+                        <div class="fbk-rating-label">
+                            <span class="fbk-rating-icon">🤝</span>
+                            <span>Customer Service</span>
+                        </div>
+                        <div class="fbk-stars" id="stars-service" data-category="service" data-value="0">
+                            <span class="fbk-star" data-val="1">★</span>
+                            <span class="fbk-star" data-val="2">★</span>
+                            <span class="fbk-star" data-val="3">★</span>
+                            <span class="fbk-star" data-val="4">★</span>
+                            <span class="fbk-star" data-val="5">★</span>
+                        </div>
+                    </div>
+                    <div class="fbk-rating-row">
+                        <div class="fbk-rating-label">
+                            <span class="fbk-rating-icon">🌟</span>
+                            <span>Overall Experience</span>
+                        </div>
+                        <div class="fbk-stars" id="stars-overall" data-category="overall" data-value="0">
+                            <span class="fbk-star" data-val="1">★</span>
+                            <span class="fbk-star" data-val="2">★</span>
+                            <span class="fbk-star" data-val="3">★</span>
+                            <span class="fbk-star" data-val="4">★</span>
+                            <span class="fbk-star" data-val="5">★</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comment Box -->
+                <div class="fbk-field-group">
+                    <label class="fbk-label">💬 Your Comments <span
+                            style="color:#94a3b8;font-weight:400;">(optional)</span></label>
+                    <textarea id="fbkComment" class="fbk-textarea"
+                        placeholder="Tell us what you loved or how we can improve..." maxlength="500"
+                        oninput="document.getElementById('fbkCommentCount').textContent=this.value.length"></textarea>
+                    <div class="fbk-char-count"><span id="fbkCommentCount">0</span>/500</div>
+                </div>
+
+                <!-- Suggestion Box -->
+                <div class="fbk-field-group">
+                    <label class="fbk-label">💡 Product Suggestion <span
+                            style="color:#94a3b8;font-weight:400;">(optional)</span></label>
+                    <input id="fbkSuggestion" class="fbk-input" type="text"
+                        placeholder="e.g. I wish you stocked eco-friendly straws..." maxlength="200">
+                </div>
+
+                <!-- Submit Button -->
+                <button class="fbk-submit-btn" id="fbkSubmitBtn" onclick="submitClientReview()">
+                    <span id="fbkSubmitBtnText">✨ Submit Feedback</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: ADMIN REVIEWS -->
+    <div id="page-admin-reviews" class="page bp-page" style="display:none;">
+        <div class="rev-admin-header">
+            <div class="rev-admin-header-inner">
+                <h1 class="rev-admin-title">💬 Client Reviews</h1>
+                <p class="rev-admin-sub">All client feedback — manage visibility and respond to insights.</p>
+                <button class="rev-refresh-btn" onclick="loadAdminReviews(true)">🔄 Refresh</button>
+            </div>
+        </div>
+
+        <!-- KPI Summary Bar -->
+        <div class="rev-kpi-bar" id="revKpiBar">
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-value" id="revKpiTotal">—</div>
+                <div class="rev-kpi-label">Total Reviews</div>
+            </div>
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-value" id="revKpiAvg">—</div>
+                <div class="rev-kpi-label">Avg. Overall Rating</div>
+            </div>
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-value" id="revKpiMonth">—</div>
+                <div class="rev-kpi-label">This Month</div>
+            </div>
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-value" id="revKpiFeatured">—</div>
+                <div class="rev-kpi-label">Featured Publicly</div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="rev-filter-bar">
+            <select id="revFilterStatus" class="rev-filter-select" onchange="renderReviewsTable()">
+                <option value="all">All Reviews</option>
+                <option value="New">🆕 New</option>
+                <option value="Featured">⭐ Featured</option>
+                <option value="Private">🔒 Private</option>
+                <option value="Archived">🗃️ Archived</option>
+            </select>
+            <select id="revFilterRating" class="rev-filter-select" onchange="renderReviewsTable()">
+                <option value="0">All Ratings</option>
+                <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+                <option value="4">⭐⭐⭐⭐ 4+ Stars</option>
+                <option value="3">⭐⭐⭐ 3+ Stars</option>
+            </select>
+        </div>
+
+        <!-- Reviews Table / Cards -->
+        <div class="rev-table-wrap">
+            <div id="revTableContainer">
+                <div style="text-align:center; padding:3rem; color:#94a3b8;">Loading reviews...</div>
+            </div>
+        </div>
     </div>
 
 
@@ -3829,7 +4018,6 @@
                                     style="display:none; margin-top: 4px;">
                                 <input id="poBuyerTIN" class="po-form-input" placeholder="TIN Number">
                                 <input id="poBuyerPhone" class="po-form-input" placeholder="Contact Number">
-                                <input id="poBuyerEmail" class="po-form-input" placeholder="Email Address *">
                             </div>
                         </div>
                     </div>
@@ -3912,7 +4100,8 @@
                         <div style="font-weight:700; font-size:1rem; margin-bottom:.4rem;">Click to browse or drag &amp;
                             drop</div>
                         <div style="color:var(--text-muted); font-size:.82rem;">Supports <strong>.xlsx</strong>,
-                            <strong>.xls</strong>, and <strong>.csv</strong> files</div>
+                            <strong>.xls</strong>, and <strong>.csv</strong> files
+                        </div>
                     </div>
                     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; margin-bottom:1.5rem;">
                         <div class="po-step-card po-step-card-green">
@@ -5052,7 +5241,7 @@
     </script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbymVcjNyK_fK31ueS-mxIMCiFGk8D5Pjv7EVR9yWPqoiKX-CjSdMDGyovrlMxCMFxp_ig/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycby1gsftZ_4FIB80qyA7fZdjOIpLeIWvZgIuWKeuN8ahHLuNYBwLXXlUMGCIRcj4X5HArw/exec";
         // Update this URL with your newly deployed Google Apps Script URL for Data5555:
         const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
         const STOCK_API_URL = "https://script.google.com/macros/s/AKfycbwhxVp4QPKQEDsS7t7ZRCE9gq3Re-BZZsaaeqGeN4ZNSVyzayeClUd-_uPr0x0b-x6JSA/exec";
@@ -5161,6 +5350,70 @@
                                 .catch(e => {
                                     if (failureCb) failureCb(e);
                                     else alert("Network Error: " + e);
+                                });
+                        },
+                        submitReview: function (email, customerName, qualityRating, serviceRating, overallRating, comment, suggestion) {
+                            fetch(API_URL, {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    action: "submitReview",
+                                    data: { email, customerName, qualityRating, serviceRating, overallRating, comment, suggestion }
+                                })
+                            })
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                    else if (d.error) alert("Error: " + d.error);
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else alert("Network Error: " + e);
+                                });
+                        },
+                        getReviews: function (token) {
+                            fetch(API_URL, {
+                                method: "POST",
+                                body: JSON.stringify({ action: "getReviews", data: { token } })
+                            })
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result !== undefined && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                    else if (d.error) alert("Error: " + d.error);
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else console.error("getReviews error:", e);
+                                });
+                        },
+                        updateReviewStatus: function (token, id, status) {
+                            fetch(API_URL, {
+                                method: "POST",
+                                body: JSON.stringify({ action: "updateReviewStatus", data: { token, id, status } })
+                            })
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                    else if (d.error) alert("Error: " + d.error);
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else alert("Network Error: " + e);
+                                });
+                        },
+                        getFeaturedReviews: function () {
+                            const url = API_URL + "?action=getFeaturedReviews";
+                            fetch(url)
+                                .then(r => r.json())
+                                .then(d => {
+                                    if (d.result !== undefined && successCb) successCb(d.result);
+                                    else if (d.error && failureCb) failureCb(new Error(d.error));
+                                })
+                                .catch(e => {
+                                    if (failureCb) failureCb(e);
+                                    else console.error("getFeaturedReviews error:", e);
                                 });
                         }
                     };
@@ -5279,7 +5532,7 @@
                 localStorage.removeItem("authToken");
                 localStorage.removeItem("userEmail");
                 localStorage.removeItem("loginTimestamp");
-                
+
                 lastPurchases = [];
                 historyMap = {};
                 baseNameMap = {};
@@ -5424,6 +5677,8 @@
             const statementBtn = document.getElementById("statementBtn");
             const dashboardBtn = document.getElementById("dashboardBtn");
             const guestCalcBtn = document.getElementById("guestCalcBtn");
+            const feedbackBtn = document.getElementById("feedbackBtn");
+            const adminReviewsBtn = document.getElementById("adminReviewsBtn");
             const email = (localStorage.getItem("userEmail") || '').toLowerCase().trim();
             if (token) {
                 loginBtn.style.display = "none";
@@ -5431,6 +5686,7 @@
                 if (statementBtn) statementBtn.style.display = "inline-flex";
                 // Dashboard button is permanently hidden - do not show it
                 if (guestCalcBtn) guestCalcBtn.style.display = "inline-flex";
+                if (feedbackBtn) feedbackBtn.style.display = "inline-flex";
                 // Show admin buttons only for admin email
                 if (email === ADMIN_EMAIL) {
                     adminBtn.style.display = 'inline-flex';
@@ -5438,12 +5694,14 @@
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'inline-flex';
                     var adminOrdersBtn = document.getElementById('adminOrdersBtn');
                     if (adminOrdersBtn) adminOrdersBtn.style.display = 'inline-flex';
+                    if (adminReviewsBtn) adminReviewsBtn.style.display = 'inline-flex';
                 } else {
                     adminBtn.style.display = 'none';
                     if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
                     var adminOrdersBtn = document.getElementById('adminOrdersBtn');
                     if (adminOrdersBtn) adminOrdersBtn.style.display = 'none';
+                    if (adminReviewsBtn) adminReviewsBtn.style.display = 'none';
                 }
             } else {
                 loginBtn.style.display = "inline-flex";
@@ -5456,6 +5714,8 @@
                 if (statementBtn) statementBtn.style.display = "none";
                 if (dashboardBtn) dashboardBtn.style.display = "none";
                 if (guestCalcBtn) guestCalcBtn.style.display = "none";
+                if (feedbackBtn) feedbackBtn.style.display = "none";
+                if (adminReviewsBtn) adminReviewsBtn.style.display = 'none';
             }
         }
 
@@ -7377,12 +7637,10 @@
             const custName = document.getElementById("custName")?.value || '';
             const custPhone = document.getElementById("custPhone")?.value || '';
             const custTIN = document.getElementById("custTIN")?.value || '';
-            const custEmail = document.getElementById("custEmail")?.value || localStorage.getItem("userEmail") || '';
 
             if (custName) document.getElementById('poBuyerName').value = custName;
             if (custPhone) document.getElementById('poBuyerPhone').value = custPhone;
             if (custTIN) document.getElementById('poBuyerTIN').value = custTIN;
-            if (custEmail) document.getElementById('poBuyerEmail').value = custEmail;
 
             const d = new Date(); d.setDate(d.getDate() + 3);
             document.getElementById('poDeliveryDate').value = d.toISOString().split('T')[0];
@@ -7465,7 +7723,7 @@
                     department: dept,
                     tin: document.getElementById('poBuyerTIN').value || '',
                     phone: document.getElementById('poBuyerPhone').value || '',
-                    email: document.getElementById('poBuyerEmail')?.value || ''
+                    email: localStorage.getItem("userEmail") || ''
                 }
             };
         }
@@ -7480,7 +7738,7 @@
             _submittedPONumber = currentPONumber;
 
             const fd = getPOFormData();
-            const email = document.getElementById('poBuyerEmail')?.value?.trim() || localStorage.getItem("userEmail") || '';
+            const email = fd.buyer.email;
             if (!email) return;
 
             // Gather Special Items if any exist in the main checkout page
@@ -7532,8 +7790,6 @@
             const fd = getPOFormData();
             if (!fd.buyer.name) { premiumNotify('Please enter the Buyer / Hotel Name.', 'warning'); document.getElementById('poBuyerName').focus(); return; }
             if (!fd.buyer.department) { premiumNotify('Please select a department.', 'warning'); document.getElementById('poBuyerDept').focus(); return; }
-            const email = document.getElementById('poBuyerEmail')?.value?.trim();
-            if (!email || !/^\S+@\S+\.\S+$/.test(email)) { premiumNotify('Please enter a valid Buyer Email Address.', 'warning'); document.getElementById('poBuyerEmail').focus(); return; }
 
             // Trigger background save to Google Sheets
             savePOToGoogleSheetsInBackground();
@@ -7635,8 +7891,6 @@
             const fd = getPOFormData();
             if (!fd.buyer.name) { premiumNotify('Please enter the Buyer / Hotel Name.', 'warning'); document.getElementById('poBuyerName').focus(); return; }
             if (!fd.buyer.department) { premiumNotify('Please select a department.', 'warning'); document.getElementById('poBuyerDept').focus(); return; }
-            const email = document.getElementById('poBuyerEmail')?.value?.trim();
-            if (!email || !/^\S+@\S+\.\S+$/.test(email)) { premiumNotify('Please enter a valid Buyer Email Address.', 'warning'); document.getElementById('poBuyerEmail').focus(); return; }
 
             // Trigger background save to Google Sheets
             savePOToGoogleSheetsInBackground();
@@ -11305,5 +11559,1134 @@
 
 </body>
 
+
+<!-- ===== REVIEWS & FEEDBACK STYLES ===== -->
+<style>
+    /* ---- Public Testimonials Section ---- */
+    .testimonials-section {
+        padding: 4rem 2rem;
+        max-width: 1280px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .testimonials-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .testimonials-header h2 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .testimonials-header p {
+        color: #6b7280;
+        font-size: 1.1rem;
+    }
+
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+    }
+
+    .testi-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(229, 231, 235, 0.8);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .testi-card::before {
+        content: '"';
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 8rem;
+        color: rgba(59, 130, 246, 0.05);
+        font-family: serif;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .testi-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.08);
+        border-color: rgba(59, 130, 246, 0.2);
+    }
+
+    .testi-stars {
+        color: #fbbf24;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .testi-comment {
+        font-style: italic;
+        color: #374151;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+        flex-grow: 1;
+    }
+
+    .testi-client {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-top: 1px solid #f3f4f6;
+        padding-top: 1rem;
+    }
+
+    .testi-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .testi-info h4 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0;
+    }
+
+    .testi-info span {
+        font-size: 0.78rem;
+        color: #9ca3af;
+        display: block;
+        margin-top: 2px;
+    }
+
+    [data-theme="dark"] .testi-card {
+        background: rgba(30, 41, 59, 0.7);
+        border-color: rgba(255, 255, 255, 0.06);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="dark"] .testi-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    [data-theme="dark"] .testi-comment {
+        color: #e2e8f0;
+    }
+
+    [data-theme="dark"] .testi-info h4 {
+        color: #f1f5f9;
+    }
+
+    [data-theme="dark"] .testi-client {
+        border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    /* ---- Feedback Hero ---- */
+    .fbk-hero {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+        padding: 4rem 2rem 3rem;
+        text-align: center;
+    }
+
+    .fbk-hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.25;
+    }
+
+    .fbk-orb-1 {
+        width: 320px;
+        height: 320px;
+        background: #6366f1;
+        top: -60px;
+        left: -60px;
+    }
+
+    .fbk-orb-2 {
+        width: 240px;
+        height: 240px;
+        background: #a855f7;
+        bottom: -40px;
+        right: -40px;
+    }
+
+    .fbk-hero-badge {
+        display: inline-block;
+        background: rgba(255, 215, 0, 0.18);
+        color: #fbbf24;
+        border: 1px solid rgba(251, 191, 36, 0.4);
+        border-radius: 2rem;
+        padding: 0.3rem 1.1rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin-bottom: 1rem;
+    }
+
+    .fbk-hero-title {
+        color: #fff;
+        font-size: clamp(1.6rem, 4vw, 2.6rem);
+        font-weight: 800;
+        margin: 0 0 0.6rem;
+        letter-spacing: -0.02em;
+    }
+
+    .fbk-hero-sub {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1rem;
+        max-width: 520px;
+        margin: 0 auto;
+    }
+
+    /* ---- Feedback Container ---- */
+    .fbk-container {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 2rem 1rem 4rem;
+        position: relative;
+    }
+
+    .fbk-form-card {
+        background: var(--card-bg, #fff);
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    [data-theme="dark"] .fbk-form-card {
+        background: rgba(30, 27, 75, 0.6);
+        border-color: rgba(99, 102, 241, 0.25);
+    }
+
+    .fbk-section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text, #1e293b);
+        margin: 0 0 0.25rem;
+    }
+
+    .fbk-section-sub {
+        color: #94a3b8;
+        font-size: 0.88rem;
+        margin: 0 0 1.75rem;
+    }
+
+    /* ---- Star Rating Grid ---- */
+    .fbk-rating-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        margin-bottom: 2rem;
+        padding: 1.25rem;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(168, 85, 247, 0.05));
+        border-radius: 14px;
+        border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    .fbk-rating-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .fbk-rating-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text, #334155);
+        min-width: 160px;
+    }
+
+    .fbk-rating-icon {
+        font-size: 1.15rem;
+    }
+
+    .fbk-stars {
+        display: flex;
+        gap: 4px;
+    }
+
+    .fbk-star {
+        font-size: 2rem;
+        cursor: pointer;
+        color: #e2e8f0;
+        transition: color 0.18s, transform 0.18s;
+        user-select: none;
+        line-height: 1;
+    }
+
+    .fbk-star:hover,
+    .fbk-star.hovered {
+        color: #fbbf24;
+        transform: scale(1.18);
+    }
+
+    .fbk-star.selected {
+        color: #f59e0b;
+    }
+
+    .fbk-star.selected:hover {
+        color: #fbbf24;
+    }
+
+    /* ---- Form Fields ---- */
+    .fbk-field-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .fbk-label {
+        display: block;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text, #334155);
+        margin-bottom: 0.5rem;
+    }
+
+    .fbk-textarea {
+        width: 100%;
+        min-height: 110px;
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        border: 1.5px solid rgba(99, 102, 241, 0.2);
+        font-size: 0.92rem;
+        font-family: inherit;
+        resize: vertical;
+        background: var(--input-bg, #f8fafc);
+        color: var(--text, #1e293b);
+        transition: border 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+    }
+
+    .fbk-textarea:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    .fbk-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        border: 1.5px solid rgba(99, 102, 241, 0.2);
+        font-size: 0.92rem;
+        font-family: inherit;
+        background: var(--input-bg, #f8fafc);
+        color: var(--text, #1e293b);
+        transition: border 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+    }
+
+    .fbk-input:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    .fbk-char-count {
+        text-align: right;
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-top: 4px;
+    }
+
+    /* ---- Submit Button ---- */
+    .fbk-submit-btn {
+        width: 100%;
+        padding: 0.95rem;
+        border-radius: 14px;
+        border: none;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+        box-shadow: 0 4px 18px rgba(79, 70, 229, 0.35);
+        letter-spacing: 0.02em;
+    }
+
+    .fbk-submit-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(79, 70, 229, 0.45);
+    }
+
+    .fbk-submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    /* ---- Success Overlay ---- */
+    .fbk-success-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(15, 10, 40, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fbkFadeIn 0.35s ease;
+    }
+
+    @keyframes fbkFadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .fbk-success-card {
+        background: #fff;
+        border-radius: 24px;
+        padding: 3rem 2.5rem;
+        text-align: center;
+        max-width: 420px;
+        width: 90%;
+        animation: fbkSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    [data-theme="dark"] .fbk-success-card {
+        background: #1e1b4b;
+        color: #e0e7ff;
+    }
+
+    @keyframes fbkSlideUp {
+        from {
+            transform: translateY(40px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .fbk-success-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: fbkBounce 0.6s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes fbkBounce {
+        from {
+            transform: scale(0.3);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .fbk-success-card h2 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin: 0 0 0.5rem;
+    }
+
+    [data-theme="dark"] .fbk-success-card h2 {
+        color: #e0e7ff;
+    }
+
+    .fbk-success-card p {
+        color: #64748b;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    [data-theme="dark"] .fbk-success-card p {
+        color: #94a3b8;
+    }
+
+    /* ---- Admin Reviews Page ---- */
+    .rev-admin-header {
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        padding: 2.5rem 2rem 2rem;
+    }
+
+    .rev-admin-header-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-end;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .rev-admin-title {
+        color: #fff;
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .rev-admin-sub {
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 0.9rem;
+        margin: 0.25rem 0 0;
+        flex: 1;
+    }
+
+    .rev-refresh-btn {
+        padding: 0.55rem 1.25rem;
+        border-radius: 10px;
+        border: 1.5px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+    .rev-refresh-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* KPI Bar */
+    .rev-kpi-bar {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        max-width: 1200px;
+        margin: 1.5rem auto 0;
+        padding: 0 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+        .rev-kpi-bar {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .rev-kpi-card {
+        background: var(--card-bg, #fff);
+        border-radius: 14px;
+        padding: 1.25rem 1rem;
+        text-align: center;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    [data-theme="dark"] .rev-kpi-card {
+        background: rgba(30, 27, 75, 0.6);
+        border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    .rev-kpi-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #4f46e5;
+        line-height: 1;
+    }
+
+    .rev-kpi-label {
+        font-size: 0.78rem;
+        color: #94a3b8;
+        margin-top: 0.35rem;
+        font-weight: 500;
+    }
+
+    /* Filter Bar */
+    .rev-filter-bar {
+        max-width: 1200px;
+        margin: 1.5rem auto 0;
+        padding: 0 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .rev-filter-select {
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        border: 1.5px solid rgba(99, 102, 241, 0.2);
+        background: var(--card-bg, #fff);
+        color: var(--text, #334155);
+        font-size: 0.88rem;
+        cursor: pointer;
+    }
+
+    /* Table Wrap */
+    .rev-table-wrap {
+        max-width: 1200px;
+        margin: 1.25rem auto 3rem;
+        padding: 0 1.5rem;
+    }
+
+    /* Review Cards */
+    .rev-card {
+        background: var(--card-bg, #fff);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+        transition: box-shadow 0.2s;
+    }
+
+    [data-theme="dark"] .rev-card {
+        background: rgba(30, 27, 75, 0.55);
+        border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    .rev-card:hover {
+        box-shadow: 0 6px 24px rgba(99, 102, 241, 0.12);
+    }
+
+    .rev-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .rev-card-client {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--text, #1e293b);
+    }
+
+    .rev-card-date {
+        font-size: 0.78rem;
+        color: #94a3b8;
+        margin-top: 2px;
+    }
+
+    .rev-card-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0.25rem 0.75rem;
+        border-radius: 2rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+    }
+
+    .rev-status-New {
+        background: rgba(59, 130, 246, 0.12);
+        color: #2563eb;
+    }
+
+    .rev-status-Featured {
+        background: rgba(251, 191, 36, 0.15);
+        color: #d97706;
+    }
+
+    .rev-status-Private {
+        background: rgba(100, 116, 139, 0.12);
+        color: #64748b;
+    }
+
+    .rev-status-Archived {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+    }
+
+    .rev-card-ratings {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin: 0.85rem 0;
+        padding: 0.75rem;
+        background: rgba(99, 102, 241, 0.04);
+        border-radius: 10px;
+    }
+
+    .rev-rating-item {
+        text-align: center;
+        min-width: 70px;
+    }
+
+    .rev-rating-stars {
+        font-size: 0.85rem;
+        color: #f59e0b;
+    }
+
+    .rev-rating-cat {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        margin-top: 2px;
+    }
+
+    .rev-card-comment {
+        font-size: 0.9rem;
+        color: var(--text, #475569);
+        line-height: 1.6;
+        margin: 0.5rem 0;
+        font-style: italic;
+    }
+
+    .rev-card-suggestion {
+        font-size: 0.82rem;
+        color: #6366f1;
+        background: rgba(99, 102, 241, 0.07);
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        margin-top: 0.5rem;
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+    }
+
+    .rev-card-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+        padding-top: 0.85rem;
+        border-top: 1px solid rgba(99, 102, 241, 0.08);
+    }
+
+    .rev-action-btn {
+        padding: 0.4rem 1rem;
+        border-radius: 8px;
+        border: 1.5px solid;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.18s;
+        background: transparent;
+    }
+
+    .rev-btn-feature {
+        border-color: #f59e0b;
+        color: #d97706;
+    }
+
+    .rev-btn-feature:hover {
+        background: rgba(245, 158, 11, 0.1);
+    }
+
+    .rev-btn-private {
+        border-color: #6366f1;
+        color: #4f46e5;
+    }
+
+    .rev-btn-private:hover {
+        background: rgba(99, 102, 241, 0.1);
+    }
+
+    .rev-btn-archive {
+        border-color: #ef4444;
+        color: #dc2626;
+    }
+
+    .rev-btn-archive:hover {
+        background: rgba(239, 68, 68, 0.08);
+    }
+
+    .rev-btn-loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .rev-empty {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #94a3b8;
+    }
+
+    .rev-empty-icon {
+        font-size: 3rem;
+        margin-bottom: 0.75rem;
+    }
+</style>
+
+<!-- ===== REVIEWS & FEEDBACK JAVASCRIPT ===== -->
+<script>
+    // ===========================
+    // CLIENT FEEDBACK SYSTEM
+    // ===========================
+
+    // Initialise star rating interactivity
+    (function initStars() {
+        function setupStarGroup(groupEl) {
+            const stars = groupEl.querySelectorAll('.fbk-star');
+            stars.forEach(star => {
+                star.addEventListener('mouseover', () => {
+                    const val = parseInt(star.dataset.val);
+                    stars.forEach(s => {
+                        s.classList.toggle('hovered', parseInt(s.dataset.val) <= val);
+                    });
+                });
+                star.addEventListener('mouseout', () => {
+                    stars.forEach(s => s.classList.remove('hovered'));
+                });
+                star.addEventListener('click', () => {
+                    const val = parseInt(star.dataset.val);
+                    groupEl.dataset.value = val;
+                    stars.forEach(s => {
+                        s.classList.toggle('selected', parseInt(s.dataset.val) <= val);
+                    });
+                });
+            });
+        }
+        // Run after DOM ready, page might not be visible yet
+        document.querySelectorAll('.fbk-stars').forEach(setupStarGroup);
+    })();
+
+    function showFbkError(msg) {
+        let errEl = document.getElementById('fbkErrorMsg');
+        if (!errEl) {
+            errEl = document.createElement('div');
+            errEl.id = 'fbkErrorMsg';
+            errEl.style.cssText = 'margin-top:1rem;padding:0.85rem 1rem;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;color:#dc2626;font-size:0.88rem;font-weight:500;line-height:1.5;';
+            document.getElementById('fbkSubmitBtn').insertAdjacentElement('afterend', errEl);
+        }
+        errEl.textContent = '⚠️ ' + msg;
+        errEl.style.display = 'block';
+    }
+    function hideFbkError() {
+        const errEl = document.getElementById('fbkErrorMsg');
+        if (errEl) errEl.style.display = 'none';
+    }
+
+    function submitClientReview() {
+        const btn = document.getElementById('fbkSubmitBtn');
+        const btnText = document.getElementById('fbkSubmitBtnText');
+        const token = localStorage.getItem('authToken');
+        const email = localStorage.getItem('userEmail') || '';
+
+        hideFbkError();
+
+        if (!token || !email) {
+            showFbkError('You must be logged in to submit feedback. Please login first.');
+            return;
+        }
+
+        // Collect ratings
+        const qualityRating = parseInt(document.getElementById('stars-quality').dataset.value) || 0;
+        const serviceRating = parseInt(document.getElementById('stars-service').dataset.value) || 0;
+        const overallRating = parseInt(document.getElementById('stars-overall').dataset.value) || 0;
+
+        if (qualityRating === 0 && serviceRating === 0 && overallRating === 0) {
+            showFbkError('Please rate at least one category before submitting.');
+            return;
+        }
+
+        const comment = document.getElementById('fbkComment').value.trim();
+        const suggestion = document.getElementById('fbkSuggestion').value.trim();
+
+        // Get display name
+        const customerName = document.getElementById('custName')?.value?.trim() ||
+            (email ? email.split('@')[0].replace(/[^a-zA-Z ]/g, ' ') : 'Anonymous');
+
+        btn.disabled = true;
+        btnText.textContent = 'Submitting...';
+
+        try {
+            // Check if Google Apps Script API is available
+            if (typeof google === 'undefined' || !google.script || !google.script.run) {
+                throw new Error('Google Apps Script environment not detected. If you are testing this locally, google.script.run is unavailable. If you are running the deployed web app, please ensure the scripts loaded correctly.');
+            }
+
+            // Check if the submitReview function exists
+            if (typeof google.script.run.submitReview !== 'function') {
+                throw new Error('The backend function "submitReview" is not available on google.script.run. This usually means the Google Apps Script project has not been redeployed as a "New version" since the feedback feature code was added.');
+            }
+
+            google.script.run
+                .withSuccessHandler(res => {
+                    btn.disabled = false;
+                    btnText.textContent = '✨ Submit Feedback';
+                    if (res && res.success) {
+                        hideFbkError();
+                        // Reset form
+                        document.querySelectorAll('.fbk-stars').forEach(g => {
+                            g.dataset.value = '0';
+                            g.querySelectorAll('.fbk-star').forEach(s => s.classList.remove('selected', 'hovered'));
+                        });
+                        document.getElementById('fbkComment').value = '';
+                        document.getElementById('fbkSuggestion').value = '';
+                        document.getElementById('fbkCommentCount').textContent = '0';
+                        // Show success overlay
+                        document.getElementById('fbkSuccessOverlay').style.display = 'flex';
+                    } else {
+                        // Show the actual error returned from server
+                        const errMsg = (res && res.error) ? res.error : 'Unknown error. Please try again.';
+                        showFbkError('Server error: ' + errMsg);
+                    }
+                })
+                .withFailureHandler(err => {
+                    btn.disabled = false;
+                    btnText.textContent = '✨ Submit Feedback';
+                    // Show the actual GAS failure message
+                    const msg = err && err.message ? err.message : String(err);
+                    showFbkError('Failed to submit: ' + msg + ' — Make sure the Apps Script is redeployed.');
+                    console.error('Review submit error:', err);
+                })
+                .submitReview(
+                    email,
+                    customerName,
+                    qualityRating,
+                    serviceRating,
+                    overallRating,
+                    comment,
+                    suggestion
+                );
+        } catch (e) {
+            btn.disabled = false;
+            btnText.textContent = '✨ Submit Feedback';
+            showFbkError('Client Error: ' + e.message);
+            console.error('Client Review submit initialization error:', e);
+        }
+    }
+
+
+    // ===========================
+    // ADMIN REVIEWS SYSTEM
+    // ===========================
+
+    let _reviewsData = [];
+
+    function openAdminReviews(navBtn) {
+        showPage('page-admin-reviews', navBtn);
+        if (_reviewsData.length === 0) loadAdminReviews(false);
+    }
+
+    function loadAdminReviews(showLoader) {
+        const container = document.getElementById('revTableContainer');
+        if (showLoader) container.innerHTML = '<div style="text-align:center;padding:3rem;color:#94a3b8;">🔄 Refreshing...</div>';
+
+        const token = localStorage.getItem('authToken');
+        if (!token) { premiumNotify('Admin access required.', 'error'); return; }
+
+        google.script.run
+            .withSuccessHandler(data => {
+                _reviewsData = Array.isArray(data) ? data : [];
+                renderReviewsKPIs();
+                renderReviewsTable();
+            })
+            .withFailureHandler(err => {
+                container.innerHTML = '<div class="rev-empty"><div class="rev-empty-icon">❌</div><p>Failed to load reviews. Check connection.</p></div>';
+                console.error('Load reviews error:', err);
+            })
+            .getReviews(token);
+    }
+
+    function renderReviewsKPIs() {
+        if (!_reviewsData.length) {
+            document.getElementById('revKpiTotal').textContent = '0';
+            document.getElementById('revKpiAvg').textContent = '—';
+            document.getElementById('revKpiMonth').textContent = '0';
+            document.getElementById('revKpiFeatured').textContent = '0';
+            return;
+        }
+        const now = new Date();
+        const thisMonth = now.getMonth();
+        const thisYear = now.getFullYear();
+
+        const total = _reviewsData.length;
+        const featured = _reviewsData.filter(r => r.status === 'Featured').length;
+
+        // Reviews this month (date is dd/MM/yyyy HH:mm)
+        const monthCount = _reviewsData.filter(r => {
+            if (!r.date) return false;
+            const parts = r.date.split('/');
+            if (parts.length < 3) return false;
+            const d = parseInt(parts[0]);
+            const m = parseInt(parts[1]) - 1;
+            const y = parseInt(parts[2].split(' ')[0]);
+            return m === thisMonth && y === thisYear;
+        }).length;
+
+        const avgOverall = (_reviewsData.reduce((s, r) => s + (Number(r.overallRating) || 0), 0) / total).toFixed(1);
+        const starDisplay = avgOverall !== 'NaN' ? '⭐ ' + avgOverall : '—';
+
+        document.getElementById('revKpiTotal').textContent = total;
+        document.getElementById('revKpiAvg').textContent = starDisplay;
+        document.getElementById('revKpiMonth').textContent = monthCount;
+        document.getElementById('revKpiFeatured').textContent = featured;
+    }
+
+    function renderReviewsTable() {
+        const container = document.getElementById('revTableContainer');
+        const filterStatus = document.getElementById('revFilterStatus').value;
+        const filterRating = parseInt(document.getElementById('revFilterRating').value);
+
+        let data = [..._reviewsData];
+
+        if (filterStatus !== 'all') data = data.filter(r => r.status === filterStatus);
+        if (filterRating > 0) data = data.filter(r => (Number(r.overallRating) || 0) >= filterRating);
+
+        if (!data.length) {
+            container.innerHTML = `<div class="rev-empty">
+                <div class="rev-empty-icon">💬</div>
+                <p>No reviews found for the selected filters.</p>
+            </div>`;
+            return;
+        }
+
+        container.innerHTML = data.map(r => {
+            const statusClass = 'rev-status-' + (r.status || 'New').replace(/[^a-zA-Z]/g, '');
+            const statusLabel = r.status === 'Featured' ? '⭐ Featured' :
+                r.status === 'Private' ? '🔒 Private' :
+                    r.status === 'Archived' ? '🗃️ Archived' : '🆕 New';
+
+            const starsHtml = (n) => '★'.repeat(Math.max(0, Math.min(5, Math.round(Number(n) || 0)))) +
+                '☆'.repeat(5 - Math.max(0, Math.min(5, Math.round(Number(n) || 0))));
+
+            const commentHtml = r.comment
+                ? `<div class="rev-card-comment">"${r.comment.replace(/</g, '&lt;').replace(/>/g, '&gt;')}"</div>`
+                : '';
+            const suggestionHtml = r.suggestion
+                ? `<div class="rev-card-suggestion">💡 <span>${r.suggestion.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span></div>`
+                : '';
+
+            const isArchived = r.status === 'Archived';
+            const isFeatured = r.status === 'Featured';
+            const isPrivate = r.status === 'Private';
+
+            return `<div class="rev-card" id="revcard-${r.id}">
+                <div class="rev-card-top">
+                    <div>
+                        <div class="rev-card-client">👤 ${(r.customerName || r.email || 'Anonymous').replace(/</g, '&lt;')}</div>
+                        <div class="rev-card-date">🕒 ${r.date || '—'} · ${r.email || ''}</div>
+                    </div>
+                    <span class="rev-card-status ${statusClass}">${statusLabel}</span>
+                </div>
+                <div class="rev-card-ratings">
+                    <div class="rev-rating-item"><div class="rev-rating-stars">${starsHtml(r.qualityRating)}</div><div class="rev-rating-cat">Quality</div></div>
+                    <div class="rev-rating-item"><div class="rev-rating-stars">${starsHtml(r.deliveryRating)}</div><div class="rev-rating-cat">Delivery</div></div>
+                    <div class="rev-rating-item"><div class="rev-rating-stars">${starsHtml(r.serviceRating)}</div><div class="rev-rating-cat">Service</div></div>
+                    <div class="rev-rating-item"><div class="rev-rating-stars">${starsHtml(r.overallRating)}</div><div class="rev-rating-cat">Overall</div></div>
+                </div>
+                ${commentHtml}
+                ${suggestionHtml}
+                <div class="rev-card-actions">
+                    ${!isFeatured ? `<button class="rev-action-btn rev-btn-feature" onclick="updateReviewStatus('${r.id}', 'Featured', this)">⭐ Make Public</button>` : ''}
+                    ${!isPrivate && isFeatured ? `<button class="rev-action-btn rev-btn-private" onclick="updateReviewStatus('${r.id}', 'Private', this)">🔒 Make Private</button>` : ''}
+                    ${!isPrivate && !isFeatured ? `<button class="rev-action-btn rev-btn-private" onclick="updateReviewStatus('${r.id}', 'Private', this)">🔒 Mark Private</button>` : ''}
+                    ${!isArchived ? `<button class="rev-action-btn rev-btn-archive" onclick="updateReviewStatus('${r.id}', 'Archived', this)">🗃️ Archive</button>` : ''}
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function updateReviewStatus(id, status, btnEl) {
+        const token = localStorage.getItem('authToken');
+        if (!token) return;
+
+        btnEl.classList.add('rev-btn-loading');
+        btnEl.textContent = '...';
+
+        google.script.run
+            .withSuccessHandler(() => {
+                // Update local data
+                const rev = _reviewsData.find(r => r.id === id);
+                if (rev) {
+                    rev.status = status;
+                    rev.featuredPublicly = status === 'Featured' ? 'Yes' : 'No';
+                }
+                renderReviewsKPIs();
+                renderReviewsTable();
+                const label = status === 'Featured' ? 'Made public ⭐' : status === 'Private' ? 'Marked private 🔒' : 'Archived 🗃️';
+                premiumNotify(label, 'success');
+                // Sync public testimonials view
+                loadFeaturedReviews();
+            })
+            .withFailureHandler(err => {
+                btnEl.classList.remove('rev-btn-loading');
+                btnEl.textContent = 'Retry';
+                premiumNotify('Update failed. Try again.', 'error');
+                console.error('Update review status error:', err);
+            })
+            .updateReviewStatus(token, id, status);
+    }
+
+    /* ---- Public Testimonials Logic ---- */
+    function loadFeaturedReviews() {
+        try {
+            if (typeof google !== 'undefined' && google.script && google.script.run && typeof google.script.run.getFeaturedReviews === 'function') {
+                google.script.run
+                    .withSuccessHandler(reviews => {
+                        renderFeaturedReviews(reviews);
+                    })
+                    .getFeaturedReviews();
+            }
+        } catch (e) {
+            console.error("Error loading featured reviews:", e);
+        }
+    }
+
+    function renderFeaturedReviews(reviews) {
+        const section = document.getElementById('testimonialsSection');
+        const grid = document.getElementById('testimonialsGrid');
+        if (!section || !grid) return;
+
+        if (!reviews || reviews.length === 0) {
+            section.style.display = 'none';
+            return;
+        }
+
+        section.style.display = 'block';
+        grid.innerHTML = reviews.map(r => {
+            const name = r.customerName || 'Anonymous';
+            const avatarChar = name.trim().charAt(0).toUpperCase() || '👤';
+            const starsHtml = '★'.repeat(Math.round(r.overallRating || 0)) + '☆'.repeat(5 - Math.round(r.overallRating || 0));
+            return `
+                <div class="testi-card">
+                    <div>
+                        <div class="testi-stars">${starsHtml}</div>
+                        <div class="testi-comment">"${(r.comment || 'No comment provided.').replace(/</g, '&lt;').replace(/>/g, '&gt;')}"</div>
+                    </div>
+                    <div class="testi-client">
+                        <div class="testi-avatar">${avatarChar}</div>
+                        <div class="testi-info">
+                            <span style="font-weight: 600; color: var(--text-main, #1f2937); font-size: 0.85rem;">${r.date || 'Recent Client'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Load public testimonials once the page is fully ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadFeaturedReviews);
+    } else {
+        loadFeaturedReviews();
+    }
+</script>
 
 </html>
