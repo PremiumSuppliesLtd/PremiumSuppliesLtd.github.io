@@ -5247,6 +5247,81 @@
         const STOCK_API_URL = "https://script.google.com/macros/s/AKfycbwhxVp4QPKQEDsS7t7ZRCE9gq3Re-BZZsaaeqGeN4ZNSVyzayeClUd-_uPr0x0b-x6JSA/exec";
         let downloadUrl = "#";
 
+        // Fast Edit Distance (Levenshtein) optimized for short strings
+        function levenshtein(s1, s2) {
+            var len1 = s1.length;
+            var len2 = s2.length;
+            if (len1 === 0) return len2;
+            if (len2 === 0) return len1;
+            
+            var row = new Array(len2 + 1);
+            for (var i = 0; i <= len2; i++) row[i] = i;
+            
+            for (var i = 1; i <= len1; i++) {
+                var prev = i;
+                for (var j = 1; j <= len2; j++) {
+                    var val;
+                    if (s1.charAt(i - 1) === s2.charAt(j - 1)) {
+                        val = row[j - 1];
+                    } else {
+                        val = Math.min(row[j - 1] + 1, // substitution
+                                       Math.min(prev + 1,     // insertion
+                                                row[j] + 1));  // deletion
+                    }
+                    row[j - 1] = prev;
+                    prev = val;
+                }
+                row[len2] = prev;
+            }
+            return row[len2];
+        }
+
+        // Fuzzy match score (0 = no match, higher is better)
+        function getFuzzyScore(item, query) {
+            if (!query) return 100;
+            
+            const name = item.name.toLowerCase();
+            const searchStr = item.searchStr || '';
+            
+            // 1. Exact or Substring match (Highest priority)
+            if (searchStr.includes(query)) {
+                if (name.startsWith(query)) return 100;
+                if (name.includes(query)) return 95;
+                return 90;
+            }
+            
+            // 2. Word-by-word spelling tolerance (Edit distance)
+            const queryWords = query.split(/\s+/).filter(w => w.length > 2);
+            if (queryWords.length === 0) return 0;
+            
+            const nameWords = name.split(/[^a-z0-9]+/).filter(w => w.length > 2);
+            
+            let matchedWords = 0;
+            let totalDistance = 0;
+            
+            for (const qw of queryWords) {
+                let bestWordDist = 999;
+                for (const nw of nameWords) {
+                    const dist = levenshtein(qw, nw);
+                    if (dist < bestWordDist) {
+                        bestWordDist = dist;
+                    }
+                }
+                const allowedError = qw.length <= 5 ? 1 : 2;
+                if (bestWordDist <= allowedError) {
+                    matchedWords++;
+                    totalDistance += bestWordDist;
+                }
+            }
+            
+            if (matchedWords === queryWords.length) {
+                // Return score (10 to 80) based on closeness
+                return 80 - totalDistance;
+            }
+            
+            return 0;
+        }
+
         // POLYFILL FOR GOOGLE SCRIPT RUN
         const google = {
             script: {
@@ -5971,12 +6046,25 @@
 
             const search = document.getElementById("search").value.toLowerCase().trim();
 
-            // 1. Filter
-            const filtered = allProducts.filter(item => {
-                const matchesCat = cat === "" || item.cat.toLowerCase() === cat;
-                const matchesSearch = search === "" || item.searchStr.includes(search);
-                return matchesCat && matchesSearch;
-            });
+            // 1. Filter and Score
+            let filtered;
+            if (search === "") {
+                filtered = allProducts.filter(item => {
+                    return cat === "" || item.cat.toLowerCase() === cat;
+                });
+            } else {
+                filtered = allProducts
+                    .map(item => {
+                        const score = getFuzzyScore(item, search);
+                        return { item, score };
+                    })
+                    .filter(entry => {
+                        const matchesCat = cat === "" || entry.item.cat.toLowerCase() === cat;
+                        return matchesCat && entry.score > 0;
+                    })
+                    .sort((a, b) => b.score - a.score)
+                    .map(entry => entry.item);
+            }
 
             // 2. Slice (Max 50 items for speed)
             const MAX_ITEMS = 50;
@@ -6025,7 +6113,20 @@
                     </div>
                 `;
             } else if (filtered.length === 0) {
-                cardsEl.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem;">No products found.</div>`;
+                cardsEl.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem 2rem;">
+                    <div style="font-size:2rem; margin-bottom:1rem;">🔍</div>
+                    <div style="font-weight:600; color:var(--text-main,#111); margin-bottom:.5rem;">No products found for "${search}"</div>
+                    <div style="color:var(--text-muted,#6b7280); font-size:.9rem;">Try checking your spelling or using fewer keywords.</div>
+                </div>`;
+            } else if (search !== "") {
+                // Show fuzzy notice if some results came from spelling tolerance
+                const hasExactMatch = filtered.some(item => item.searchStr && item.searchStr.includes(search));
+                if (!hasExactMatch) {
+                    cardsEl.innerHTML = `<div style="grid-column:1/-1; background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(234,88,12,.04)); border:1px solid rgba(249,115,22,.2); border-radius:12px; padding:.8rem 1.2rem; margin-bottom:1rem; display:flex; align-items:center; gap:.6rem; font-size:.85rem; color:#b45309;">
+                        <span style="font-size:1.1rem;">✨</span>
+                        <span>Showing closest matches for <strong>"${search}"</strong> — spelling auto-corrected</span>
+                    </div>` + cardsEl.innerHTML;
+                }
             }
         }
 
@@ -10715,11 +10816,14 @@
                 return;
             }
 
-            const filtered = query ? allProducts.filter(p =>
-                p.name.toLowerCase().includes(query) ||
-                String(p.barcode).toLowerCase().includes(query) ||
-                (p.cat && p.cat.toLowerCase().includes(query))
-            ) : allProducts;
+            const filtered = query ? allProducts
+                .map(p => {
+                    const score = getFuzzyScore(p, query);
+                    return { p, score };
+                })
+                .filter(entry => entry.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .map(entry => entry.p) : allProducts;
 
             countEl.textContent = filtered.length + ' products';
 
