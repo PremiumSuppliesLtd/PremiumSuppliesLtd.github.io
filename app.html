@@ -2282,6 +2282,10 @@
                             0%, 100% { box-shadow: 0 4px 18px rgba(245,158,11,0.45), 0 0 0 1px rgba(251,191,36,0.3); }
                             50%      { box-shadow: 0 6px 26px rgba(245,158,11,0.7), 0 0 0 2px rgba(251,191,36,0.6); }
                         }
+                        @keyframes filterBannerSlide {
+                            from { opacity: 0; transform: translateY(-8px); }
+                            to   { opacity: 1; transform: translateY(0); }
+                        }
 
                         #boughtBeforeBtn {
                             display: none;
@@ -2428,6 +2432,10 @@
             <div id="quickAddContent" class="fade-in">
                 <div id="quickAddItems" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
             </div>
+        </div>
+
+        <!-- Filter Context Banner -->
+        <div id="filterContextBanner" style="display:none; margin:0 1.5rem 0; animation:none;">
         </div>
 
         <div class="container">
@@ -6165,6 +6173,53 @@
             alert(`✓ ${cartItems.length} items added to cart from your last purchase!`);
         }
 
+        function updateFilterContextBanner() {
+            const banner = document.getElementById('filterContextBanner');
+            if (!banner) return;
+
+            if (activeFastFilter === 'bought_before') {
+                const count = getBoughtBeforeCount();
+                banner.style.display = 'block';
+                banner.innerHTML = `
+                    <div style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                        padding: 12px 18px;
+                        border-radius: 14px;
+                        background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(251,191,36,0.08));
+                        border: 1.5px solid rgba(245,158,11,0.38);
+                        margin-bottom: 12px;
+                        box-shadow: 0 2px 12px rgba(245,158,11,0.12);
+                        animation: filterBannerSlide 0.35s cubic-bezier(0.4,0,0.2,1);
+                    ">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size:1.3rem; line-height:1;">⭐</span>
+                            <div>
+                                <div style="font-weight:800; font-size:0.92rem; color:#d97706; letter-spacing:0.1px;">Bought Before</div>
+                                <div style="font-size:0.76rem; opacity:0.8; margin-top:1px;">Showing <strong>${count}</strong> item${count !== 1 ? 's' : ''} from your purchase history · Quantities pre-filled</div>
+                            </div>
+                        </div>
+                        <button onclick="clearFastFilter()" style="
+                            display: inline-flex; align-items: center; gap: 6px;
+                            padding: 6px 14px; border-radius: 20px;
+                            border: 1.5px solid rgba(245,158,11,0.45);
+                            background: rgba(245,158,11,0.1);
+                            color: #b45309; font-size: 0.78rem; font-weight: 700;
+                            cursor: pointer; font-family: inherit;
+                            transition: all 0.2s;
+                        " onmouseover="this.style.background='rgba(245,158,11,0.22)'" onmouseout="this.style.background='rgba(245,158,11,0.1)'">
+                            ✕ Show Full Price List
+                        </button>
+                    </div>`;
+            } else {
+                banner.style.display = 'none';
+                banner.innerHTML = '';
+            }
+        }
+
         function setBoughtBeforeFilter() {
             if (activeFastFilter === 'bought_before') {
                 clearFastFilter();
@@ -6180,6 +6235,7 @@
             const btn = document.getElementById("boughtBeforeBtn");
             if (btn) btn.classList.add('active-filter');
 
+            updateFilterContextBanner();
             renderGrid();
         }
 
@@ -6189,6 +6245,7 @@
             if (btn) {
                 btn.classList.remove('active-filter');
             }
+            updateFilterContextBanner();
             renderGrid();
         }
 
@@ -6534,10 +6591,12 @@
                 const packDisplay = isLoggedIn ? item.pack : `<span style="color:#999; font-size:0.8rem;">Login to view pack</span>`;
 
                 // Calculate exact last bought quantity for this item
-                const lastQty = getLastBoughtQty(item);
-                const defaultQty = activeFastFilter === 'bought_before' ? lastQty : 1;
+                const itemProductKey = item.productKey || getProductKey(item);
+                const wasActuallyBought = boughtKeys.has(itemProductKey);
+                const lastQty = wasActuallyBought ? getLastBoughtQty(item) : 1;
+                const defaultQty = (activeFastFilter === 'bought_before' && wasActuallyBought) ? lastQty : 1;
 
-                const lastQtyBadgeHtml = (activeFastFilter === 'bought_before' || (isLoggedIn && lastQty > 1 && boughtKeys.has(item.productKey || getProductKey(item))))
+                const lastQtyBadgeHtml = (wasActuallyBought && lastQty > 1)
                     ? `<span class="last-qty-badge" style="background:rgba(99,102,241,0.1); color:#6366f1; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:3px;" title="Quantity from your previous order">↺ Last Qty: ${lastQty}</span>`
                     : '';
 
