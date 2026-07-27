@@ -1347,8 +1347,8 @@
         <!-- ============ NEW FEATURE CARDS ============ -->
         <div class="features-section" id="featuresSection">
             <div class="features-section-header">
-                <h2>✨ Powerful Features at Your Fingertips</h2>
-                <p>Explore our smart tools designed to make your procurement faster, smarter, and effortless</p>
+                <h2>✨ 8 Powerful Smart Features at Your Fingertips</h2>
+                <p>Explore our 8 intelligent tools designed to make your procurement faster, smarter, and 100% effortless</p>
             </div>
 
             <div class="features-grid">
@@ -1383,6 +1383,52 @@
                                 <span class="fc-step-num ai-num">3</span>
                                 <span class="fc-step-text">Review your <strong>smart suggestions</strong>, adjust
                                     quantities, and add to cart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD: Bought Before (Express 1-Click Ordering) -->
+                <div class="fc-border-anim-wrapper">
+                    <div class="feature-card fc-has-border-anim" id="fc-bought-before"
+                        onclick="showPage('page-pricelist', document.querySelectorAll('.nav-btn')[1]); setTimeout(setBoughtBeforeFilter, 300);"
+                        style="cursor:pointer;">
+                        <span class="fc-badge" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(251,191,36,0.15)); color:#d97706; border:1px solid rgba(245,158,11,0.3); padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:800;">⭐ Express 1-Click Filter</span>
+                        <div class="fc-icon-wrap" style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; margin:1rem 0; box-shadow:0 4px 16px rgba(245,158,11,0.4); position:relative;">
+                            ⭐
+                            <span class="fc-orbit-dot"></span>
+                            <span class="fc-orbit-dot"></span>
+                            <span class="fc-orbit-dot"></span>
+                        </div>
+                        <h3 class="fc-title">⭐ Bought Before — 1-Click Fast Reorder</h3>
+                        <p class="fc-desc">Instant 1-click filter that isolates every item you've ever ordered. Pre-fills your previous purchase quantities so you can re-order your regular supply in under 10 seconds!</p>
+
+                        <!-- Speed Benchmark Box -->
+                        <div style="background:linear-gradient(135deg, rgba(245,158,11,0.12), rgba(251,191,36,0.06)); border:1px solid rgba(245,158,11,0.28); border-radius:12px; padding:10px 14px; margin:12px 0 16px 0; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="background:#f59e0b; color:#fff; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.8rem;">⚡</span>
+                                <div>
+                                    <div style="font-size:0.82rem; font-weight:800; color:#d97706;">Order Speed Benchmark</div>
+                                    <div style="font-size:0.74rem; opacity:0.85;">Pre-filled past quantities</div>
+                                </div>
+                            </div>
+                            <span style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; font-size:0.76rem; font-weight:800; padding:4px 10px; border-radius:20px; box-shadow:0 2px 8px rgba(245,158,11,0.3); white-space:nowrap;">
+                                &lt; 10 Seconds
+                            </span>
+                        </div>
+
+                        <div class="fc-steps">
+                            <div class="fc-step">
+                                <span class="fc-step-num" style="background:#f59e0b; color:#fff; font-weight:800; border-radius:50%; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; font-size:0.72rem; margin-right:6px;">1</span>
+                                <span class="fc-step-text">Click <strong>⭐ Bought Before</strong> in the price list toolbar</span>
+                            </div>
+                            <div class="fc-step">
+                                <span class="fc-step-num" style="background:#f59e0b; color:#fff; font-weight:800; border-radius:50%; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; font-size:0.72rem; margin-right:6px;">2</span>
+                                <span class="fc-step-text">View items with <strong>pre-filled quantities</strong> (e.g. ↺ Last Qty: 5)</span>
+                            </div>
+                            <div class="fc-step">
+                                <span class="fc-step-num" style="background:#f59e0b; color:#fff; font-weight:800; border-radius:50%; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; font-size:0.72rem; margin-right:6px;">3</span>
+                                <span class="fc-step-text">Tap <strong>＋</strong> to add to cart — zero searching or typing needed!</span>
                             </div>
                         </div>
                     </div>
@@ -2227,6 +2273,129 @@
                         </div>
                     </div>
 
+
+                    <!-- Fast Order Buttons (premium animated) -->
+                    <style>
+                    <!-- Fast Order Buttons (premium animated) -->
+                    <style>
+                        @keyframes fastBtnGlow {
+                            0%, 100% { box-shadow: 0 4px 18px rgba(245,158,11,0.45), 0 0 0 1px rgba(251,191,36,0.3); }
+                            50%      { box-shadow: 0 6px 26px rgba(245,158,11,0.7), 0 0 0 2px rgba(251,191,36,0.6); }
+                        }
+
+                        #boughtBeforeBtn {
+                            display: none;
+                            align-items: center;
+                            gap: 8px;
+                            height: 46px;
+                            padding: 0 18px;
+                            border-radius: 14px;
+                            border: 1px solid rgba(251,191,36,0.4);
+                            background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+                            color: #ffffff;
+                            font-family: inherit;
+                            font-size: 0.85rem;
+                            font-weight: 700;
+                            cursor: pointer;
+                            white-space: nowrap;
+                            letter-spacing: 0.3px;
+                            box-shadow: 0 4px 16px rgba(245,158,11,0.35);
+                            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                            position: relative;
+                            overflow: hidden;
+                        }
+                        #boughtBeforeBtn::before {
+                            content: '';
+                            position: absolute;
+                            top: 0; left: -100%;
+                            width: 100%; height: 100%;
+                            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+                            transition: left 0.6s ease;
+                        }
+                        #boughtBeforeBtn:hover::before {
+                            left: 100%;
+                        }
+                        #boughtBeforeBtn:hover {
+                            transform: translateY(-2px) scale(1.02);
+                            box-shadow: 0 8px 24px rgba(245,158,11,0.55);
+                            border-color: rgba(254,240,138,0.7);
+                        }
+                        #boughtBeforeBtn.active-filter {
+                            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+                            border-color: #fef08a;
+                            animation: fastBtnGlow 2s ease-in-out infinite;
+                        }
+                        #boughtBeforeBtn:active {
+                            transform: scale(0.97);
+                        }
+
+                        .bought-count-badge {
+                            background: #ffffff;
+                            color: #d97706;
+                            padding: 2px 9px;
+                            border-radius: 20px;
+                            font-size: 0.75rem;
+                            font-weight: 800;
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+                            transition: all 0.2s;
+                        }
+                        #boughtBeforeBtn.active-filter .bought-count-badge {
+                            background: #ffffff;
+                            color: #b45309;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+                        }
+
+                        /* Out of Stock Cards — Theme Adaptive */
+                        .oos-bought-card {
+                            border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
+                            background: linear-gradient(135deg, rgba(239, 68, 68, 0.06), rgba(239, 68, 68, 0.02)) !important;
+                            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.1) !important;
+                            transition: all 0.25s ease;
+                        }
+                        .oos-bought-card .oos-title {
+                            color: #dc2626 !important;
+                            font-size: 0.92rem;
+                            font-weight: 700;
+                        }
+                        .oos-bought-card .oos-pack {
+                            font-size: 0.76rem;
+                            color: var(--text-muted, #6b7280) !important;
+                            margin-top: 2px;
+                        }
+                        .oos-price-badge {
+                            font-size: 0.82rem !important;
+                            font-weight: 800 !important;
+                            color: #047857 !important;
+                            background: rgba(16, 185, 129, 0.12) !important;
+                            border: 1px solid rgba(16, 185, 129, 0.3) !important;
+                            padding: 3px 9px !important;
+                            border-radius: 8px !important;
+                            display: inline-block;
+                            letter-spacing: 0.2px;
+                        }
+
+                        /* Dark Theme Overrides for OOS Cards */
+                        [data-theme="dark"] .oos-bought-card {
+                            background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(30, 30, 35, 0.8)) !important;
+                            border-color: rgba(239, 68, 68, 0.55) !important;
+                            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+                        }
+                        [data-theme="dark"] .oos-bought-card .oos-title {
+                            color: #fca5a5 !important;
+                        }
+                        [data-theme="dark"] .oos-bought-card .oos-pack {
+                            color: #9ca3af !important;
+                        }
+                        [data-theme="dark"] .oos-price-badge {
+                            color: #34d399 !important;
+                            background: rgba(52, 211, 153, 0.22) !important;
+                            border-color: rgba(52, 211, 153, 0.45) !important;
+                        }
+                    </style>
+
+                    <button id="boughtBeforeBtn" onclick="setBoughtBeforeFilter()">⭐ Bought Before</button>
+
+
                     <!-- Export PO — standalone button -->
                     <button class="nav-btn panel-btn" onclick="openExportPOModal()" id="exportPOBtn"
                         style="height:46px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; border:none; font-weight:700; letter-spacing:.3px; white-space:nowrap; gap:7px; box-shadow:0 4px 14px rgba(99,102,241,0.35); transition:transform .18s,box-shadow .18s;"
@@ -2244,11 +2413,17 @@
         </div>
 
         <!-- Quick Add Section -->
-        <div id="quickAddPanel" style="display:none; padding: 1rem;" class="container">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
-                <h4 style="margin:0; color:var(--primary-dark)">⭐ Frequent Items</h4>
-                <button id="quickAddToggleBtn" class="nav-btn" onclick="toggleQuickAdd()"
-                    style="color:var(--primary);">Hide</button>
+        <div id="quickAddPanel" style="display:none; padding: 0.8rem 1rem;" class="container">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem; flex-wrap:wrap; gap:0.5rem;">
+                <h4 style="margin:0; color:var(--primary-dark); font-size:0.9rem;">⭐ Your Frequent Items</h4>
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                    <button onclick="addAllFrequentToCart()"
+                        style="display:inline-flex; align-items:center; gap:5px; padding:5px 14px; border-radius:16px; border:none; background:linear-gradient(135deg,#f97316,#ea580c); color:#fff; font-size:0.78rem; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; box-shadow:0 2px 8px rgba(249,115,22,0.35);">
+                        ⚡ Add All to Cart
+                    </button>
+                    <button id="quickAddToggleBtn" class="nav-btn" onclick="toggleQuickAdd()"
+                        style="color:var(--primary); font-size:0.78rem; padding:4px 10px;">Hide</button>
+                </div>
             </div>
             <div id="quickAddContent" class="fade-in">
                 <div id="quickAddItems" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
@@ -5241,7 +5416,7 @@
     </script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycby1gsftZ_4FIB80qyA7fZdjOIpLeIWvZgIuWKeuN8ahHLuNYBwLXXlUMGCIRcj4X5HArw/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwivz2yZAMPr4jNgUV1DN4ysolewZOKUy0mSQ8QidegjwMS5HnmBBk9_tEBNOB-91sYRw/exec";
         // Update this URL with your newly deployed Google Apps Script URL for Data5555:
         const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
         const STOCK_API_URL = "https://script.google.com/macros/s/AKfycbwhxVp4QPKQEDsS7t7ZRCE9gq3Re-BZZsaaeqGeN4ZNSVyzayeClUd-_uPr0x0b-x6JSA/exec";
@@ -5584,11 +5759,19 @@
                 .catch(e => console.log("Metadata error", e));
         }
 
+        function getProductKey(item) {
+            if (!item) return '';
+            const name = String(item.name || '').toLowerCase().trim();
+            const pack = String(item.pack || '').toLowerCase().trim();
+            return name + '|' + pack;
+        }
+
         let priceMap = {};
+        let productKeyMap = {};
         let allProducts = []; // Stores data instead of DOM
         let cart = {};
         let lastPurchases = []; // Array of {date, barcode, name, cat, pack, qty}
-        let historyMap = {}; // barcode -> latest entry
+        let historyMap = {}; // productKey -> latest entry
         let csEnabled = false; // Recommendations disabled
         let baseNameMap = {}; // baseName -> [entries]
         let namePackMap = {}; // 'name|pack' lowercase -> current price list item
@@ -5596,6 +5779,7 @@
         let stockUploadResults = { available: [], unavailable: [] };
         let newArrivalScrollTimer = null;
         let isNewArrivalScrolling = true;
+        let activeFastFilter = null; // null | 'bought_before'
 
         function checkSessionExpiration() {
             const token = localStorage.getItem("authToken");
@@ -5734,6 +5918,8 @@
             localStorage.removeItem("loginTimestamp");
 
             lastPurchases = []; historyMap = {}; baseNameMap = {}; // Clear history
+            activeFastFilter = null; // Reset fast filter
+            updateFastOrderBar(); // Hide fast order bar
             updateLoginUI(null);
 
             // Refetch Data without email (masked)
@@ -5794,24 +5980,6 @@
             }
         }
 
-        function reorderLastOrder() {
-            const isLoggedIn = !!localStorage.getItem("authToken");
-            if (!isLoggedIn) { alert("Please login to reorder items."); return; }
-
-            const saved = localStorage.getItem("lastOrder");
-            if (!saved) { alert("❌ No previous order found"); return; }
-            try {
-                const items = JSON.parse(saved);
-                if (!items || Object.keys(items).length === 0) { alert("❌ Last order is empty"); return; }
-                cart = {};
-                Object.values(items).forEach(i => {
-                    const latest = priceMap[i.barcode];
-                    cart[i.barcode] = { name: i.name, pack: i.pack, barcode: i.barcode, price: i.price, cat: i.cat || (latest || {}).cat || '', qty: i.qty };
-                });
-                renderCart();
-                toggleCart();
-            } catch (e) { alert("❌ Failed to load last order"); }
-        }
 
         function showLast5Orders() {
             const isLoggedIn = !!localStorage.getItem("authToken");
@@ -5879,18 +6047,19 @@
                 const btn = document.createElement("button");
                 btn.className = "btn-secondary";
                 btn.style.fontSize = "0.8rem";
-                btn.innerHTML = `➕ ${i.name} (${i.suggestedQty})`;
+                btn.title = `Avg qty: ${i.suggestedQty} · Ordered ${i.appearances}x`;
+                btn.innerHTML = `➕ ${i.name} <span style="font-size:0.7rem;opacity:0.7;">(${i.suggestedQty})</span>`;
                 btn.onclick = () => addQuickItem(i);
                 box.appendChild(btn);
             });
+
+            // Also refresh the fast order bar visibility
+            updateFastOrderBar();
         }
 
         function addQuickItem(item) {
-            if (cart[item.barcode]) { cart[item.barcode].qty += item.suggestedQty; }
-            else { cart[item.barcode] = { barcode: item.barcode, name: item.name, pack: item.pack, price: item.price, cat: item.cat || (priceMap[item.barcode] || {}).cat || '', qty: item.suggestedQty }; }
-            triggerCartAnimation();
-            renderCart();
-            toggleCart();
+            addToCartFinal(item.barcode, item.suggestedQty);
+            if (!document.getElementById('cartPanel').classList.contains('open')) toggleCart();
         }
         function toggleQuickAdd() {
             const content = document.getElementById("quickAddContent");
@@ -5903,6 +6072,145 @@
                 btn.innerText = "Show";
             }
         }
+
+        // ── FAST ORDER FUNCTIONS ─────────────────────────────────────────────
+
+        function getBoughtBeforeKeys() {
+            const keys = new Set();
+            (lastPurchases || []).forEach(p => {
+                const k = getProductKey(p);
+                if (k) keys.add(k);
+            });
+            return keys;
+        }
+
+        function getBoughtBeforeCount() {
+            if (!lastPurchases || lastPurchases.length === 0) return 0;
+            const boughtKeys = getBoughtBeforeKeys();
+            if (allProducts && allProducts.length > 0) {
+                return allProducts.filter(p => boughtKeys.has(p.productKey || getProductKey(p))).length;
+            }
+            return boughtKeys.size;
+        }
+
+        function updateFastOrderBar() {
+            const isLoggedIn = !!localStorage.getItem("authToken");
+            const hasHistory = lastPurchases.length > 0;
+            const hasLocalOrders = getLastOrders().length > 0;
+            const show = isLoggedIn && (hasHistory || hasLocalOrders);
+
+            const boughtBtn = document.getElementById("boughtBeforeBtn");
+            if (boughtBtn) {
+                boughtBtn.style.display = show ? "inline-flex" : "none";
+                const count = getBoughtBeforeCount();
+                boughtBtn.innerHTML = `⭐ Bought Before${count > 0 ? ` <span class="bought-count-badge">${count}</span>` : ''}`;
+            }
+        }
+
+        function reorderLastOrder() {
+            // Try local orders first (most recent)
+            const localOrders = getLastOrders();
+            if (localOrders.length > 0) {
+                const lastOrder = localOrders[0];
+                const confirmMsg = `Add ${lastOrder.items.length} item(s) from your last order to cart?`;
+                if (!confirm(confirmMsg)) return;
+                showPage("page-pricelist");
+                setTimeout(() => {
+                    loadSavedItemsWithConflictUI(lastOrder.items, () => {
+                        if (!document.getElementById('cartPanel').classList.contains('open')) toggleCart();
+                        alert(`✓ ${lastOrder.items.length} items from your last order added to cart!`);
+                    });
+                }, 200);
+                return;
+            }
+
+            // Fallback: use Google Sheets history (most recent barcode per item)
+            if (lastPurchases.length === 0) {
+                alert("No previous orders found yet. Place your first order and it will appear here!");
+                return;
+            }
+
+            // Group by order date to find the most recent batch
+            const latestDate = lastPurchases.reduce((max, p) => {
+                const d = new Date(p.date);
+                return d > max ? d : max;
+            }, new Date(0));
+
+            const latestDateStr = latestDate.toDateString();
+            const latestItems = lastPurchases.filter(p => new Date(p.date).toDateString() === latestDateStr);
+
+            const cartItems = latestItems.map(p => {
+                const pKey = getProductKey(p);
+                const live = (productKeyMap[pKey] || priceMap[p.barcode]) || {};
+                return {
+                    barcode: live.barcode || p.barcode,
+                    name: live.name || p.name,
+                    pack: live.pack || p.pack,
+                    price: live.price || 0,
+                    cat: live.cat || p.cat || '',
+                    qty: Number(p.qty) || 1
+                };
+            });
+
+            if (!confirm(`Add ${cartItems.length} items from your last purchase to cart?`)) return;
+
+            cartItems.forEach(item => {
+                if (cart[item.barcode]) cart[item.barcode].qty += item.qty;
+                else cart[item.barcode] = { ...item };
+            });
+
+            triggerCartAnimation();
+            renderCart();
+            if (!document.getElementById('cartPanel').classList.contains('open')) toggleCart();
+            alert(`✓ ${cartItems.length} items added to cart from your last purchase!`);
+        }
+
+        function setBoughtBeforeFilter() {
+            if (activeFastFilter === 'bought_before') {
+                clearFastFilter();
+                return;
+            }
+            if (lastPurchases.length === 0) {
+                alert("No purchase history found yet. Your bought items will appear here after your first order!");
+                return;
+            }
+            activeFastFilter = 'bought_before';
+
+            // Apply active CSS class — triggers pulse animation via CSS
+            const btn = document.getElementById("boughtBeforeBtn");
+            if (btn) btn.classList.add('active-filter');
+
+            renderGrid();
+        }
+
+        function clearFastFilter() {
+            activeFastFilter = null;
+            const btn = document.getElementById("boughtBeforeBtn");
+            if (btn) {
+                btn.classList.remove('active-filter');
+            }
+            renderGrid();
+        }
+
+        function addAllFrequentToCart() {
+            const items = getFrequentItems();
+            if (!items.length) {
+                alert("No frequent items found yet. Your order history will be used to build your frequent items list.");
+                return;
+            }
+            let added = 0;
+            items.forEach(item => {
+                if (cart[item.barcode]) { cart[item.barcode].qty += item.suggestedQty; }
+                else { cart[item.barcode] = { barcode: item.barcode, name: item.name, pack: item.pack, price: item.price, cat: item.cat || (priceMap[item.barcode] || {}).cat || '', qty: item.suggestedQty }; }
+                added++;
+            });
+            triggerCartAnimation();
+            renderCart();
+            if (!document.getElementById('cartPanel').classList.contains('open')) toggleCart();
+            alert(`✓ ${added} frequent items added to cart!`);
+        }
+
+        // ─────────────────────────────────────────────────────────────────────
 
         function buildCards(data) {
             priceMap = {};
@@ -5951,9 +6259,12 @@
                     searchStr: (r[2] + " " + r[0] + " " + r[3]).toLowerCase()
                 };
 
+                const pKey = getProductKey(item);
+                item.productKey = pKey;
+
                 priceMap[item.barcode] = item;
-                const npKey = (item.name + '|' + item.pack).toLowerCase().trim();
-                if (!namePackMap[npKey]) namePackMap[npKey] = item;
+                productKeyMap[pKey] = item;
+                if (!namePackMap[pKey]) namePackMap[pKey] = item;
                 cats.add(item.cat);
                 allProducts.push(item);
 
@@ -5986,6 +6297,7 @@
             });
 
             renderQuickAdd();
+            updateFastOrderBar(); // Show fast order bar if user has history
             renderGrid(); // Initial Render
             if (lastPurchases.length > 0) setTimeout(checkPrediction, 500);
         }
@@ -6025,6 +6337,136 @@
             renderGrid(); // Centralized Logic
         }
 
+        // Builds HTML for out-of-stock items that exist in purchase history but not in current price list
+        function buildOosCardsHtml(boughtKeys) {
+            if (!lastPurchases || lastPurchases.length === 0) return '';
+
+            // Collect unique history entries whose product key is NOT in the current price list
+            const seen = new Set();
+            const oosItems = [];
+
+            lastPurchases.forEach(p => {
+                const pKey = getProductKey(p);
+                if (!pKey || seen.has(pKey)) return;
+                // If there is a matching product in price list, skip
+                if (productKeyMap[pKey]) return;
+                // Also check by name+pack match (findCurrentItemByNamePack)
+                if (findCurrentItemByNamePack(p.name, p.pack)) return;
+                seen.add(pKey);
+                oosItems.push(p);
+            });
+
+            if (oosItems.length === 0) return '';
+
+            return oosItems.map(p => {
+                const safePKey = (getProductKey(p)).replace(/[^a-z0-9]/g, '');
+                const tempId = 'oos_' + safePKey;
+                const lastQtyVal = Number(p.qty) || 1;
+                const lastDateStr = p.date ? new Date(p.date).toLocaleDateString() : '';
+                const alts = getCategoryAlternatives(p.name, p.cat || '');
+
+                let optionsHtml = `<option value="">-- Select Alternative --</option>`;
+                alts.slice(0, 15).forEach(alt => {
+                    const escaped = alt.name.replace(/"/g, '&quot;');
+                    optionsHtml += `<option value="${alt.barcode}">[${alt.pack}] ${escaped} — TZS ${alt.price.toLocaleString()}</option>`;
+                });
+
+                const safeName = (p.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const safePack = (p.pack || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+                return `
+                <div class="product-card oos-bought-card" id="oos-card-${tempId}">
+                    <div class="card-header">
+                        <div class="card-meta" style="margin-bottom:0.4rem; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                            <span style="background:rgba(239,68,68,0.12); color:#ef4444; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:3px;">⊘ Out of Stock</span>
+                            ${lastDateStr ? `<span style="font-size:0.7rem; opacity:0.7;">📅 ${lastDateStr}</span>` : ''}
+                        </div>
+                        <div class="card-title oos-title">${p.name || 'Unknown Item'}</div>
+                        ${p.pack ? `<div class="oos-pack">📦 ${p.pack}</div>` : ''}
+                    </div>
+                    <div class="card-footer" style="flex-direction:column; align-items:stretch; gap:6px;">
+                        <select class="form-input" id="oos-alt-sel-${tempId}"
+                            style="width:100%; padding:5px 6px; font-size:0.78rem; border-radius:8px;"
+                            onchange="oosUpdateAltPrice('${tempId}')">
+                            ${optionsHtml}
+                        </select>
+                        <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; flex-wrap:wrap;">
+                            <span id="oos-alt-price-${tempId}" class="oos-price-badge" style="display:none;"></span>
+                            <div style="display:flex; align-items:center; gap:5px; margin-left:auto;">
+                                <input type="number" min="1" value="${lastQtyVal}" id="oos-qty-${tempId}"
+                                    class="qty qty-input" style="width:56px; text-align:center;" title="Quantity">
+                                <button class="add-btn add-btn-mini" id="oos-btn-${tempId}"
+                                    onclick="oosAddAlternative('${tempId}')" title="Add Alternative to Cart">＋</button>
+                            </div>
+                        </div>
+                        <button onclick="moveToSpecialRequest('${safeName}','${safePack}','oos-qty-${tempId}','oos-card-${tempId}')"
+                            style="background:none; border:none; color:#3b82f6; font-size:0.75rem; text-decoration:underline; font-weight:600; cursor:pointer; padding:0; text-align:left;">
+                            ➔ Move to Special Request
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function oosUpdateAltPrice(tempId) {
+            const sel = document.getElementById('oos-alt-sel-' + tempId);
+            const priceEl = document.getElementById('oos-alt-price-' + tempId);
+            if (!sel || !priceEl) return;
+            if (!sel.value) { priceEl.textContent = ''; return; }
+            const item = priceMap[sel.value];
+            if (item) priceEl.textContent = 'TZS ' + item.price.toLocaleString();
+        }
+
+        function oosAddAlternative(tempId) {
+            const sel = document.getElementById('oos-alt-sel-' + tempId);
+            const barcode = sel ? sel.value : '';
+            if (!barcode) { alert('Please select an alternative item first.'); return; }
+
+            const qtyInput = document.getElementById('oos-qty-' + tempId);
+            const qty = Number(qtyInput?.value) || 1;
+            const card = document.getElementById('oos-card-' + tempId);
+            const btn = document.getElementById('oos-btn-' + tempId);
+
+            addToCartFinal(barcode, qty);
+
+            if (card) card.style.opacity = '0.5';
+            if (btn) { btn.disabled = true; btn.innerHTML = '✓'; btn.style.background = '#10b981'; }
+            if (qtyInput) qtyInput.disabled = true;
+            if (sel) sel.disabled = true;
+        }
+
+
+        function getLastBoughtQty(item) {
+            if (!item) return 1;
+            const pKey = item.productKey || getProductKey(item);
+
+            // 1. Check local orders (most recent)
+            const localOrders = getLastOrders();
+            for (let o of localOrders) {
+                if (o.items) {
+                    for (let i of o.items) {
+                        if (getProductKey(i) === pKey || String(i.barcode) === String(item.barcode)) {
+                            if (Number(i.qty) > 0) return Number(i.qty);
+                        }
+                    }
+                }
+            }
+
+            // 2. Check Sheets history (historyMap)
+            if (historyMap[pKey] && Number(historyMap[pKey].qty) > 0) {
+                return Number(historyMap[pKey].qty);
+            }
+
+            // 3. Check lastPurchases
+            for (let p of lastPurchases) {
+                if (getProductKey(p) === pKey) {
+                    if (Number(p.qty) > 0) return Number(p.qty);
+                }
+            }
+
+            return 1;
+        }
+
         /* Render Grid (Virtualization) */
         function renderGrid() {
             const cardsEl = document.getElementById("cards");
@@ -6046,12 +6488,26 @@
 
             const search = document.getElementById("search").value.toLowerCase().trim();
 
+            // Build bought-before keys set for fast lookup
+            const boughtKeys = getBoughtBeforeKeys();
+
             // 1. Filter and Score
             let filtered;
             if (search === "") {
                 filtered = allProducts.filter(item => {
-                    return cat === "" || item.cat.toLowerCase() === cat;
+                    const matchesCat = cat === "" || item.cat.toLowerCase() === cat;
+                    const matchesBought = activeFastFilter !== 'bought_before' || boughtKeys.has(item.productKey || getProductKey(item));
+                    return matchesCat && matchesBought;
                 });
+                // If Bought Before is active, sort by purchase frequency
+                if (activeFastFilter === 'bought_before') {
+                    const freqMap = {};
+                    lastPurchases.forEach(p => {
+                        const key = getProductKey(p);
+                        freqMap[key] = (freqMap[key] || 0) + Number(p.qty || 1);
+                    });
+                    filtered.sort((a, b) => (freqMap[b.productKey || getProductKey(b)] || 0) - (freqMap[a.productKey || getProductKey(a)] || 0));
+                }
             } else {
                 filtered = allProducts
                     .map(item => {
@@ -6077,25 +6533,48 @@
                 const nameDisplay = isLoggedIn ? item.name : `<span style="color:#999; font-size:0.8rem;">Login to view item name</span>`;
                 const packDisplay = isLoggedIn ? item.pack : `<span style="color:#999; font-size:0.8rem;">Login to view pack</span>`;
 
+                // Calculate exact last bought quantity for this item
+                const lastQty = getLastBoughtQty(item);
+                const defaultQty = activeFastFilter === 'bought_before' ? lastQty : 1;
+
+                const lastQtyBadgeHtml = (activeFastFilter === 'bought_before' || (isLoggedIn && lastQty > 1 && boughtKeys.has(item.productKey || getProductKey(item))))
+                    ? `<span class="last-qty-badge" style="background:rgba(99,102,241,0.1); color:#6366f1; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:3px;" title="Quantity from your previous order">↺ Last Qty: ${lastQty}</span>`
+                    : '';
+
+                // Check cart state
+                const cartEntry = cart[item.barcode];
+                const isInCart = cartEntry && cartEntry.qty > 0;
+                const cartQty = isInCart ? cartEntry.qty : 0;
+
+                const cardStyle = isInCart
+                    ? 'border: 1.5px solid #10b981; background: linear-gradient(135deg, rgba(16,185,129,0.05), rgba(240,253,244,0.8)); box-shadow: 0 4px 15px rgba(16,185,129,0.15);'
+                    : '';
+
+                const inCartBadgeHtml = isInCart
+                    ? `<span class="in-cart-badge" style="background:#10b981; color:#fff; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:3px;">✓ In Cart (${cartQty})</span>`
+                    : '';
+
                 const addBtnHtml = isLoggedIn
-                    ? `<button class="add-btn add-btn-mini" onclick="addToCartFromGrid('${item.barcode}', 'qty_${item.barcode}', this)">＋</button>`
+                    ? `<button class="add-btn add-btn-mini" style="${isInCart ? 'background:#10b981; color:#fff;' : ''}" onclick="addToCartFromGrid('${item.barcode}', 'qty_${item.barcode}', this)">${isInCart ? '✓' : '＋'}</button>`
                     : `<button class="add-btn add-btn-mini" style="background:#ccc; cursor:not-allowed;" onclick="openLoginModal()">🔒</button>`;
 
                 return `
-                <div class="product-card" data-category="${item.cat.toLowerCase()}">
+                <div class="product-card ${isInCart ? 'is-in-cart' : ''}" data-barcode="${item.barcode}" data-category="${item.cat.toLowerCase()}" style="${cardStyle}">
                     <div class="card-header">
-                        <div class="card-meta" style="margin-bottom:0.5rem;">
+                        <div class="card-meta" style="margin-bottom:0.5rem; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
                             ${isLoggedIn
                         ? `<span class="pack-hero" title="Pack / Packaging Size"><span class="pack-hero-icon">📦</span>${packDisplay}</span>`
                         : `<span class="card-pack">${packDisplay}</span>`}
                             <span class="card-code">#${item.code}</span>
+                            ${lastQtyBadgeHtml}
+                            ${inCartBadgeHtml}
                         </div>
                         <div class="card-title">${nameDisplay}</div>
                     </div>
                     <div class="card-footer">
                         <div class="price-tag">${priceDisplay}</div>
                         <div class="add-controls">
-                            <input class="qty qty-input" type="number" min="1" value="1" id="qty_${item.barcode}" ${isLoggedIn ? '' : 'disabled'}>
+                            <input class="qty qty-input" type="number" min="1" value="${defaultQty}" id="qty_${item.barcode}" ${isLoggedIn ? '' : 'disabled'}>
                             ${addBtnHtml}
                         </div>
                     </div>
@@ -6104,6 +6583,22 @@
             }).join("");
 
             cardsEl.innerHTML = html;
+
+            // ── OOS Items in Bought Before Mode ─────────────────────────────────
+            // Show previously purchased items that are no longer in the price list
+            if (activeFastFilter === 'bought_before') {
+                const oosHtml = buildOosCardsHtml(boughtKeys);
+                if (oosHtml) {
+                    cardsEl.innerHTML += `
+                        <div style="grid-column:1/-1; margin-top:1.2rem; margin-bottom:0.3rem; display:flex; align-items:center; gap:10px;">
+                            <span style="flex:1; height:1px; background:rgba(239,68,68,0.2);"></span>
+                            <span style="font-size:0.78rem; font-weight:700; color:#ef4444; white-space:nowrap; text-transform:uppercase; letter-spacing:0.5px;">⚠ Out of Stock — Previously Ordered</span>
+                            <span style="flex:1; height:1px; background:rgba(239,68,68,0.2);"></span>
+                        </div>
+                        ${oosHtml}
+                    `;
+                }
+            }
 
             // 4. Show "More results" indicator if needed
             if (filtered.length > MAX_ITEMS) {
@@ -6240,12 +6735,35 @@
             const item = priceMap[barcode];
             if (!item) return;
 
-            // Check History
-            const exactMatch = historyMap[barcode];
+            // 1. Check if item is ALREADY IN CART -> Alert user with confirmation options!
+            const existingCartItem = cart[barcode];
+            if (existingCartItem && existingCartItem.qty > 0) {
+                const currentQty = existingCartItem.qty;
+                const newTotal = currentQty + qty;
+                showSuggestionModal(
+                    "🛒 Item Already in Cart",
+                    `<strong>${item.name} (${item.pack || ''})</strong> is already in your cart.`,
+                    `Current Qty: <strong>${currentQty}</strong> &nbsp;→&nbsp; Adding: <strong>+${qty}</strong><br>New Cart Total: <strong>${newTotal}</strong>`,
+                    () => {
+                        // Confirmed: Add +qty to cart
+                        addToCartDirect(barcode, qty);
+                        if (successCb) successCb();
+                        closeSuggestionModal();
+                    },
+                    `Yes, Add +${qty} More`,
+                    () => {
+                        // Cancelled: Do not change cart
+                        closeSuggestionModal();
+                    },
+                    "Cancel"
+                );
+                return;
+            }
 
-            // 1. Exact Match Reorder (Quantity difference check?)
-            // Only show if the quantity is DIFFERENT from what they are adding, or just as a helpful reminder?
-            // User wants to "select the last option" -> Implies they might have selected a default 1, but used to buy 5.
+            // 2. Check Purchase History matching by productKey
+            const pKey = item.productKey || getProductKey(item);
+            const exactMatch = historyMap[pKey];
+
             if (exactMatch) {
                 const lastQty = Number(exactMatch.qty);
                 if (lastQty !== qty) {
@@ -6254,54 +6772,45 @@
                         `Last ordered: <strong>${lastQty}</strong> on ${new Date(exactMatch.date).toLocaleDateString()}`,
                         `You chose: <strong>${item.name}</strong> (Qty: ${qty})`,
                         () => {
-                            // Confirm: Add what I chose (New Qty)
-                            addToCartFinal(barcode, qty);
-                            successCb();
+                            addToCartDirect(barcode, qty);
+                            if (successCb) successCb();
                             closeSuggestionModal();
                         },
                         "Use Current Qty (" + qty + ")",
-                        // Secondary: Add Last Qty
                         () => {
-                            addToCartFinal(barcode, lastQty);
-                            alert("Added " + lastQty + " items!"); // minor feedback
+                            addToCartDirect(barcode, lastQty);
                             closeSuggestionModal();
                         },
                         "Use Last Qty (" + lastQty + ")"
                     );
                     return;
                 }
-                // If qty matches, just add silent? Or still confirm? 
-                // Let's silent add if date is recent? 
-                // User instruction suggests they value this feature. Let's assume silent if strictly identical, else notify.
             }
 
-            // 2. Base Name Match (Brand Switch?)
-            // Check if they bought other items with same first 2 words
+            // 3. Brand / Similar item check
             const words = item.name.trim().split(/\s+/);
             const baseName = words.length >= 2 ? (words[0] + " " + words[1]).toLowerCase() : item.name.toLowerCase();
 
             const similarItems = baseNameMap[baseName];
             if (similarItems && similarItems.length > 0) {
-                // Find most recent distinct item with same base name
-                // Sort by date desc
                 similarItems.sort((a, b) => new Date(b.date) - new Date(a.date));
                 const lastSimilar = similarItems[0];
+                const simKey = getProductKey(lastSimilar);
 
-                if (lastSimilar.barcode !== barcode) {
+                if (simKey !== pKey) {
                     showSuggestionModal(
                         "🥣 Similar Item Found",
                         `Last time you bought: <br><strong>${lastSimilar.name}</strong><br>Qty: ${lastSimilar.qty} (${new Date(lastSimilar.date).toLocaleDateString()})`,
                         `You are now choosing <strong>${item.name}</strong>. Switch?`,
                         () => {
-                            addToCartFinal(barcode, qty); // Confirm adding the NEW item (ignoring suggestion)
-                            successCb();
+                            addToCartDirect(barcode, qty);
+                            if (successCb) successCb();
                             closeSuggestionModal();
                         },
                         "Continue with " + item.name,
-                        // Secondary: Switch to Old Item
                         () => {
-                            addToCartFinal(lastSimilar.barcode, lastSimilar.qty);
-                            alert("Switched to " + lastSimilar.name + " (" + lastSimilar.qty + ")");
+                            const simLive = productKeyMap[simKey];
+                            if (simLive) addToCartDirect(simLive.barcode, lastSimilar.qty);
                             closeSuggestionModal();
                         },
                         "Switch to " + lastSimilar.name
@@ -6310,20 +6819,32 @@
                 }
             }
 
-            // No history -> Just add
-            addToCartFinal(barcode, qty);
-            successCb();
+            // No conflict -> Just add
+            addToCartDirect(barcode, qty);
+            if (successCb) successCb();
         }
 
-        function addToCartFinal(barcode, qty) {
-            const item = priceMap[barcode];
+        function addToCartDirect(barcode, qty) {
+            const item = priceMap[barcode] || {};
+            const itemName = item.name || 'Item';
+            const alreadyInCart = !!(cart[barcode] && cart[barcode].qty > 0);
+            const oldQty = alreadyInCart ? cart[barcode].qty : 0;
+
             if (cart[barcode]) cart[barcode].qty += qty;
-            else cart[barcode] = { ...item, qty: qty }; // Spread item to copy props
+            else cart[barcode] = { ...item, qty: qty };
+
+            const newQty = cart[barcode].qty;
 
             triggerCartAnimation();
             renderCart();
 
+            if (alreadyInCart) {
+                premiumNotify(`✓ Updated "${itemName}" quantity to ${newQty}`, 'success', 2500);
+            } else {
+                premiumNotify(`✓ "${itemName}" added to cart (${newQty})`, 'success', 2200);
+            }
         }
+        const addToCartFinal = addToCartDirect;
 
         /* ===== CROSS-SELL RECOMMENDATION ENGINE ===== */
         const CS_COMPLEMENTS = {
@@ -6545,9 +7066,11 @@
             baseNameMap = {};
 
             data.forEach(d => {
-                // Keep latest per barcode
-                if (!historyMap[d.barcode] || new Date(d.date) > new Date(historyMap[d.barcode].date)) {
-                    historyMap[d.barcode] = d;
+                const key = getProductKey(d);
+                d.productKey = key;
+                // Keep latest entry per product (name|pack key)
+                if (!historyMap[key] || new Date(d.date) > new Date(historyMap[key].date)) {
+                    historyMap[key] = d;
                 }
 
                 // Group by base name (first 2 words)
@@ -6559,6 +7082,10 @@
                     baseNameMap[baseName].push(d);
                 }
             });
+
+            // Show the fast order bar now that we have history
+            updateFastOrderBar();
+            renderQuickAdd();
         }
 
         function debounce(func, wait) {
@@ -6621,6 +7148,66 @@
             qtyBox.innerText = totalQty;
             if (totalQty > 500) qtyBox.style.color = "red";
             else qtyBox.style.color = "inherit";
+
+            // Instantly update product card visuals on grid
+            updateCartGridVisuals();
+        }
+
+        function updateCartGridVisuals() {
+            const cards = document.querySelectorAll('#cards .product-card');
+            if (!cards || cards.length === 0) return;
+
+            cards.forEach(card => {
+                const barcode = card.getAttribute('data-barcode');
+                if (!barcode) return;
+
+                const cartEntry = cart[barcode];
+                const isInCart = cartEntry && cartEntry.qty > 0;
+                const cartQty = isInCart ? cartEntry.qty : 0;
+
+                const metaEl = card.querySelector('.card-meta');
+                let badge = card.querySelector('.in-cart-badge');
+                const addBtn = card.querySelector('.add-btn-mini');
+
+                if (isInCart) {
+                    card.classList.add('is-in-cart');
+                    card.style.border = '1.5px solid #10b981';
+                    card.style.background = 'linear-gradient(135deg, rgba(16,185,129,0.05), rgba(240,253,244,0.8))';
+                    card.style.boxShadow = '0 4px 15px rgba(16,185,129,0.15)';
+
+                    if (!badge && metaEl) {
+                        badge = document.createElement('span');
+                        badge.className = 'in-cart-badge';
+                        badge.style.cssText = 'background:#10b981; color:#fff; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:3px;';
+                        metaEl.appendChild(badge);
+                    }
+                    if (badge) {
+                        badge.innerHTML = `✓ In Cart (${cartQty})`;
+                        badge.style.display = 'inline-flex';
+                    }
+
+                    if (addBtn && !addBtn.getAttribute('onclick')?.includes('openLoginModal')) {
+                        addBtn.style.background = '#10b981';
+                        addBtn.style.color = '#fff';
+                        addBtn.innerHTML = '✓';
+                    }
+                } else {
+                    card.classList.remove('is-in-cart');
+                    card.style.border = '';
+                    card.style.background = '';
+                    card.style.boxShadow = '';
+
+                    if (badge) {
+                        badge.remove();
+                    }
+
+                    if (addBtn && !addBtn.getAttribute('onclick')?.includes('openLoginModal')) {
+                        addBtn.style.background = '';
+                        addBtn.style.color = '';
+                        addBtn.innerHTML = '＋';
+                    }
+                }
+            });
         }
 
         function changeQty(b, d) {
