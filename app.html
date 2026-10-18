@@ -11,7 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=5">
     <link rel="stylesheet" href="brands.css">
     <link rel="stylesheet" href="premium-theme.css">
     <link rel="stylesheet" href="guest-calc.css?v=1.3">
@@ -2247,7 +2247,10 @@
                         <button id="gridBtn" class="toggle-btn panel-btn active" onclick="setView('grid')"
                             style="border:none; border-radius:0; border-right:1px solid #e5e7eb; height:100%;">Grid</button>
                         <button id="listBtn" class="toggle-btn panel-btn" onclick="setView('list')"
-                            style="border:none; border-radius:0; height:100%;">List</button>
+                            style="border:none; border-radius:0; border-right:1px solid #e5e7eb; height:100%;">List</button>
+                        <button id="photoToggleBtn" class="toggle-btn panel-btn active" onclick="toggleOrderPhotos()"
+                            title="Show or hide product photos"
+                            style="border:none; border-radius:0; height:100%; display:inline-flex; align-items:center; gap:5px; padding:0 12px;">🖼️ Photos</button>
                     </div>
 
                     <!-- Drafts -->
@@ -5087,13 +5090,34 @@
         </div>
     </div>
 
-    <!-- Image Viewer -->
-    <div id="imageViewer"
-        style="position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:10000; display:none; justify-content:center; align-items:center;"
-        onclick="closeImageViewer()">
-        <img id="imageViewerImg" style="max-width:90%; max-height:90%; border-radius:8px;">
-        <button
-            style="position:absolute; top:20px; right:20px; background:none; border:none; color:white; font-size:2rem; cursor:pointer;">&times;</button>
+    <!-- Modern Product Image Lightbox Viewer (Full Screen View + Zoom) -->
+    <div id="imageViewer" class="pm-lightbox-overlay" style="display:none; padding:0;" onclick="closeImageViewer(event)">
+        <div class="pm-lightbox-card" style="width:100vw; height:100vh; max-height:100vh; border-radius:0;" onclick="event.stopPropagation()">
+            <div class="pm-lightbox-toolbar">
+                <button type="button" id="imageViewerZoomBtn" class="pm-lightbox-tool-btn" onclick="toggleLightboxZoom(event)" title="Toggle 2x Zoom">
+                    🔍 Zoom In
+                </button>
+                <button type="button" class="pm-lightbox-close" onclick="closeImageViewer()" title="Close (Esc)" aria-label="Close image preview">&times;</button>
+            </div>
+            <div class="pm-lightbox-stage" id="imageViewerStage" style="flex:1; width:100vw; height:100%; min-height:0;" onclick="toggleLightboxZoom(event)" title="Click image to zoom in/out">
+                <img id="imageViewerImg" class="pm-lightbox-img" style="width:94vw; height:calc(100vh - 130px); max-width:94vw; max-height:calc(100vh - 130px); object-fit:contain;" src="" alt="Product Preview">
+            </div>
+            <div class="pm-lightbox-meta" id="imageViewerMeta" style="display:none;">
+                <div class="pm-lightbox-info">
+                    <div class="pm-lightbox-badges">
+                        <span id="imageViewerPack" class="pack-hero" style="display:none; font-size:0.85rem; padding:4px 12px;"></span>
+                        <span id="imageViewerCode" class="card-code" style="display:none;"></span>
+                    </div>
+                    <div id="imageViewerTitle" class="pm-lightbox-title"></div>
+                </div>
+                <div class="pm-lightbox-actions">
+                    <div id="imageViewerPrice" class="pm-lightbox-price"></div>
+                    <button id="imageViewerAddBtn" class="btn-primary pm-lightbox-add-btn" style="display:none;">
+                        <span>＋</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Product Match Dropdown Overlay (Placed at body root) -->
@@ -5424,7 +5448,7 @@
     </script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbwNG77JU7zfzlqHotBBTnZCtioc-YCblh9KzNf8-1t1PpeCTusvwuB2hxdt9JEf3-LQQg/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwivz2yZAMPr4jNgUV1DN4ysolewZOKUy0mSQ8QidegjwMS5HnmBBk9_tEBNOB-91sYRw/exec";
         // Update this URL with your newly deployed Google Apps Script URL for Data5555:
         const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
         const STOCK_API_URL = "https://script.google.com/macros/s/AKfycbwhxVp4QPKQEDsS7t7ZRCE9gq3Re-BZZsaaeqGeN4ZNSVyzayeClUd-_uPr0x0b-x6JSA/exec";
@@ -6267,6 +6291,83 @@
             alert(`✓ ${added} frequent items added to cart!`);
         }
 
+        // ── PRODUCT IMAGE HELPERS (Modern Order Page Media) ──────────────────
+        function normalizeProductImageUrl(rawUrl) {
+            if (!rawUrl || typeof rawUrl !== 'string') return '';
+            let url = rawUrl.trim();
+            if (!url) return '';
+
+            // Convert Google Drive share links into fast direct thumbnail URLs
+            // Matches: /file/d/ID/view, /d/ID/, open?id=ID, uc?id=ID, uc?export=view&id=ID
+            if (url.includes('drive.google.com')) {
+                const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) ||
+                              url.match(/\/d\/([a-zA-Z0-9_-]+)/) ||
+                              url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w800`;
+                }
+            }
+
+            // Convert Dropbox share links (?dl=0 -> ?raw=1)
+            if (url.includes('dropbox.com') && url.includes('dl=0')) {
+                return url.replace('dl=0', 'raw=1');
+            }
+
+            return url;
+        }
+
+        function extractProductImageUrl(row) {
+            if (!row) return '';
+            // Primary column: Column I (r[8])
+            if (row[8] && String(row[8]).trim()) {
+                return normalizeProductImageUrl(String(row[8]));
+            }
+            // Fallback scan of nearby columns (r[6], r[7], r[10]) in case sheet column order shifted
+            const candidates = [row[6], row[7], row[10]];
+            for (const c of candidates) {
+                const s = String(c || '').trim();
+                if (/^(https?:\/\/|.*\/.*\.(jpg|jpeg|png|webp|gif|avif|svg)(\?.*)?$)/i.test(s)) {
+                    return normalizeProductImageUrl(s);
+                }
+            }
+            return '';
+        }
+
+        function getCategoryVisual(cat, name) {
+            const c = String(cat || '').toLowerCase();
+            const n = String(name || '').toLowerCase();
+            const combined = c + ' ' + n;
+            let icon = '📦';
+            if (/water|aqua|zen/.test(combined)) icon = '💧';
+            else if (/tea|coffee|cocoa|choco|cafe|kericho|zesta/.test(combined)) icon = '☕';
+            else if (/juice|soda|drink|beverage|squash|cordial|syrup|mango|berries/.test(combined)) icon = '🥤';
+            else if (/milk|dairy|butter|cheese|cream|yogurt|almond/.test(combined)) icon = '🥛';
+            else if (/clean|soap|detergent|bleach|sanitizer|hygiene|wash/.test(combined)) icon = '🧼';
+            else if (/tissue|paper|napkin|towel|foil|wrap|cling|kenylon/.test(combined)) icon = '🧻';
+            else if (/biscuit|cookie|snack|crisps|nut|cereal|oats/.test(combined)) icon = '🍪';
+            else if (/oil|spice|sauce|ketchup|mayo|vinegar|salt|sugar|flour|rice|pasta/.test(combined)) icon = '🫙';
+            else if (/wine|beer|spirit|alcohol/.test(combined)) icon = '🍷';
+
+            const cleanName = String(name || 'Item').replace(/[^a-zA-Z0-9 ]/g, '').trim();
+            const words = cleanName.split(/\s+/).filter(Boolean);
+            const initials = words.length >= 2
+                ? (words[0][0] + words[1][0]).toUpperCase()
+                : (cleanName.substring(0, 2) || 'PS').toUpperCase();
+
+            return { icon, initials, label: cat || 'Supply' };
+        }
+
+        function handleCardImgError(imgEl) {
+            if (!imgEl) return;
+            const mediaWrap = imgEl.closest('.card-media');
+            imgEl.style.display = 'none';
+            if (mediaWrap) {
+                mediaWrap.classList.add('is-loaded', 'img-error');
+                mediaWrap.removeAttribute('onclick');
+                const fallback = mediaWrap.querySelector('.card-media-fallback');
+                if (fallback) fallback.style.display = 'flex';
+            }
+        }
         // ─────────────────────────────────────────────────────────────────────
 
         function buildCards(data) {
@@ -6310,7 +6411,7 @@
                     code: r[3],
                     pack: r[4],
                     price: Number(r[5]),
-                    img: r[8],
+                    img: extractProductImageUrl(r),
                     isNew: String(r[9]).toUpperCase() === "YES",
                     // Pre-compute search string for speed
                     searchStr: (r[2] + " " + r[0] + " " + r[3]).toLowerCase()
@@ -6332,9 +6433,10 @@
                     promo.style.minWidth = "160px";
                     promo.style.padding = "10px";
                     const priceDisplay = `TZS ${item.price.toLocaleString()}`;
+                    const safeImgAttr = item.img.replace(/'/g, "\\'");
 
                     promo.innerHTML = `
-                        <img src="${item.img}" style="width:100%; height:100px; object-fit:contain; cursor:zoom-in;" onclick="openImageViewer('${item.img}')">
+                        <img src="${item.img}" style="width:100%; height:100px; object-fit:contain; cursor:zoom-in;" onclick="openImageViewer('${safeImgAttr}', '${item.barcode}')">
                         <div class="card-title" style="font-size:0.9rem; margin-top:5px;">${item.name}</div>
                         <div style="font-size:0.8rem; color:#666; margin-bottom:4px;">Pack: ${item.pack}</div>
                         <div class="price-tag" style="font-size:0.9rem;">${priceDisplay}</div>
@@ -6617,8 +6719,41 @@
                     ? `<button class="add-btn add-btn-mini" style="${isInCart ? 'background:#10b981; color:#fff;' : ''}" onclick="addToCartFromGrid('${item.barcode}', 'qty_${item.barcode}', this)">${isInCart ? '✓' : '＋'}</button>`
                     : `<button class="add-btn add-btn-mini" style="background:#ccc; cursor:not-allowed;" onclick="openLoginModal()">🔒</button>`;
 
+                const hasImg = !!(item.img && String(item.img).trim());
+                const safeImg = hasImg ? String(item.img).replace(/"/g, '&quot;').replace(/'/g, "\\'") : '';
+                const safeAlt = String(item.name || 'Product').replace(/"/g, '&quot;');
+                const catVis = getCategoryVisual(item.cat, item.name);
+                const newBadgeHtml = item.isNew
+                    ? `<span class="card-new-badge" title="New Arrival">✨ NEW</span>`
+                    : '';
+
+                const mediaHtml = hasImg
+                    ? `<div class="card-media has-image" onclick="openImageViewer('${safeImg}', '${item.barcode}')" title="Click to enlarge product image">
+                        ${newBadgeHtml}
+                        <img class="card-product-img" src="${item.img}" alt="${safeAlt}" loading="lazy" decoding="async"
+                             onload="this.closest('.card-media').classList.add('is-loaded')"
+                             onerror="handleCardImgError(this)">
+                        <div class="card-media-fallback" style="display:none;">
+                            <div class="card-fallback-avatar">
+                                <span class="card-fallback-icon">${catVis.icon}</span>
+                                <span class="card-fallback-initials">${catVis.initials}</span>
+                            </div>
+                        </div>
+                        <span class="card-zoom-pill">🔍 View</span>
+                       </div>`
+                    : `<div class="card-media no-image is-loaded">
+                        ${newBadgeHtml}
+                        <div class="card-media-fallback">
+                            <div class="card-fallback-avatar">
+                                <span class="card-fallback-icon">${catVis.icon}</span>
+                                <span class="card-fallback-initials">${catVis.initials}</span>
+                            </div>
+                        </div>
+                       </div>`;
+
                 return `
-                <div class="product-card ${isInCart ? 'is-in-cart' : ''}" data-barcode="${item.barcode}" data-category="${item.cat.toLowerCase()}" style="${cardStyle}">
+                <div class="product-card ${isInCart ? 'is-in-cart' : ''}" data-barcode="${item.barcode}" data-category="${(item.cat || '').toLowerCase()}" style="${cardStyle}">
+                    ${mediaHtml}
                     <div class="card-header">
                         <div class="card-meta" style="margin-bottom:0.5rem; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
                             ${isLoggedIn
@@ -7180,14 +7315,29 @@
                     totalAmount += i.qty * i.price;
                     totalQty += i.qty;
                     itemCount++;
+                    const imgUrl = i.img || (priceMap[i.barcode] && priceMap[i.barcode].img) || '';
+                    const safeImg = imgUrl ? String(imgUrl).replace(/'/g, "\\'") : '';
+                    const catVis = getCategoryVisual(i.cat || (priceMap[i.barcode] && priceMap[i.barcode].cat), i.name);
+                    const thumbHtml = imgUrl
+                        ? `<div class="cart-item-thumb has-img" onclick="openImageViewer('${safeImg}', '${i.barcode}')" title="View product photo">
+                             <img src="${imgUrl}" alt="" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                             <span class="cart-thumb-fallback" style="display:none;">${catVis.icon}</span>
+                           </div>`
+                        : `<div class="cart-item-thumb no-img">
+                             <span class="cart-thumb-fallback">${catVis.icon}</span>
+                           </div>`;
+
                     body.innerHTML += `
         <div class="cart-item">
-          <div class="item-info">
-             <strong>${i.name}</strong>
-             <div class="cart-pack-badge">${i.pack}</div>
-             <div style="font-weight:600; color:var(--primary-dark)">${(i.price * i.qty).toLocaleString()}</div>
+          <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+            ${thumbHtml}
+            <div class="item-info" style="min-width:0;">
+               <strong style="display:block; line-height:1.3;">${i.name}</strong>
+               <div class="cart-pack-badge">${i.pack}</div>
+               <div style="font-weight:600; color:var(--primary-dark); margin-top:2px;">TZS ${(i.price * i.qty).toLocaleString()}</div>
+            </div>
           </div>
-          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+          <div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0;">
             <div class="qty-controls">
                 <button class="qty-btn" onclick="changeQty('${i.barcode}',-1)">-</button>
                 <span style="font-weight:600; font-size:0.9rem; min-width:20px; text-align:center;">${i.qty}</span>
@@ -8164,9 +8314,31 @@
             }
             localStorage.setItem("viewMode", type);
         }
+
+        function toggleOrderPhotos(forceState) {
+            const cardsEl = document.getElementById("cards");
+            const btn = document.getElementById("photoToggleBtn");
+            if (!cardsEl) return;
+
+            const currentlyHidden = cardsEl.classList.contains("hide-photos");
+            const showPhotos = typeof forceState === "boolean" ? forceState : currentlyHidden;
+
+            if (showPhotos) {
+                cardsEl.classList.remove("hide-photos");
+                if (btn) btn.classList.add("active");
+            } else {
+                cardsEl.classList.add("hide-photos");
+                if (btn) btn.classList.remove("active");
+            }
+            localStorage.setItem("showOrderPhotos", showPhotos ? "1" : "0");
+        }
+
         window.addEventListener("load", () => {
             const saved = localStorage.getItem("viewMode") || "grid";
             setView(saved);
+            const savedPhotos = localStorage.getItem("showOrderPhotos");
+            if (savedPhotos === "0") toggleOrderPhotos(false);
+            else toggleOrderPhotos(true);
             showPage("page-home");
             startNewArrivalScroll();
 
@@ -8722,11 +8894,124 @@
             premiumNotify('Cart loaded from PO! Proceed to checkout.', 'success');
             setTimeout(() => { if (!document.getElementById('cartPanel').classList.contains('open')) toggleCart(); }, 300);
         }
-        function openImageViewer(src) {
-            document.getElementById("imageViewerImg").src = src;
-            document.getElementById("imageViewer").style.display = "flex";
+        function getHighResImageUrl(src) {
+            if (!src) return '';
+            // Upgrade Google Drive thumbnail size to w1600 for crisp full-screen display
+            if (src.includes('drive.google.com/thumbnail') && src.includes('sz=w')) {
+                return src.replace(/sz=w\d+/, 'sz=w1600');
+            }
+            return src;
         }
-        function closeImageViewer() { document.getElementById("imageViewer").style.display = "none"; }
+
+        function toggleLightboxZoom(e) {
+            if (e) e.stopPropagation();
+            const stage = document.getElementById("imageViewerStage");
+            const imgEl = document.getElementById("imageViewerImg");
+            const zoomBtn = document.getElementById("imageViewerZoomBtn");
+            if (!stage || !imgEl) return;
+
+            const isZoomed = stage.classList.toggle("is-zoomed");
+            if (isZoomed && e && e.type === "click" && e.currentTarget === stage) {
+                const rect = stage.getBoundingClientRect();
+                const xPct = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+                const yPct = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+                imgEl.style.transformOrigin = `${xPct}% ${yPct}%`;
+            } else {
+                imgEl.style.transformOrigin = "center center";
+            }
+
+            if (zoomBtn) {
+                zoomBtn.innerHTML = isZoomed ? "🔎 Zoom Out" : "🔍 Zoom In";
+            }
+        }
+
+        function openImageViewer(src, barcode) {
+            if (!src) return;
+            const viewer = document.getElementById("imageViewer");
+            const stage = document.getElementById("imageViewerStage");
+            const imgEl = document.getElementById("imageViewerImg");
+            const zoomBtn = document.getElementById("imageViewerZoomBtn");
+            const metaEl = document.getElementById("imageViewerMeta");
+            const titleEl = document.getElementById("imageViewerTitle");
+            const packEl = document.getElementById("imageViewerPack");
+            const codeEl = document.getElementById("imageViewerCode");
+            const priceEl = document.getElementById("imageViewerPrice");
+            const addBtn = document.getElementById("imageViewerAddBtn");
+
+            // Reset zoom state
+            if (stage) stage.classList.remove("is-zoomed");
+            if (imgEl) imgEl.style.transformOrigin = "center center";
+            if (zoomBtn) zoomBtn.innerHTML = "🔍 Zoom In";
+
+            imgEl.src = getHighResImageUrl(src);
+
+            // Resolve product item by barcode or image URL
+            let item = barcode ? priceMap[barcode] : null;
+            if (!item && allProducts && allProducts.length) {
+                item = allProducts.find(p => p.img === src);
+            }
+
+            const isLoggedIn = !!localStorage.getItem("authToken");
+            if (item && metaEl) {
+                metaEl.style.display = "flex";
+                if (titleEl) titleEl.textContent = item.name || "";
+                if (packEl) {
+                    if (item.pack) {
+                        packEl.innerHTML = `<span class="pack-hero-icon">📦</span>${item.pack}`;
+                        packEl.style.display = "inline-flex";
+                    } else {
+                        packEl.style.display = "none";
+                    }
+                }
+                if (codeEl) {
+                    if (item.code) {
+                        codeEl.textContent = `#${item.code}`;
+                        codeEl.style.display = "inline-block";
+                    } else {
+                        codeEl.style.display = "none";
+                    }
+                }
+                if (priceEl) {
+                    priceEl.textContent = (isLoggedIn && item.price > 0) ? `TZS ${item.price.toLocaleString()}` : "";
+                }
+                if (addBtn) {
+                    if (isLoggedIn) {
+                        addBtn.style.display = "inline-flex";
+                        addBtn.innerHTML = `<span>＋</span> Add to Cart`;
+                        addBtn.onclick = () => {
+                            const qtyInput = document.getElementById(`qty_${item.barcode}`);
+                            const qty = Number(qtyInput?.value) || 1;
+                            smartAddToCart(item.barcode, qty, () => {
+                                addBtn.innerHTML = `<span>✓</span> Added!`;
+                                setTimeout(() => closeImageViewer(), 650);
+                            });
+                        };
+                    } else {
+                        addBtn.style.display = "none";
+                    }
+                }
+            } else if (metaEl) {
+                metaEl.style.display = "none";
+            }
+
+            viewer.style.display = "flex";
+        }
+
+        function closeImageViewer() {
+            const viewer = document.getElementById("imageViewer");
+            const stage = document.getElementById("imageViewerStage");
+            if (stage) stage.classList.remove("is-zoomed");
+            if (viewer) viewer.style.display = "none";
+        }
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+                const viewer = document.getElementById("imageViewer");
+                if (viewer && viewer.style.display === "flex") {
+                    closeImageViewer();
+                }
+            }
+        });
 
         function toggleNewArrivalScroll() {
             isNewArrivalScrolling = !isNewArrivalScrolling;
