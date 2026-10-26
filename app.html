@@ -11,7 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=14">
     <link rel="stylesheet" href="brands.css">
     <link rel="stylesheet" href="premium-theme.css">
     <link rel="stylesheet" href="guest-calc.css?v=1.3">
@@ -1214,81 +1214,162 @@
 
 <body>
 
-    <!-- NAVIGATION -->
-    <nav class="top-nav">
-        <div class="nav-brand">
+    <!-- NAVIGATION (2026 3-Zone Floating Glass Dock + Bento Mega-Popovers) -->
+    <nav class="top-nav nav-2026" id="mainTopNav">
+        <!-- Zone 1: Brand Identity -->
+        <div class="nav-brand" onclick="showPage('page-home', document.querySelector('.nav-btn'))" title="Back to Home">
             <img src="https://drive.google.com/thumbnail?id=1RRkyC02DY9ddtFTMrlp3aJ7lTUQiVpP6" alt="Logo">
         </div>
-        <div class="nav-links">
+
+        <!-- Zone 2: Center Floating Glass Dock -->
+        <div class="nav-links nav-dock-2026" id="mainNavLinks">
             <button class="nav-btn active" onclick="showPage('page-home', this)">
-                <img src="https://drive.google.com/thumbnail?id=1hNUi_cDsHEcIBxQOH7SJANthspZYf7Vp"> Home
+                <img src="https://drive.google.com/thumbnail?id=1hNUi_cDsHEcIBxQOH7SJANthspZYf7Vp" alt="">
+                <span>Home</span>
             </button>
             <button class="nav-btn" onclick="showPage('page-pricelist', this)">
-                <img src="https://drive.google.com/thumbnail?id=1-dDiSkCab99SHWNdCo9-gNQ_HXY0DeEd"> Order
+                <img src="https://drive.google.com/thumbnail?id=1-dDiSkCab99SHWNdCo9-gNQ_HXY0DeEd" alt="">
+                <span>Order</span>
             </button>
             <button class="nav-btn predict-nav-btn" onclick="showPredictionModal()" id="predictBtn"
                 style="display:none;" title="AI-Powered Smart Order">
-                😊 AI Order <span class="predict-pulse" id="predictPulse"></span>
+                😊 <span>AI Order</span> <span class="predict-pulse" id="predictPulse"></span>
             </button>
             <button class="nav-btn" onclick="showPage('page-orders', this)">
-                <img src="https://drive.google.com/thumbnail?id=1zqGhsRxeDbC6nfNGttuty7fdnBo50uJT"> History
+                <img src="https://drive.google.com/thumbnail?id=1zqGhsRxeDbC6nfNGttuty7fdnBo50uJT" alt="">
+                <span>History</span>
             </button>
             <button class="nav-btn" onclick="showPage('page-stock', this)">
-                <img src="https://drive.google.com/thumbnail?id=1Ngx-1FD5JJxmyMTKEA5mZCMaOQ29w1uv"> Stock
+                <img src="https://drive.google.com/thumbnail?id=1Ngx-1FD5JJxmyMTKEA5mZCMaOQ29w1uv" alt="">
+                <span>Stock</span>
             </button>
-            <button class="nav-btn" onclick="showPage('page-new', this)">
-                <img src="https://drive.google.com/thumbnail?id=1zmftlvW426-bQWW3Yd6raiQyHwQ2tuoz"> Eco
+
+            <!-- 2026 Bento Mega-Popover 1: Explore & Client Suite -->
+            <div class="nav-hub-wrap" id="navToolsWrap">
+                <button type="button" class="nav-hub-trigger" id="navToolsTrigger" onclick="toggleNavHub('tools', event)" aria-expanded="false">
+                    <span class="nav-hub-icon">✨</span>
+                    <span class="nav-hub-label">Explore &amp; Tools</span>
+                    <span class="nav-hub-active-pill" id="navToolsActiveBadge" style="display:none;"></span>
+                    <span class="nav-hub-chev">▾</span>
+                </button>
+                <div class="nav-bento-popover" id="navToolsPopover" role="menu">
+                    <div class="nav-bento-header">
+                        <div>
+                            <div class="nav-bento-eyebrow">✨ EXPLORE &amp; CLIENT SUITE</div>
+                            <div class="nav-bento-subtitle">Catalogs, hospitality calculators &amp; account tools</div>
+                        </div>
+                    </div>
+                    <div class="nav-bento-grid">
+                        <button class="nav-btn nav-bento-card" onclick="showPage('page-new', this); closeNavHubs();">
+                            <span class="nav-bento-emoji">🌿</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Eco Catalog</span>
+                                <span class="nav-bento-desc">Sustainable &amp; biodegradable supplies</span>
+                            </span>
+                        </button>
+                        <button class="nav-btn nav-bento-card" onclick="openBrandsPage(this); closeNavHubs();">
+                            <span class="nav-bento-emoji">
+                                <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7" alt="Brands" class="nav-bento-logo-img">
+                            </span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Partner Brands</span>
+                                <span class="nav-bento-desc">Explore flagship hospitality brands</span>
+                            </span>
+                        </button>
+                        <button class="nav-btn nav-bento-card" onclick="showPage('page-guest-calc', this); closeNavHubs();" id="guestCalcBtn" style="display:none;">
+                            <span class="nav-bento-emoji">🏨</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Guest Calc</span>
+                                <span class="nav-bento-desc">Forecast amenities by room occupancy</span>
+                            </span>
+                        </button>
+                        <button class="nav-btn nav-bento-card" onclick="showPage('page-statement', this); closeNavHubs();" id="statementBtn" style="display:none;">
+                            <span class="nav-bento-emoji">🧾</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Statement</span>
+                                <span class="nav-bento-desc">Live account balance &amp; ledger</span>
+                            </span>
+                        </button>
+                        <button class="nav-btn nav-bento-card" onclick="showPage('page-feedback', this); closeNavHubs();" id="feedbackBtn" style="display:none;">
+                            <span class="nav-bento-emoji">⭐</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Feedback</span>
+                                <span class="nav-bento-desc">Rate your delivery &amp; experience</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2026 Bento Mega-Popover 2: Admin Command Hub (Admin Only) -->
+            <div class="nav-hub-wrap" id="navAdminWrap" style="display:none;">
+                <button type="button" class="nav-hub-trigger nav-admin-trigger" id="navAdminTrigger" onclick="toggleNavHub('admin', event)" aria-expanded="false">
+                    <span class="nav-hub-icon">🛡️</span>
+                    <span class="nav-hub-label">Admin Hub</span>
+                    <span class="nav-hub-active-pill" id="navAdminActiveBadge" style="display:none;"></span>
+                    <span class="nav-hub-chev">▾</span>
+                </button>
+                <div class="nav-bento-popover nav-admin-popover" id="navAdminPopover" role="menu">
+                    <div class="nav-bento-header">
+                        <div>
+                            <div class="nav-bento-eyebrow">🛡️ ADMIN COMMAND SUITE</div>
+                            <div class="nav-bento-subtitle">Executive intelligence, stock fulfillment &amp; dispatch</div>
+                        </div>
+                    </div>
+                    <div class="nav-bento-grid">
+                        <button class="nav-btn nav-bento-card" onclick="showPage('page-admin-bp', this); closeNavHubs();" id="adminBpBtn" style="display:none;">
+                            <span class="nav-bento-emoji">📊</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Insights</span>
+                                <span class="nav-bento-desc">Client buying patterns &amp; cycles</span>
+                            </span>
+                        </button>
+                        <button class="nav-btn nav-bento-card" onclick="showPage('page-admin-analytics', this); closeNavHubs();" id="adminAnalyticsBtn" style="display:none;">
+                            <span class="nav-bento-emoji">📈</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Analytics</span>
+                                <span class="nav-bento-desc">Revenue KPIs &amp; top-moving SKUs</span>
+                            </span>
+                        </button>
+                        <button class="nav-btn nav-bento-card" onclick="showPage('page-admin-fulfillment', this); if(!fulfillmentData) fulfillmentLoadData(); closeNavHubs();" id="adminFulfillmentBtn" style="display:none;">
+                            <span class="nav-bento-emoji">📋</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Fulfillment</span>
+                                <span class="nav-bento-desc">Stock coverage &amp; demand matching</span>
+                            </span>
+                        </button>
+                        <button class="nav-btn nav-bento-card" onclick="showPage('page-admin-orders', this); closeNavHubs();" id="adminOrdersBtn" style="display:none;">
+                            <span class="nav-bento-emoji">🚚</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Orders</span>
+                                <span class="nav-bento-desc">Live order status &amp; dispatch control</span>
+                            </span>
+                        </button>
+                        <button class="nav-btn nav-bento-card" onclick="openAdminReviews(this); closeNavHubs();" id="adminReviewsBtn" style="display:none;">
+                            <span class="nav-bento-emoji">💬</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Reviews</span>
+                                <span class="nav-bento-desc">Approve &amp; feature client reviews</span>
+                            </span>
+                        </button>
+                        <!-- Dashboard button hidden per client request -->
+                        <button class="nav-btn" id="dashboardBtn" style="display:none !important;">
+                            📊 Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zone 3: Pinned Utility Island (Always Visible on Right) -->
+        <div class="nav-utility-island">
+            <button class="nav-btn nav-utility-btn nav-auth-login" onclick="openLoginModal()" id="loginBtn">
+                <span>🔐</span> <span>Login</span>
             </button>
-            <button class="nav-btn" onclick="showPage('page-guest-calc', this)" id="guestCalcBtn" style="display:none;">
-                🏨 Guest Calc
+            <button class="nav-btn nav-utility-btn nav-auth-logout" onclick="logout()" id="logoutBtn" style="display:none;">
+                <span>🔓</span> <span>Logout</span>
             </button>
-            <!-- HIDDEN DOWNLOAD PAGE
-            <button class="nav-btn" onclick="showPage('page-download', this)">
-                <img src="https://drive.google.com/thumbnail?id=1qp4Goakfs4cN_614-ZGCKi0hjQ7Q9ajC"> List
-            </button>
-            -->
-            <button class="nav-btn" onclick="openBrandsPage(this)">
-                <img src="https://drive.google.com/thumbnail?id=1WP91uPhyxAafwj8-6VWOE-vH5ywnUoZ7"> Brands
-            </button>
-            <button class="nav-btn" onclick="openLoginModal()" id="loginBtn">
-                🔐 Login
-            </button>
-            <button class="nav-btn" onclick="logout()" id="logoutBtn" style="display:none; color: #ef4444;">
-                🔓 Logout
-            </button>
-            <button class="nav-btn" onclick="showPage('page-admin-bp', this)" id="adminBpBtn" style="display:none;">
-                📊 Insights
-            </button>
-            <button class="nav-btn" onclick="showPage('page-admin-analytics', this)" id="adminAnalyticsBtn"
-                style="display:none;">
-                📈 Analytics
-            </button>
-            <button class="nav-btn"
-                onclick="showPage('page-admin-fulfillment', this); if(!fulfillmentData) fulfillmentLoadData();"
-                id="adminFulfillmentBtn" style="display:none;">
-                📋 Fulfillment
-            </button>
-            <button class="nav-btn" onclick="showPage('page-admin-orders', this)" id="adminOrdersBtn"
-                style="display:none;">
-                🚚 Orders
-            </button>
-            <button class="nav-btn" onclick="showPage('page-statement', this)" id="statementBtn" style="display:none;">
-                🧾 Statement
-            </button>
-            <!-- Dashboard button hidden per client request -->
-            <button class="nav-btn" id="dashboardBtn" style="display:none !important;">
-                📊 Dashboard
-            </button>
-            <!-- Feedback button: visible to all logged-in clients -->
-            <button class="nav-btn" onclick="showPage('page-feedback', this)" id="feedbackBtn" style="display:none;">
-                ⭐ Feedback
-            </button>
-            <!-- Admin Reviews button: admin only -->
-            <button class="nav-btn" onclick="openAdminReviews(this)" id="adminReviewsBtn" style="display:none;">
-                💬 Reviews
-            </button>
-            <button class="nav-btn" onclick="toggleTheme()" id="themeToggleBtn"
-                style="font-size:1.2rem; padding:0 10px;" title="Toggle Theme">
+            <button class="nav-btn nav-utility-btn nav-theme-btn" onclick="toggleTheme()" id="themeToggleBtn" title="Toggle Theme">
                 ☀️
             </button>
         </div>
@@ -2213,72 +2294,149 @@
 
     <!-- PAGE: PRICELIST (Order) -->
     <div id="page-pricelist" class="page" style="display:none;">
-        <div class="filter-scroll-container">
-            <div class="filter-bar">
+        <div class="filter-scroll-container cmd26-shell">
+            <div class="filter-bar cmd26-bar">
 
-                <!-- Center: Search (Wider) -->
-                <div style="position:relative; width: 380px; text-align:center;">
-                    <input id="search" class="search-input" placeholder="🔍 Search products..." oninput="renderGrid()"
-                        onkeyup="renderGrid()"
-                        style="width:100%; padding: 0.6rem 2.2rem 0.6rem 0.8rem; font-size:1rem; height:46px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                    <button onclick="document.getElementById('search').value=''; renderGrid();"
-                        style="position:absolute; right:5px; top:50%; transform:translateY(-50%); background:none; border:none; color:#999; cursor:pointer; font-size:1.2rem; padding:5px;">&times;</button>
+                <!-- Left / Center: 2026 Spatial Omni-Search Capsule -->
+                <div class="cmd26-search-box">
+                    <span class="cmd26-search-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <input id="search" class="search-input cmd26-search-input" placeholder="Search products, brands, pack sizes or SKU..."
+                        oninput="resetGridAndRender()" onkeyup="resetGridAndRender()">
+                    <div class="cmd26-search-Meta">
+                        <button type="button" class="cmd26-search-clear" onclick="document.getElementById('search').value=''; resetGridAndRender();" title="Clear search">&times;</button>
+                        <kbd class="cmd26-kbd" title="Press / anywhere to jump to search">/</kbd>
+                    </div>
                 </div>
 
-                <!-- Right: Buttons Group -->
-                <div class="control-row" style="display:flex; gap: 1rem; align-items:center;">
-                    <!-- Category Dropdown -->
-                    <div class="category-wrapper" id="categoryWrapper" style="margin:0;">
-                        <button class="cat-trigger panel-btn" id="catTrigger" onclick="toggleCategoryMenu()"
-                            style="justify-content:space-between; gap:10px; min-width:140px; height:46px;">
-                            <span id="catTriggerText"
-                                style="overflow:hidden; text-overflow:ellipsis; max-width: 100px;">All Cats</span>
-                            <span style="font-size:0.7rem">▼</span>
+                <!-- Right: 2026 Bento Command Controls -->
+                <div class="control-row cmd26-controls">
+
+                    <!-- 1. Custom 2026 Category Bento Popover -->
+                    <div class="category-wrapper cmd26-popover-wrap" id="categoryWrapper">
+                        <button type="button" class="cmd26-pill-trigger" id="catTrigger" onclick="toggleCategoryMenu()">
+                            <span class="cmd26-pill-icon" id="catTriggerIcon">🗂️</span>
+                            <span class="cmd26-pill-meta">
+                                <span class="cmd26-pill-label">Category</span>
+                                <span class="cmd26-pill-val" id="catTriggerText">All Categories</span>
+                            </span>
+                            <span class="cmd26-chevron" aria-hidden="true">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </span>
                         </button>
-                        <div class="cat-dropdown" id="catDropdown"
-                            style="top:120%; min-width: 200px; right:0; left:auto;">
-                            <!-- Items injected here -->
+                        <div class="cat-dropdown cmd26-popover-menu cmd26-cat-popover" id="catDropdown">
+                            <div class="cmd26-popover-head">
+                                <div class="cmd26-popover-search-wrap">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    <input type="text" id="catSearchInput" class="cmd26-popover-search" placeholder="Filter categories..." oninput="filterCategoryDropdown(this.value)" onclick="event.stopPropagation()">
+                                </div>
+                            </div>
+                            <div class="cmd26-popover-list" id="catDropdownList">
+                                <!-- Category Bento Items injected here -->
+                            </div>
                         </div>
                     </div>
 
-                    <!-- View Toggles -->
-                    <div
-                        style="display:flex; border: 1px solid #e5e7eb; border-radius:12px; overflow:hidden; height:46px;">
-                        <button id="gridBtn" class="toggle-btn panel-btn active" onclick="setView('grid')"
-                            style="border:none; border-radius:0; border-right:1px solid #e5e7eb; height:100%;">Grid</button>
-                        <button id="listBtn" class="toggle-btn panel-btn" onclick="setView('list')"
-                            style="border:none; border-radius:0; border-right:1px solid #e5e7eb; height:100%;">List</button>
-                        <button id="photoToggleBtn" class="toggle-btn panel-btn active" onclick="toggleOrderPhotos()"
-                            title="Show or hide product photos"
-                            style="border:none; border-radius:0; height:100%; display:inline-flex; align-items:center; gap:5px; padding:0 12px;">🖼️ Photos</button>
-                    </div>
-
-                    <!-- Drafts -->
-                    <div style="position:relative;">
-                        <button class="nav-btn panel-btn" onclick="toggleDraftMenu()"
-                            style="color:var(--text-main); height:46px; border:1px solid #e5e7eb; background:white;">
-                            Drafts ▾
+                    <!-- 2. Custom 2026 Sort Bento Popover (Module 1) -->
+                    <div class="cmd26-popover-wrap" id="sortWrapper">
+                        <input type="hidden" id="sortSelect" value="default">
+                        <button type="button" class="cmd26-pill-trigger" id="sortTrigger" onclick="toggleSortMenu()" title="Sort catalog products">
+                            <span class="cmd26-pill-icon" id="sortTriggerIcon">✨</span>
+                            <span class="cmd26-pill-meta">
+                                <span class="cmd26-pill-label">Sort By</span>
+                                <span class="cmd26-pill-val" id="sortTriggerText">Smart Default</span>
+                            </span>
+                            <span class="cmd26-chevron" aria-hidden="true">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </span>
                         </button>
-                        <div id="draftMenu"
-                            style="display:none; position:absolute; right:0; top:50px; background:white; padding:0.5rem; border-radius:12px; box-shadow:var(--shadow-lg); width:200px; z-index:50; border:1px solid #e5e7eb;">
-                            <button class="nav-btn" onclick="saveDraftToLocal();closeDraftMenu();"
-                                style="width:100%; color:var(--text-main); background:transparent; justify-content:flex-start;">💾
-                                Save</button>
-                            <button class="nav-btn" onclick="loadDraftFromLocal();closeDraftMenu();"
-                                style="width:100%; color:var(--text-main); background:transparent; justify-content:flex-start;">📂
-                                Resume</button>
-                            <button class="nav-btn" onclick="downloadDraftExcel();closeDraftMenu();"
-                                style="width:100%; color:var(--text-main); background:transparent; justify-content:flex-start;">⬇️
-                                CSV</button>
-                            <button class="nav-btn" onclick="openDraftUpload();closeDraftMenu();"
-                                style="width:100%; color:var(--text-main); background:transparent; justify-content:flex-start;">📤
-                                Upload CSV</button>
+                        <div class="cmd26-popover-menu cmd26-sort-popover" id="sortDropdown">
+                            <div class="cmd26-popover-title">SORT CATALOG BY</div>
+                            <div class="cmd26-popover-list">
+                                <div class="cmd26-sort-option selected" data-sort="default" onclick="selectSortOption('default', 'Smart Default', '✨', this)">
+                                    <span class="cmd26-opt-icon">✨</span>
+                                    <div class="cmd26-opt-text">
+                                        <span class="cmd26-opt-name">Smart Default</span>
+                                        <span class="cmd26-opt-desc">Relevance &amp; catalog order</span>
+                                    </div>
+                                    <span class="cmd26-opt-dot"></span>
+                                </div>
+                                <div class="cmd26-sort-option" data-sort="popular" onclick="selectSortOption('popular', 'Most Ordered', '🔥', this)">
+                                    <span class="cmd26-opt-icon">🔥</span>
+                                    <div class="cmd26-opt-text">
+                                        <span class="cmd26-opt-name">Most Ordered</span>
+                                        <span class="cmd26-opt-desc">Your top repeat items first</span>
+                                    </div>
+                                    <span class="cmd26-opt-dot"></span>
+                                </div>
+                                <div class="cmd26-sort-option" data-sort="price_asc" onclick="selectSortOption('price_asc', 'Price: Low → High', '📉', this)">
+                                    <span class="cmd26-opt-icon">📉</span>
+                                    <div class="cmd26-opt-text">
+                                        <span class="cmd26-opt-name">Price: Low → High</span>
+                                        <span class="cmd26-opt-desc">Value &amp; economy packs first</span>
+                                    </div>
+                                    <span class="cmd26-opt-dot"></span>
+                                </div>
+                                <div class="cmd26-sort-option" data-sort="price_desc" onclick="selectSortOption('price_desc', 'Price: High → Low', '💎', this)">
+                                    <span class="cmd26-opt-icon">💎</span>
+                                    <div class="cmd26-opt-text">
+                                        <span class="cmd26-opt-name">Price: High → Low</span>
+                                        <span class="cmd26-opt-desc">Bulk cases &amp; premium lines</span>
+                                    </div>
+                                    <span class="cmd26-opt-dot"></span>
+                                </div>
+                                <div class="cmd26-sort-option" data-sort="name_asc" onclick="selectSortOption('name_asc', 'Name: A → Z', '🔤', this)">
+                                    <span class="cmd26-opt-icon">🔤</span>
+                                    <div class="cmd26-opt-text">
+                                        <span class="cmd26-opt-name">Alphabetical (A → Z)</span>
+                                        <span class="cmd26-opt-desc">Sort by product name</span>
+                                    </div>
+                                    <span class="cmd26-opt-dot"></span>
+                                </div>
+                                <div class="cmd26-sort-option" data-sort="new_first" onclick="selectSortOption('new_first', 'New Arrivals', '🚀', this)">
+                                    <span class="cmd26-opt-icon">🚀</span>
+                                    <div class="cmd26-opt-text">
+                                        <span class="cmd26-opt-name">New Arrivals First</span>
+                                        <span class="cmd26-opt-desc">Latest catalog additions</span>
+                                    </div>
+                                    <span class="cmd26-opt-dot"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- 3. 2026 Segmented View Switcher Dock -->
+                    <div class="cmd26-seg-dock" role="group" aria-label="View options">
+                        <button id="gridBtn" type="button" class="toggle-btn cmd26-seg-btn active" onclick="setView('grid')" title="Grid Cards View">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                            <span>Grid</span>
+                        </button>
+                        <button id="listBtn" type="button" class="toggle-btn cmd26-seg-btn" onclick="setView('list')" title="Compact List View">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="4" cy="18" r="1.5"/></svg>
+                            <span>List</span>
+                        </button>
+                        <button id="photoToggleBtn" type="button" class="toggle-btn cmd26-seg-btn active" onclick="toggleOrderPhotos()" title="Show or hide product photos">
+                            <span>🖼️</span>
+                            <span>Photos</span>
+                        </button>
+                    </div>
 
-                    <!-- Fast Order Buttons (premium animated) -->
-                    <style>
+                    <!-- 4. Drafts Menu -->
+                    <div class="cmd26-popover-wrap" id="draftWrapper" style="position:relative;">
+                        <button type="button" class="cmd26-ghost-btn" id="draftTrigger" onclick="toggleDraftMenu()">
+                            <span>📁 Drafts</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <div id="draftMenu" class="cmd26-popover-menu cmd26-draft-popover" style="width:220px;">
+                            <div class="cmd26-popover-title">ORDER DRAFTS</div>
+                            <button type="button" class="cmd26-draft-item" onclick="saveDraftToLocal();closeDraftMenu();">💾 Save Current Draft</button>
+                            <button type="button" class="cmd26-draft-item" onclick="loadDraftFromLocal();closeDraftMenu();">📂 Resume Saved Draft</button>
+                            <button type="button" class="cmd26-draft-item" onclick="downloadDraftExcel();closeDraftMenu();">⬇️ Export CSV Draft</button>
+                            <button type="button" class="cmd26-draft-item" onclick="openDraftUpload();closeDraftMenu();">📤 Upload CSV Draft</button>
+                        </div>
+                    </div>
+
                     <!-- Fast Order Buttons (premium animated) -->
                     <style>
                         @keyframes fastBtnGlow {
@@ -2294,62 +2452,39 @@
                             display: none;
                             align-items: center;
                             gap: 8px;
-                            height: 46px;
-                            padding: 0 18px;
+                            height: 44px;
+                            padding: 0 16px;
                             border-radius: 14px;
                             border: 1px solid rgba(251,191,36,0.4);
                             background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
                             color: #ffffff;
                             font-family: inherit;
-                            font-size: 0.85rem;
+                            font-size: 0.82rem;
                             font-weight: 700;
                             cursor: pointer;
                             white-space: nowrap;
-                            letter-spacing: 0.3px;
-                            box-shadow: 0 4px 16px rgba(245,158,11,0.35);
+                            letter-spacing: 0.2px;
+                            box-shadow: 0 4px 16px rgba(245,158,11,0.3);
                             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                             position: relative;
                             overflow: hidden;
                         }
-                        #boughtBeforeBtn::before {
-                            content: '';
-                            position: absolute;
-                            top: 0; left: -100%;
-                            width: 100%; height: 100%;
-                            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-                            transition: left 0.6s ease;
-                        }
-                        #boughtBeforeBtn:hover::before {
-                            left: 100%;
-                        }
                         #boughtBeforeBtn:hover {
-                            transform: translateY(-2px) scale(1.02);
-                            box-shadow: 0 8px 24px rgba(245,158,11,0.55);
-                            border-color: rgba(254,240,138,0.7);
+                            transform: translateY(-2px);
+                            box-shadow: 0 8px 24px rgba(245,158,11,0.5);
                         }
                         #boughtBeforeBtn.active-filter {
                             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
                             border-color: #fef08a;
                             animation: fastBtnGlow 2s ease-in-out infinite;
                         }
-                        #boughtBeforeBtn:active {
-                            transform: scale(0.97);
-                        }
-
                         .bought-count-badge {
                             background: #ffffff;
                             color: #d97706;
-                            padding: 2px 9px;
+                            padding: 2px 8px;
                             border-radius: 20px;
-                            font-size: 0.75rem;
+                            font-size: 0.72rem;
                             font-weight: 800;
-                            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-                            transition: all 0.2s;
-                        }
-                        #boughtBeforeBtn.active-filter .bought-count-badge {
-                            background: #ffffff;
-                            color: #b45309;
-                            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
                         }
 
                         /* Out of Stock Cards — Theme Adaptive */
@@ -2380,19 +2515,12 @@
                             display: inline-block;
                             letter-spacing: 0.2px;
                         }
-
-                        /* Dark Theme Overrides for OOS Cards */
                         [data-theme="dark"] .oos-bought-card {
                             background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(30, 30, 35, 0.8)) !important;
                             border-color: rgba(239, 68, 68, 0.55) !important;
-                            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
                         }
-                        [data-theme="dark"] .oos-bought-card .oos-title {
-                            color: #fca5a5 !important;
-                        }
-                        [data-theme="dark"] .oos-bought-card .oos-pack {
-                            color: #9ca3af !important;
-                        }
+                        [data-theme="dark"] .oos-bought-card .oos-title { color: #fca5a5 !important; }
+                        [data-theme="dark"] .oos-bought-card .oos-pack { color: #9ca3af !important; }
                         [data-theme="dark"] .oos-price-badge {
                             color: #34d399 !important;
                             background: rgba(52, 211, 153, 0.22) !important;
@@ -2402,13 +2530,19 @@
 
                     <button id="boughtBeforeBtn" onclick="setBoughtBeforeFilter()">⭐ Bought Before</button>
 
+                    <!-- Module 3: 2026 AI Smart Paste Aurora CTA Button -->
+                    <button type="button" class="cmd26-aurora-btn" onclick="openSmartPasteModal()" id="smartPasteBtn"
+                        title="Open AI Smart Paste Studio — paste WhatsApp, Email or Chef lists">
+                        <span class="cmd26-aurora-spark">⚡</span>
+                        <span>Smart Paste</span>
+                        <span class="cmd26-aurora-tag">AI</span>
+                    </button>
 
-                    <!-- Export PO — standalone button -->
-                    <button class="nav-btn panel-btn" onclick="openExportPOModal()" id="exportPOBtn"
-                        style="height:46px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; border:none; font-weight:700; letter-spacing:.3px; white-space:nowrap; gap:7px; box-shadow:0 4px 14px rgba(99,102,241,0.35); transition:transform .18s,box-shadow .18s;"
-                        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 7px 20px rgba(99,102,241,0.45)';"
-                        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 14px rgba(99,102,241,0.35)';">&#128203;
-                        Export PO</button>
+                    <!-- Export PO -->
+                    <button type="button" class="cmd26-po-btn" onclick="openExportPOModal()" id="exportPOBtn">
+                        <span>📋</span>
+                        <span>Export PO</span>
+                    </button>
 
                     <!-- Hidden file inputs -->
                     <input type="file" id="draftExcel" accept=".csv" style="display:none"
@@ -5120,6 +5254,155 @@
         </div>
     </div>
 
+    <!-- Smart Text Paste Modal (Module 3 — 2026 AI Order Studio) -->
+    <div id="smartPasteModal" class="sp-modal-overlay" style="display:none;" onclick="if(event.target===this)closeSmartPasteModal()">
+        <div class="sp-modal-card" onclick="event.stopPropagation()">
+            <!-- Top Aurora Glow Accent -->
+            <div class="sp-aurora-glow" aria-hidden="true"></div>
+
+            <!-- Header -->
+            <div class="sp-modal-header">
+                <div class="sp-brand-cluster">
+                    <div class="sp-header-icon">
+                        <span>⚡</span>
+                        <span class="sp-icon-pulse"></span>
+                    </div>
+                    <div>
+                        <div class="sp-title-row">
+                            <h3 class="sp-header-title">AI Smart Order Studio</h3>
+                            <span class="sp-engine-pill">NEURAL MATCH 2.6</span>
+                        </div>
+                        <p class="sp-header-sub">Paste any WhatsApp order, chef requisition, or spreadsheet rows — instant fuzzy SKU &amp; pack-size resolution</p>
+                    </div>
+                </div>
+
+                <!-- Live Telemetry KPI Strip -->
+                <div class="sp-telemetry-strip">
+                    <div class="sp-kpi-chip">
+                        <span class="sp-kpi-label">Parsed</span>
+                        <span class="sp-kpi-val" id="smartPasteStatsBadge">0 lines</span>
+                    </div>
+                    <div class="sp-kpi-chip sp-kpi-matched">
+                        <span class="sp-kpi-label">Matched</span>
+                        <span class="sp-kpi-val" id="spKpiMatched">0</span>
+                    </div>
+                    <div class="sp-kpi-chip sp-kpi-total">
+                        <span class="sp-kpi-label">Est. Total</span>
+                        <span class="sp-kpi-val" id="spKpiTotal">TZS 0</span>
+                    </div>
+                    <button type="button" class="sp-close-btn" onclick="closeSmartPasteModal()" title="Close Studio (Esc)">&times;</button>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="sp-modal-body">
+                <!-- Left: Command Terminal Input Pad -->
+                <div class="sp-input-pane">
+                    <div class="sp-pane-bar">
+                        <div class="sp-terminal-dots">
+                            <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
+                            <span class="sp-pane-title">RAW ORDER STREAM</span>
+                        </div>
+                        <div class="sp-pane-actions">
+                            <button type="button" class="sp-mini-btn sp-sample-btn" onclick="loadSmartPasteSample()">✨ Load Demo List</button>
+                            <button type="button" class="sp-mini-btn sp-clear-btn" onclick="clearSmartPasteInput()">✕ Clear</button>
+                        </div>
+                    </div>
+
+                    <div class="sp-editor-shell">
+                        <textarea id="smartPasteInput" class="sp-textarea"
+                            placeholder="Paste or type 1 item per line...&#10;&#10;5 Zen Water 500ml&#10;Kericho Gold x 3&#10;2 ctn Kenylon Foil&#10;4 Choco Primo&#10;3 Organic Truffle Oil 250ml"
+                            oninput="debouncedSmartPasteParse()"
+                            onclick="syncSmartPasteCursorRow()"
+                            onkeyup="syncSmartPasteCursorRow(event)"></textarea>
+                    </div>
+
+                    <div class="sp-syntax-bar">
+                        <span class="sp-syntax-label">Supported syntax:</span>
+                        <span class="sp-syntax-chip"><code>5 Item</code></span>
+                        <span class="sp-syntax-chip"><code>Item x 5</code></span>
+                        <span class="sp-syntax-chip"><code>Item - 5 pcs</code></span>
+                        <button type="button" class="sp-parse-cta" onclick="parseSmartPasteInput()">
+                            <span>⚡ Re-Scan</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Live Bento Match Workspace -->
+                <div class="sp-results-pane">
+                    <div class="sp-results-header">
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <span class="sp-live-dot"></span>
+                            <span class="sp-results-heading">LIVE CATALOG RESOLUTION</span>
+                            <!-- Order Mode Toggle: Latest Typed at Row #1 vs 1..N Line Order -->
+                            <div class="sp-order-mode-switch" role="group" aria-label="Result row order">
+                                <button type="button" id="spOrderLatestBtn" class="sp-order-mode-btn active" onclick="setSmartPasteOrderMode('latest')" title="Show newly typed / active items at the very first row (No scrolling needed)">
+                                    ⚡ Latest at Row #1
+                                </button>
+                                <button type="button" id="spOrderOriginalBtn" class="sp-order-mode-btn" onclick="setSmartPasteOrderMode('original')" title="Show items in original 1 to N line order">
+                                    ↕ Line Order
+                                </button>
+                            </div>
+                        </div>
+                        <div class="sp-legend-group">
+                            <span class="sp-legend-pill exact">● Exact</span>
+                            <span class="sp-legend-pill close">● Fuzzy</span>
+                            <span class="sp-legend-pill special">● Custom Quote</span>
+                        </div>
+                    </div>
+                    <div id="smartPasteResultsList" class="sp-results-list">
+                        <div class="sp-empty-state">
+                            <div class="sp-empty-orb">⚡</div>
+                            <div class="sp-empty-title">Waiting for your order stream</div>
+                            <div class="sp-empty-sub">Paste lines from WhatsApp, SMS, or notes on the left — or click <strong>✨ Load Demo List</strong> to test instant matching.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2026 Floating Bento SKU & Pack Picker Portal (inside Smart Paste Studio) -->
+            <div id="spSkuPickerOverlay" class="sp-sku-overlay" style="display:none;" onclick="if(event.target===this)closeSpSkuPicker()">
+                <div class="sp-sku-dialog" onclick="event.stopPropagation()">
+                    <div class="sp-sku-dialog-head">
+                        <div class="sp-sku-head-top">
+                            <div>
+                                <span class="sp-sku-eyebrow">2026 NEURAL SKU &amp; PACK SELECTOR</span>
+                                <h4 class="sp-sku-dialog-title" id="spSkuDialogTitle">Select Product Match</h4>
+                            </div>
+                            <button type="button" class="sp-sku-close-btn" onclick="closeSpSkuPicker()">&times;</button>
+                        </div>
+                        <div class="sp-sku-search-box">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="spSkuSearchInput" class="sp-sku-search-input"
+                                placeholder="Search any catalog product, brand, or pack size..."
+                                oninput="filterSpSkuPicker(this.value)">
+                            <span class="sp-sku-count-pill" id="spSkuCountPill">0 options</span>
+                        </div>
+                    </div>
+                    <div class="sp-sku-options-list" id="spSkuOptionsList">
+                        <!-- Rich Bento Candidate Cards Injected Here -->
+                    </div>
+                    <div class="sp-sku-dialog-foot" id="spSkuDialogFoot">
+                        <!-- Custom Quote Special Request Button Injected Here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="sp-modal-footer">
+                <div id="smartPasteFooterSummary" class="sp-footer-summary">
+                    Ready to match your list
+                </div>
+                <div class="sp-footer-actions">
+                    <button type="button" class="sp-cancel-btn" onclick="closeSmartPasteModal()">Cancel</button>
+                    <button type="button" id="smartPasteAddBtn" class="sp-submit-btn" onclick="commitSmartPasteToCart()" disabled>
+                        <span>🚀 Commit Selected to Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Product Match Dropdown Overlay (Placed at body root) -->
     <div id="gcDropdownOverlay"
         style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:99999; align-items:center; justify-content:center;"
@@ -5972,23 +6255,26 @@
             const guestCalcBtn = document.getElementById("guestCalcBtn");
             const feedbackBtn = document.getElementById("feedbackBtn");
             const adminReviewsBtn = document.getElementById("adminReviewsBtn");
+            const navAdminWrap = document.getElementById("navAdminWrap");
             const email = (localStorage.getItem("userEmail") || '').toLowerCase().trim();
             if (token) {
                 loginBtn.style.display = "none";
                 logoutBtn.style.display = "inline-flex";
-                if (statementBtn) statementBtn.style.display = "inline-flex";
+                if (statementBtn) statementBtn.style.display = "flex";
                 // Dashboard button is permanently hidden - do not show it
-                if (guestCalcBtn) guestCalcBtn.style.display = "inline-flex";
-                if (feedbackBtn) feedbackBtn.style.display = "inline-flex";
+                if (guestCalcBtn) guestCalcBtn.style.display = "flex";
+                if (feedbackBtn) feedbackBtn.style.display = "flex";
                 // Show admin buttons only for admin email
                 if (email === ADMIN_EMAIL) {
-                    adminBtn.style.display = 'inline-flex';
-                    if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'inline-flex';
-                    if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'inline-flex';
+                    if (navAdminWrap) navAdminWrap.style.display = 'inline-flex';
+                    adminBtn.style.display = 'flex';
+                    if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'flex';
+                    if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'flex';
                     var adminOrdersBtn = document.getElementById('adminOrdersBtn');
-                    if (adminOrdersBtn) adminOrdersBtn.style.display = 'inline-flex';
-                    if (adminReviewsBtn) adminReviewsBtn.style.display = 'inline-flex';
+                    if (adminOrdersBtn) adminOrdersBtn.style.display = 'flex';
+                    if (adminReviewsBtn) adminReviewsBtn.style.display = 'flex';
                 } else {
+                    if (navAdminWrap) navAdminWrap.style.display = 'none';
                     adminBtn.style.display = 'none';
                     if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                     if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
@@ -5999,6 +6285,7 @@
             } else {
                 loginBtn.style.display = "inline-flex";
                 logoutBtn.style.display = "none";
+                if (navAdminWrap) navAdminWrap.style.display = 'none';
                 adminBtn.style.display = 'none';
                 if (adminAnalyticsBtn) adminAnalyticsBtn.style.display = 'none';
                 if (adminFulfillmentBtn) adminFulfillmentBtn.style.display = 'none';
@@ -6374,16 +6661,9 @@
             priceMap = {};
             namePackMap = {};
             allProducts = []; // Clear current list
-            const dropdown = document.getElementById("catDropdown");
+            const dropdownList = document.getElementById("catDropdownList") || document.getElementById("catDropdown");
             const cats = new Set();
-
-            // Reset Dropdown
-            dropdown.innerHTML = '';
-            const allItem = document.createElement("div");
-            allItem.className = "dropdown-item selected";
-            allItem.textContent = "All Categories";
-            allItem.onclick = () => selectCategory('', allItem);
-            dropdown.appendChild(allItem);
+            const catCounts = {};
 
             const newArrivalsBox = document.getElementById("newArrivals");
             const isLoggedIn = !!localStorage.getItem("authToken");
@@ -6423,7 +6703,10 @@
                 priceMap[item.barcode] = item;
                 productKeyMap[pKey] = item;
                 if (!namePackMap[pKey]) namePackMap[pKey] = item;
-                cats.add(item.cat);
+                if (item.cat) {
+                    cats.add(item.cat);
+                    catCounts[item.cat] = (catCounts[item.cat] || 0) + 1;
+                }
                 allProducts.push(item);
 
                 // Process New Arrivals (Visuals only, kept separate)
@@ -6446,14 +6729,38 @@
                 }
             });
 
-            // Populate Dropdown
-            cats.forEach(v => {
-                const item = document.createElement("div");
-                item.className = "dropdown-item";
-                item.textContent = v;
-                item.onclick = () => selectCategory(v.toLowerCase(), item);
-                dropdown.appendChild(item);
-            });
+            // Reset & Populate 2026 Bento Category Dropdown
+            if (dropdownList) {
+                dropdownList.innerHTML = '';
+                const allItem = document.createElement("div");
+                allItem.className = "dropdown-item cmd26-cat-item selected";
+                allItem.setAttribute("data-cat", "");
+                allItem.setAttribute("data-label", "All Categories");
+                allItem.setAttribute("data-icon", "🗂️");
+                allItem.innerHTML = `
+                    <span class="cmd26-cat-item-icon">🗂️</span>
+                    <span class="cmd26-cat-item-name">All Categories</span>
+                    <span class="cmd26-cat-item-count">${allProducts.length}</span>
+                `;
+                allItem.onclick = () => selectCategory('', allItem);
+                dropdownList.appendChild(allItem);
+
+                Array.from(cats).sort((a, b) => String(a).localeCompare(String(b))).forEach(v => {
+                    const vis = typeof getCategoryVisual === 'function' ? getCategoryVisual(v, '') : { icon: '📦' };
+                    const item = document.createElement("div");
+                    item.className = "dropdown-item cmd26-cat-item";
+                    item.setAttribute("data-cat", String(v).toLowerCase());
+                    item.setAttribute("data-label", String(v));
+                    item.setAttribute("data-icon", vis.icon || '📦');
+                    item.innerHTML = `
+                        <span class="cmd26-cat-item-icon">${vis.icon || '📦'}</span>
+                        <span class="cmd26-cat-item-name">${v}</span>
+                        <span class="cmd26-cat-item-count">${catCounts[v] || 0}</span>
+                    `;
+                    item.onclick = () => selectCategory(String(v).toLowerCase(), item);
+                    dropdownList.appendChild(item);
+                });
+            }
 
             renderQuickAdd();
             updateFastOrderBar(); // Show fast order bar if user has history
@@ -6461,39 +6768,150 @@
             if (lastPurchases.length > 0) setTimeout(checkPrediction, 500);
         }
 
-        // New Category Selection Logic
-        // Custom Dropdown Logic
-        function toggleCategoryMenu() {
-            const menu = document.getElementById("catDropdown");
-            menu.classList.toggle("open");
+        // 2026 Custom Category & Sort Bento Popover Logic
+        function alignPopoverToViewport(menu, trigger) {
+            if (!menu || !trigger) return;
+            // Reset to left-aligned default first
+            menu.style.setProperty("left", "0px", "important");
+            menu.style.setProperty("right", "auto", "important");
+
+            requestAnimationFrame(() => {
+                const rect = menu.getBoundingClientRect();
+                const vw = window.innerWidth || document.documentElement.clientWidth;
+                if (rect.right > vw - 12) {
+                    menu.style.setProperty("left", "auto", "important");
+                    menu.style.setProperty("right", "0px", "important");
+                }
+                const afterRect = menu.getBoundingClientRect();
+                if (afterRect.left < 12) {
+                    menu.style.setProperty("left", Math.max(0, 12 - trigger.getBoundingClientRect().left) + "px", "important");
+                    menu.style.setProperty("right", "auto", "important");
+                }
+            });
         }
 
-        // Close dropdown when clicking outside
+        function toggleCategoryMenu() {
+            const menu = document.getElementById("catDropdown");
+            const trigger = document.getElementById("catTrigger");
+            const sortMenu = document.getElementById("sortDropdown");
+            if (sortMenu) sortMenu.classList.remove("open");
+            const sortTrig = document.getElementById("sortTrigger");
+            if (sortTrig) sortTrig.classList.remove("is-open");
+            const draftMenu = document.getElementById("draftMenu");
+            if (draftMenu) draftMenu.classList.remove("open");
+
+            if (!menu) return;
+            const isOpen = menu.classList.toggle("open");
+            if (trigger) trigger.classList.toggle("is-open", isOpen);
+            if (isOpen) {
+                alignPopoverToViewport(menu, trigger);
+                const searchInp = document.getElementById("catSearchInput");
+                if (searchInp) {
+                    searchInp.value = "";
+                    filterCategoryDropdown("");
+                    setTimeout(() => searchInp.focus(), 60);
+                }
+            }
+        }
+
+        function filterCategoryDropdown(query) {
+            const q = String(query || "").toLowerCase().trim();
+            const items = document.querySelectorAll('#catDropdown .dropdown-item');
+            items.forEach(el => {
+                const label = (el.getAttribute('data-label') || el.textContent || '').toLowerCase();
+                el.style.display = (!q || label.includes(q)) ? 'flex' : 'none';
+            });
+        }
+
+        function toggleSortMenu() {
+            const menu = document.getElementById("sortDropdown");
+            const trigger = document.getElementById("sortTrigger");
+            const catMenu = document.getElementById("catDropdown");
+            if (catMenu) catMenu.classList.remove("open");
+            const catTrig = document.getElementById("catTrigger");
+            if (catTrig) catTrig.classList.remove("is-open");
+            const draftMenu = document.getElementById("draftMenu");
+            if (draftMenu) draftMenu.classList.remove("open");
+
+            if (!menu) return;
+            const isOpen = menu.classList.toggle("open");
+            if (trigger) trigger.classList.toggle("is-open", isOpen);
+            if (isOpen) {
+                alignPopoverToViewport(menu, trigger);
+            }
+        }
+
+        function selectSortOption(val, label, icon, el) {
+            const sortInput = document.getElementById("sortSelect");
+            if (sortInput) sortInput.value = val;
+
+            const triggerText = document.getElementById("sortTriggerText");
+            const triggerIcon = document.getElementById("sortTriggerIcon");
+            const trigger = document.getElementById("sortTrigger");
+            if (triggerText) triggerText.textContent = label;
+            if (triggerIcon) triggerIcon.textContent = icon;
+            if (trigger) {
+                trigger.classList.toggle("active-cat", val !== "default");
+                trigger.classList.remove("is-open");
+            }
+
+            document.querySelectorAll('#sortDropdown .cmd26-sort-option').forEach(opt => opt.classList.remove('selected'));
+            if (el) el.classList.add('selected');
+
+            const menu = document.getElementById("sortDropdown");
+            if (menu) menu.classList.remove("open");
+
+            resetGridAndRender();
+        }
+
+        // Close popovers when clicking outside
         document.addEventListener('click', function (e) {
-            const wrapper = document.getElementById("categoryWrapper");
-            if (wrapper && !wrapper.contains(e.target)) {
-                document.getElementById("catDropdown").classList.remove("open");
+            const catWrapper = document.getElementById("categoryWrapper");
+            if (catWrapper && !catWrapper.contains(e.target)) {
+                const catMenu = document.getElementById("catDropdown");
+                if (catMenu) catMenu.classList.remove("open");
+                const catTrig = document.getElementById("catTrigger");
+                if (catTrig) catTrig.classList.remove("is-open");
+            }
+            const sortWrapper = document.getElementById("sortWrapper");
+            if (sortWrapper && !sortWrapper.contains(e.target)) {
+                const sortMenu = document.getElementById("sortDropdown");
+                if (sortMenu) sortMenu.classList.remove("open");
+                const sortTrig = document.getElementById("sortTrigger");
+                if (sortTrig) sortTrig.classList.remove("is-open");
+            }
+            const draftWrapper = document.getElementById("draftWrapper");
+            if (draftWrapper && !draftWrapper.contains(e.target)) {
+                const draftMenu = document.getElementById("draftMenu");
+                if (draftMenu) draftMenu.classList.remove("open");
             }
         });
 
         function selectCategory(cat, itemElement) {
             // Update Visuals
-            document.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('selected'));
+            document.querySelectorAll('#catDropdown .dropdown-item').forEach(i => i.classList.remove('selected'));
             itemElement.classList.add('selected');
 
             const trigger = document.getElementById("catTrigger");
             const triggerText = document.getElementById("catTriggerText");
+            const triggerIcon = document.getElementById("catTriggerIcon");
+            const label = itemElement.getAttribute("data-label") || itemElement.textContent;
+            const icon = itemElement.getAttribute("data-icon") || "🗂️";
 
             if (cat === "") {
                 trigger.classList.remove("active-cat");
                 triggerText.textContent = "All Categories";
+                if (triggerIcon) triggerIcon.textContent = "🗂️";
             } else {
                 trigger.classList.add("active-cat");
-                triggerText.textContent = itemElement.textContent;
+                triggerText.textContent = label;
+                if (triggerIcon) triggerIcon.textContent = icon;
             }
 
-            toggleCategoryMenu(); // Close menu
-            renderGrid(); // Centralized Logic
+            const menu = document.getElementById("catDropdown");
+            if (menu) menu.classList.remove("open");
+            if (trigger) trigger.classList.remove("is-open");
+            resetGridAndRender(); // Reset pagination & render
         }
 
         // Builds HTML for out-of-stock items that exist in purchase history but not in current price list
@@ -6626,7 +7044,147 @@
             return 1;
         }
 
-        /* Render Grid (Virtualization) */
+        // ── MODULE 1: PAGINATION, INFINITE SCROLL, SORT & LIVE CARD STEPPERS ──
+        const GRID_PAGE_SIZE = 60;
+        let currentGridLimit = GRID_PAGE_SIZE;
+        let _gridScrollObserver = null;
+
+        function resetGridAndRender() {
+            currentGridLimit = GRID_PAGE_SIZE;
+            renderGrid();
+        }
+
+        function loadMoreGridItems() {
+            currentGridLimit += GRID_PAGE_SIZE;
+            renderGrid();
+        }
+
+        function loadAllGridItems(totalCount) {
+            currentGridLimit = Math.max(totalCount || 99999, allProducts.length || 99999);
+            renderGrid();
+        }
+
+        function initGridInfiniteScroll() {
+            if (_gridScrollObserver) {
+                _gridScrollObserver.disconnect();
+            }
+            const sentinel = document.getElementById("gridLoadMoreSentinel");
+            if (!sentinel || !("IntersectionObserver" in window)) return;
+
+            _gridScrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadMoreGridItems();
+                    }
+                });
+            }, { rootMargin: "320px 0px" });
+
+            _gridScrollObserver.observe(sentinel);
+        }
+
+        function buildPurchaseFreqMap() {
+            const freqMap = {};
+            (lastPurchases || []).forEach(p => {
+                const key = getProductKey(p);
+                if (key) freqMap[key] = (freqMap[key] || 0) + Number(p.qty || 1);
+            });
+            const localOrders = getLastOrders();
+            (localOrders || []).forEach(o => {
+                (o.items || []).forEach(i => {
+                    const key = getProductKey(i);
+                    if (key) freqMap[key] = (freqMap[key] || 0) + Number(i.qty || 1);
+                });
+            });
+            return freqMap;
+        }
+
+        function buildCardControlsHtml(barcode, defaultQty, isLoggedIn) {
+            if (!isLoggedIn) {
+                return `
+                    <input class="qty qty-input" type="number" min="1" value="1" id="qty_${barcode}" disabled>
+                    <button class="add-btn add-btn-mini" style="background:#ccc; cursor:not-allowed;" onclick="openLoginModal()">🔒</button>
+                `;
+            }
+            const cartEntry = cart[barcode];
+            const isInCart = !!(cartEntry && cartEntry.qty > 0);
+            const cartQty = isInCart ? cartEntry.qty : (defaultQty || 1);
+
+            if (isInCart) {
+                return `
+                    <button type="button" class="card-step-btn card-step-minus" onclick="cardStepCartQty('${barcode}', -1)" title="Decrease quantity in cart">−</button>
+                    <input class="qty qty-input is-live-cart-qty" type="number" min="0" value="${cartQty}" id="qty_${barcode}"
+                           onchange="cardSetCartQty('${barcode}', this.value)" title="Quantity in cart">
+                    <button type="button" class="card-step-btn card-step-plus" onclick="cardStepCartQty('${barcode}', 1)" title="Increase quantity in cart">＋</button>
+                `;
+            }
+            return `
+                <button type="button" class="card-step-btn card-pre-step" onclick="cardStepPreQty('${barcode}', -1)" title="Decrease quantity">−</button>
+                <input class="qty qty-input" type="number" min="1" value="${defaultQty || 1}" id="qty_${barcode}" title="Quantity to add">
+                <button type="button" class="card-step-btn card-pre-step" onclick="cardStepPreQty('${barcode}', 1)" title="Increase quantity">＋</button>
+                <button type="button" class="add-btn add-btn-mini" onclick="addToCartFromGrid('${barcode}', 'qty_${barcode}', this)" title="Add to Cart">＋</button>
+            `;
+        }
+
+        function cardStepPreQty(barcode, delta) {
+            const input = document.getElementById('qty_' + barcode);
+            if (!input) return;
+            const current = Number(input.value) || 1;
+            input.value = Math.max(1, current + delta);
+        }
+
+        function cardStepCartQty(barcode, delta) {
+            const item = priceMap[barcode];
+            if (!item && !cart[barcode]) return;
+            if (!cart[barcode]) {
+                if (delta > 0) addToCartDirect(barcode, delta);
+                return;
+            }
+            cart[barcode].qty += delta;
+            if (cart[barcode].qty <= 0) {
+                delete cart[barcode];
+                if (typeof premiumNotify === 'function') {
+                    premiumNotify(`${item ? item.name : 'Item'} removed from cart`, 'info', 1600);
+                }
+            } else {
+                triggerCartAnimation();
+            }
+            renderCart();
+        }
+
+        function cardSetCartQty(barcode, rawVal) {
+            const val = parseInt(rawVal, 10);
+            const item = priceMap[barcode];
+            if (isNaN(val) || val <= 0) {
+                delete cart[barcode];
+                if (typeof premiumNotify === 'function') {
+                    premiumNotify(`${item ? item.name : 'Item'} removed from cart`, 'info', 1600);
+                }
+            } else if (cart[barcode]) {
+                cart[barcode].qty = val;
+                triggerCartAnimation();
+            } else if (item) {
+                cart[barcode] = { ...item, qty: val };
+                triggerCartAnimation();
+            }
+            renderCart();
+        }
+
+        // Press '/' on Order Page to focus product search bar
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                const tag = (document.activeElement && document.activeElement.tagName || "").toLowerCase();
+                if (tag === "input" || tag === "textarea" || tag === "select" || document.activeElement?.isContentEditable) return;
+                const orderPage = document.getElementById("page-pricelist");
+                const searchInput = document.getElementById("search");
+                if (orderPage && orderPage.style.display !== "none" && searchInput) {
+                    e.preventDefault();
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            }
+        });
+
+        /* Render Grid (Virtualization + Infinite Scroll + Multi-Sort) */
         function renderGrid() {
             const cardsEl = document.getElementById("cards");
             const isLoggedIn = !!localStorage.getItem("authToken");
@@ -6639,32 +7197,31 @@
                 return;
             }
 
-            const activeItem = document.querySelector('.dropdown-item.selected');
+            const activeItem = document.querySelector('#catDropdown .dropdown-item.selected');
             let cat = "";
-            if (activeItem && activeItem.textContent !== "All Categories") {
-                cat = activeItem.textContent.toLowerCase();
+            if (activeItem) {
+                cat = activeItem.getAttribute("data-cat") !== null
+                    ? activeItem.getAttribute("data-cat")
+                    : (activeItem.textContent !== "All Categories" ? activeItem.textContent.toLowerCase() : "");
             }
 
             const search = document.getElementById("search").value.toLowerCase().trim();
+            const sortMode = document.getElementById("sortSelect")?.value || "default";
 
             // Build bought-before keys set for fast lookup
             const boughtKeys = getBoughtBeforeKeys();
+            const freqMap = (activeFastFilter === 'bought_before' || sortMode === 'popular') ? buildPurchaseFreqMap() : {};
 
             // 1. Filter and Score
             let filtered;
             if (search === "") {
                 filtered = allProducts.filter(item => {
-                    const matchesCat = cat === "" || item.cat.toLowerCase() === cat;
+                    const matchesCat = cat === "" || (item.cat || "").toLowerCase() === cat;
                     const matchesBought = activeFastFilter !== 'bought_before' || boughtKeys.has(item.productKey || getProductKey(item));
                     return matchesCat && matchesBought;
                 });
-                // If Bought Before is active, sort by purchase frequency
-                if (activeFastFilter === 'bought_before') {
-                    const freqMap = {};
-                    lastPurchases.forEach(p => {
-                        const key = getProductKey(p);
-                        freqMap[key] = (freqMap[key] || 0) + Number(p.qty || 1);
-                    });
+                // If Bought Before is active and sort is default, sort by purchase frequency
+                if (activeFastFilter === 'bought_before' && sortMode === 'default') {
                     filtered.sort((a, b) => (freqMap[b.productKey || getProductKey(b)] || 0) - (freqMap[a.productKey || getProductKey(a)] || 0));
                 }
             } else {
@@ -6674,15 +7231,32 @@
                         return { item, score };
                     })
                     .filter(entry => {
-                        const matchesCat = cat === "" || entry.item.cat.toLowerCase() === cat;
-                        return matchesCat && entry.score > 0;
+                        const matchesCat = cat === "" || (entry.item.cat || "").toLowerCase() === cat;
+                        const matchesBought = activeFastFilter !== 'bought_before' || boughtKeys.has(entry.item.productKey || getProductKey(entry.item));
+                        return matchesCat && matchesBought && entry.score > 0;
                     })
                     .sort((a, b) => b.score - a.score)
                     .map(entry => entry.item);
             }
 
-            // 2. Slice — unlimited in Bought Before mode, capped at 50 for full price list
-            const MAX_ITEMS = activeFastFilter === 'bought_before' ? filtered.length : 50;
+            // Apply explicit user Sort Mode
+            if (sortMode === "popular") {
+                filtered.sort((a, b) => {
+                    const diff = (freqMap[b.productKey || getProductKey(b)] || 0) - (freqMap[a.productKey || getProductKey(a)] || 0);
+                    return diff !== 0 ? diff : (a.name || "").localeCompare(b.name || "");
+                });
+            } else if (sortMode === "price_asc") {
+                filtered.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+            } else if (sortMode === "price_desc") {
+                filtered.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+            } else if (sortMode === "name_asc") {
+                filtered.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+            } else if (sortMode === "new_first") {
+                filtered.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0) || (b.img ? 1 : 0) - (a.img ? 1 : 0));
+            }
+
+            // 2. Slice — unlimited in Bought Before mode, paginated via currentGridLimit for full catalog
+            const MAX_ITEMS = activeFastFilter === 'bought_before' ? filtered.length : currentGridLimit;
             const slices = filtered.slice(0, MAX_ITEMS);
 
             // 3. Construct String
@@ -6715,9 +7289,7 @@
                     ? `<span class="in-cart-badge" style="background:#10b981; color:#fff; font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:3px;">✓ In Cart (${cartQty})</span>`
                     : '';
 
-                const addBtnHtml = isLoggedIn
-                    ? `<button class="add-btn add-btn-mini" style="${isInCart ? 'background:#10b981; color:#fff;' : ''}" onclick="addToCartFromGrid('${item.barcode}', 'qty_${item.barcode}', this)">${isInCart ? '✓' : '＋'}</button>`
-                    : `<button class="add-btn add-btn-mini" style="background:#ccc; cursor:not-allowed;" onclick="openLoginModal()">🔒</button>`;
+                const controlsInnerHtml = buildCardControlsHtml(item.barcode, defaultQty, isLoggedIn);
 
                 const hasImg = !!(item.img && String(item.img).trim());
                 const safeImg = hasImg ? String(item.img).replace(/"/g, '&quot;').replace(/'/g, "\\'") : '';
@@ -6752,7 +7324,7 @@
                        </div>`;
 
                 return `
-                <div class="product-card ${isInCart ? 'is-in-cart' : ''}" data-barcode="${item.barcode}" data-category="${(item.cat || '').toLowerCase()}" style="${cardStyle}">
+                <div class="product-card ${isInCart ? 'is-in-cart' : ''}" data-barcode="${item.barcode}" data-default-qty="${defaultQty}" data-category="${(item.cat || '').toLowerCase()}" style="${cardStyle}">
                     ${mediaHtml}
                     <div class="card-header">
                         <div class="card-meta" style="margin-bottom:0.5rem; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
@@ -6767,9 +7339,8 @@
                     </div>
                     <div class="card-footer">
                         <div class="price-tag">${priceDisplay}</div>
-                        <div class="add-controls">
-                            <input class="qty qty-input" type="number" min="1" value="${defaultQty}" id="qty_${item.barcode}" ${isLoggedIn ? '' : 'disabled'}>
-                            ${addBtnHtml}
+                        <div class="add-controls ${isInCart ? 'in-cart-stepper' : ''}">
+                            ${controlsInnerHtml}
                         </div>
                     </div>
                 </div>
@@ -6794,13 +7365,33 @@
                 }
             }
 
-            // 4. Show "More results" indicator if needed
+            // 4. Show Interactive 2026 Spatial Load More Dock + Infinite Scroll Sentinel if more items exist
             if (filtered.length > MAX_ITEMS) {
+                const remaining = filtered.length - MAX_ITEMS;
+                const nextBatch = Math.min(GRID_PAGE_SIZE, remaining);
+                const pct = Math.min(100, Math.round((MAX_ITEMS / filtered.length) * 100));
                 cardsEl.innerHTML += `
-                    <div style="grid-column:1/-1; text-align:center; padding:2rem; color:#999;">
-                        Showing top ${MAX_ITEMS} of ${filtered.length} results. Refine search to see more.
+                    <div id="gridLoadMoreSentinel" class="grid-load-more-wrap">
+                        <div class="grid-load-top-row">
+                            <span class="grid-load-pill">CATALOG STREAM</span>
+                            <span class="grid-load-progress-text">
+                                Viewing <strong>${MAX_ITEMS}</strong> of <strong>${filtered.length}</strong> items (${pct}%)
+                            </span>
+                        </div>
+                        <div class="grid-load-progress-bar">
+                            <div class="grid-load-progress-fill" style="width:${pct}%;"></div>
+                        </div>
+                        <div class="grid-load-actions">
+                            <button type="button" class="grid-load-more-btn" onclick="loadMoreGridItems()">
+                                <span>⬇ Load +${nextBatch} Products</span>
+                            </button>
+                            <button type="button" class="grid-load-all-btn" onclick="loadAllGridItems(${filtered.length})">
+                                <span>⚡ Unlock All (${filtered.length})</span>
+                            </button>
+                        </div>
                     </div>
                 `;
+                setTimeout(initGridInfiniteScroll, 50);
             } else if (filtered.length === 0) {
                 cardsEl.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem 2rem;">
                     <div style="font-size:2rem; margin-bottom:1rem;">🔍</div>
@@ -7365,18 +7956,20 @@
         function updateCartGridVisuals() {
             const cards = document.querySelectorAll('#cards .product-card');
             if (!cards || cards.length === 0) return;
+            const isLoggedIn = !!localStorage.getItem("authToken");
 
             cards.forEach(card => {
                 const barcode = card.getAttribute('data-barcode');
                 if (!barcode) return;
 
                 const cartEntry = cart[barcode];
-                const isInCart = cartEntry && cartEntry.qty > 0;
+                const isInCart = !!(cartEntry && cartEntry.qty > 0);
                 const cartQty = isInCart ? cartEntry.qty : 0;
+                const defaultQty = Number(card.getAttribute('data-default-qty')) || 1;
 
                 const metaEl = card.querySelector('.card-meta');
                 let badge = card.querySelector('.in-cart-badge');
-                const addBtn = card.querySelector('.add-btn-mini');
+                const controlsEl = card.querySelector('.add-controls');
 
                 if (isInCart) {
                     card.classList.add('is-in-cart');
@@ -7394,12 +7987,6 @@
                         badge.innerHTML = `✓ In Cart (${cartQty})`;
                         badge.style.display = 'inline-flex';
                     }
-
-                    if (addBtn && !addBtn.getAttribute('onclick')?.includes('openLoginModal')) {
-                        addBtn.style.background = '#10b981';
-                        addBtn.style.color = '#fff';
-                        addBtn.innerHTML = '✓';
-                    }
                 } else {
                     card.classList.remove('is-in-cart');
                     card.style.border = '';
@@ -7409,14 +7996,676 @@
                     if (badge) {
                         badge.remove();
                     }
+                }
 
-                    if (addBtn && !addBtn.getAttribute('onclick')?.includes('openLoginModal')) {
-                        addBtn.style.background = '';
-                        addBtn.style.color = '';
-                        addBtn.innerHTML = '＋';
+                if (controlsEl) {
+                    controlsEl.classList.toggle('in-cart-stepper', isInCart);
+                    controlsEl.innerHTML = buildCardControlsHtml(barcode, defaultQty, isLoggedIn);
+                }
+            });
+        }
+
+        // ── MODULE 3: SMART TEXT PASTE (WHATSAPP / CHEF LIST TO CART) ────────
+        let _smartPasteRows = [];
+        let _spOrderMode = "latest"; // 'latest' (newest/active typed line at Row #1) | 'original' (1..N line order)
+        let _spActiveRowIndex = -1;
+        let _spEditingPickerRowIdx = -1;
+        let _spManualOverrides = {}; // Keyed by rowIndex + "|" + query to preserve user manual pack/qty choices
+
+        function openSmartPasteModal() {
+            const isLoggedIn = !!localStorage.getItem("authToken");
+            if (!isLoggedIn) {
+                openLoginModal();
+                return;
+            }
+            const modal = document.getElementById("smartPasteModal");
+            if (!modal) return;
+            modal.style.display = "flex";
+            const input = document.getElementById("smartPasteInput");
+            if (input) {
+                setTimeout(() => input.focus(), 80);
+                if (input.value.trim()) parseSmartPasteInput();
+            }
+        }
+
+        function closeSmartPasteModal() {
+            closeSpSkuPicker();
+            const modal = document.getElementById("smartPasteModal");
+            if (modal) modal.style.display = "none";
+        }
+
+        function clearSmartPasteInput() {
+            const input = document.getElementById("smartPasteInput");
+            if (input) input.value = "";
+            _smartPasteRows = [];
+            _spActiveRowIndex = -1;
+            _spManualOverrides = {};
+            closeSpSkuPicker();
+            renderSmartPasteResults();
+        }
+
+        function setSmartPasteOrderMode(mode) {
+            _spOrderMode = (mode === "original") ? "original" : "latest";
+            const latestBtn = document.getElementById("spOrderLatestBtn");
+            const origBtn = document.getElementById("spOrderOriginalBtn");
+            if (latestBtn) latestBtn.classList.toggle("active", _spOrderMode === "latest");
+            if (origBtn) origBtn.classList.toggle("active", _spOrderMode === "original");
+            renderSmartPasteResults(true);
+        }
+
+        function getActiveSmartPasteLineIndex(textarea) {
+            if (!textarea) return -1;
+            const rawText = textarea.value || "";
+            const selStart = typeof textarea.selectionStart === "number" ? textarea.selectionStart : rawText.length;
+            const allLines = rawText.split(/\r?\n/);
+
+            let charCount = 0;
+            let nonEmptyIdx = -1;
+            let activeNonEmptyIdx = -1;
+
+            for (let i = 0; i < allLines.length; i++) {
+                const lineLen = allLines[i].length;
+                const trimmed = allLines[i].trim();
+                if (trimmed) {
+                    nonEmptyIdx++;
+                }
+                if (selStart >= charCount && selStart <= charCount + lineLen + 1) {
+                    if (trimmed) {
+                        activeNonEmptyIdx = nonEmptyIdx;
+                    }
+                    break;
+                }
+                charCount += lineLen + 1;
+            }
+
+            return activeNonEmptyIdx >= 0 ? activeNonEmptyIdx : nonEmptyIdx;
+        }
+
+        function syncSmartPasteCursorRow(evt) {
+            if (evt && !["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End"].includes(evt.key)) return;
+            if (!_smartPasteRows || _smartPasteRows.length <= 1 || _spOrderMode !== "latest") return;
+            const input = document.getElementById("smartPasteInput");
+            if (!input) return;
+            const nextIdx = getActiveSmartPasteLineIndex(input);
+            if (nextIdx >= 0 && nextIdx !== _spActiveRowIndex) {
+                _spActiveRowIndex = nextIdx;
+                renderSmartPasteResults(true);
+            }
+        }
+
+        function loadSmartPasteSample() {
+            const input = document.getElementById("smartPasteInput");
+            if (!input) return;
+            _spManualOverrides = {};
+            // Pick up to 6 real products from allProducts if loaded, plus 1 sample special item
+            if (allProducts && allProducts.length >= 6) {
+                const sampleItems = allProducts.slice(0, 6);
+                const qtys = [5, 3, 2, 6, 4, 8];
+                const lines = sampleItems.map((p, idx) => {
+                    const q = qtys[idx % qtys.length];
+                    return idx % 2 === 0
+                        ? `${q} ${p.name} ${p.pack || ''}`.trim()
+                        : `${p.name} ${p.pack || ''} x ${q}`.trim();
+                });
+                lines.push("4 Organic Truffle Oil 250ml");
+                input.value = lines.join("\n");
+            } else {
+                input.value = [
+                    "5 Zen Water 500ml",
+                    "Kericho Gold x 3",
+                    "2 Kenylon Foil",
+                    "4 Choco Primo",
+                    "3 Zesta Jam",
+                    "6 Pringles Original"
+                ].join("\n");
+            }
+            parseSmartPasteInput();
+        }
+
+        const debouncedSmartPasteParse = debounce(parseSmartPasteInput, 180);
+
+        function parseSinglePasteLine(rawLine) {
+            // Strip bullet points, checkboxes, or list numbering like "1. " or "2) " only if followed by another token
+            let line = rawLine.trim()
+                .replace(/^[•●▪▫\-–—*✓✔☐☑]+\s*/, "")
+                .replace(/^\d+[\.\)]\s+(?=[a-zA-Z0-9])/, "")
+                .trim();
+
+            if (!line) return null;
+
+            let qty = 1;
+            let text = line;
+
+            // Pattern A: Trailing quantity e.g. "Zen Water 500ml x 5", "Item - 3 pcs", "Item (4)", "Item qty 6"
+            const trailMatch = text.match(/^(.*?)(?:\s*[-–—:]\s*|\s+[xX×*]\s*|\s+qty[:\s]*|\s+)(\d{1,4})\s*(?:pcs?|packs?|ctns?|cartons?|boxes|btls?|bottles?|tins?|bags?|units?|pk)?\.?$/i);
+            // Pattern B: Leading quantity e.g. "5 Zen Water 500ml", "5x Zen Water", "5 pcs Zen Water"
+            const leadMatch = text.match(/^(\d{1,4})\s*(?:[xX×*]|pcs?|packs?|ctns?|cartons?|boxes|btls?|bottles?|tins?|bags?|units?)?\s+(.+)$/i);
+
+            // Make sure trailing number isn't actually a unit/pack size (like 500 in "Zen Water 500")
+            if (leadMatch && !/^(ml|l|ltr|g|gm|kg|cm|mm|oz|s|pk)\b/i.test(leadMatch[2])) {
+                qty = Math.max(1, parseInt(leadMatch[1], 10) || 1);
+                text = leadMatch[2].trim();
+            } else if (trailMatch && trailMatch[1].trim().length >= 2) {
+                qty = Math.max(1, parseInt(trailMatch[2], 10) || 1);
+                text = trailMatch[1].trim();
+            }
+
+            return { raw: rawLine.trim(), query: text, qty };
+        }
+
+        function scoreProductForSmartPaste(item, queryStr, boughtKeys) {
+            if (!item || !queryStr) return 0;
+            const q = queryStr.toLowerCase().trim();
+            const name = String(item.name || "").toLowerCase();
+            const pack = String(item.pack || "").toLowerCase();
+            const code = String(item.code || "").toLowerCase();
+            const barcode = String(item.barcode || "").toLowerCase();
+            const fullText = `${name} ${pack} ${code} ${barcode}`;
+
+            // Direct barcode or code match
+            if (q === barcode || q === code) return 200;
+
+            let score = getFuzzyScore(item, q);
+
+            // Token overlap scoring (handles multi-word queries with pack sizes like "zen water 500ml")
+            const tokens = q.split(/[^a-z0-9.]+/).filter(t => t.length >= 2);
+            if (tokens.length > 0) {
+                let matchedTokens = 0;
+                let packMatched = false;
+                tokens.forEach(tok => {
+                    if (fullText.includes(tok)) {
+                        matchedTokens++;
+                        if (pack && pack.includes(tok)) packMatched = true;
+                    } else {
+                        // Check edit distance 1 for tokens >= 4 chars
+                        const words = fullText.split(/[^a-z0-9.]+/).filter(w => w.length >= 3);
+                        for (const w of words) {
+                            if (tok.length >= 4 && Math.abs(tok.length - w.length) <= 1 && levenshtein(tok, w) <= 1) {
+                                matchedTokens += 0.8;
+                                break;
+                            }
+                        }
+                    }
+                });
+
+                const ratio = matchedTokens / tokens.length;
+                const tokenScore = Math.round(ratio * 92) + (packMatched ? 14 : 0);
+                if (tokenScore > score) score = tokenScore;
+            }
+
+            // Slight boost if customer has bought this exact product before
+            if (score >= 45 && boughtKeys && boughtKeys.has(item.productKey || getProductKey(item))) {
+                score += 6;
+            }
+
+            return score;
+        }
+
+        function parseSmartPasteInput() {
+            const input = document.getElementById("smartPasteInput");
+            if (!input) return;
+            const rawText = input.value || "";
+            const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+
+            if (lines.length === 0) {
+                _smartPasteRows = [];
+                _spActiveRowIndex = -1;
+                renderSmartPasteResults();
+                return;
+            }
+
+            _spActiveRowIndex = getActiveSmartPasteLineIndex(input);
+            const boughtKeys = getBoughtBeforeKeys();
+
+            _smartPasteRows = lines.map((line, idx) => {
+                const parsed = parseSinglePasteLine(line);
+                if (!parsed) return null;
+
+                // Score all products
+                const scored = [];
+                for (let i = 0; i < allProducts.length; i++) {
+                    const p = allProducts[i];
+                    const sc = scoreProductForSmartPaste(p, parsed.query, boughtKeys);
+                    if (sc >= 38) {
+                        scored.push({ item: p, score: sc });
+                    }
+                }
+                scored.sort((a, b) => b.score - a.score || (Number(a.item.price) || 0) - (Number(b.item.price) || 0));
+
+                const candidates = scored.slice(0, 15).map(s => s.item);
+                const best = candidates[0] || null;
+                const bestScore = scored[0] ? scored[0].score : 0;
+
+                const overrideKey = idx + "|" + parsed.query.toLowerCase();
+                const saved = _spManualOverrides[overrideKey];
+
+                // Ensure manually chosen product is in candidates list
+                let selectedBarcode = saved && saved.selectedBarcode
+                    ? saved.selectedBarcode
+                    : (best ? String(best.barcode) : "__SPECIAL__");
+
+                if (selectedBarcode !== "__SPECIAL__" && priceMap[selectedBarcode]) {
+                    const existsInCand = candidates.some(c => String(c.barcode) === String(selectedBarcode));
+                    if (!existsInCand) {
+                        candidates.unshift(priceMap[selectedBarcode]);
+                    }
+                }
+
+                return {
+                    id: "sp_row_" + idx,
+                    rowIndex: idx,
+                    lineNum: idx + 1,
+                    raw: parsed.raw,
+                    query: parsed.query,
+                    qty: saved && saved.qty ? saved.qty : parsed.qty,
+                    selectedBarcode: selectedBarcode,
+                    confidence: bestScore >= 80 ? "high" : (bestScore >= 38 ? "medium" : "none"),
+                    candidates: candidates,
+                    checked: saved && typeof saved.checked === "boolean" ? saved.checked : true
+                };
+            }).filter(Boolean);
+
+            if (_spActiveRowIndex < 0 || _spActiveRowIndex >= _smartPasteRows.length) {
+                _spActiveRowIndex = _smartPasteRows.length - 1;
+            }
+
+            renderSmartPasteResults(true);
+        }
+
+        function renderSmartPasteResults(scrollToTopOnLatest) {
+            const listEl = document.getElementById("smartPasteResultsList");
+            const badgeEl = document.getElementById("smartPasteStatsBadge");
+            const kpiMatchedEl = document.getElementById("spKpiMatched");
+            const kpiTotalEl = document.getElementById("spKpiTotal");
+            const footerEl = document.getElementById("smartPasteFooterSummary");
+            const addBtn = document.getElementById("smartPasteAddBtn");
+            if (!listEl) return;
+
+            if (!_smartPasteRows || _smartPasteRows.length === 0) {
+                if (badgeEl) badgeEl.textContent = "0 lines";
+                if (kpiMatchedEl) kpiMatchedEl.textContent = "0";
+                if (kpiTotalEl) kpiTotalEl.textContent = "TZS 0";
+                if (footerEl) footerEl.textContent = "Ready to match your list";
+                if (addBtn) {
+                    addBtn.disabled = true;
+                    addBtn.innerHTML = `<span>🚀 Commit Selected to Cart</span>`;
+                }
+                listEl.innerHTML = `
+                    <div class="sp-empty-state">
+                        <div class="sp-empty-orb">⚡</div>
+                        <div class="sp-empty-title">Waiting for your order stream</div>
+                        <div class="sp-empty-sub">Paste or type lines on the left — new items automatically appear at <strong>Row #1</strong> so you never need to scroll!</div>
+                    </div>`;
+                return;
+            }
+
+            let matchedCount = 0;
+            let specialCount = 0;
+            let totalCost = 0;
+
+            // Compute totals across all rows
+            _smartPasteRows.forEach(row => {
+                const isSpecial = row.selectedBarcode === "__SPECIAL__";
+                const selectedItem = !isSpecial ? priceMap[row.selectedBarcode] : null;
+                const unitPrice = selectedItem ? (Number(selectedItem.price) || 0) : 0;
+                const lineTotal = unitPrice * (Number(row.qty) || 1);
+                if (row.checked) {
+                    if (selectedItem) {
+                        matchedCount++;
+                        totalCost += lineTotal;
+                    } else if (isSpecial) {
+                        specialCount++;
                     }
                 }
             });
+
+            // Determine display order:
+            // In 'latest' mode (default), put the actively typed row at Row #1, followed by newest lines first (reverse order)
+            const displayRows = [..._smartPasteRows];
+            if (_spOrderMode === "latest") {
+                displayRows.sort((a, b) => {
+                    const aIsActive = a.rowIndex === _spActiveRowIndex ? 1 : 0;
+                    const bIsActive = b.rowIndex === _spActiveRowIndex ? 1 : 0;
+                    if (aIsActive !== bIsActive) return bIsActive - aIsActive;
+                    return b.rowIndex - a.rowIndex;
+                });
+            } else {
+                displayRows.sort((a, b) => a.rowIndex - b.rowIndex);
+            }
+
+            const rowsHtml = displayRows.map((row, displayPos) => {
+                const idx = row.rowIndex;
+                const isActiveRow = (_spOrderMode === "latest" && displayPos === 0) || (idx === _spActiveRowIndex);
+                const isSpecial = row.selectedBarcode === "__SPECIAL__";
+                const selectedItem = !isSpecial ? priceMap[row.selectedBarcode] : null;
+                const unitPrice = selectedItem ? (Number(selectedItem.price) || 0) : 0;
+                const lineTotal = unitPrice * (Number(row.qty) || 1);
+
+                const statusBadge = selectedItem
+                    ? (row.confidence === "high"
+                        ? `<span class="sp-badge sp-badge-exact">⚡ Exact Match</span>`
+                        : `<span class="sp-badge sp-badge-close">~ Fuzzy Match</span>`)
+                    : `<span class="sp-badge sp-badge-special">★ Custom Request</span>`;
+
+                const activeBadgeHtml = isActiveRow
+                    ? `<span class="sp-active-line-pill" title="Currently active / latest typed line">⚡ LATEST · LINE #${row.lineNum}</span>`
+                    : `<span class="sp-line-num-pill">LINE #${row.lineNum}</span>`;
+
+                // Thumbnail or Category Icon for Bento Card
+                const catVis = selectedItem
+                    ? (typeof getCategoryVisual === 'function' ? getCategoryVisual(selectedItem.cat, selectedItem.name) : { icon: '📦' })
+                    : { icon: '✨' };
+                const hasImg = !!(selectedItem && selectedItem.img && String(selectedItem.img).trim());
+                const thumbHtml = hasImg
+                    ? `<div class="sp-bento-thumb">
+                         <img src="${selectedItem.img}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                         <span class="sp-bento-fallback" style="display:none;">${catVis.icon}</span>
+                       </div>`
+                    : `<div class="sp-bento-thumb is-icon">
+                         <span class="sp-bento-fallback">${catVis.icon}</span>
+                       </div>`;
+
+                // Modern 2026 Bento Trigger Pill (replaces native <select>)
+                const optCount = (row.candidates ? row.candidates.length : 0);
+                const triggerInnerHtml = selectedItem
+                    ? `
+                        <span class="sp-sku-pack-pill">📦 ${selectedItem.pack || 'STD'}</span>
+                        <span class="sp-sku-main-name" title="${String(selectedItem.name || '').replace(/"/g, '&quot;')}">${selectedItem.name}</span>
+                        <span class="sp-sku-switch-pill">
+                            <span>${optCount > 1 ? `${optCount} options` : 'Change'}</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    `
+                    : `
+                        <span class="sp-sku-pack-pill is-special">★ CUSTOM QUOTE</span>
+                        <span class="sp-sku-main-name">Request "${row.query}" as Special Item</span>
+                        <span class="sp-sku-switch-pill">
+                            <span>${optCount > 0 ? `${optCount} matches` : 'Search SKU'}</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </span>
+                    `;
+
+                return `
+                <div class="sp-match-row ${row.checked ? '' : 'sp-row-unchecked'} ${isSpecial ? 'sp-row-is-special' : ''} ${isActiveRow ? 'sp-row-active-latest' : ''}">
+                    <div class="sp-bento-left">
+                        <label class="sp-check-wrap" title="Include in order">
+                            <input type="checkbox" ${row.checked ? "checked" : ""} onchange="toggleSmartPasteRowCheck(${idx}, this.checked)">
+                            <span class="sp-custom-check"></span>
+                        </label>
+                        ${thumbHtml}
+                    </div>
+                    <div class="sp-bento-main">
+                        <div class="sp-row-top">
+                            <div class="sp-raw-chip" title="Original line #${row.lineNum}: ${row.raw.replace(/"/g, '&quot;')}">
+                                ${activeBadgeHtml}
+                                <span class="sp-raw-prefix">↳</span>
+                                <span class="sp-raw-line">"${row.raw}"</span>
+                            </div>
+                            ${statusBadge}
+                        </div>
+                        <div class="sp-row-controls">
+                            <div class="sp-select-shell">
+                                <button type="button" class="sp-sku-trigger-btn ${isSpecial ? 'is-special' : ''}" onclick="openSpSkuPicker(${idx})">
+                                    ${triggerInnerHtml}
+                                </button>
+                            </div>
+                            <div class="sp-qty-box">
+                                <button type="button" class="sp-qty-step" onclick="updateSmartPasteRowQty(${idx}, ${(Number(row.qty) || 1) - 1})">−</button>
+                                <input type="number" min="1" value="${row.qty}" class="sp-qty-input" onchange="updateSmartPasteRowQty(${idx}, this.value)">
+                                <button type="button" class="sp-qty-step" onclick="updateSmartPasteRowQty(${idx}, ${(Number(row.qty) || 1) + 1})">＋</button>
+                            </div>
+                            <div class="sp-row-price">
+                                ${selectedItem
+                                    ? `<span class="sp-price-amt">TZS ${lineTotal.toLocaleString()}</span><span class="sp-price-unit">@ ${unitPrice.toLocaleString()}</span>`
+                                    : `<span class="sp-quote-tag">Custom Quote</span>`}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join("");
+
+            listEl.innerHTML = rowsHtml;
+
+            if (scrollToTopOnLatest && _spOrderMode === "latest") {
+                listEl.scrollTop = 0;
+            }
+
+            if (badgeEl) {
+                badgeEl.textContent = `${_smartPasteRows.length} line${_smartPasteRows.length !== 1 ? 's' : ''}`;
+            }
+            if (kpiMatchedEl) {
+                kpiMatchedEl.textContent = `${matchedCount}/${_smartPasteRows.length}`;
+            }
+            if (kpiTotalEl) {
+                kpiTotalEl.textContent = `TZS ${totalCost.toLocaleString()}`;
+            }
+
+            const totalSelected = matchedCount + specialCount;
+            if (footerEl) {
+                footerEl.innerHTML = `
+                    <span class="sp-foot-pill"><strong>${matchedCount}</strong> Catalog SKU${matchedCount !== 1 ? 's' : ''}</span>
+                    ${specialCount > 0 ? `<span class="sp-foot-pill is-special">+ <strong>${specialCount}</strong> Custom Quote${specialCount !== 1 ? 's' : ''}</span>` : ''}
+                    <span class="sp-foot-total">Subtotal: <strong>TZS ${totalCost.toLocaleString()}</strong></span>
+                `;
+            }
+            if (addBtn) {
+                addBtn.disabled = totalSelected === 0;
+                addBtn.innerHTML = totalSelected > 0
+                    ? `<span>🚀 Commit ${totalSelected} Item${totalSelected !== 1 ? 's' : ''} to Cart</span>`
+                    : `<span>🚀 Commit Selected to Cart</span>`;
+            }
+        }
+
+        // ── 2026 FLOATING BENTO SKU & PACK PICKER FOR SMART PASTE ────────────
+        function openSpSkuPicker(rowIdx) {
+            const row = _smartPasteRows[rowIdx];
+            if (!row) return;
+            _spEditingPickerRowIdx = rowIdx;
+
+            const overlay = document.getElementById("spSkuPickerOverlay");
+            const titleEl = document.getElementById("spSkuDialogTitle");
+            const searchInp = document.getElementById("spSkuSearchInput");
+            if (!overlay) return;
+
+            if (titleEl) {
+                titleEl.innerHTML = `Line #${row.lineNum}: <span class="sp-sku-query-hl">"${row.raw}"</span>`;
+            }
+            if (searchInp) {
+                searchInp.value = "";
+            }
+
+            overlay.style.display = "flex";
+            renderSpSkuPickerOptions("");
+            setTimeout(() => {
+                if (searchInp) searchInp.focus();
+            }, 60);
+        }
+
+        function closeSpSkuPicker() {
+            const overlay = document.getElementById("spSkuPickerOverlay");
+            if (overlay) overlay.style.display = "none";
+            _spEditingPickerRowIdx = -1;
+        }
+
+        function filterSpSkuPicker(query) {
+            renderSpSkuPickerOptions(query);
+        }
+
+        function renderSpSkuPickerOptions(searchQuery) {
+            const row = _smartPasteRows[_spEditingPickerRowIdx];
+            const listEl = document.getElementById("spSkuOptionsList");
+            const footEl = document.getElementById("spSkuDialogFoot");
+            const countEl = document.getElementById("spSkuCountPill");
+            if (!row || !listEl) return;
+
+            const q = String(searchQuery || "").toLowerCase().trim();
+            const boughtKeys = getBoughtBeforeKeys();
+
+            let itemsToShow = [];
+            if (!q) {
+                itemsToShow = (row.candidates && row.candidates.length > 0)
+                    ? row.candidates
+                    : allProducts.slice(0, 15);
+            } else {
+                // Live search across the entire product catalog
+                const scored = [];
+                for (let i = 0; i < allProducts.length; i++) {
+                    const p = allProducts[i];
+                    const sc = scoreProductForSmartPaste(p, q, boughtKeys);
+                    if (sc >= 30 || (p.searchStr && p.searchStr.includes(q))) {
+                        scored.push({ item: p, score: sc });
+                    }
+                }
+                scored.sort((a, b) => b.score - a.score || (Number(a.item.price) || 0) - (Number(b.item.price) || 0));
+                itemsToShow = scored.slice(0, 24).map(s => s.item);
+            }
+
+            if (countEl) {
+                countEl.textContent = `${itemsToShow.length} SKU${itemsToShow.length !== 1 ? 's' : ''}`;
+            }
+
+            if (itemsToShow.length === 0) {
+                listEl.innerHTML = `
+                    <div class="sp-sku-empty">
+                        <div style="font-size:1.6rem; margin-bottom:6px;">🔍</div>
+                        <div style="font-weight:700; color:#f8fafc;">No catalog SKUs found for "${searchQuery}"</div>
+                        <div style="font-size:0.76rem; color:#94a3b8; margin-top:4px;">Try another keyword or select Custom Quote below.</div>
+                    </div>
+                `;
+            } else {
+                listEl.innerHTML = itemsToShow.map((cand, cIdx) => {
+                    const isSelected = String(cand.barcode) === String(row.selectedBarcode);
+                    const wasBought = boughtKeys && boughtKeys.has(cand.productKey || getProductKey(cand));
+                    const catVis = typeof getCategoryVisual === 'function' ? getCategoryVisual(cand.cat, cand.name) : { icon: '📦' };
+                    const hasImg = !!(cand.img && String(cand.img).trim());
+                    const thumbHtml = hasImg
+                        ? `<div class="sp-sku-opt-thumb">
+                             <img src="${cand.img}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                             <span style="display:none;">${catVis.icon}</span>
+                           </div>`
+                        : `<div class="sp-sku-opt-thumb is-icon"><span>${catVis.icon}</span></div>`;
+
+                    return `
+                    <div class="sp-sku-opt-card ${isSelected ? 'is-selected' : ''}" onclick="selectSpSkuPickerOption('${cand.barcode}')">
+                        ${thumbHtml}
+                        <div class="sp-sku-opt-body">
+                            <div class="sp-sku-opt-top">
+                                <span class="sp-sku-opt-pack">📦 ${cand.pack || 'STD'}</span>
+                                ${cIdx === 0 && !q ? `<span class="sp-sku-opt-tag best">⚡ Best Match</span>` : ''}
+                                ${wasBought ? `<span class="sp-sku-opt-tag repeat">★ Bought Before</span>` : ''}
+                            </div>
+                            <div class="sp-sku-opt-title">${cand.name}</div>
+                        </div>
+                        <div class="sp-sku-opt-right">
+                            <span class="sp-sku-opt-price">TZS ${Number(cand.price || 0).toLocaleString()}</span>
+                            <span class="sp-sku-opt-radio">${isSelected ? '✓' : ''}</span>
+                        </div>
+                    </div>`;
+                }).join("");
+            }
+
+            if (footEl) {
+                const isSpecial = row.selectedBarcode === "__SPECIAL__";
+                footEl.innerHTML = `
+                    <button type="button" class="sp-sku-special-btn ${isSpecial ? 'is-selected' : ''}" onclick="selectSpSkuPickerOption('__SPECIAL__')">
+                        <span>★ Request <strong>"${row.query}"</strong> as Custom Quote / Special Item</span>
+                        <span>${isSpecial ? '✓ Selected' : 'Select →'}</span>
+                    </button>
+                `;
+            }
+        }
+
+        function selectSpSkuPickerOption(barcodeVal) {
+            if (_spEditingPickerRowIdx < 0 || !_smartPasteRows[_spEditingPickerRowIdx]) return;
+            updateSmartPasteRowProduct(_spEditingPickerRowIdx, barcodeVal);
+            closeSpSkuPicker();
+        }
+
+        function saveSmartPasteRowOverride(idx) {
+            const row = _smartPasteRows[idx];
+            if (!row) return;
+            const key = row.rowIndex + "|" + String(row.query || "").toLowerCase();
+            _spManualOverrides[key] = {
+                selectedBarcode: row.selectedBarcode,
+                qty: row.qty,
+                checked: row.checked
+            };
+        }
+
+        function toggleSmartPasteRowCheck(idx, checked) {
+            if (!_smartPasteRows[idx]) return;
+            _smartPasteRows[idx].checked = !!checked;
+            saveSmartPasteRowOverride(idx);
+            renderSmartPasteResults(false);
+        }
+
+        function updateSmartPasteRowProduct(idx, barcodeVal) {
+            if (!_smartPasteRows[idx]) return;
+            _smartPasteRows[idx].selectedBarcode = barcodeVal;
+            _smartPasteRows[idx].checked = true;
+            saveSmartPasteRowOverride(idx);
+            renderSmartPasteResults(false);
+        }
+
+        function updateSmartPasteRowQty(idx, rawQty) {
+            if (!_smartPasteRows[idx]) return;
+            const q = Math.max(1, parseInt(rawQty, 10) || 1);
+            _smartPasteRows[idx].qty = q;
+            saveSmartPasteRowOverride(idx);
+            renderSmartPasteResults(false);
+        }
+
+        function commitSmartPasteToCart() {
+            const selectedRows = (_smartPasteRows || []).filter(r => r.checked);
+            if (selectedRows.length === 0) return;
+
+            let addedCatalog = 0;
+            let addedSpecial = 0;
+
+            selectedRows.forEach(row => {
+                const qty = Math.max(1, Number(row.qty) || 1);
+                if (row.selectedBarcode !== "__SPECIAL__" && priceMap[row.selectedBarcode]) {
+                    const item = priceMap[row.selectedBarcode];
+                    if (cart[item.barcode]) {
+                        cart[item.barcode].qty += qty;
+                    } else {
+                        cart[item.barcode] = { ...item, qty };
+                    }
+                    addedCatalog++;
+                } else {
+                    // Add to Special Requests list in Customer Modal
+                    const container = document.getElementById("specialItemsList");
+                    if (container) {
+                        const div = document.createElement("div");
+                        div.className = "special-item-row";
+                        div.style.cssText = "display:flex; gap:5px; margin-bottom:5px;";
+                        const safeName = String(row.query || row.raw).replace(/"/g, "&quot;");
+                        div.innerHTML = `
+                            <input placeholder="Item Name" class="form-input" style="flex:2; padding:5px;" name="si_name" value="${safeName}">
+                            <input placeholder="Size/Pack" class="form-input" style="flex:1; padding:5px;" name="si_pack" value="">
+                            <input type="number" placeholder="Qty" class="form-input" style="width:60px; padding:5px;" name="si_qty" value="${qty}">
+                            <button type="button" style="border:none; background:none; color:red; cursor:pointer;" onclick="this.parentElement.remove()">✕</button>
+                        `;
+                        container.appendChild(div);
+                        addedSpecial++;
+                    }
+                }
+            });
+
+            triggerCartAnimation();
+            renderCart();
+            closeSmartPasteModal();
+
+            const msgParts = [];
+            if (addedCatalog > 0) msgParts.push(`${addedCatalog} item${addedCatalog !== 1 ? 's' : ''} added to cart`);
+            if (addedSpecial > 0) msgParts.push(`${addedSpecial} added to Special Requests`);
+            if (typeof premiumNotify === "function") {
+                premiumNotify("⚡ " + msgParts.join(" · "), "success", 3200);
+            }
+
+            if (addedCatalog > 0 && !document.getElementById("cartPanel").classList.contains("open")) {
+                toggleCart();
+            }
         }
 
         function changeQty(b, d) {
@@ -8395,7 +9644,101 @@
             }
         }
 
+        /* ── 2026 BENTO NAV HUB POPs (Explore & Tools / Admin Hub) ── */
+        function toggleNavHub(which, e) {
+            if (e) e.stopPropagation();
+            const isTools = which === 'tools';
+            const targetPopover = document.getElementById(isTools ? 'navToolsPopover' : 'navAdminPopover');
+            const targetTrigger = document.getElementById(isTools ? 'navToolsTrigger' : 'navAdminTrigger');
+            const otherPopover = document.getElementById(isTools ? 'navAdminPopover' : 'navToolsPopover');
+            const otherTrigger = document.getElementById(isTools ? 'navAdminTrigger' : 'navToolsTrigger');
+
+            if (otherPopover) otherPopover.classList.remove('open');
+            if (otherTrigger) {
+                otherTrigger.classList.remove('open');
+                otherTrigger.setAttribute('aria-expanded', 'false');
+            }
+
+            if (targetPopover) {
+                const willOpen = !targetPopover.classList.contains('open');
+                targetPopover.classList.toggle('open', willOpen);
+                if (targetTrigger) {
+                    targetTrigger.classList.toggle('open', willOpen);
+                    targetTrigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+                }
+            }
+        }
+
+        function closeNavHubs() {
+            ['navToolsPopover', 'navAdminPopover'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('open');
+            });
+            ['navToolsTrigger', 'navAdminTrigger'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.remove('open');
+                    el.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+
+        function syncNavHubActiveState(pageId) {
+            const toolsMap = {
+                'page-new': 'Eco',
+                'page-eco': 'Eco',
+                'page-brands': 'Brands',
+                'page-guest-calc': 'Guest Calc',
+                'page-statement': 'Statement',
+                'page-feedback': 'Feedback'
+            };
+            const adminMap = {
+                'page-admin-bp': 'Insights',
+                'page-admin-analytics': 'Analytics',
+                'page-admin-fulfillment': 'Fulfillment',
+                'page-admin-orders': 'Orders',
+                'page-admin-reviews': 'Reviews'
+            };
+
+            const toolsTrigger = document.getElementById('navToolsTrigger');
+            const toolsBadge = document.getElementById('navToolsActiveBadge');
+            const adminTrigger = document.getElementById('navAdminTrigger');
+            const adminBadge = document.getElementById('navAdminActiveBadge');
+
+            if (toolsTrigger && toolsBadge) {
+                if (toolsMap[pageId]) {
+                    toolsTrigger.classList.add('has-active-child');
+                    toolsBadge.textContent = toolsMap[pageId];
+                    toolsBadge.style.display = 'inline-flex';
+                } else {
+                    toolsTrigger.classList.remove('has-active-child');
+                    toolsBadge.style.display = 'none';
+                }
+            }
+
+            if (adminTrigger && adminBadge) {
+                if (adminMap[pageId]) {
+                    adminTrigger.classList.add('has-active-child');
+                    adminBadge.textContent = adminMap[pageId];
+                    adminBadge.style.display = 'inline-flex';
+                } else {
+                    adminTrigger.classList.remove('has-active-child');
+                    adminBadge.style.display = 'none';
+                }
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-hub-wrap')) {
+                closeNavHubs();
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeNavHubs();
+        });
+
         function showPage(pageId, btn) {
+            closeNavHubs();
             if (checkSessionExpiration()) {
                 document.getElementById("cards").innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:2rem;">Session expired. Please login again.</div>';
                 google.script.run.withSuccessHandler(buildCards).getPriceList("");
@@ -8408,6 +9751,7 @@
             }
             document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
             if (btn) btn.classList.add("active");
+            syncNavHubActiveState(pageId);
 
             // Always scroll to top when changing pages
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -8509,9 +9853,25 @@
 
         function toggleDraftMenu() {
             const m = document.getElementById("draftMenu");
-            m.style.display = m.style.display === "block" ? "none" : "block";
+            const trig = document.getElementById("draftTrigger");
+            const catMenu = document.getElementById("catDropdown");
+            if (catMenu) catMenu.classList.remove("open");
+            const sortMenu = document.getElementById("sortDropdown");
+            if (sortMenu) sortMenu.classList.remove("open");
+
+            if (!m) return;
+            const isOpen = m.classList.toggle("open");
+            if (isOpen && trig && typeof alignPopoverToViewport === "function") {
+                alignPopoverToViewport(m, trig);
+            }
         }
-        function closeDraftMenu() { document.getElementById("draftMenu").style.display = "none"; }
+        function closeDraftMenu() {
+            const m = document.getElementById("draftMenu");
+            if (m) {
+                m.classList.remove("open");
+                m.style.display = "";
+            }
+        }
 
 
         // ===========================
@@ -13722,6 +15082,155 @@
     } else {
         loadFeaturedReviews();
     }
+</script>
+
+<!-- ===== 2026 SMART PASTE AI — FLOATING SPOTLIGHT TOAST / MINI-TOUR ===== -->
+<div class="sp-spotlight-card" id="spSpotlightCard" role="dialog" aria-label="New Feature: Smart Paste AI Studio">
+    <div class="sp-spot-top">
+        <span class="sp-spot-badge">
+            <span class="sp-spot-pulse"></span>
+            ✨ New Feature Unlocked
+        </span>
+        <button type="button" class="sp-spot-close" onclick="dismissSpSpotlight()" title="Minimize">✕</button>
+    </div>
+    <h4 class="sp-spot-title">⚡ Smart Paste AI Studio</h4>
+    <p class="sp-spot-desc">
+        Paste any WhatsApp, Email, or Excel order list — our AI resolves products, packs &amp; quantities into your cart in seconds.
+    </p>
+    <div class="sp-spot-demo">
+        <div class="sp-spot-demo-row">
+            <span class="sp-spot-raw-label">📋 You type or paste</span>
+            <span class="sp-spot-ai-tag" id="spSpotConfidence">🧠 99% AI Match</span>
+        </div>
+        <div class="sp-spot-typewriter">
+            <span id="spSpotTypedText">"10 carton kericho gold 100s"</span><span class="sp-spot-cursor"></span>
+        </div>
+        <div class="sp-spot-match-pill" id="spSpotMatchPill">
+            <span id="spSpotMatchName">✓ Kericho Gold Tea Bags · 100s</span>
+            <span class="sp-spot-match-qty" id="spSpotMatchQty">Qty: 10</span>
+        </div>
+    </div>
+    <div class="sp-spot-actions">
+        <button type="button" class="sp-spot-cta" onclick="launchSmartPasteFromSpotlight()">
+            <span>🚀 Try Smart Paste AI</span>
+        </button>
+        <button type="button" class="sp-spot-dismiss" onclick="dismissSpSpotlight()">Got it</button>
+    </div>
+</div>
+
+<button type="button" class="sp-spotlight-mini" id="spSpotlightMini" onclick="reopenSpSpotlight()" title="Explore Smart Paste AI">
+    <span class="sp-spot-pulse"></span>
+    <span>✨ Smart Paste AI</span>
+</button>
+
+<script>
+    (function () {
+        const DEMO_SAMPLES = [
+            { raw: '"10 carton kericho gold 100s"', match: '✓ Kericho Gold Tea Bags · 100s', qty: 'Qty: 10', conf: '🧠 99% AI Match' },
+            { raw: '"6 cases zen drinking water 500ml"', match: '✓ Zen Water Still · 500ml × 24', qty: 'Qty: 6', conf: '🧠 98% AI Match' },
+            { raw: '"15 tins choco primo 400g"', match: '✓ Choco Primo Drinking Choc · 400g', qty: 'Qty: 15', conf: '🧠 99% AI Match' },
+            { raw: '"8 boxes fruitville mango 1L"', match: '✓ FruitVille Mango Juice · 1L', qty: 'Qty: 8', conf: '🧠 97% AI Match' }
+        ];
+        let sampleIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        let typeTimer = null;
+
+        function stepTypewriter() {
+            const card = document.getElementById('spSpotlightCard');
+            if (!card || !card.classList.contains('visible')) return;
+
+            const typedEl = document.getElementById('spSpotTypedText');
+            const matchNameEl = document.getElementById('spSpotMatchName');
+            const matchQtyEl = document.getElementById('spSpotMatchQty');
+            const confEl = document.getElementById('spSpotConfidence');
+            const pillEl = document.getElementById('spSpotMatchPill');
+            if (!typedEl || !matchNameEl || !matchQtyEl) return;
+
+            const current = DEMO_SAMPLES[sampleIdx];
+            if (!isDeleting) {
+                charIdx++;
+                typedEl.textContent = current.raw.slice(0, charIdx);
+                if (charIdx >= current.raw.length) {
+                    matchNameEl.textContent = current.match;
+                    matchQtyEl.textContent = current.qty;
+                    if (confEl) confEl.textContent = current.conf;
+                    if (pillEl) {
+                        pillEl.style.opacity = '1';
+                        pillEl.style.transform = 'scale(1)';
+                    }
+                    isDeleting = true;
+                    typeTimer = setTimeout(stepTypewriter, 2100);
+                    return;
+                }
+                typeTimer = setTimeout(stepTypewriter, 38);
+            } else {
+                charIdx = 0;
+                isDeleting = false;
+                sampleIdx = (sampleIdx + 1) % DEMO_SAMPLES.length;
+                if (pillEl) {
+                    pillEl.style.opacity = '0.45';
+                    pillEl.style.transform = 'scale(0.98)';
+                }
+                typeTimer = setTimeout(stepTypewriter, 220);
+            }
+        }
+
+        window.dismissSpSpotlight = function () {
+            const card = document.getElementById('spSpotlightCard');
+            const mini = document.getElementById('spSpotlightMini');
+            if (card) card.classList.remove('visible');
+            if (mini) mini.style.display = 'inline-flex';
+            sessionStorage.setItem('spSpotlightDismissed', '1');
+            if (typeTimer) clearTimeout(typeTimer);
+        };
+
+        window.reopenSpSpotlight = function () {
+            const card = document.getElementById('spSpotlightCard');
+            const mini = document.getElementById('spSpotlightMini');
+            if (mini) mini.style.display = 'none';
+            if (card) {
+                card.classList.add('visible');
+                if (typeTimer) clearTimeout(typeTimer);
+                stepTypewriter();
+            }
+        };
+
+        window.launchSmartPasteFromSpotlight = function () {
+            window.dismissSpSpotlight();
+            const orderNavBtn = document.querySelectorAll('.nav-btn')[1];
+            if (typeof showPage === 'function') {
+                showPage('page-pricelist', orderNavBtn);
+            }
+            setTimeout(function () {
+                if (typeof openSmartPasteModal === 'function') {
+                    openSmartPasteModal();
+                }
+            }, 220);
+        };
+
+        function initSpSpotlight() {
+            const dismissed = sessionStorage.getItem('spSpotlightDismissed') === '1';
+            const card = document.getElementById('spSpotlightCard');
+            const mini = document.getElementById('spSpotlightMini');
+            if (dismissed) {
+                if (mini) mini.style.display = 'inline-flex';
+            } else {
+                setTimeout(function () {
+                    if (card) {
+                        card.classList.add('visible');
+                        stepTypewriter();
+                    }
+                }, 900);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSpSpotlight);
+        } else {
+            initSpSpotlight();
+        }
+    })();
 </script>
 
 </html>
