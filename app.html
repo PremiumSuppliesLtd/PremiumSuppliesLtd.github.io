@@ -5270,9 +5270,8 @@
                     <div>
                         <div class="sp-title-row">
                             <h3 class="sp-header-title">AI Smart Order Studio</h3>
-                            <span class="sp-engine-pill">NEURAL MATCH 2.6</span>
                         </div>
-                        <p class="sp-header-sub">Paste any WhatsApp order, chef requisition, or spreadsheet rows — instant fuzzy SKU &amp; pack-size resolution</p>
+                        <p class="sp-header-sub">Paste any WhatsApp order, chef requisition, or spreadsheet rows</p>
                     </div>
                 </div>
 
@@ -5731,7 +5730,7 @@
     </script>
     <script>
         // CONFIG
-        const API_URL = "https://script.google.com/macros/s/AKfycbxzZZLxn7i87x7WyU4T5ZTXGJ67S0r8nd9Faqj5USKTcYCm8ejnNpGHtfS6L7iNzaCLOQ/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbwivz2yZAMPr4jNgUV1DN4ysolewZOKUy0mSQ8QidegjwMS5HnmBBk9_tEBNOB-91sYRw/exec";
         // Update this URL with your newly deployed Google Apps Script URL for Data5555:
         const STATEMENT_API_URL = "https://script.google.com/macros/s/AKfycbwOzoEKqxs2fKOfDvxpkk004RDtA2O_0xMp2dL0gweSziT10CObQ78Oodb516Nkwglf/exec";
         const STOCK_API_URL = "https://script.google.com/macros/s/AKfycbwhxVp4QPKQEDsS7t7ZRCE9gq3Re-BZZsaaeqGeN4ZNSVyzayeClUd-_uPr0x0b-x6JSA/exec";
@@ -12148,8 +12147,8 @@
             </div>
         </div>
     </div>
-    <!-- ===== WHAT'S NEW NOTIFICATION ===== -->
-    <div id="whatsNewToast" class="wn-toast">
+    <!-- ===== WHAT'S NEW NOTIFICATION (Hidden on startup) ===== -->
+    <div id="whatsNewToast" class="wn-toast" style="display:none !important;">
         <button class="wn-close" onclick="dismissWhatsNew()" title="Dismiss">&times;</button>
         <div class="wn-shimmer"></div>
         <div class="wn-header">
@@ -12174,12 +12173,9 @@
     </div>
 
     <script>
-        /* What's New Notification Logic */
+        /* What's New Notification Logic (Disabled on page load per request) */
         function showWhatsNew() {
-            setTimeout(function () {
-                var toast = document.getElementById('whatsNewToast');
-                if (toast) toast.classList.add('wn-visible');
-            }, 2500);
+            // Disabled for now — do not show on startup
         }
 
         function dismissWhatsNew() {
@@ -12200,15 +12196,6 @@
                     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }, 300);
-        }
-
-        // Trigger on page load
-        if (document.readyState === 'complete') {
-            showWhatsNew();
-        } else {
-            window.addEventListener('load', function () {
-                showWhatsNew();
-            });
         }
     </script>
 
@@ -15181,7 +15168,6 @@
             const mini = document.getElementById('spSpotlightMini');
             if (card) card.classList.remove('visible');
             if (mini) mini.style.display = 'inline-flex';
-            sessionStorage.setItem('spSpotlightDismissed', '1');
             if (typeTimer) clearTimeout(typeTimer);
         };
 
@@ -15210,19 +15196,16 @@
         };
 
         function initSpSpotlight() {
-            const dismissed = sessionStorage.getItem('spSpotlightDismissed') === '1';
+            sessionStorage.removeItem('spSpotlightDismissed');
             const card = document.getElementById('spSpotlightCard');
             const mini = document.getElementById('spSpotlightMini');
-            if (dismissed) {
-                if (mini) mini.style.display = 'inline-flex';
-            } else {
-                setTimeout(function () {
-                    if (card) {
-                        card.classList.add('visible');
-                        stepTypewriter();
-                    }
-                }, 900);
-            }
+            if (mini) mini.style.display = 'none';
+            setTimeout(function () {
+                if (card) {
+                    card.classList.add('visible');
+                    stepTypewriter();
+                }
+            }, 600);
         }
 
         if (document.readyState === 'loading') {
