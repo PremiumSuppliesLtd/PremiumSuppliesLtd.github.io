@@ -7965,9 +7965,25 @@ textarea {
 [data-theme="dark"] .cmd26-search-input,
 [data-theme="dark"] .cmd26-pill-trigger,
 [data-theme="dark"] .cmd26-ghost-btn {
-    background: rgba(30, 41, 59, 0.85) !important;
-    border-color: rgba(148, 163, 184, 0.2) !important;
+    background: rgba(15, 23, 42, 0.9) !important;
+    border-color: rgba(148, 163, 184, 0.25) !important;
     color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    caret-color: #818cf8 !important;
+}
+
+[data-theme="dark"] .cmd26-search-input:focus {
+    background: #0f172a !important;
+    border-color: #818cf8 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.22) !important;
+}
+
+[data-theme="dark"] .cmd26-search-input::placeholder {
+    color: #94a3b8 !important;
+    -webkit-text-fill-color: #94a3b8 !important;
+    opacity: 1 !important;
 }
 
 [data-theme="dark"] .cmd26-pill-val,
