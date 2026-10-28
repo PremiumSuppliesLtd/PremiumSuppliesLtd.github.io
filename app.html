@@ -11,7 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=29">
     <link rel="stylesheet" href="brands.css">
     <link rel="stylesheet" href="premium-theme.css">
     <link rel="stylesheet" href="guest-calc.css?v=1.3">
@@ -1290,6 +1290,13 @@
                                 <span class="nav-bento-desc">Live account balance &amp; ledger</span>
                             </span>
                         </button>
+                        <button class="nav-btn nav-bento-card" onclick="openLodgeKitsModal(); closeNavHubs();">
+                            <span class="nav-bento-emoji">🧺</span>
+                            <span class="nav-bento-copy">
+                                <span class="nav-bento-title">Lodge Starter Kits</span>
+                                <span class="nav-bento-desc">1-click Safari, Kitchen &amp; Room bundles</span>
+                            </span>
+                        </button>
                         <button class="nav-btn nav-bento-card" onclick="showPage('page-feedback', this); closeNavHubs();" id="feedbackBtn" style="display:none;">
                             <span class="nav-bento-emoji">⭐</span>
                             <span class="nav-bento-copy">
@@ -2294,261 +2301,970 @@
 
     <!-- PAGE: PRICELIST (Order) -->
     <div id="page-pricelist" class="page" style="display:none;">
+        <!-- Self-contained 2026 Command Bar & Modern Function Dock Styles -->
+        <style>
+            @keyframes fastBtnGlow {
+                0%, 100% { box-shadow: 0 4px 18px rgba(245,158,11,0.45), 0 0 0 1px rgba(251,191,36,0.3); }
+                50%      { box-shadow: 0 6px 26px rgba(245,158,11,0.7), 0 0 0 2px rgba(251,191,36,0.6); }
+            }
+            @keyframes filterBannerSlide {
+                from { opacity: 0; transform: translateY(-8px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes auroraShimmer26 {
+                0%   { background-position: 0% 50%; }
+                50%  { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            @keyframes cmd26PopoverIn {
+                0%   { opacity: 0; transform: translateY(-8px) scale(0.96); }
+                100% { opacity: 1; transform: translateY(0) scale(1); }
+            }
+
+            /* Outer Sticky Shell */
+            #page-pricelist .cmd26-shell {
+                overflow: visible !important;
+                padding: 0.5rem 1rem 0.75rem !important;
+                max-width: 1440px;
+                margin: 0 auto;
+                background: transparent !important;
+                border-bottom: none !important;
+            }
+
+            /* Unified 2-Tier Glass Command Deck */
+            #page-pricelist .cmd26-bar {
+                background: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.92) 100%) !important;
+                backdrop-filter: blur(22px) saturate(180%) !important;
+                -webkit-backdrop-filter: blur(22px) saturate(180%) !important;
+                border: 1px solid rgba(99, 102, 241, 0.16) !important;
+                border-radius: 22px !important;
+                padding: 0.75rem 1rem !important;
+                box-shadow:
+                    0 16px 40px -12px rgba(15, 23, 42, 0.08),
+                    0 2px 10px rgba(99, 102, 241, 0.05),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 0.65rem !important;
+                position: relative !important;
+                z-index: 90 !important;
+                min-width: 0 !important;
+                width: 100% !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            /* Tier 1: Search + Browse & View Controls */
+            .cmd26-top-row {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 0.75rem !important;
+                flex-wrap: wrap !important;
+                width: 100% !important;
+            }
+
+            .cmd26-search-box {
+                position: relative;
+                flex: 1 1 280px;
+                min-width: 220px;
+                display: flex;
+                align-items: center;
+            }
+
+            .cmd26-search-icon {
+                position: absolute;
+                left: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #6366f1;
+                display: inline-flex;
+                align-items: center;
+                pointer-events: none;
+            }
+
+            .cmd26-search-input {
+                width: 100% !important;
+                height: 46px !important;
+                padding: 0 4.2rem 0 2.65rem !important;
+                border-radius: 14px !important;
+                border: 1.5px solid rgba(148, 163, 184, 0.28) !important;
+                background: rgba(248, 250, 252, 0.95) !important;
+                color: #0f172a !important;
+                font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+                font-size: 0.88rem !important;
+                font-weight: 600 !important;
+                transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            }
+
+            .cmd26-search-input:focus {
+                background: #ffffff !important;
+                border-color: #6366f1 !important;
+                box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.14) !important;
+                outline: none !important;
+            }
+
+            .cmd26-search-Meta {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .cmd26-search-clear {
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                border: none;
+                background: rgba(148, 163, 184, 0.18);
+                color: #64748b;
+                font-size: 0.95rem;
+                line-height: 1;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .cmd26-search-clear:hover {
+                background: #ef4444;
+                color: #ffffff;
+            }
+
+            .cmd26-kbd {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 22px;
+                height: 22px;
+                padding: 0 6px;
+                font-family: 'Inter', monospace;
+                font-size: 0.72rem;
+                font-weight: 800;
+                color: #6366f1;
+                background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+                border: 1px solid rgba(99, 102, 241, 0.28);
+                border-bottom-width: 2px;
+                border-radius: 6px;
+                pointer-events: none;
+            }
+
+            .cmd26-browse-controls {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 0.55rem !important;
+                flex-wrap: wrap !important;
+            }
+
+            .cmd26-popover-wrap {
+                position: relative !important;
+                margin: 0 !important;
+                display: inline-flex !important;
+            }
+
+            .cmd26-pill-trigger {
+                height: 46px;
+                padding: 0 12px 0 9px;
+                border-radius: 14px;
+                border: 1.5px solid rgba(148, 163, 184, 0.25);
+                background: #ffffff;
+                color: #0f172a;
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                cursor: pointer;
+                font-family: inherit;
+                transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+            }
+
+            .cmd26-pill-trigger:hover {
+                border-color: rgba(99, 102, 241, 0.45);
+                transform: translateY(-1px);
+                box-shadow: 0 6px 14px -4px rgba(79, 70, 229, 0.14);
+            }
+
+            .cmd26-pill-icon {
+                width: 30px;
+                height: 30px;
+                border-radius: 9px;
+                background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(6, 182, 212, 0.12) 100%);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.92rem;
+                flex-shrink: 0;
+            }
+
+            .cmd26-pill-meta {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                line-height: 1.15;
+                text-align: left;
+            }
+
+            .cmd26-pill-label {
+                font-size: 0.6rem;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: #64748b;
+            }
+
+            .cmd26-pill-val {
+                font-size: 0.8rem;
+                font-weight: 700;
+                color: #0f172a;
+                max-width: 120px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .cmd26-chevron {
+                color: #64748b;
+                display: inline-flex;
+                align-items: center;
+                transition: transform 0.22s ease;
+            }
+
+            .cmd26-pill-trigger.is-open .cmd26-chevron {
+                transform: rotate(180deg);
+                color: #4f46e5;
+            }
+
+            /* Segmented View Dock */
+            .cmd26-seg-dock {
+                display: inline-flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                background: #f1f5f9;
+                padding: 4px;
+                border-radius: 14px;
+                border: 1px solid rgba(148, 163, 184, 0.22);
+                height: 46px;
+                gap: 3px;
+            }
+
+            .cmd26-seg-btn {
+                height: 100% !important;
+                padding: 0 11px !important;
+                border-radius: 10px !important;
+                border: none !important;
+                background: transparent !important;
+                color: #475569 !important;
+                font-size: 0.78rem !important;
+                font-weight: 700 !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 5px !important;
+                cursor: pointer;
+                white-space: nowrap;
+                transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            }
+
+            .cmd26-seg-btn.active {
+                background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+                color: #ffffff !important;
+                box-shadow: 0 3px 10px rgba(79, 70, 229, 0.28) !important;
+            }
+
+            /* =====================================================================
+               TIER 2: MODERN HORIZONTAL QUICK-ACTION FUNCTION DOCK
+               (Smart Paste AI · Lodge Kits · Export PO · Drafts · Bought Before)
+               ===================================================================== */
+            .cmd26-action-dock {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 0.75rem !important;
+                padding-top: 0.65rem !important;
+                border-top: 1px solid rgba(148, 163, 184, 0.16) !important;
+                flex-wrap: wrap !important;
+                width: 100% !important;
+            }
+
+            .cmd26-dock-brand {
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 7px !important;
+                padding: 4px 10px 4px 8px;
+                border-radius: 999px;
+                background: rgba(99, 102, 241, 0.07);
+                border: 1px solid rgba(99, 102, 241, 0.16);
+                font-size: 0.66rem;
+                font-weight: 800;
+                letter-spacing: 0.07em;
+                text-transform: uppercase;
+                color: #4f46e5;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .cmd26-dock-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #6366f1, #10b981);
+                box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+            }
+
+            .cmd26-fn-row {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 0.6rem !important;
+                flex-wrap: wrap !important;
+                flex: 1 1 auto !important;
+                justify-content: flex-end !important;
+            }
+
+            /* Shared Modern Function Button Card-Pill Architecture */
+            .cmd26-fn-btn {
+                height: 44px !important;
+                padding: 0 13px 0 8px !important;
+                border-radius: 13px !important;
+                display: inline-flex;
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 9px !important;
+                cursor: pointer !important;
+                font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+                white-space: nowrap !important;
+                position: relative !important;
+                transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease !important;
+                text-align: left !important;
+            }
+
+            .cmd26-fn-btn:hover {
+                transform: translateY(-2px) !important;
+            }
+
+            .cmd26-fn-btn:active {
+                transform: translateY(0) scale(0.98) !important;
+            }
+
+            .cmd26-fn-icon {
+                width: 30px !important;
+                height: 30px !important;
+                border-radius: 9px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                flex-shrink: 0 !important;
+                transition: transform 0.22s ease !important;
+            }
+
+            .cmd26-fn-btn:hover .cmd26-fn-icon {
+                transform: scale(1.06) rotate(-3deg) !important;
+            }
+
+            .cmd26-fn-copy {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                justify-content: center !important;
+                line-height: 1.12 !important;
+            }
+
+            .cmd26-fn-title {
+                font-size: 0.8rem !important;
+                font-weight: 800 !important;
+                letter-spacing: -0.01em !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 5px !important;
+            }
+
+            .cmd26-fn-sub {
+                font-size: 0.62rem !important;
+                font-weight: 600 !important;
+                opacity: 0.78 !important;
+                letter-spacing: 0.01em !important;
+            }
+
+            /* 1. Smart Paste AI — Aurora Hero Button */
+            .cmd26-aurora-btn {
+                border: 1px solid rgba(168, 85, 247, 0.45) !important;
+                background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0891b2 100%) !important;
+                background-size: 200% 200% !important;
+                animation: auroraShimmer26 6s ease infinite !important;
+                color: #ffffff !important;
+                box-shadow:
+                    0 6px 20px -4px rgba(124, 58, 237, 0.48),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.32) !important;
+            }
+
+            .cmd26-aurora-btn:hover {
+                box-shadow:
+                    0 12px 26px -4px rgba(124, 58, 237, 0.62),
+                    0 0 16px rgba(6, 182, 212, 0.35) !important;
+            }
+
+            .cmd26-aurora-btn .cmd26-fn-icon {
+                background: rgba(255, 255, 255, 0.2) !important;
+                color: #ffffff !important;
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+            }
+
+            .cmd26-aurora-btn .cmd26-fn-sub {
+                color: rgba(255, 255, 255, 0.86) !important;
+            }
+
+            .cmd26-aurora-tag {
+                font-size: 0.58rem !important;
+                font-weight: 900 !important;
+                padding: 1.5px 5px !important;
+                border-radius: 5px !important;
+                background: rgba(255, 255, 255, 0.24) !important;
+                color: #ffffff !important;
+                letter-spacing: 0.06em !important;
+                text-transform: uppercase !important;
+            }
+
+            /* 2. Lodge Kits — Emerald Hospitality Button */
+            .cmd26-kits-btn {
+                border: 1.5px solid rgba(16, 185, 129, 0.28) !important;
+                background: linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%) !important;
+                color: #064e3b !important;
+                box-shadow: 0 3px 12px -2px rgba(16, 185, 129, 0.14) !important;
+            }
+
+            .cmd26-kits-btn .cmd26-fn-icon {
+                background: linear-gradient(135deg, #10b981 0%, #0d9488 100%) !important;
+                color: #ffffff !important;
+                box-shadow: 0 3px 8px rgba(16, 185, 129, 0.32) !important;
+            }
+
+            .cmd26-kits-btn .cmd26-fn-sub {
+                color: #047857 !important;
+            }
+
+            .cmd26-kits-btn:hover {
+                border-color: #10b981 !important;
+                background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+                box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.28) !important;
+            }
+
+            /* 3. Export PO — Architectural Slate-Indigo Button */
+            .cmd26-po-btn {
+                border: 1.5px solid rgba(59, 130, 246, 0.26) !important;
+                background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%) !important;
+                color: #1e3a8a !important;
+                box-shadow: 0 3px 12px -2px rgba(37, 99, 235, 0.12) !important;
+            }
+
+            .cmd26-po-btn .cmd26-fn-icon {
+                background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%) !important;
+                color: #ffffff !important;
+                box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3) !important;
+            }
+
+            .cmd26-po-btn .cmd26-fn-sub {
+                color: #1d4ed8 !important;
+            }
+
+            .cmd26-po-btn:hover {
+                border-color: #3b82f6 !important;
+                background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+                box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.25) !important;
+            }
+
+            /* 4. Order Drafts — Sleek Violet-Slate Popover Pill */
+            .cmd26-ghost-btn {
+                border: 1.5px solid rgba(148, 163, 184, 0.28) !important;
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+                color: #1e293b !important;
+                box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
+            }
+
+            .cmd26-ghost-btn .cmd26-fn-icon {
+                background: linear-gradient(135deg, #64748b 0%, #475569 100%) !important;
+                color: #ffffff !important;
+                box-shadow: 0 3px 8px rgba(71, 85, 105, 0.25) !important;
+            }
+
+            .cmd26-ghost-btn .cmd26-fn-sub {
+                color: #64748b !important;
+            }
+
+            .cmd26-ghost-btn:hover {
+                border-color: #6366f1 !important;
+                background: #ffffff !important;
+                box-shadow: 0 8px 18px -4px rgba(99, 102, 241, 0.18) !important;
+            }
+
+            .cmd26-ghost-btn:hover .cmd26-fn-icon {
+                background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+            }
+
+            /* 5. Bought Before — Warm Amber History Pill */
+            #boughtBeforeBtn {
+                display: none;
+                border: 1.5px solid rgba(245, 158, 11, 0.35) !important;
+                background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%) !important;
+                color: #92400e !important;
+                box-shadow: 0 3px 12px -2px rgba(245, 158, 11, 0.16) !important;
+            }
+
+            #boughtBeforeBtn .cmd26-fn-icon {
+                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+                color: #ffffff !important;
+                box-shadow: 0 3px 8px rgba(245, 158, 11, 0.35) !important;
+            }
+
+            #boughtBeforeBtn .cmd26-fn-sub {
+                color: #b45309 !important;
+            }
+
+            #boughtBeforeBtn:hover {
+                border-color: #f59e0b !important;
+                background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+                box-shadow: 0 8px 20px -4px rgba(245, 158, 11, 0.32) !important;
+            }
+
+            #boughtBeforeBtn.active-filter {
+                background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+                color: #ffffff !important;
+                border-color: #fde68a !important;
+                animation: fastBtnGlow 2s ease-in-out infinite !important;
+            }
+
+            #boughtBeforeBtn.active-filter .cmd26-fn-sub {
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+
+            .bought-count-badge {
+                background: rgba(245, 158, 11, 0.18);
+                color: #b45309;
+                padding: 1px 7px;
+                border-radius: 999px;
+                font-size: 0.66rem;
+                font-weight: 800;
+            }
+
+            #boughtBeforeBtn.active-filter .bought-count-badge {
+                background: #ffffff;
+                color: #d97706;
+            }
+
+            /* Popover Menus (Always hidden until .open) */
+            .cmd26-popover-menu {
+                position: absolute !important;
+                top: calc(100% + 10px) !important;
+                left: 0 !important;
+                right: auto !important;
+                background: rgba(255, 255, 255, 0.98) !important;
+                backdrop-filter: blur(24px) saturate(190%) !important;
+                -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+                border: 1px solid rgba(99, 102, 241, 0.24) !important;
+                border-radius: 20px !important;
+                padding: 0.65rem !important;
+                box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.26) !important;
+                z-index: 9999 !important;
+                display: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+            }
+
+            .cmd26-popover-menu.open {
+                display: block !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                animation: cmd26PopoverIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            }
+
+            /* Dark Theme Support for 2-Tier Command Deck & Function Buttons */
+            [data-theme="dark"] #page-pricelist .cmd26-bar {
+                background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.92) 100%) !important;
+                border-color: rgba(129, 140, 248, 0.22) !important;
+                box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45) !important;
+            }
+
+            [data-theme="dark"] .cmd26-action-dock {
+                border-top-color: rgba(148, 163, 184, 0.14) !important;
+            }
+
+            [data-theme="dark"] .cmd26-dock-brand {
+                background: rgba(99, 102, 241, 0.15);
+                border-color: rgba(129, 140, 248, 0.28);
+                color: #a5b4fc;
+            }
+
+            [data-theme="dark"] .cmd26-kits-btn {
+                background: linear-gradient(135deg, rgba(6, 78, 59, 0.55) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
+                border-color: rgba(52, 211, 153, 0.35) !important;
+                color: #ecfdf5 !important;
+            }
+
+            [data-theme="dark"] .cmd26-kits-btn .cmd26-fn-sub {
+                color: #6ee7b7 !important;
+            }
+
+            [data-theme="dark"] .cmd26-po-btn {
+                background: linear-gradient(135deg, rgba(30, 58, 138, 0.55) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
+                border-color: rgba(96, 165, 250, 0.35) !important;
+                color: #eff6ff !important;
+            }
+
+            [data-theme="dark"] .cmd26-po-btn .cmd26-fn-sub {
+                color: #93c5fd !important;
+            }
+
+            [data-theme="dark"] .cmd26-ghost-btn {
+                background: rgba(30, 41, 59, 0.9) !important;
+                border-color: rgba(148, 163, 184, 0.25) !important;
+                color: #f8fafc !important;
+            }
+
+            [data-theme="dark"] .cmd26-ghost-btn .cmd26-fn-sub {
+                color: #94a3b8 !important;
+            }
+
+            [data-theme="dark"] #boughtBeforeBtn {
+                background: linear-gradient(135deg, rgba(120, 53, 15, 0.55) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
+                border-color: rgba(251, 191, 36, 0.38) !important;
+                color: #fef3c7 !important;
+            }
+
+            [data-theme="dark"] #boughtBeforeBtn .cmd26-fn-sub {
+                color: #fcd34d !important;
+            }
+
+            /* Full-Bleed Edge-to-Edge Product Photos (No side or top/bottom gaps) */
+            #page-pricelist .card-media {
+                padding: 0 !important;
+                height: 185px !important;
+                overflow: hidden !important;
+            }
+            #page-pricelist .cards-grid.list-view .card-media {
+                width: 56px !important;
+                height: 56px !important;
+                min-width: 56px !important;
+                padding: 0 !important;
+            }
+            #page-pricelist .card-product-img {
+                width: 100% !important;
+                height: 100% !important;
+                max-width: 100% !important;
+                max-height: 100% !important;
+                object-fit: cover !important;
+                object-position: center center !important;
+                display: block !important;
+            }
+
+            /* Out of Stock Cards — Theme Adaptive */
+            .oos-bought-card {
+                border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
+                background: linear-gradient(135deg, rgba(239, 68, 68, 0.06), rgba(239, 68, 68, 0.02)) !important;
+                box-shadow: 0 4px 14px rgba(239, 68, 68, 0.1) !important;
+                transition: all 0.25s ease;
+            }
+            .oos-bought-card .oos-title {
+                color: #dc2626 !important;
+                font-size: 0.92rem;
+                font-weight: 700;
+            }
+            .oos-bought-card .oos-pack {
+                font-size: 0.76rem;
+                color: var(--text-muted, #6b7280) !important;
+                margin-top: 2px;
+            }
+            .oos-price-badge {
+                font-size: 0.82rem !important;
+                font-weight: 800 !important;
+                color: #047857 !important;
+                background: rgba(16, 185, 129, 0.12) !important;
+                border: 1px solid rgba(16, 185, 129, 0.3) !important;
+                padding: 3px 9px !important;
+                border-radius: 8px !important;
+                display: inline-block;
+                letter-spacing: 0.2px;
+            }
+            [data-theme="dark"] .oos-bought-card {
+                background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(30, 30, 35, 0.8)) !important;
+                border-color: rgba(239, 68, 68, 0.55) !important;
+            }
+            [data-theme="dark"] .oos-bought-card .oos-title { color: #fca5a5 !important; }
+            [data-theme="dark"] .oos-bought-card .oos-pack { color: #9ca3af !important; }
+            [data-theme="dark"] .oos-price-badge {
+                color: #34d399 !important;
+                background: rgba(52, 211, 153, 0.22) !important;
+                border-color: rgba(52, 211, 153, 0.45) !important;
+            }
+
+            /* Responsive layout on tablet & mobile */
+            @media (max-width: 900px) {
+                .cmd26-dock-brand {
+                    display: none !important;
+                }
+                .cmd26-fn-row {
+                    justify-content: flex-start !important;
+                    width: 100% !important;
+                }
+            }
+
+            @media (max-width: 640px) {
+                #page-pricelist .cmd26-shell {
+                    padding: 0.35rem 0.6rem 0.5rem !important;
+                }
+                #page-pricelist .cmd26-bar {
+                    padding: 0.65rem 0.75rem !important;
+                    border-radius: 18px !important;
+                }
+                .cmd26-search-box {
+                    flex: 1 1 100%;
+                }
+                .cmd26-browse-controls {
+                    width: 100% !important;
+                    justify-content: space-between !important;
+                }
+                .cmd26-fn-row {
+                    display: grid !important;
+                    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                    gap: 0.5rem !important;
+                    width: 100% !important;
+                }
+                .cmd26-fn-row > .cmd26-aurora-btn {
+                    grid-column: 1 / -1 !important;
+                    justify-content: center !important;
+                }
+                .cmd26-fn-row > #draftWrapper {
+                    width: 100% !important;
+                }
+                .cmd26-fn-row > #draftWrapper > .cmd26-ghost-btn {
+                    width: 100% !important;
+                }
+            }
+        </style>
+
         <div class="filter-scroll-container cmd26-shell">
             <div class="filter-bar cmd26-bar">
 
-                <!-- Left / Center: 2026 Spatial Omni-Search Capsule -->
-                <div class="cmd26-search-box">
-                    <span class="cmd26-search-icon" aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </span>
-                    <input id="search" class="search-input cmd26-search-input" placeholder="Search products, brands, pack sizes or SKU..."
-                        oninput="resetGridAndRender()" onkeyup="resetGridAndRender()">
-                    <div class="cmd26-search-Meta">
-                        <button type="button" class="cmd26-search-clear" onclick="document.getElementById('search').value=''; resetGridAndRender();" title="Clear search">&times;</button>
-                        <kbd class="cmd26-kbd" title="Press / anywhere to jump to search">/</kbd>
+                <!-- TIER 1: Search & Catalog Browse Controls -->
+                <div class="cmd26-top-row">
+                    <!-- Left: 2026 Spatial Omni-Search Capsule -->
+                    <div class="cmd26-search-box">
+                        <span class="cmd26-search-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </span>
+                        <input id="search" class="search-input cmd26-search-input" placeholder="Search products, brands, pack sizes or SKU..."
+                            oninput="resetGridAndRender()" onkeyup="resetGridAndRender()">
+                        <div class="cmd26-search-Meta">
+                            <button type="button" class="cmd26-search-clear" onclick="document.getElementById('search').value=''; resetGridAndRender();" title="Clear search">&times;</button>
+                            <kbd class="cmd26-kbd" title="Press / anywhere to jump to search">/</kbd>
+                        </div>
+                    </div>
+
+                    <!-- Right: Category, Sort & View Mode Controls -->
+                    <div class="control-row cmd26-controls cmd26-browse-controls">
+
+                        <!-- 1. Custom 2026 Category Bento Popover -->
+                        <div class="category-wrapper cmd26-popover-wrap" id="categoryWrapper">
+                            <button type="button" class="cmd26-pill-trigger" id="catTrigger" onclick="toggleCategoryMenu()">
+                                <span class="cmd26-pill-icon" id="catTriggerIcon">🗂️</span>
+                                <span class="cmd26-pill-meta">
+                                    <span class="cmd26-pill-label">Category</span>
+                                    <span class="cmd26-pill-val" id="catTriggerText">All Categories</span>
+                                </span>
+                                <span class="cmd26-chevron" aria-hidden="true">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </button>
+                            <div class="cat-dropdown cmd26-popover-menu cmd26-cat-popover" id="catDropdown">
+                                <div class="cmd26-popover-head">
+                                    <div class="cmd26-popover-search-wrap">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                        <input type="text" id="catSearchInput" class="cmd26-popover-search" placeholder="Filter categories..." oninput="filterCategoryDropdown(this.value)" onclick="event.stopPropagation()">
+                                    </div>
+                                </div>
+                                <div class="cmd26-popover-list" id="catDropdownList">
+                                    <!-- Category Bento Items injected here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Custom 2026 Sort Bento Popover -->
+                        <div class="cmd26-popover-wrap" id="sortWrapper">
+                            <input type="hidden" id="sortSelect" value="default">
+                            <button type="button" class="cmd26-pill-trigger" id="sortTrigger" onclick="toggleSortMenu()" title="Sort catalog products">
+                                <span class="cmd26-pill-icon" id="sortTriggerIcon">✨</span>
+                                <span class="cmd26-pill-meta">
+                                    <span class="cmd26-pill-label">Sort By</span>
+                                    <span class="cmd26-pill-val" id="sortTriggerText">Smart Default</span>
+                                </span>
+                                <span class="cmd26-chevron" aria-hidden="true">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </button>
+                            <div class="cmd26-popover-menu cmd26-sort-popover" id="sortDropdown">
+                                <div class="cmd26-popover-title">SORT CATALOG BY</div>
+                                <div class="cmd26-popover-list">
+                                    <div class="cmd26-sort-option selected" data-sort="default" onclick="selectSortOption('default', 'Smart Default', '✨', this)">
+                                        <span class="cmd26-opt-icon">✨</span>
+                                        <div class="cmd26-opt-text">
+                                            <span class="cmd26-opt-name">Smart Default</span>
+                                            <span class="cmd26-opt-desc">Relevance &amp; catalog order</span>
+                                        </div>
+                                        <span class="cmd26-opt-dot"></span>
+                                    </div>
+                                    <div class="cmd26-sort-option" data-sort="popular" onclick="selectSortOption('popular', 'Most Ordered', '🔥', this)">
+                                        <span class="cmd26-opt-icon">🔥</span>
+                                        <div class="cmd26-opt-text">
+                                            <span class="cmd26-opt-name">Most Ordered</span>
+                                            <span class="cmd26-opt-desc">Your top repeat items first</span>
+                                        </div>
+                                        <span class="cmd26-opt-dot"></span>
+                                    </div>
+                                    <div class="cmd26-sort-option" data-sort="price_asc" onclick="selectSortOption('price_asc', 'Price: Low → High', '📉', this)">
+                                        <span class="cmd26-opt-icon">📉</span>
+                                        <div class="cmd26-opt-text">
+                                            <span class="cmd26-opt-name">Price: Low → High</span>
+                                            <span class="cmd26-opt-desc">Value &amp; economy packs first</span>
+                                        </div>
+                                        <span class="cmd26-opt-dot"></span>
+                                    </div>
+                                    <div class="cmd26-sort-option" data-sort="price_desc" onclick="selectSortOption('price_desc', 'Price: High → Low', '💎', this)">
+                                        <span class="cmd26-opt-icon">💎</span>
+                                        <div class="cmd26-opt-text">
+                                            <span class="cmd26-opt-name">Price: High → Low</span>
+                                            <span class="cmd26-opt-desc">Bulk cases &amp; premium lines</span>
+                                        </div>
+                                        <span class="cmd26-opt-dot"></span>
+                                    </div>
+                                    <div class="cmd26-sort-option" data-sort="name_asc" onclick="selectSortOption('name_asc', 'Name: A → Z', '🔤', this)">
+                                        <span class="cmd26-opt-icon">🔤</span>
+                                        <div class="cmd26-opt-text">
+                                            <span class="cmd26-opt-name">Alphabetical (A → Z)</span>
+                                            <span class="cmd26-opt-desc">Sort by product name</span>
+                                        </div>
+                                        <span class="cmd26-opt-dot"></span>
+                                    </div>
+                                    <div class="cmd26-sort-option" data-sort="new_first" onclick="selectSortOption('new_first', 'New Arrivals', '🚀', this)">
+                                        <span class="cmd26-opt-icon">🚀</span>
+                                        <div class="cmd26-opt-text">
+                                            <span class="cmd26-opt-name">New Arrivals First</span>
+                                            <span class="cmd26-opt-desc">Latest catalog additions</span>
+                                        </div>
+                                        <span class="cmd26-opt-dot"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. 2026 Segmented View Switcher Dock -->
+                        <div class="cmd26-seg-dock" role="group" aria-label="View options">
+                            <button id="gridBtn" type="button" class="toggle-btn cmd26-seg-btn active" onclick="setView('grid')" title="Grid Cards View">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                                <span>Grid</span>
+                            </button>
+                            <button id="listBtn" type="button" class="toggle-btn cmd26-seg-btn" onclick="setView('list')" title="Compact List View">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="4" cy="18" r="1.5"/></svg>
+                                <span>List</span>
+                            </button>
+                            <button id="photoToggleBtn" type="button" class="toggle-btn cmd26-seg-btn active" onclick="toggleOrderPhotos()" title="Show or hide product photos">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                <span>Photos</span>
+                            </button>
+                        </div>
+
                     </div>
                 </div>
 
-                <!-- Right: 2026 Bento Command Controls -->
-                <div class="control-row cmd26-controls">
-
-                    <!-- 1. Custom 2026 Category Bento Popover -->
-                    <div class="category-wrapper cmd26-popover-wrap" id="categoryWrapper">
-                        <button type="button" class="cmd26-pill-trigger" id="catTrigger" onclick="toggleCategoryMenu()">
-                            <span class="cmd26-pill-icon" id="catTriggerIcon">🗂️</span>
-                            <span class="cmd26-pill-meta">
-                                <span class="cmd26-pill-label">Category</span>
-                                <span class="cmd26-pill-val" id="catTriggerText">All Categories</span>
-                            </span>
-                            <span class="cmd26-chevron" aria-hidden="true">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                            </span>
-                        </button>
-                        <div class="cat-dropdown cmd26-popover-menu cmd26-cat-popover" id="catDropdown">
-                            <div class="cmd26-popover-head">
-                                <div class="cmd26-popover-search-wrap">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                    <input type="text" id="catSearchInput" class="cmd26-popover-search" placeholder="Filter categories..." oninput="filterCategoryDropdown(this.value)" onclick="event.stopPropagation()">
-                                </div>
-                            </div>
-                            <div class="cmd26-popover-list" id="catDropdownList">
-                                <!-- Category Bento Items injected here -->
-                            </div>
-                        </div>
+                <!-- TIER 2: Modern Horizontal Quick-Action & Function Bar -->
+                <div class="cmd26-action-dock">
+                    <div class="cmd26-dock-brand">
+                        <span class="cmd26-dock-dot"></span>
+                        <span>Quick Order Tools</span>
                     </div>
 
-                    <!-- 2. Custom 2026 Sort Bento Popover (Module 1) -->
-                    <div class="cmd26-popover-wrap" id="sortWrapper">
-                        <input type="hidden" id="sortSelect" value="default">
-                        <button type="button" class="cmd26-pill-trigger" id="sortTrigger" onclick="toggleSortMenu()" title="Sort catalog products">
-                            <span class="cmd26-pill-icon" id="sortTriggerIcon">✨</span>
-                            <span class="cmd26-pill-meta">
-                                <span class="cmd26-pill-label">Sort By</span>
-                                <span class="cmd26-pill-val" id="sortTriggerText">Smart Default</span>
+                    <div class="cmd26-fn-row">
+                        <!-- 1. Bought Before (Shown dynamically when history exists) -->
+                        <button type="button" id="boughtBeforeBtn" class="cmd26-fn-btn" onclick="setBoughtBeforeFilter()" title="Filter products you have ordered before">
+                            <span class="cmd26-fn-icon" aria-hidden="true">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                             </span>
-                            <span class="cmd26-chevron" aria-hidden="true">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <span class="cmd26-fn-copy">
+                                <span class="cmd26-fn-title">Bought Before</span>
+                                <span class="cmd26-fn-sub">Repeat Items</span>
                             </span>
                         </button>
-                        <div class="cmd26-popover-menu cmd26-sort-popover" id="sortDropdown">
-                            <div class="cmd26-popover-title">SORT CATALOG BY</div>
-                            <div class="cmd26-popover-list">
-                                <div class="cmd26-sort-option selected" data-sort="default" onclick="selectSortOption('default', 'Smart Default', '✨', this)">
-                                    <span class="cmd26-opt-icon">✨</span>
-                                    <div class="cmd26-opt-text">
-                                        <span class="cmd26-opt-name">Smart Default</span>
-                                        <span class="cmd26-opt-desc">Relevance &amp; catalog order</span>
-                                    </div>
-                                    <span class="cmd26-opt-dot"></span>
-                                </div>
-                                <div class="cmd26-sort-option" data-sort="popular" onclick="selectSortOption('popular', 'Most Ordered', '🔥', this)">
-                                    <span class="cmd26-opt-icon">🔥</span>
-                                    <div class="cmd26-opt-text">
-                                        <span class="cmd26-opt-name">Most Ordered</span>
-                                        <span class="cmd26-opt-desc">Your top repeat items first</span>
-                                    </div>
-                                    <span class="cmd26-opt-dot"></span>
-                                </div>
-                                <div class="cmd26-sort-option" data-sort="price_asc" onclick="selectSortOption('price_asc', 'Price: Low → High', '📉', this)">
-                                    <span class="cmd26-opt-icon">📉</span>
-                                    <div class="cmd26-opt-text">
-                                        <span class="cmd26-opt-name">Price: Low → High</span>
-                                        <span class="cmd26-opt-desc">Value &amp; economy packs first</span>
-                                    </div>
-                                    <span class="cmd26-opt-dot"></span>
-                                </div>
-                                <div class="cmd26-sort-option" data-sort="price_desc" onclick="selectSortOption('price_desc', 'Price: High → Low', '💎', this)">
-                                    <span class="cmd26-opt-icon">💎</span>
-                                    <div class="cmd26-opt-text">
-                                        <span class="cmd26-opt-name">Price: High → Low</span>
-                                        <span class="cmd26-opt-desc">Bulk cases &amp; premium lines</span>
-                                    </div>
-                                    <span class="cmd26-opt-dot"></span>
-                                </div>
-                                <div class="cmd26-sort-option" data-sort="name_asc" onclick="selectSortOption('name_asc', 'Name: A → Z', '🔤', this)">
-                                    <span class="cmd26-opt-icon">🔤</span>
-                                    <div class="cmd26-opt-text">
-                                        <span class="cmd26-opt-name">Alphabetical (A → Z)</span>
-                                        <span class="cmd26-opt-desc">Sort by product name</span>
-                                    </div>
-                                    <span class="cmd26-opt-dot"></span>
-                                </div>
-                                <div class="cmd26-sort-option" data-sort="new_first" onclick="selectSortOption('new_first', 'New Arrivals', '🚀', this)">
-                                    <span class="cmd26-opt-icon">🚀</span>
-                                    <div class="cmd26-opt-text">
-                                        <span class="cmd26-opt-name">New Arrivals First</span>
-                                        <span class="cmd26-opt-desc">Latest catalog additions</span>
-                                    </div>
-                                    <span class="cmd26-opt-dot"></span>
-                                </div>
+
+                        <!-- 2. AI Smart Paste Studio -->
+                        <button type="button" class="cmd26-fn-btn cmd26-aurora-btn" onclick="openSmartPasteModal()" id="smartPasteBtn"
+                            title="Open AI Smart Paste Studio — paste WhatsApp, Email or Chef lists">
+                            <span class="cmd26-fn-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                            </span>
+                            <span class="cmd26-fn-copy">
+                                <span class="cmd26-fn-title">
+                                    <span>Smart Paste</span>
+                                    <span class="cmd26-aurora-tag">AI</span>
+                                </span>
+                                <span class="cmd26-fn-sub">Paste WhatsApp / List</span>
+                            </span>
+                        </button>
+
+                        <!-- 3. Lodge Kits (Hospitality Starter Kits & Templates) -->
+                        <button type="button" class="cmd26-fn-btn cmd26-kits-btn" onclick="openLodgeKitsModal()" id="lodgeKitsBtn"
+                            title="1-Click Hospitality Starter Kits & Department Templates">
+                            <span class="cmd26-fn-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                            </span>
+                            <span class="cmd26-fn-copy">
+                                <span class="cmd26-fn-title">Lodge Kits</span>
+                                <span class="cmd26-fn-sub">1-Click Templates</span>
+                            </span>
+                        </button>
+
+                        <!-- 4. Export PO -->
+                        <button type="button" class="cmd26-fn-btn cmd26-po-btn" onclick="openExportPOModal()" id="exportPOBtn"
+                            title="Generate or Upload Official Purchase Order (PDF / Excel)">
+                            <span class="cmd26-fn-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+                            </span>
+                            <span class="cmd26-fn-copy">
+                                <span class="cmd26-fn-title">Export PO</span>
+                                <span class="cmd26-fn-sub">PDF &amp; Excel PO</span>
+                            </span>
+                        </button>
+
+                        <!-- 5. Order Drafts Menu -->
+                        <div class="cmd26-popover-wrap" id="draftWrapper" style="position:relative;">
+                            <button type="button" class="cmd26-fn-btn cmd26-ghost-btn" id="draftTrigger" onclick="toggleDraftMenu()" title="Save, resume or import CSV order drafts">
+                                <span class="cmd26-fn-icon" aria-hidden="true">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                </span>
+                                <span class="cmd26-fn-copy">
+                                    <span class="cmd26-fn-title">Drafts</span>
+                                    <span class="cmd26-fn-sub">Save &amp; Resume</span>
+                                </span>
+                                <span class="cmd26-chevron" aria-hidden="true" style="margin-left:2px;">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </button>
+                            <div id="draftMenu" class="cmd26-popover-menu cmd26-draft-popover" style="width:225px;">
+                                <div class="cmd26-popover-title">ORDER DRAFTS</div>
+                                <button type="button" class="cmd26-draft-item" onclick="saveDraftToLocal();closeDraftMenu();">💾 Save Current Draft</button>
+                                <button type="button" class="cmd26-draft-item" onclick="loadDraftFromLocal();closeDraftMenu();">📂 Resume Saved Draft</button>
+                                <button type="button" class="cmd26-draft-item" onclick="downloadDraftExcel();closeDraftMenu();">⬇️ Export CSV Draft</button>
+                                <button type="button" class="cmd26-draft-item" onclick="openDraftUpload();closeDraftMenu();">📤 Upload CSV Draft</button>
                             </div>
                         </div>
+
+                        <!-- Hidden file inputs -->
+                        <input type="file" id="draftExcel" accept=".csv" style="display:none"
+                            onchange="loadDraftFromExcel()">
+                        <input type="file" id="poUploadFile" accept=".xlsx,.xls,.csv" style="display:none"
+                            onchange="handlePOUpload()">
                     </div>
-
-                    <!-- 3. 2026 Segmented View Switcher Dock -->
-                    <div class="cmd26-seg-dock" role="group" aria-label="View options">
-                        <button id="gridBtn" type="button" class="toggle-btn cmd26-seg-btn active" onclick="setView('grid')" title="Grid Cards View">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-                            <span>Grid</span>
-                        </button>
-                        <button id="listBtn" type="button" class="toggle-btn cmd26-seg-btn" onclick="setView('list')" title="Compact List View">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="4" cy="18" r="1.5"/></svg>
-                            <span>List</span>
-                        </button>
-                        <button id="photoToggleBtn" type="button" class="toggle-btn cmd26-seg-btn active" onclick="toggleOrderPhotos()" title="Show or hide product photos">
-                            <span>🖼️</span>
-                            <span>Photos</span>
-                        </button>
-                    </div>
-
-                    <!-- 4. Drafts Menu -->
-                    <div class="cmd26-popover-wrap" id="draftWrapper" style="position:relative;">
-                        <button type="button" class="cmd26-ghost-btn" id="draftTrigger" onclick="toggleDraftMenu()">
-                            <span>📁 Drafts</span>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                        </button>
-                        <div id="draftMenu" class="cmd26-popover-menu cmd26-draft-popover" style="width:220px;">
-                            <div class="cmd26-popover-title">ORDER DRAFTS</div>
-                            <button type="button" class="cmd26-draft-item" onclick="saveDraftToLocal();closeDraftMenu();">💾 Save Current Draft</button>
-                            <button type="button" class="cmd26-draft-item" onclick="loadDraftFromLocal();closeDraftMenu();">📂 Resume Saved Draft</button>
-                            <button type="button" class="cmd26-draft-item" onclick="downloadDraftExcel();closeDraftMenu();">⬇️ Export CSV Draft</button>
-                            <button type="button" class="cmd26-draft-item" onclick="openDraftUpload();closeDraftMenu();">📤 Upload CSV Draft</button>
-                        </div>
-                    </div>
-
-                    <!-- Fast Order Buttons (premium animated) -->
-                    <style>
-                        @keyframes fastBtnGlow {
-                            0%, 100% { box-shadow: 0 4px 18px rgba(245,158,11,0.45), 0 0 0 1px rgba(251,191,36,0.3); }
-                            50%      { box-shadow: 0 6px 26px rgba(245,158,11,0.7), 0 0 0 2px rgba(251,191,36,0.6); }
-                        }
-                        @keyframes filterBannerSlide {
-                            from { opacity: 0; transform: translateY(-8px); }
-                            to   { opacity: 1; transform: translateY(0); }
-                        }
-
-                        #boughtBeforeBtn {
-                            display: none;
-                            align-items: center;
-                            gap: 8px;
-                            height: 44px;
-                            padding: 0 16px;
-                            border-radius: 14px;
-                            border: 1px solid rgba(251,191,36,0.4);
-                            background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
-                            color: #ffffff;
-                            font-family: inherit;
-                            font-size: 0.82rem;
-                            font-weight: 700;
-                            cursor: pointer;
-                            white-space: nowrap;
-                            letter-spacing: 0.2px;
-                            box-shadow: 0 4px 16px rgba(245,158,11,0.3);
-                            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-                            position: relative;
-                            overflow: hidden;
-                        }
-                        #boughtBeforeBtn:hover {
-                            transform: translateY(-2px);
-                            box-shadow: 0 8px 24px rgba(245,158,11,0.5);
-                        }
-                        #boughtBeforeBtn.active-filter {
-                            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-                            border-color: #fef08a;
-                            animation: fastBtnGlow 2s ease-in-out infinite;
-                        }
-                        .bought-count-badge {
-                            background: #ffffff;
-                            color: #d97706;
-                            padding: 2px 8px;
-                            border-radius: 20px;
-                            font-size: 0.72rem;
-                            font-weight: 800;
-                        }
-
-                        /* Out of Stock Cards — Theme Adaptive */
-                        .oos-bought-card {
-                            border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
-                            background: linear-gradient(135deg, rgba(239, 68, 68, 0.06), rgba(239, 68, 68, 0.02)) !important;
-                            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.1) !important;
-                            transition: all 0.25s ease;
-                        }
-                        .oos-bought-card .oos-title {
-                            color: #dc2626 !important;
-                            font-size: 0.92rem;
-                            font-weight: 700;
-                        }
-                        .oos-bought-card .oos-pack {
-                            font-size: 0.76rem;
-                            color: var(--text-muted, #6b7280) !important;
-                            margin-top: 2px;
-                        }
-                        .oos-price-badge {
-                            font-size: 0.82rem !important;
-                            font-weight: 800 !important;
-                            color: #047857 !important;
-                            background: rgba(16, 185, 129, 0.12) !important;
-                            border: 1px solid rgba(16, 185, 129, 0.3) !important;
-                            padding: 3px 9px !important;
-                            border-radius: 8px !important;
-                            display: inline-block;
-                            letter-spacing: 0.2px;
-                        }
-                        [data-theme="dark"] .oos-bought-card {
-                            background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(30, 30, 35, 0.8)) !important;
-                            border-color: rgba(239, 68, 68, 0.55) !important;
-                        }
-                        [data-theme="dark"] .oos-bought-card .oos-title { color: #fca5a5 !important; }
-                        [data-theme="dark"] .oos-bought-card .oos-pack { color: #9ca3af !important; }
-                        [data-theme="dark"] .oos-price-badge {
-                            color: #34d399 !important;
-                            background: rgba(52, 211, 153, 0.22) !important;
-                            border-color: rgba(52, 211, 153, 0.45) !important;
-                        }
-                    </style>
-
-                    <button id="boughtBeforeBtn" onclick="setBoughtBeforeFilter()">⭐ Bought Before</button>
-
-                    <!-- Module 3: 2026 AI Smart Paste Aurora CTA Button -->
-                    <button type="button" class="cmd26-aurora-btn" onclick="openSmartPasteModal()" id="smartPasteBtn"
-                        title="Open AI Smart Paste Studio — paste WhatsApp, Email or Chef lists">
-                        <span class="cmd26-aurora-spark">⚡</span>
-                        <span>Smart Paste</span>
-                        <span class="cmd26-aurora-tag">AI</span>
-                    </button>
-
-                    <!-- Export PO -->
-                    <button type="button" class="cmd26-po-btn" onclick="openExportPOModal()" id="exportPOBtn">
-                        <span>📋</span>
-                        <span>Export PO</span>
-                    </button>
-
-                    <!-- Hidden file inputs -->
-                    <input type="file" id="draftExcel" accept=".csv" style="display:none"
-                        onchange="loadDraftFromExcel()">
-                    <input type="file" id="poUploadFile" accept=".xlsx,.xls,.csv" style="display:none"
-                        onchange="handlePOUpload()">
                 </div>
             </div>
         </div>
@@ -5765,33 +6481,216 @@
             return row[len2];
         }
 
-        // Fuzzy match score (0 = no match, higher is better)
-        function getFuzzyScore(item, query) {
-            if (!query) return 100;
-            
-            const name = item.name.toLowerCase();
-            const searchStr = item.searchStr || '';
-            
-            // 1. Exact or Substring match (Highest priority)
-            if (searchStr.includes(query)) {
-                if (name.startsWith(query)) return 100;
-                if (name.includes(query)) return 95;
-                return 90;
+        /* ── 2026 SMART SEMANTIC CONCEPT & HOSPITALITY SYNONYM ENGINE ── */
+        const SMART_CONCEPT_SYNONYMS = [
+            {
+                label: "Carry & Packaging Bags",
+                triggers: ["lunch bag", "lunch bags", "lunch box bag", "lunch sack", "picnic bag", "bush lunch", "takeaway bag", "take away bag", "shopping bag", "gift bag", "carrier bag", "paper bag", "brown bag", "kraft bag", "khaki bag", "grocery bag", "parcel bag", "packing bag", "mifuko", "mfuko", "pouch", "lunch", "takeaway", "picnic"],
+                targets: ["carry bag", "carry", "paper bag", "brown bag", "kraft", "khaki", "carrier", "poly bag", "shopping bag", "bag"]
+            },
+            {
+                label: "Bin Liners & Refuse Sacks",
+                triggers: ["garbage bag", "garbage", "trash bag", "trash", "rubbish bag", "rubbish", "dustbin bag", "dustbin liner", "dustbin", "waste bag", "black bag", "pedal bin", "refuse bag", "refuse sack", "bin bag", "bin liner", "takataka"],
+                targets: ["bin liner", "refuse", "garbage", "trash", "dustbin", "black bag", "liner"]
+            },
+            {
+                label: "Food Wrap, Foil & Baking Paper",
+                triggers: ["food wrap", "plastic wrap", "saran wrap", "stretch wrap", "cellophane", "tin foil", "silver foil", "kitchen foil", "roasting foil", "aluminum foil", "aluminium foil", "parchment", "wax paper", "greaseproof", "baking sheet", "baking paper", "butcher paper", "cling"],
+                targets: ["cling film", "foil", "kenylon", "baking paper", "greaseproof", "parchment", "wrap"]
+            },
+            {
+                label: "Napkins, Serviettes & Paper Towels",
+                triggers: ["serviette", "serviettes", "napkin", "napkins", "table napkin", "dinner napkin", "cocktail napkin", "paper towel", "kitchen towel", "kitchen roll", "hand towel", "c-fold", "m-fold", "interfold", "facial tissue", "kleenex", "tissue box", "pocket tissue", "wet wipe", "wipes", "wipe"],
+                targets: ["serviette", "napkin", "kitchen towel", "paper towel", "hand towel", "facial tissue", "tissue", "wipe"]
+            },
+            {
+                label: "Bathroom & Toilet Tissue",
+                triggers: ["toilet paper", "toilet tissue", "bathroom tissue", "loo roll", "toilet roll", "jumbo roll", "restroom tissue"],
+                targets: ["toilet roll", "toilet paper", "toilet tissue", "jumbo"]
+            },
+            {
+                label: "Takeaway Containers & Disposables",
+                triggers: ["takeaway box", "lunch box", "food container", "clamshell", "burger box", "foil container", "meal box", "bento", "disposable plate", "paper plate", "plastic container", "portion cup", "souffle cup", "salad bowl", "food pack", "packaging box"],
+                targets: ["container", "foil container", "lunch box", "takeaway", "plate", "bowl", "clamshell", "disposable"]
+            },
+            {
+                label: "Cups, Straws, Skewers & Toothpicks",
+                triggers: ["coffee cup", "paper cup", "hot cup", "cold cup", "plastic glass", "tumbler", "drinking straw", "paper straw", "bamboo skewer", "cocktail stick", "stirrer", "toothpick", "toothpicks", "chopstick", "shish kebab"],
+                targets: ["cup", "straw", "toothpick", "skewer", "stirrer", "chopstick"]
+            },
+            {
+                label: "Dishwashing & Kitchen Cleaners",
+                triggers: ["dish soap", "washing up liquid", "dishwashing", "dish detergent", "sunlight", "axion", "scourer", "sponge", "steel wool", "scotch brite", "degreaser", "oven cleaner", "kitchen cleaner", "pot scrubber"],
+                targets: ["dishwash", "detergent", "scour", "sponge", "steel wool", "degreaser", "cleaner", "soap"]
+            },
+            {
+                label: "Bleach, Disinfectants & Sanitizers",
+                triggers: ["bleach", "jik", "chlorine", "disinfectant", "dettol", "antiseptic", "toilet cleaner", "harpic", "floor cleaner", "mop liquid", "glass cleaner", "window cleaner", "windolene", "multi surface", "air freshener", "room spray", "doom", "insecticide", "mosquito spray", "hand sanitizer", "sanitizer"],
+                targets: ["bleach", "jik", "disinfect", "dettol", "toilet cleaner", "harpic", "floor", "glass cleaner", "air freshener", "insect", "sanitizer", "antiseptic"]
+            },
+            {
+                label: "Guest Amenities, Soaps & Laundry",
+                triggers: ["hand soap", "liquid soap", "hand wash", "body wash", "shower gel", "bath soap", "hotel soap", "shampoo", "conditioner", "body lotion", "washing powder", "laundry detergent", "omo", "fabric softener", "sta soft", "stain remover", "amenities"],
+                targets: ["hand wash", "soap", "shower", "shampoo", "lotion", "detergent", "powder", "softener", "laundry"]
+            },
+            {
+                label: "Gloves, Mops & Cleaning Tools",
+                triggers: ["latex gloves", "nitrile gloves", "rubber gloves", "kitchen gloves", "disposable gloves", "cleaning cloth", "microfiber", "duster", "mop", "broom", "brush", "squeegee", "bucket"],
+                targets: ["glove", "mop", "broom", "brush", "cloth", "duster", "squeegee", "bucket"]
+            },
+            {
+                label: "Mineral & Sparkling Water",
+                triggers: ["bottled water", "mineral water", "still water", "sparkling water", "soda water", "kilimanjaro water", "drinking water", "zen water", "maji", "table water"],
+                targets: ["water", "zen", "still", "sparkling"]
+            },
+            {
+                label: "Tea, Coffee & Hot Cocoa",
+                triggers: ["tea bag", "teabags", "black tea", "green tea", "herbal tea", "camomile", "peppermint", "hibiscus", "masala tea", "chai", "kericho", "hot chocolate", "cocoa", "drinking chocolate", "choco", "milo", "nescafe", "instant coffee", "coffee beans", "espresso"],
+                targets: ["tea", "kericho", "coffee", "choco", "cocoa", "chocolate", "infusion", "herbal"]
+            },
+            {
+                label: "Milk, Plant Milk & Dairy",
+                triggers: ["almond milk", "plant milk", "vegan milk", "dairy free", "soy milk", "oat milk", "uht milk", "long life milk", "fresh milk", "creamer", "whipping cream", "cooking cream", "butter", "cheese", "yoghurt", "yogurt"],
+                targets: ["milk", "nuziwa", "almond", "cream", "butter", "cheese", "dairy", "yoghurt"]
+            },
+            {
+                label: "Juices, Cordials & Syrups",
+                triggers: ["fruit juice", "mango juice", "orange juice", "passion juice", "pineapple juice", "mixed fruit", "berry juice", "cordial", "squash", "syrup", "breakfast juice", "nectar"],
+                targets: ["juice", "mango", "frosti", "fruitville", "viva", "cordial", "squash", "syrup", "nectar", "berries"]
+            },
+            {
+                label: "Jams, Honey & Breakfast Spreads",
+                triggers: ["marmalade", "fruit jam", "strawberry jam", "mixed fruit jam", "portion jam", "breakfast jam", "peanut butter", "chocolate spread", "nutella", "honey", "maple syrup", "golden syrup", "spread"],
+                targets: ["jam", "zesta", "marmalade", "honey", "peanut", "spread", "syrup", "golden"]
+            },
+            {
+                label: "Cooking Oils, Vinegars & Sauces",
+                triggers: ["frying oil", "vegetable oil", "sunflower oil", "olive oil", "corn oil", "salad oil", "ketchup", "tomato sauce", "chili sauce", "hot sauce", "mayo", "mayonnaise", "mustard", "soy sauce", "worcestershire", "vinegar", "salad dressing"],
+                targets: ["oil", "sunflower", "olive", "vegetable", "ketchup", "tomato", "chili", "chilli", "mayo", "mustard", "soy", "vinegar", "sauce"]
+            },
+            {
+                label: "Baking, Flour & Sugars",
+                triggers: ["all purpose flour", "wheat flour", "bread flour", "cake flour", "cornflour", "corn starch", "icing sugar", "castor sugar", "brown sugar", "white sugar", "sugar sachet", "sweetener", "baking powder", "yeast", "bicarbonate", "vanilla"],
+                targets: ["flour", "sugar", "icing", "castor", "sachet", "baking", "yeast", "cornflour", "vanilla", "cocoa"]
+            },
+            {
+                label: "Spices, Herbs & Seasoning",
+                triggers: ["black pepper", "white pepper", "paprika", "cumin", "turmeric", "cinnamon", "cardamom", "cloves", "garam masala", "curry powder", "pilau masala", "oregano", "thyme", "rosemary", "garlic powder", "onion powder", "bouillon", "stock cube", "maggi", "royco", "knorr", "salt"],
+                targets: ["pepper", "paprika", "cumin", "turmeric", "cinnamon", "masala", "curry", "oregano", "thyme", "rosemary", "garlic", "onion", "stock", "cube", "salt", "spice", "herb"]
+            },
+            {
+                label: "Rice, Pasta, Oats & Cereals",
+                triggers: ["basmati", "jasmine rice", "spaghetti", "macaroni", "penne", "fusilli", "lasagna", "noodles", "oats", "porridge", "cornflakes", "muesli", "granola", "breakfast cereal", "lentils", "chickpeas"],
+                targets: ["rice", "basmati", "pasta", "spaghetti", "macaroni", "penne", "noodle", "oat", "cereal", "cornflake", "muesli", "lentil"]
+            },
+            {
+                label: "Canned & Tinned Pantry",
+                triggers: ["baked beans", "tinned tomato", "chopped tomato", "tomato paste", "puree", "sweetcorn", "mushroom", "tuna", "coconut milk", "coconut cream", "olives", "gherkins", "pickles", "fruit cocktail"],
+                targets: ["beans", "tomato", "paste", "sweetcorn", "corn", "mushroom", "tuna", "coconut", "olive", "gherkin", "pickle", "canned"]
+            },
+            {
+                label: "Snacks, Biscuits & Nuts",
+                triggers: ["crisps", "potato chips", "pringles", "cookies", "biscuits", "digestive", "crackers", "cashew", "peanuts", "almonds", "mixed nuts", "dried fruit", "raisins", "dates", "sweets", "mints", "candies"],
+                targets: ["crisp", "chip", "pringles", "cookie", "biscuit", "cracker", "cashew", "nut", "almond", "raisin", "date", "sweet", "mint", "chocolate"]
             }
-            
-            // 2. Word-by-word spelling tolerance (Edit distance)
-            const queryWords = query.split(/\s+/).filter(w => w.length > 2);
+        ];
+
+        function stemHospitalityWord(w) {
+            if (!w || w.length <= 3) return w;
+            if (w.endsWith("ies") && w.length > 4) return w.slice(0, -3) + "y";
+            if (w.endsWith("es") && (w.endsWith("boxes") || w.endsWith("dishes") || w.endsWith("glasses") || w.endsWith("pouches") || w.endsWith("matches") || w.endsWith("brushes"))) {
+                return w.slice(0, -2);
+            }
+            if (w.endsWith("s") && !w.endsWith("ss")) return w.slice(0, -1);
+            return w;
+        }
+
+        // Fuzzy + Semantic Concept match score (0 = no match, higher is better)
+        function getFuzzyScore(item, query) {
+            if (!query) {
+                if (item) item._smartMatchReason = "";
+                return 100;
+            }
+            const qNorm = String(query).toLowerCase().trim();
+            const name = String(item.name || "").toLowerCase();
+            const cat = String(item.cat || "").toLowerCase();
+            const pack = String(item.pack || "").toLowerCase();
+            const searchStr = item.searchStr || `${name} ${cat} ${pack} ${item.code || ''} ${item.barcode || ''}`.toLowerCase();
+
+            item._smartMatchReason = "";
+
+            // 1. Exact or Substring match (Highest priority)
+            if (searchStr.includes(qNorm)) {
+                if (name.startsWith(qNorm)) return 100;
+                if (name.includes(qNorm)) return 96;
+                return 91;
+            }
+
+            // 1b. Singular/Plural normalized direct check (e.g., "carry bag" vs "carry bags")
+            const queryWordsRaw = qNorm.split(/[^a-z0-9]+/).filter(w => w.length >= 2);
+            const queryStems = queryWordsRaw.map(stemHospitalityWord);
+            const nameWordsRaw = `${name} ${cat}`.split(/[^a-z0-9]+/).filter(w => w.length >= 2);
+            const nameStems = nameWordsRaw.map(stemHospitalityWord);
+
+            if (queryStems.length > 0 && queryStems.every(qs => nameStems.some(ns => ns === qs || ns.includes(qs)))) {
+                return 89;
+            }
+
+            // 2. Semantic Concept & Use-Case Synonym Engine (e.g., "lunch bag" -> "Carry Bags")
+            let bestSemanticScore = 0;
+            let bestSemanticLabel = "";
+            for (let cIdx = 0; cIdx < SMART_CONCEPT_SYNONYMS.length; cIdx++) {
+                const cluster = SMART_CONCEPT_SYNONYMS[cIdx];
+                // Check if user query matches any trigger in this concept cluster
+                const triggerHit = cluster.triggers.some(trig => {
+                    if (qNorm.includes(trig) || trig.includes(qNorm)) return true;
+                    const trigStems = trig.split(/\s+/).map(stemHospitalityWord);
+                    return trigStems.length > 0 && trigStems.every(ts => queryStems.includes(ts));
+                });
+                if (!triggerHit) continue;
+
+                // Check if this catalog item matches any target in this concept cluster
+                let targetQuality = 0;
+                for (let tIdx = 0; tIdx < cluster.targets.length; tIdx++) {
+                    const targ = cluster.targets[tIdx];
+                    if (name.includes(targ)) {
+                        // Stronger match if multi-word target or primary target (idx 0..2)
+                        targetQuality = Math.max(targetQuality, tIdx <= 2 ? 84 : 78);
+                    } else if (cat.includes(targ)) {
+                        targetQuality = Math.max(targetQuality, 72);
+                    }
+                }
+
+                if (targetQuality > 0) {
+                    // Bonus if any stem from the user's query ALSO appears directly in the item name (e.g. "bag" in "Carry Bags")
+                    const sharedStemCount = queryStems.filter(qs => nameStems.includes(qs)).length;
+                    const totalCandidateScore = Math.min(88, targetQuality + (sharedStemCount * 3));
+                    if (totalCandidateScore > bestSemanticScore) {
+                        bestSemanticScore = totalCandidateScore;
+                        bestSemanticLabel = cluster.label;
+                    }
+                }
+            }
+
+            if (bestSemanticScore > 0) {
+                item._smartMatchReason = bestSemanticLabel;
+                return bestSemanticScore;
+            }
+
+            // 3. Word-by-word spelling tolerance (Edit distance)
+            const queryWords = queryWordsRaw.filter(w => w.length > 2);
             if (queryWords.length === 0) return 0;
-            
-            const nameWords = name.split(/[^a-z0-9]+/).filter(w => w.length > 2);
-            
+
+            const nameWords = nameWordsRaw.filter(w => w.length > 2);
             let matchedWords = 0;
             let totalDistance = 0;
-            
+
             for (const qw of queryWords) {
+                const qStem = stemHospitalityWord(qw);
                 let bestWordDist = 999;
                 for (const nw of nameWords) {
-                    const dist = levenshtein(qw, nw);
+                    const nStem = stemHospitalityWord(nw);
+                    const dist = Math.min(levenshtein(qw, nw), levenshtein(qStem, nStem));
                     if (dist < bestWordDist) {
                         bestWordDist = dist;
                     }
@@ -5802,12 +6701,11 @@
                     totalDistance += bestWordDist;
                 }
             }
-            
+
             if (matchedWords === queryWords.length) {
-                // Return score (10 to 80) based on closeness
                 return 80 - totalDistance;
             }
-            
+
             return 0;
         }
 
@@ -6421,7 +7319,17 @@
             if (boughtBtn) {
                 boughtBtn.style.display = show ? "inline-flex" : "none";
                 const count = getBoughtBeforeCount();
-                boughtBtn.innerHTML = `⭐ Bought Before${count > 0 ? ` <span class="bought-count-badge">${count}</span>` : ''}`;
+                boughtBtn.innerHTML = `
+                    <span class="cmd26-fn-icon" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </span>
+                    <span class="cmd26-fn-copy">
+                        <span class="cmd26-fn-title">
+                            <span>Bought Before</span>
+                            ${count > 0 ? `<span class="bought-count-badge">${count}</span>` : ''}
+                        </span>
+                        <span class="cmd26-fn-sub">Repeat Items</span>
+                    </span>`;
             }
         }
 
@@ -7322,6 +8230,10 @@
                         </div>
                        </div>`;
 
+                const smartMatchBadgeHtml = (search !== "" && item._smartMatchReason)
+                    ? `<span class="smart-concept-badge" style="background:linear-gradient(135deg,rgba(16,185,129,0.14),rgba(99,102,241,0.14)); color:#047857; border:1px solid rgba(16,185,129,0.32); font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:3px;" title="Matched via Smart Hospitality Synonym">💡 ${item._smartMatchReason}</span>`
+                    : '';
+
                 return `
                 <div class="product-card ${isInCart ? 'is-in-cart' : ''}" data-barcode="${item.barcode}" data-default-qty="${defaultQty}" data-category="${(item.cat || '').toLowerCase()}" style="${cardStyle}">
                     ${mediaHtml}
@@ -7333,6 +8245,7 @@
                             <span class="card-code">#${item.code}</span>
                             ${lastQtyBadgeHtml}
                             ${inCartBadgeHtml}
+                            ${smartMatchBadgeHtml}
                         </div>
                         <div class="card-title">${nameDisplay}</div>
                     </div>
@@ -7398,9 +8311,15 @@
                     <div style="color:var(--text-muted,#6b7280); font-size:.9rem;">Try checking your spelling or using fewer keywords.</div>
                 </div>`;
             } else if (search !== "") {
-                // Show fuzzy notice if some results came from spelling tolerance
+                // Show Smart Concept banner or spelling tolerance banner
                 const hasExactMatch = filtered.some(item => item.searchStr && item.searchStr.includes(search));
-                if (!hasExactMatch) {
+                const semanticReason = filtered.find(item => item._smartMatchReason)?._smartMatchReason;
+                if (!hasExactMatch && semanticReason) {
+                    cardsEl.innerHTML = `<div style="grid-column:1/-1; background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(99,102,241,.08)); border:1px solid rgba(16,185,129,.3); border-radius:14px; padding:.8rem 1.2rem; margin-bottom:1rem; display:flex; align-items:center; gap:.65rem; font-size:.85rem; color:#065f46;">
+                        <span style="font-size:1.15rem;">💡</span>
+                        <span>Smart AI Suggestion for <strong>"${search}"</strong> — showing matching catalog items in <strong>${semanticReason}</strong></span>
+                    </div>` + cardsEl.innerHTML;
+                } else if (!hasExactMatch) {
                     cardsEl.innerHTML = `<div style="grid-column:1/-1; background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(234,88,12,.04)); border:1px solid rgba(249,115,22,.2); border-radius:12px; padding:.8rem 1.2rem; margin-bottom:1rem; display:flex; align-items:center; gap:.6rem; font-size:.85rem; color:#b45309;">
                         <span style="font-size:1.1rem;">✨</span>
                         <span>Showing closest matches for <strong>"${search}"</strong> — spelling auto-corrected</span>
@@ -13649,54 +14568,286 @@
                 '</span>';
         }
 
-        /* ---- Customer Tracking Page ---- */
+        /* ---- Customer Tracking & Universal History Reorder Page ---- */
         var _lotCache = null; // cache fetched records
+        var _lotResolvedOrders = {}; // cardKey -> { orderNo, items, total, date }
+
+        /* Group Google Sheets lastPurchases into discrete order batches by timestamp */
+        function lotBuildPurchaseBatches() {
+            if (!lastPurchases || !lastPurchases.length) return [];
+            var sorted = lastPurchases.slice().sort(function (a, b) {
+                return new Date(b.date).getTime() - new Date(a.date).getTime();
+            });
+            var batches = [];
+            sorted.forEach(function (entry) {
+                var t = new Date(entry.date).getTime();
+                if (isNaN(t)) return;
+                // Group items placed within 3 minutes of each other into one order batch
+                var existing = batches.find(function (b) {
+                    return Math.abs(b.time - t) <= 3 * 60 * 1000;
+                });
+                var pKey = getProductKey(entry);
+                var live = (productKeyMap && productKeyMap[pKey]) || (priceMap && priceMap[entry.barcode]) || {};
+                var unitPrice = Number(live.price || entry.price || 0);
+                var qty = Number(entry.qty) || 1;
+                var itemObj = {
+                    barcode: live.barcode || entry.barcode,
+                    name: live.name || entry.name,
+                    pack: live.pack || entry.pack || '',
+                    cat: live.cat || entry.cat || '',
+                    price: unitPrice,
+                    qty: qty
+                };
+                if (existing) {
+                    existing.items.push(itemObj);
+                    existing.total += unitPrice * qty;
+                } else {
+                    var dObj = new Date(t);
+                    var dd = String(dObj.getDate()).padStart(2, '0');
+                    var hh = String(dObj.getHours()).padStart(2, '0');
+                    var mm = String(dObj.getMinutes()).padStart(2, '0');
+                    batches.push({
+                        time: t,
+                        dateIso: dObj.toISOString(),
+                        dateStr: dObj.toDateString(),
+                        synthOrderNo: 'PS-' + dd + hh + mm,
+                        items: [itemObj],
+                        total: unitPrice * qty,
+                        matched: false
+                    });
+                }
+            });
+            return batches;
+        }
+
+        function lotMergeAndResolveRecords(statusRecords) {
+            var localOrders = getLastOrders() || [];
+            var batches = lotBuildPurchaseBatches();
+            var merged = (statusRecords || []).slice().map(function (r) {
+                return Object.assign({}, r);
+            });
+
+            // 1. Resolve items for each statusRecord from localOrders or purchase batches
+            merged.forEach(function (r) {
+                var localMatch = localOrders.find(function (o) {
+                    return String(o.orderNo).trim() === String(r.orderNo).trim();
+                });
+                if (localMatch && localMatch.items && localMatch.items.length) {
+                    r._resolvedItems = localMatch.items.map(function (i) {
+                        var live = (priceMap && priceMap[i.barcode]) || (productKeyMap && productKeyMap[getProductKey(i)]) || {};
+                        return {
+                            barcode: i.barcode,
+                            name: i.name || live.name || 'Item',
+                            pack: i.pack || live.pack || '',
+                            qty: Number(i.qty) || 1,
+                            price: Number(live.price || i.price || 0)
+                        };
+                    });
+                    r._resolvedTotal = Number(localMatch.total) || r._resolvedItems.reduce(function (s, x) { return s + x.qty * x.price; }, 0);
+                    localMatch._usedInLot = true;
+                    return;
+                }
+
+                // Match against Google Sheets purchase batches by timestamp or orderNo code
+                var rTime = r.receivedAt ? new Date(r.receivedAt).getTime() : 0;
+                var rDateStr = rTime ? new Date(rTime).toDateString() : '';
+                var bestBatch = null;
+                var bestDiff = Infinity;
+
+                batches.forEach(function (b) {
+                    if (b.matched) return;
+                    if (String(r.orderNo).trim() === b.synthOrderNo) {
+                        bestBatch = b;
+                        bestDiff = 0;
+                        return;
+                    }
+                    if (rTime && !isNaN(rTime)) {
+                        var diff = Math.abs(b.time - rTime);
+                        if (diff <= 24 * 60 * 60 * 1000 && diff < bestDiff) {
+                            bestDiff = diff;
+                            bestBatch = b;
+                        } else if (b.dateStr === rDateStr && diff < bestDiff) {
+                            bestDiff = diff;
+                            bestBatch = b;
+                        }
+                    }
+                });
+
+                if (bestBatch) {
+                    bestBatch.matched = true;
+                    r._resolvedItems = bestBatch.items;
+                    r._resolvedTotal = bestBatch.total;
+                }
+            });
+
+            // 2. Append any localOrders not already in statusRecords
+            localOrders.forEach(function (o) {
+                if (o._usedInLot) return;
+                var exists = merged.some(function (r) { return String(r.orderNo).trim() === String(o.orderNo).trim(); });
+                if (!exists && o.items && o.items.length) {
+                    merged.push({
+                        orderNo: o.orderNo || 'LOCAL',
+                        status: 'Received',
+                        receivedAt: o.date,
+                        packingAt: '',
+                        deliveryAt: '',
+                        deliveredAt: '',
+                        notes: '',
+                        _resolvedItems: o.items,
+                        _resolvedTotal: Number(o.total) || 0
+                    });
+                }
+            });
+
+            // 3. Append any remaining unmatched Google Sheets purchase batches so all past orders can be reordered
+            batches.forEach(function (b) {
+                if (b.matched) return;
+                merged.push({
+                    orderNo: b.synthOrderNo,
+                    status: 'Delivered',
+                    receivedAt: b.dateIso,
+                    packingAt: b.dateIso,
+                    deliveryAt: b.dateIso,
+                    deliveredAt: b.dateIso,
+                    notes: 'Synced from Order History',
+                    _resolvedItems: b.items,
+                    _resolvedTotal: b.total
+                });
+            });
+
+            return merged;
+        }
 
         /* Filter cached orders by search + status without re-fetching */
         function lotFilterOrders() {
             if (!_lotCache) return;
             var search = (document.getElementById('lotSearchInput') || { value: '' }).value.toLowerCase();
             var filter = (document.getElementById('lotStatusFilter') || { value: 'all' }).value;
-            var filtered = _lotCache.filter(function (r) {
+            var allMerged = lotMergeAndResolveRecords(_lotCache);
+            var filtered = allMerged.filter(function (r) {
                 if (filter !== 'all' && r.status !== filter) return false;
-                if (search && String(r.orderNo).toLowerCase().indexOf(search) === -1) return false;
+                if (search) {
+                    var inOrderNo = String(r.orderNo).toLowerCase().indexOf(search) !== -1;
+                    var inItems = (r._resolvedItems || []).some(function (it) {
+                        return String(it.name || '').toLowerCase().indexOf(search) !== -1;
+                    });
+                    if (!inOrderNo && !inItems) return false;
+                }
                 return true;
             });
-            lotRenderCards(filtered);
+            lotRenderCards(filtered, true);
+        }
+
+        function toggleLotOrderItems(cardKey) {
+            var box = document.getElementById('lotItemsDrawer_' + cardKey);
+            if (!box) return;
+            box.style.display = box.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function reorderHistoryOrder(cardKey) {
+            var entry = _lotResolvedOrders[cardKey];
+            var itemsToLoad = entry && entry.items && entry.items.length ? entry.items : null;
+
+            // Fallback: if items weren't matched to this specific timestamp, check localOrders or latest batch
+            if (!itemsToLoad || !itemsToLoad.length) {
+                var batches = lotBuildPurchaseBatches();
+                if (batches.length > 0) {
+                    itemsToLoad = batches[0].items;
+                }
+            }
+
+            if (!itemsToLoad || !itemsToLoad.length) {
+                var email = localStorage.getItem('userEmail');
+                if (email && (!lastPurchases || !lastPurchases.length)) {
+                    premiumNotify('Fetching your order items from server...', 'info', 2000);
+                    fetch(API_URL + "?action=getLastPurchases&email=" + encodeURIComponent(email))
+                        .then(function (r) { return r.json(); })
+                        .then(function (d) {
+                            if (d.result && d.result.length) {
+                                processHistory(d.result);
+                                lotFilterOrders();
+                                setTimeout(function () { reorderHistoryOrder(cardKey); }, 150);
+                            } else {
+                                alert('Could not find item details for this order.');
+                            }
+                        });
+                    return;
+                }
+                alert('No item details found for this order.');
+                return;
+            }
+
+            var orderBtn = document.querySelectorAll('.nav-btn')[1];
+            showPage('page-pricelist', orderBtn);
+            setTimeout(function () {
+                loadSavedItemsWithConflictUI(itemsToLoad, function () {
+                    if (!document.getElementById('cartPanel').classList.contains('open')) toggleCart();
+                    if (typeof premiumNotify === 'function') {
+                        premiumNotify('✓ Reordered ' + itemsToLoad.length + ' item(s) from Order #' + (entry ? entry.orderNo : ''), 'success', 2600);
+                    }
+                });
+            }, 200);
         }
 
         /* Render a list of order records as tracking cards */
-        function lotRenderCards(records) {
+        function lotRenderCards(records, alreadyMerged) {
             var wrap = document.getElementById('lotOrdersWrap');
             if (!wrap) return;
-            if (!records || records.length === 0) {
+            var list = alreadyMerged ? (records || []) : lotMergeAndResolveRecords(records || []);
+            if (!list || list.length === 0) {
                 wrap.innerHTML = '<div class="lot-empty"><div class="lot-empty-icon">📭</div>' +
                     '<div class="lot-empty-title">No Orders Found</div>' +
                     '<p>Try adjusting your search or filter.</p></div>';
                 return;
             }
-            var localOrders = getLastOrders();
-            wrap.innerHTML = records.map(function (r) {
+            _lotResolvedOrders = {};
+            wrap.innerHTML = list.map(function (r, idx) {
+                var cardKey = 'ord_' + idx + '_' + String(r.orderNo).replace(/[^a-zA-Z0-9]/g, '');
                 var orderDate = r.receivedAt || '';
-                var localOrder = localOrders.find(function (o) { return String(o.orderNo) === String(r.orderNo); });
-                var total = localOrder ? localOrder.total : 0;
-                var items = localOrder ? localOrder.items : [];
+                var items = r._resolvedItems || [];
+                var total = r._resolvedTotal || 0;
+                _lotResolvedOrders[cardKey] = {
+                    orderNo: r.orderNo,
+                    items: items,
+                    total: total,
+                    date: orderDate
+                };
+
+                var itemsDrawerHtml = '';
+                if (items.length > 0) {
+                    itemsDrawerHtml = '<div id="lotItemsDrawer_' + cardKey + '" style="display:none; padding:0.75rem 1.5rem; background:rgba(99,102,241,0.04); border-top:1px dashed rgba(99,102,241,0.18);">' +
+                        '<div style="font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#6366f1; margin-bottom:6px;">📋 Order Items (' + items.length + ')</div>' +
+                        '<div style="display:grid; gap:5px; max-height:210px; overflow-y:auto;">' +
+                        items.map(function (it) {
+                            return '<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:4px 8px; background:rgba(255,255,255,0.75); border-radius:8px; border:1px solid rgba(0,0,0,0.05);">' +
+                                '<span style="font-weight:600; color:#1e293b;">' + (it.name || 'Item') + (it.pack ? ' <small style="color:#64748b;">(' + it.pack + ')</small>' : '') + '</span>' +
+                                '<span style="font-weight:800; color:#059669; white-space:nowrap;">× ' + it.qty + '</span>' +
+                                '</div>';
+                        }).join('') +
+                        '</div></div>';
+                }
+
                 return '<div class="lot-card fade-in">' +
                     '<div class="lot-card-header">' +
                     '<div class="lot-order-info">' +
                     '<div class="lot-order-no">Order #' + r.orderNo + '</div>' +
                     '<div class="lot-order-date">' + lotFmtDate(orderDate) + '</div>' +
                     '<div class="lot-order-meta">' +
-                    (items.length ? '<span>\ud83d\udce6 ' + items.length + ' item' + (items.length > 1 ? 's' : '') + '</span>' : '') +
+                    (items.length ? '<span>📦 ' + items.length + ' item' + (items.length > 1 ? 's' : '') + '</span>' : '') +
                     (total ? '<span>TZS ' + Number(total).toLocaleString() + '</span>' : '') +
-                    (r.notes ? '<span>\ud83d\udcdd ' + r.notes + '</span>' : '') +
+                    (r.notes ? '<span>📝 ' + r.notes + '</span>' : '') +
                     '</div></div>' +
                     lotStatusBadge(r.status) +
                     '</div>' +
                     '<div class="lot-stepper">' + lotBuildStepper(r) + '</div>' +
-                    (total ? '<div class="lot-card-footer"><span class="lot-total-label">Total: <span class="lot-total-val">TZS ' + Number(total).toLocaleString() + '</span></span>' +
-                        (localOrder ? '<button class="lot-reorder-btn" onclick="reorderFromLocal(' + localOrders.indexOf(localOrder) + ')">\ud83d\udd04 Reorder</button>' : '') +
-                        '</div>' : '') +
+                    itemsDrawerHtml +
+                    '<div class="lot-card-footer">' +
+                    '<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">' +
+                    (total ? '<span class="lot-total-label">Total: <span class="lot-total-val">TZS ' + Number(total).toLocaleString() + '</span></span>' : '<span class="lot-total-label">Past Order</span>') +
+                    (items.length ? '<button type="button" onclick="toggleLotOrderItems(\'' + cardKey + '\')" style="background:rgba(99,102,241,0.1); color:#4f46e5; border:1px solid rgba(99,102,241,0.25); padding:5px 11px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">📋 View Items (' + items.length + ')</button>' : '') +
+                    '</div>' +
+                    '<button type="button" class="lot-reorder-btn" onclick="reorderHistoryOrder(\'' + cardKey + '\')">🔄 Reorder This Order</button>' +
+                    '</div>' +
                     '</div>';
             }).join('');
         }
@@ -13712,22 +14863,20 @@
                     '<button class="lot-track-btn" onclick="openLoginModal()" style="margin-top:1rem;">Login Now</button></div>';
                 return;
             }
+            var email = localStorage.getItem('userEmail');
+            if (email && (!lastPurchases || lastPurchases.length === 0)) {
+                Api.getLastPurchases(email);
+            }
             wrap.innerHTML = '<div class="lot-empty"><div class="lot-empty-icon" style="animation:spin 1s linear infinite;font-size:2rem;">🔄</div><p>Loading your orders...</p></div>';
 
             Api.getOrderStatus(token).then(function (records) {
-                _lotCache = records;
-                lotRenderCards(records);
+                _lotCache = records || [];
+                lotRenderCards(_lotCache, false);
             }).catch(function (err) {
-                // Fallback to localStorage if API fails
-                var localOrders = getLastOrders();
-                if (localOrders.length > 0) {
-                    wrap.innerHTML = '<div style="background:#fef3c7;border:1px solid #fde68a;padding:10px 16px;border-radius:10px;font-size:.82rem;margin-bottom:1rem;color:#92400e;">&#9888;&#65039; Could not reach server. Showing cached data.</div>' +
-                        localOrders.map(function (o, idx) {
-                            var fakeRecord = { orderNo: o.orderNo, status: 'Received', receivedAt: o.date, packingAt: '', deliveryAt: '', deliveredAt: '', notes: '' };
-                            return '<div class="lot-card fade-in"><div class="lot-card-header"><div class="lot-order-info"><div class="lot-order-no">Order #' + o.orderNo + '</div><div class="lot-order-date">' + lotFmtDate(o.date) + '</div></div>' + lotStatusBadge('Received') + '</div>' +
-                                '<div class="lot-stepper">' + lotBuildStepper(fakeRecord) + '</div>' +
-                                '<div class="lot-card-footer"><span class="lot-total-label">Total: <span class="lot-total-val">TZS ' + Number(o.total || 0).toLocaleString() + '</span></span><button class="lot-reorder-btn" onclick="reorderFromLocal(' + idx + ')">🔄 Reorder</button></div></div>';
-                        }).join('');
+                _lotCache = [];
+                var fallbackList = lotMergeAndResolveRecords([]);
+                if (fallbackList.length > 0) {
+                    lotRenderCards(fallbackList, true);
                 } else {
                     wrap.innerHTML = '<div class="lot-empty"><div class="lot-empty-icon">&#9888;&#65039;</div><div class="lot-empty-title">Could not load orders</div><p>' + (err.message || 'Please try again.') + '</p><button class="lot-track-btn" onclick="renderLiveTrackingPage()" style="margin-top:1rem;">Retry</button></div>';
                 }
@@ -15214,6 +16363,550 @@
             initSpSpotlight();
         }
     })();
+</script>
+
+<!-- ===== 2026 1-CLICK HOSPITALITY STARTER KITS & DEPARTMENT TEMPLATES MODAL ===== -->
+<div class="lk-modal-backdrop" id="lodgeKitsModal" onclick="if(event.target===this) closeLodgeKitsModal()">
+    <div class="lk-modal-shell" role="dialog" aria-label="1-Click Hospitality Starter Kits">
+        <div class="lk-header">
+            <div>
+                <h3 class="lk-header-title">🧺 1-Click Hospitality Starter Kits &amp; Department Templates</h3>
+                <p class="lk-header-sub">Pre-built lodge, safari, housekeeping &amp; chef templates matched live to your catalog &amp; past quantities</p>
+            </div>
+            <button type="button" class="lk-close-btn" onclick="closeLodgeKitsModal()" title="Close">&times;</button>
+        </div>
+
+        <div class="lk-tabs-bar" id="lkTabsBar"></div>
+
+        <div class="lk-body">
+            <div class="lk-kit-banner" id="lkKitBanner"></div>
+            <div class="lk-items-grid" id="lkItemsGrid"></div>
+        </div>
+
+        <div class="lk-footer">
+            <div>
+                <div style="font-size:0.75rem; color:#64748b; font-weight:600;" id="lkSummaryCount">0 items selected</div>
+                <div style="font-size:1.05rem; font-weight:800; color:#059669;" id="lkSummaryTotal">Est. Total: TZS 0</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+                <button type="button" class="sp-spot-dismiss" style="color:#475569; border-color:rgba(15,23,42,0.15);" onclick="toggleAllLodgeKitItems()">✓ Select / Deselect All</button>
+                <button type="button" class="lk-add-all-btn" onclick="addSelectedKitToCart()" id="lkAddBtn">⚡ Add Selected Kit to Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ── 2026 1-CLICK HOSPITALITY STARTER KITS ENGINE ── */
+    const HOSPITALITY_KIT_TEMPLATES = [
+        {
+            id: 'bush_lunch',
+            icon: '🏕️',
+            title: 'Safari Bush Lunch & Picnic Kit',
+            desc: 'Essential takeaway packaging, wraps, napkins, water & refreshments for game-drive bush lunches.',
+            slots: [
+                { role: 'Lunch & Takeaway Bags', keywords: ['carry bag', 'paper bag', 'brown bag', 'kraft', 'khaki'], defaultQty: 5 },
+                { role: 'Catering Aluminium Foil', keywords: ['aluminium foil', 'aluminum foil', 'kenylon foil', 'foil'], defaultQty: 4 },
+                { role: 'Food Wrap / Cling Film', keywords: ['cling film', 'wrap'], defaultQty: 4 },
+                { role: 'Table Serviettes / Napkins', keywords: ['serviette', 'napkin'], defaultQty: 10 },
+                { role: 'Toothpicks / Bamboo Skewers', keywords: ['toothpick', 'skewer'], defaultQty: 6 },
+                { role: 'Still Drinking Water', keywords: ['zen', 'still water', 'water 500', 'drinking water', 'water'], defaultQty: 10 },
+                { role: 'Packed Fruit Juice', keywords: ['fruitville', 'frosti', 'viva', 'mango', 'juice'], defaultQty: 8 },
+                { role: 'Takeaway / Foil Containers', keywords: ['foil container', 'container', 'lunch box', 'plate'], defaultQty: 5 },
+                { role: 'Facial / Pocket Tissues', keywords: ['facial tissue', 'wet wipe', 'tissue'], defaultQty: 6 },
+                { role: 'Picnic Crisps & Nuts', keywords: ['pringles', 'cashew', 'crisp', 'biscuit'], defaultQty: 6 }
+            ]
+        },
+        {
+            id: 'housekeeping',
+            icon: '🛏️',
+            title: 'Housekeeping & VIP Room Kit',
+            desc: 'Guest room tissues, bathroom rolls, bin liners, soaps, air fresheners & disinfectants.',
+            slots: [
+                { role: 'Bathroom Toilet Rolls', keywords: ['toilet roll', 'toilet paper', 'toilet tissue'], defaultQty: 12 },
+                { role: 'Guest Facial Tissue Boxes', keywords: ['facial tissue', 'tissue'], defaultQty: 8 },
+                { role: 'Pedal & Room Bin Liners', keywords: ['bin liner', 'refuse', 'garbage', 'black bag'], defaultQty: 6 },
+                { role: 'Hand Wash & Guest Soap', keywords: ['hand wash', 'liquid soap', 'shower', 'soap'], defaultQty: 6 },
+                { role: 'Room Air Freshener', keywords: ['air freshener', 'room spray', 'freshener'], defaultQty: 6 },
+                { role: 'Disinfectant & Bleach', keywords: ['bleach', 'jik', 'disinfect', 'dettol'], defaultQty: 5 },
+                { role: 'Toilet Bowl Cleaner', keywords: ['toilet cleaner', 'harpic'], defaultQty: 6 },
+                { role: 'Floor & Glass Cleaner', keywords: ['floor cleaner', 'glass cleaner', 'multi surface', 'cleaner'], defaultQty: 5 },
+                { role: 'Laundry Detergent & Softener', keywords: ['washing powder', 'softener', 'omo', 'detergent', 'laundry'], defaultQty: 4 }
+            ]
+        },
+        {
+            id: 'kitchen_prep',
+            icon: '🍳',
+            title: 'Commercial Kitchen & Chef Kit',
+            desc: 'Heavy-duty foils, baking paper, oils, dishwashing detergents, refuse sacks & pantry staples.',
+            slots: [
+                { role: 'Heavy-Duty Aluminium Foil', keywords: ['aluminium foil', 'aluminum foil', 'kenylon foil', 'foil'], defaultQty: 6 },
+                { role: 'Commercial Cling Film', keywords: ['cling film', 'wrap'], defaultQty: 6 },
+                { role: 'Baking & Greaseproof Paper', keywords: ['baking paper', 'greaseproof', 'parchment'], defaultQty: 4 },
+                { role: 'Kitchen Paper Towels', keywords: ['kitchen towel', 'paper towel', 'hand towel'], defaultQty: 8 },
+                { role: 'Dishwashing Liquid', keywords: ['dishwash', 'sunlight', 'detergent'], defaultQty: 6 },
+                { role: 'Heavy-Duty Refuse Sacks', keywords: ['refuse', 'bin liner', 'garbage'], defaultQty: 6 },
+                { role: 'Cooking & Salad Oil', keywords: ['sunflower oil', 'cooking oil', 'vegetable oil', 'olive oil', 'oil'], defaultQty: 6 },
+                { role: 'Tomato Paste & Sauces', keywords: ['tomato', 'ketchup', 'sauce', 'paste'], defaultQty: 6 },
+                { role: 'Chef Spices & Stock', keywords: ['pepper', 'paprika', 'masala', 'salt', 'stock', 'spice'], defaultQty: 5 },
+                { role: 'Flour, Sugar & Baking', keywords: ['flour', 'sugar', 'baking', 'cornflour'], defaultQty: 6 }
+            ]
+        },
+        {
+            id: 'breakfast_bar',
+            icon: '☕',
+            title: 'Breakfast & Conference Station',
+            desc: 'Teas, coffee, Nuziwa almond milk, Choco Primo, jams, honey, cereals & juices for buffet tables.',
+            slots: [
+                { role: 'Premium Tea Selection', keywords: ['kericho', 'tea bag', 'tea'], defaultQty: 10 },
+                { role: 'Hot Chocolate / Cocoa', keywords: ['choco primo', 'drinking chocolate', 'cocoa', 'chocolate'], defaultQty: 6 },
+                { role: 'Plant & Dairy Milk', keywords: ['nuziwa', 'almond', 'milk'], defaultQty: 8 },
+                { role: 'Instant & Ground Coffee', keywords: ['coffee', 'nescafe'], defaultQty: 6 },
+                { role: 'Breakfast Jams & Honey', keywords: ['zesta', 'jam', 'marmalade', 'honey'], defaultQty: 8 },
+                { role: 'Chilled Buffet Juices', keywords: ['fruitville', 'frosti', 'viva', 'juice'], defaultQty: 10 },
+                { role: 'Cereals, Oats & Muesli', keywords: ['oats', 'cornflake', 'muesli', 'cereal'], defaultQty: 6 },
+                { role: 'Sugar & Sweeteners', keywords: ['sugar', 'sweetener'], defaultQty: 6 }
+            ]
+        },
+        {
+            id: 'bar_lounge',
+            icon: '🍹',
+            title: 'Bar, Lounge & Sundowner Kit',
+            desc: 'Sparkling & still water, mixers, cordials, cocktail napkins, straws & bar snacks.',
+            slots: [
+                { role: 'Sparkling & Still Water', keywords: ['zen', 'sparkling', 'water'], defaultQty: 12 },
+                { role: 'Juices, Mixers & Cordials', keywords: ['juice', 'cordial', 'syrup', 'mango', 'berries'], defaultQty: 10 },
+                { role: 'Cocktail Serviettes', keywords: ['serviette', 'napkin'], defaultQty: 10 },
+                { role: 'Straws & Cocktail Sticks', keywords: ['straw', 'toothpick', 'stirrer'], defaultQty: 6 },
+                { role: 'Bar Snacks & Crisps', keywords: ['pringles', 'cashew', 'nut', 'crisp'], defaultQty: 8 },
+                { role: 'Bar Cleaning & Hygiene', keywords: ['glass cleaner', 'cloth', 'sponge', 'detergent'], defaultQty: 4 }
+            ]
+        }
+    ];
+
+    let _activeLodgeKitId = 'bush_lunch';
+    let _activeLodgeKitTier = 'recommended'; // 'recommended' | 'cheapest' | 'expensive'
+    let _activeLodgeKitItems = []; // [{ role, item, defaultItem, candidates, sortDir, drawerOpen, searchQ, qty, wasBought, selected }]
+
+    function resolveCandidatesForSlot(slot, usedDefaultBarcodes, boughtKeys) {
+        if (!allProducts || !allProducts.length) return { defaultItem: null, candidates: [] };
+        const scored = [];
+
+        for (let i = 0; i < allProducts.length; i++) {
+            const p = allProducts[i];
+            const nameLower = String(p.name || '').toLowerCase();
+            const catLower = String(p.cat || '').toLowerCase();
+
+            let kwScore = 0;
+            for (let k = 0; k < slot.keywords.length; k++) {
+                const kw = slot.keywords[k];
+                if (nameLower.includes(kw)) {
+                    kwScore = Math.max(kwScore, 100 - k * 8);
+                    break;
+                } else if (catLower.includes(kw)) {
+                    kwScore = Math.max(kwScore, 55 - k * 5);
+                }
+            }
+            if (kwScore <= 0) continue;
+
+            const pKey = p.productKey || getProductKey(p);
+            const wasBought = !!(boughtKeys && boughtKeys.has(pKey));
+            const totalScore = kwScore + (wasBought ? 35 : 0);
+
+            scored.push({
+                item: p,
+                score: totalScore,
+                wasBought: wasBought,
+                price: Number(p.price || 0)
+            });
+        }
+
+        if (!scored.length) return { defaultItem: null, candidates: [] };
+
+        // Sort by relevance score descending to pick the best default item not yet used as another slot's default
+        scored.sort((a, b) => b.score - a.score);
+        let defaultEntry = scored.find(entry => !usedDefaultBarcodes.has(entry.item.barcode)) || scored[0];
+
+        // Sort candidates by price ascending (Cheapest -> Expensive) by default for easy comparison
+        const candidates = scored.slice().sort((a, b) => (a.price || 9999999) - (b.price || 9999999));
+
+        return {
+            defaultItem: defaultEntry.item,
+            wasBought: defaultEntry.wasBought,
+            candidates: candidates
+        };
+    }
+
+    function openLodgeKitsModal(kitId) {
+        const isLoggedIn = !!localStorage.getItem('authToken');
+        if (!isLoggedIn) {
+            openLoginModal();
+            return;
+        }
+        const modal = document.getElementById('lodgeKitsModal');
+        if (!modal) return;
+        modal.style.display = 'flex';
+        selectLodgeKit(kitId || _activeLodgeKitId || 'bush_lunch');
+    }
+
+    function closeLodgeKitsModal() {
+        const modal = document.getElementById('lodgeKitsModal');
+        if (modal) modal.style.display = 'none';
+    }
+
+    function selectLodgeKit(kitId) {
+        _activeLodgeKitId = kitId;
+        _activeLodgeKitTier = 'recommended';
+        const kit = HOSPITALITY_KIT_TEMPLATES.find(k => k.id === kitId) || HOSPITALITY_KIT_TEMPLATES[0];
+
+        // Render Tabs
+        const tabsBar = document.getElementById('lkTabsBar');
+        if (tabsBar) {
+            tabsBar.innerHTML = HOSPITALITY_KIT_TEMPLATES.map(k => `
+                <button type="button" class="lk-tab-btn ${k.id === kit.id ? 'active' : ''}" onclick="selectLodgeKit('${k.id}')">
+                    <span>${k.icon}</span>
+                    <span>${k.title}</span>
+                </button>
+            `).join('');
+        }
+
+        // Resolve live catalog items and all brand/pack candidates for each slot
+        const boughtKeys = typeof getBoughtBeforeKeys === 'function' ? getBoughtBeforeKeys() : new Set();
+        const usedDefaultBarcodes = new Set();
+        _activeLodgeKitItems = [];
+
+        kit.slots.forEach(slot => {
+            const resolved = resolveCandidatesForSlot(slot, usedDefaultBarcodes, boughtKeys);
+            if (resolved.defaultItem) {
+                usedDefaultBarcodes.add(resolved.defaultItem.barcode);
+                const lastQty = resolved.wasBought ? getLastBoughtQty(resolved.defaultItem) : slot.defaultQty;
+                _activeLodgeKitItems.push({
+                    role: slot.role,
+                    item: resolved.defaultItem,
+                    defaultItem: resolved.defaultItem,
+                    candidates: resolved.candidates,
+                    sortDir: 'cheap_first', // 'cheap_first' | 'exp_first'
+                    drawerOpen: false,
+                    searchQ: '',
+                    qty: Math.max(1, lastQty || slot.defaultQty),
+                    wasBought: resolved.wasBought,
+                    selected: true
+                });
+            }
+        });
+
+        renderLodgeKitBanner(kit);
+        renderLodgeKitItems();
+    }
+
+    function renderLodgeKitBanner(kit) {
+        const banner = document.getElementById('lkKitBanner');
+        if (!banner) return;
+        const currentKit = kit || HOSPITALITY_KIT_TEMPLATES.find(k => k.id === _activeLodgeKitId) || HOSPITALITY_KIT_TEMPLATES[0];
+        banner.innerHTML = `
+            <div>
+                <div style="font-size:0.95rem; font-weight:800; color:#065f46;">${currentKit.icon} ${currentKit.title}</div>
+                <div style="font-size:0.78rem; color:#475569; margin-top:2px;">${currentKit.desc}</div>
+            </div>
+            <div class="lk-tier-bar" role="group" aria-label="Switch Kit Price Tier">
+                <span style="font-size:0.68rem; font-weight:800; color:#64748b; padding:0 6px;">Budget / Tier:</span>
+                <button type="button" class="lk-tier-btn ${_activeLodgeKitTier === 'recommended' ? 'active' : ''}" onclick="applyLodgeKitTier('recommended')" title="Use your previously bought or best-matched items">
+                    ✨ Default Match
+                </button>
+                <button type="button" class="lk-tier-btn ${_activeLodgeKitTier === 'cheapest' ? 'active' : ''}" onclick="applyLodgeKitTier('cheapest')" title="Switch all kit slots to the lowest price pack/brand">
+                    💚 Economy (Cheapest)
+                </button>
+                <button type="button" class="lk-tier-btn ${_activeLodgeKitTier === 'expensive' ? 'active' : ''}" onclick="applyLodgeKitTier('expensive')" title="Switch all kit slots to premium / bulk packs">
+                    👑 Premium / Bulk
+                </button>
+            </div>
+        `;
+    }
+
+    function applyLodgeKitTier(tier) {
+        _activeLodgeKitTier = tier;
+        const boughtKeys = typeof getBoughtBeforeKeys === 'function' ? getBoughtBeforeKeys() : new Set();
+
+        _activeLodgeKitItems.forEach(entry => {
+            if (!entry.candidates || !entry.candidates.length) return;
+            if (tier === 'recommended') {
+                entry.item = entry.defaultItem;
+            } else {
+                const priced = entry.candidates.filter(c => c.price > 0);
+                const pool = priced.length ? priced : entry.candidates;
+                if (tier === 'cheapest') {
+                    const cheapest = pool.slice().sort((a, b) => a.price - b.price)[0];
+                    if (cheapest) entry.item = cheapest.item;
+                } else if (tier === 'expensive') {
+                    const highest = pool.slice().sort((a, b) => b.price - a.price)[0];
+                    if (highest) entry.item = highest.item;
+                }
+            }
+            const pKey = entry.item.productKey || getProductKey(entry.item);
+            entry.wasBought = boughtKeys.has(pKey);
+        });
+
+        renderLodgeKitBanner();
+        renderLodgeKitItems();
+    }
+
+    function toggleLodgeSlotDrawer(idx) {
+        if (!_activeLodgeKitItems[idx]) return;
+        const willOpen = !_activeLodgeKitItems[idx].drawerOpen;
+        _activeLodgeKitItems.forEach((x, i) => {
+            x.drawerOpen = (i === idx) ? willOpen : false;
+        });
+        renderLodgeKitItems();
+    }
+
+    function setLodgeSlotSort(idx, sortDir, ev) {
+        if (ev) ev.stopPropagation();
+        if (!_activeLodgeKitItems[idx]) return;
+        _activeLodgeKitItems[idx].sortDir = sortDir;
+        renderLodgeKitItems();
+    }
+
+    function filterLodgeSlotCandidates(idx, q) {
+        if (!_activeLodgeKitItems[idx]) return;
+        _activeLodgeKitItems[idx].searchQ = String(q || '');
+        renderLodgeSlotListOnly(idx);
+    }
+
+    function pickLodgeSlotCandidate(slotIdx, barcode) {
+        const entry = _activeLodgeKitItems[slotIdx];
+        if (!entry) return;
+        const found = (entry.candidates || []).find(c => String(c.item.barcode) === String(barcode))
+            || (priceMap[barcode] ? { item: priceMap[barcode], wasBought: false } : null);
+        if (!found) return;
+        entry.item = found.item;
+        entry.wasBought = !!found.wasBought;
+        entry.selected = true;
+        entry.drawerOpen = false;
+        renderLodgeKitItems();
+    }
+
+    function buildLodgeSlotOptionsHtml(entry, idx) {
+        const q = (entry.searchQ || '').toLowerCase().trim();
+        let list = (entry.candidates || []).slice();
+
+        // If user types a custom search inside the slot picker, also allow matching any item in allProducts
+        if (q) {
+            list = list.filter(c => {
+                const text = `${c.item.name || ''} ${c.item.pack || ''} ${c.item.code || ''}`.toLowerCase();
+                return text.includes(q);
+            });
+            if (list.length < 5 && allProducts && allProducts.length) {
+                const existingBarcodes = new Set(list.map(c => c.item.barcode));
+                allProducts.forEach(p => {
+                    if (existingBarcodes.has(p.barcode)) return;
+                    const text = `${p.name || ''} ${p.pack || ''}`.toLowerCase();
+                    if (text.includes(q)) {
+                        list.push({ item: p, price: Number(p.price || 0), wasBought: false });
+                    }
+                });
+            }
+        }
+
+        if (entry.sortDir === 'exp_first') {
+            list.sort((a, b) => (b.price || 0) - (a.price || 0));
+        } else {
+            list.sort((a, b) => (a.price || 9999999) - (b.price || 9999999));
+        }
+
+        const prices = (entry.candidates || []).map(c => c.price).filter(p => p > 0);
+        const minPrice = prices.length ? Math.min(...prices) : 0;
+        const maxPrice = prices.length ? Math.max(...prices) : 0;
+
+        if (!list.length) {
+            return `<div style="padding:0.6rem; font-size:0.75rem; color:#64748b; text-align:center;">No matching brands/packs found.</div>`;
+        }
+
+        return list.map(c => {
+            const p = c.item;
+            const isCurrent = String(p.barcode) === String(entry.item.barcode);
+            let tierChip = '';
+            if (prices.length > 1 && c.price === minPrice) {
+                tierChip = `<span class="lk-price-tag-chip lk-chip-cheap">💚 Cheapest</span>`;
+            } else if (prices.length > 1 && c.price === maxPrice) {
+                tierChip = `<span class="lk-price-tag-chip lk-chip-premium">👑 Premium/Bulk</span>`;
+            }
+            const boughtChip = c.wasBought ? `<span class="lk-price-tag-chip lk-chip-cheap">⭐ Bought</span>` : '';
+            const safeBarcode = String(p.barcode).replace(/'/g, "\\'");
+
+            return `
+                <button type="button" class="lk-alt-option ${isCurrent ? 'is-current' : ''}" onclick="pickLodgeSlotCandidate(${idx}, '${safeBarcode}')">
+                    <div style="min-width:0; flex:1;">
+                        <div style="font-size:0.77rem; font-weight:${isCurrent ? '800' : '600'}; line-height:1.25; word-break:break-word;">
+                            ${isCurrent ? '✓ ' : ''}${p.name}
+                        </div>
+                        <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap; margin-top:2px;">
+                            <span style="font-size:0.69rem; color:#64748b;">📦 ${p.pack || 'Std'}</span>
+                            ${boughtChip}
+                            ${tierChip}
+                        </div>
+                    </div>
+                    <div style="font-size:0.77rem; font-weight:800; color:#059669; white-space:nowrap;">
+                        TZS ${Number(p.price || 0).toLocaleString()}
+                    </div>
+                </button>
+            `;
+        }).join('');
+    }
+
+    function renderLodgeSlotListOnly(idx) {
+        const entry = _activeLodgeKitItems[idx];
+        const listEl = document.getElementById('lkAltList_' + idx);
+        if (!entry || !listEl) return;
+        listEl.innerHTML = buildLodgeSlotOptionsHtml(entry, idx);
+    }
+
+    function renderLodgeKitItems() {
+        const grid = document.getElementById('lkItemsGrid');
+        if (!grid) return;
+
+        if (!_activeLodgeKitItems.length) {
+            grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2.5rem; color:#64748b;">Loading catalog items for this kit...</div>`;
+            return;
+        }
+
+        grid.innerHTML = _activeLodgeKitItems.map((entry, idx) => {
+            const p = entry.item;
+            const cands = entry.candidates || [];
+            const prices = cands.map(c => c.price).filter(pr => pr > 0);
+            const minPrice = prices.length ? Math.min(...prices) : 0;
+            const maxPrice = prices.length ? Math.max(...prices) : 0;
+            const curPrice = Number(p.price || 0);
+
+            let currentTierBadge = '';
+            if (prices.length > 1 && curPrice === minPrice) {
+                currentTierBadge = `<span class="lk-price-tag-chip lk-chip-cheap">💚 Lowest Price</span>`;
+            } else if (prices.length > 1 && curPrice === maxPrice) {
+                currentTierBadge = `<span class="lk-price-tag-chip lk-chip-premium">👑 Premium / Bulk</span>`;
+            }
+
+            const rangeText = (prices.length > 1 && minPrice !== maxPrice)
+                ? `TZS ${minPrice.toLocaleString()} – ${maxPrice.toLocaleString()}`
+                : `${cands.length} option${cands.length === 1 ? '' : 's'}`;
+
+            return `
+                <div class="lk-item-card ${entry.selected ? 'selected' : ''}" id="lkCard_${idx}">
+                    <div class="lk-item-top-row">
+                        <label class="lk-item-left">
+                            <input type="checkbox" class="lk-checkbox" ${entry.selected ? 'checked' : ''} onchange="toggleLodgeKitItem(${idx}, this.checked)">
+                            <div style="min-width:0;">
+                                <div class="lk-item-role">${entry.role} ${entry.wasBought ? '· ⭐ Bought Before' : ''}</div>
+                                <div class="lk-item-name">${p.name}</div>
+                                <div class="lk-item-meta" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                                    <span>📦 ${p.pack || 'Standard'}</span>
+                                    <span>·</span>
+                                    <strong style="color:#059669;">TZS ${curPrice.toLocaleString()}</strong>
+                                    ${currentTierBadge}
+                                </div>
+                            </div>
+                        </label>
+                        <div class="lk-item-stepper">
+                            <button type="button" class="lk-step-btn" onclick="stepLodgeKitQty(${idx}, -1)">−</button>
+                            <input type="number" min="1" class="lk-step-input" value="${entry.qty}" onchange="setLodgeKitQty(${idx}, this.value)">
+                            <button type="button" class="lk-step-btn" onclick="stepLodgeKitQty(${idx}, 1)">＋</button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="lk-switch-btn ${entry.drawerOpen ? 'open' : ''}" onclick="toggleLodgeSlotDrawer(${idx})">
+                        <span>🔄 Change Brand / Pack (${cands.length} options)</span>
+                        <span style="font-size:0.68rem; color:#64748b;">${rangeText} ${entry.drawerOpen ? '▴' : '▾'}</span>
+                    </button>
+
+                    <div class="lk-alt-drawer ${entry.drawerOpen ? 'open' : ''}" id="lkAltDrawer_${idx}">
+                        <div class="lk-alt-toolbar">
+                            <input type="text" placeholder="🔍 Filter brand or pack..." value="${(entry.searchQ || '').replace(/"/g, '&quot;')}"
+                                oninput="filterLodgeSlotCandidates(${idx}, this.value)"
+                                style="flex:1; min-width:110px; padding:4px 8px; border-radius:7px; border:1px solid rgba(15,23,42,0.12); font-size:0.72rem; outline:none;">
+                            <div style="display:flex; gap:4px;">
+                                <button type="button" class="lk-alt-sort-btn ${entry.sortDir !== 'exp_first' ? 'active' : ''}" onclick="setLodgeSlotSort(${idx}, 'cheap_first', event)" title="Sort Cheapest to Expensive">
+                                    ↑ Cheapest
+                                </button>
+                                <button type="button" class="lk-alt-sort-btn ${entry.sortDir === 'exp_first' ? 'active' : ''}" onclick="setLodgeSlotSort(${idx}, 'exp_first', event)" title="Sort Expensive to Cheapest">
+                                    ↓ Expensive
+                                </button>
+                            </div>
+                        </div>
+                        <div class="lk-alt-list" id="lkAltList_${idx}">
+                            ${entry.drawerOpen ? buildLodgeSlotOptionsHtml(entry, idx) : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        updateLodgeKitSummary();
+    }
+
+    function toggleLodgeKitItem(idx, checked) {
+        if (!_activeLodgeKitItems[idx]) return;
+        _activeLodgeKitItems[idx].selected = !!checked;
+        const card = document.getElementById('lkCard_' + idx);
+        if (card) card.classList.toggle('selected', !!checked);
+        updateLodgeKitSummary();
+    }
+
+    function toggleAllLodgeKitItems() {
+        const allSelected = _activeLodgeKitItems.every(x => x.selected);
+        _activeLodgeKitItems.forEach(x => { x.selected = !allSelected; });
+        renderLodgeKitItems();
+    }
+
+    function stepLodgeKitQty(idx, delta) {
+        if (!_activeLodgeKitItems[idx]) return;
+        _activeLodgeKitItems[idx].qty = Math.max(1, Number(_activeLodgeKitItems[idx].qty || 1) + delta);
+        _activeLodgeKitItems[idx].selected = true;
+        renderLodgeKitItems();
+    }
+
+    function setLodgeKitQty(idx, val) {
+        if (!_activeLodgeKitItems[idx]) return;
+        _activeLodgeKitItems[idx].qty = Math.max(1, parseInt(val, 10) || 1);
+        _activeLodgeKitItems[idx].selected = true;
+        renderLodgeKitItems();
+    }
+
+    function updateLodgeKitSummary() {
+        const selected = _activeLodgeKitItems.filter(x => x.selected);
+        const total = selected.reduce((sum, x) => sum + (Number(x.item.price || 0) * Number(x.qty || 1)), 0);
+        const countEl = document.getElementById('lkSummaryCount');
+        const totalEl = document.getElementById('lkSummaryTotal');
+        const btnEl = document.getElementById('lkAddBtn');
+        if (countEl) countEl.textContent = `${selected.length} of ${_activeLodgeKitItems.length} kit items selected`;
+        if (totalEl) totalEl.textContent = `Est. Total: TZS ${total.toLocaleString()}`;
+        if (btnEl) {
+            btnEl.disabled = selected.length === 0;
+            btnEl.textContent = `⚡ Add ${selected.length} Kit Item${selected.length === 1 ? '' : 's'} to Cart`;
+        }
+    }
+
+    function addSelectedKitToCart() {
+        const selected = _activeLodgeKitItems.filter(x => x.selected);
+        if (!selected.length) return;
+
+        selected.forEach(entry => {
+            const p = entry.item;
+            if (cart[p.barcode]) {
+                cart[p.barcode].qty += entry.qty;
+            } else {
+                cart[p.barcode] = { ...p, qty: entry.qty };
+            }
+        });
+
+        closeLodgeKitsModal();
+        const orderBtn = document.querySelectorAll('.nav-btn')[1];
+        showPage('page-pricelist', orderBtn);
+        triggerCartAnimation();
+        renderCart();
+        renderGrid();
+        if (!document.getElementById('cartPanel').classList.contains('open')) toggleCart();
+        if (typeof premiumNotify === 'function') {
+            premiumNotify(`🧺 Added ${selected.length} kit items to your cart!`, 'success', 2600);
+        }
+    }
 </script>
 
 </html>
